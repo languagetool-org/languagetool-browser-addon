@@ -1,4 +1,5 @@
 - check if selectedText is null
 - use unobtrusive squiggles
 - move spelling errors to the end
+- check text in an active text field, even if it is not selected (document.forms, onfocus, onblur)
 - autodetect language (needs code change in lt)
