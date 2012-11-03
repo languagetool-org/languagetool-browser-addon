@@ -1,0 +1,4 @@
+- check if selectedText is null
+- use unobtrusive squiggles
+- move spelling errors to the end
+- autodetect language (needs code change in lt)

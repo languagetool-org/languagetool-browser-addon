@@ -1,0 +1,23 @@
+{
+	"name": "languagetoolfx", 
+	"license": "GPL 3.0", 
+	"author": "Markus Brenneis", 
+	"version": "0.1-pre", 
+	"fullName": "LanguageToolFx", 
+	"id": "jid1-j3KiX1n7UXrjxQ", 
+	"description": "LanguageTool for Firefox",
+	"homepage": "http://languagetool.org",
+	"preferences": [{
+		"name": "language",
+		"title": "Language",
+		"description": "LanguageTool will asume that the text to be checked is in this language. Use language codes like 'en-US' or 'de-DE'.",
+		"type": "string",
+		"value": "en-US"
+	}, {
+		"name": "enableWebService",
+		"title": "Use web service when connecting with the local server is not successful",
+		"description": "At first, the extension tries to connect to a locally running LanguageTool server. If this fails and this option is enabled, the extension conntects to api.languagetool.org to check the selected text. Please note, however, that the connection is not encrypted. Please read the add-on description and the privacy policy for details.",
+		"type": "bool",
+		"value": false
+	}]
+}

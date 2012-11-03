@@ -1,0 +1,40 @@
+body {
+	background-color: white;
+	counter-reset: i;
+}
+
+div {
+	font-family: Verdana, sans-serif;
+	font-size: 10px;
+}
+
+.msg:before {
+	counter-increment: i;
+	content: counter(i) ": ";
+}
+
+.msg {
+	font-weight: bold;
+}
+
+.context, .status {
+	color: gray;
+}
+
+.markerGrammar {
+/* 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAABmJLR0QA5QDgAOQX8gURAAAACXBIWXMAAArwAAAK8AFCrDSYAAAAB3RJTUUH3AoFFAY6Xz/r/wAAAC1JREFUGNNjYBgFdAKMCOb//0jCcHEmmOTMmRAJCI2smOH//5kzUQQYIHwIBgC15xTAY0o3qAAAAABJRU5ErkJggg==);
+	padding-bottom: 2px;
+	background-repeat: repeat-x;
+	background-position: left bottom; */
+	border-bottom: 1px dashed #9999FF;
+	color: DimGray;
+}
+
+.markerSpelling {
+	border-bottom: 1px dashed #FF9999;
+	color: DimGray;
+}
+
+hr:last-child {
+	display: none;
+}
