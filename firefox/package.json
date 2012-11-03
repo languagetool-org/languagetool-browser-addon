@@ -10,13 +10,13 @@
 	"preferences": [{
 		"name": "language",
 		"title": "Language",
-		"description": "LanguageTool will asume that the text to be checked is in this language. Use language codes like 'en-US' or 'de-DE'.",
+		"description": "LanguageTool will assume that the text to be checked is in this language. Use language codes like 'en-US' or 'de-DE'.",
 		"type": "string",
 		"value": "en-US"
 	}, {
 		"name": "enableWebService",
 		"title": "Use web service when connecting with the local server is not successful",
-		"description": "At first, the extension tries to connect to a locally running LanguageTool server. If this fails and this option is enabled, the extension conntects to api.languagetool.org to check the selected text. Please note, however, that the connection is not encrypted. Please read the add-on description and the privacy policy for details.",
+		"description": "At first, the extension tries to connect to a locally running LanguageTool server. If this fails and this option is enabled, the extension connects to api.languagetool.org to check the selected text. Please note, however, that the connection is not encrypted. Please read the add-on description and the privacy policy for details.",
 		"type": "bool",
 		"value": false
 	}]
