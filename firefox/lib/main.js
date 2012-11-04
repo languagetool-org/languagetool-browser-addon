@@ -4,7 +4,7 @@ var selection=require("selection");
 var self=require("self");
 var simpleprefs=require("simple-prefs");
 var tabs=require("tabs");
-// tabs.open("http://languagetool.org/de/");
+// tabs.open("http://www.languagetool.org/forum/");
 var widgets=require("widget");
 var _=require("l10n").get;
 
@@ -34,7 +34,8 @@ function getAttributeValue(string, attribute) {
 }
 
 function createReport(response, selectedText) {
-	var returnText="";
+	var returnTextGrammar="";
+	var returnTextSpelling="";
 	response=response.split("<error ");
 	
 	if(response.length<2) {
@@ -42,7 +43,7 @@ function createReport(response, selectedText) {
 	}
 	
 	for(var i=1; i<response.length; ++i) {
-		returnText+="<div class=\"msg\">"+getAttributeValue(response[i],"msg")+"</div>";
+		var returnText="<div class=\"msg\">"+getAttributeValue(response[i],"msg")+"</div>";
 		
 		fromx=getAttributeValue(response[i],"fromx");
 		tox=getAttributeValue(response[i],"tox");
@@ -69,10 +70,16 @@ function createReport(response, selectedText) {
 		}
 		
 		returnText+="<hr/>";
+		
+		if(returnText.indexOf("markerGrammar")!=-1) {
+			returnTextGrammar+=returnText;
+		} else {
+			returnTextSpelling+=returnText;
+		}
 	} // for each <error/>
 	
-	console.log("returnText: "+returnText);
-	return returnText;
+	console.log("returnText: "+returnTextGrammar+returnTextSpelling);
+	return returnTextGrammar+returnTextSpelling;
 }
 
 var panel=require("panel").Panel({
@@ -89,63 +96,77 @@ panel.port.on("linkClicked", function(url) {
 	tabs.open(url);
 });
 
+function widgetClicked() {
+	selectedText=selectedText.replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
+	                         .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
+	                         .replace(/^\s+|\s+$/g,""); // trim
+	
+	console.log("Selection: "+selectedText);
+	console.log("Selection (escaped): "+myEscape(selectedText));
+	
+	var checkTextOnline=Request({
+		url: "http://api.languagetool.org:8081/",
+		onComplete: function (response) {
+			if(response.status!=200) {
+				console.log("Response status: "+response.status);
+				var errorText=_("errorOccuredStatus")+" "+response.status
+				panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+			} else {
+				text=response.text;
+				console.log("Response: "+text);
+				panel.show();
+				panel.port.emit("setText", createReport(text, selectedText));
+			}
+		},
+		content: "language="+simpleprefs.prefs.language+"&text="+myEscape(selectedText)
+	});
+	
+	var checkTextLocal=Request({
+		url: "http://localhost:8081",
+		onComplete: function (response) {
+			if(response.status!=200) {
+				console.log("Response status: "+response.status);
+				var errorText=_("errorOccuredStatus")+" "+response.status
+				if(simpleprefs.prefs.enableWebService) {
+					console.log("Connecting with web service");
+					errorText+="<br>"+_("usingWebService");
+					panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+					checkTextOnline.post();
+				} else {
+					if(response.status==0) {
+						errorText+="<br/>"+_("checkLtRunning");
+					}
+					panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+				}
+			} else {
+				text=response.text;
+				console.log("Response: "+text);
+				panel.show();
+				panel.port.emit("setText", createReport(text, selectedText));
+			}
+		},
+		content: "language="+simpleprefs.prefs.language+"&text="+myEscape(selectedText)
+	});
+	
+	if(selectedText!=null && selectedText!="") {
+		checkTextLocal.post();
+	} else {
+		panel.port.emit("setText", "<div class=\"status\">"+_("emptyText")+"</div>");
+	}
+}
+
 var widget=widgets.Widget({
 	id: "lt-check",
 	label: _("checkSelectionWithLT"),
 	contentURL: self.data.url("iconSmall.ico"),
 	panel: panel,
 	onClick: function() {
-		selectedText=selectedText.replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
-		                         .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
-		                         .replace(/^\s+|\s+$/g,""); // trim
-		
-		console.log("Selection: "+selectedText);
-		console.log("Selection (escaped): "+myEscape(selectedText));
-		
-		var checkTextOnline=Request({
-			url: "http://api.languagetool.org:8081/",
-			onComplete: function (response) {
-				if(response.status!=200) {
-					console.log("Response status: "+response.status);
-					var errorText=_("errorOccuredStatus")+" "+response.status
-					panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
-				} else {
-					text=response.text;
-					console.log("Response: "+text);
-					panel.show();
-					panel.port.emit("setText", createReport(text, selectedText));
-				}
-			},
-			content: "language="+simpleprefs.prefs.language+"&text="+myEscape(selectedText)
+		tabs.activeTab.attach({
+			contentScriptFile: self.data.url("content.js"),
+			onMessage: function (message) {
+				if(message!="-NULL-") selectedText=message;
+				widgetClicked();
+			}
 		});
-		
-		var checkTextLocal=Request({
-			url: "http://localhost:8081",
-			onComplete: function (response) {
-				if(response.status!=200) {
-					console.log("Response status: "+response.status);
-					var errorText=_("errorOccuredStatus")+" "+response.status
-					if(simpleprefs.prefs.enableWebService) {
-						console.log("Connecting with web service");
-						errorText+="<br>"+_("usingWebService");
-						panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
-						checkTextOnline.post();
-					} else {
-						if(response.status==0) {
-							errorText+="<br/>"+_("checkLtRunning");
-						}
-						panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
-					}
-				} else {
-					text=response.text;
-					console.log("Response: "+text);
-					panel.show();
-					panel.port.emit("setText", createReport(text, selectedText));
-				}
-			},
-			content: "language="+simpleprefs.prefs.language+"&text="+myEscape(selectedText)
-		});
-		
-		checkTextLocal.post();
 	}
 });
