@@ -8,11 +8,23 @@
 	"description": "LanguageTool for Firefox",
 	"homepage": "http://languagetool.org",
 	"preferences": [{
+		"name": "autodetect",
+		"title": "autodetect_title",
+		"description": "autodetect_description",
+		"type": "bool",
+		"value": true
+	}, {
 		"name": "language",
 		"title": "language_title",
 		"description": "language_description",
 		"type": "string",
 		"value": "en-US"
+	}, {
+		"name": "mothertongue",
+		"title": "mothertongue_title",
+		"description": "mothertongue_description",
+		"type": "string",
+		"value": ""
 	}, {
 		"name": "enableWebService",
 		"title": "enableWebService_title",

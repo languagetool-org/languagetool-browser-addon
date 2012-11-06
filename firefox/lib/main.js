@@ -33,13 +33,37 @@ function getAttributeValue(string, attribute) {
 	return string.split(attribute+"=\"")[1].split("\"")[0];
 }
 
+function getLanguage(response, attr) {
+	if(response.indexOf("language")==-1)
+		return "";
+	response=response.split("language")[1];
+	if(response.indexOf(" "+attr+"=\"")==-1)
+		return "";
+	return response.split(" "+attr+"=\"")[1].split("\"")[0];
+}
+
 function createReport(response, selectedText) {
+	var returnLanguage="";
 	var returnTextGrammar="";
 	var returnTextSpelling="";
+	
+	lang=getLanguage(response, "name");
+	mothertongue=getLanguage(response, "mothertonguename");
+	
+	if(lang!="") {
+		returnLanguage="<div class=\"status\">"+_("textLanguage")+" "+lang+"</div>";
+	}
+	if(mothertongue!="" && (lang=="" || mothertongue!=lang)) {
+		returnLanguage+="<div class=\"status\">"+_("motherTongue")+" "+mothertongue+"</div>";
+	}
+	if(returnLanguage!="") {
+		returnLanguage+="<hr/>";
+	}
+	
 	response=response.split("<error ");
 	
 	if(response.length<2) {
-		return "<div class=\"status\">"+_("noProblemsFound")+"</div>";
+		return returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>";
 	}
 	
 	for(var i=1; i<response.length; ++i) {
@@ -78,8 +102,8 @@ function createReport(response, selectedText) {
 		}
 	} // for each <error/>
 	
-	console.log("returnText: "+returnTextGrammar+returnTextSpelling);
-	return returnTextGrammar+returnTextSpelling;
+	console.log("returnText: "+returnLanguage+returnTextGrammar+returnTextSpelling);
+	return returnLanguage+returnTextGrammar+returnTextSpelling;
 }
 
 var panel=require("panel").Panel({
@@ -97,12 +121,25 @@ panel.port.on("linkClicked", function(url) {
 });
 
 function widgetClicked() {
-	selectedText=selectedText.replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
-	                         .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
-	                         .replace(/^\s+|\s+$/g,""); // trim
+	if(selectedText!=null)
+		selectedText=selectedText.replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
+		                         .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
+		                         .replace(/^\s+|\s+$/g,""); // trim
 	
 	console.log("Selection: "+selectedText);
 	console.log("Selection (escaped): "+myEscape(selectedText));
+	
+	var autodetect="";
+	if(simpleprefs.prefs.autodetect) {
+		autodetect="&autodetect=1";
+	}
+	
+	var mothertongue="";
+	if(simpleprefs.prefs.mothertongue!="") {
+		mothertongue="&motherTongue="+simpleprefs.prefs.mothertongue;
+	}
+	
+	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+myEscape(selectedText);
 	
 	var checkTextOnline=Request({
 		url: "http://api.languagetool.org:8081/",
@@ -118,7 +155,7 @@ function widgetClicked() {
 				panel.port.emit("setText", createReport(text, selectedText));
 			}
 		},
-		content: "language="+simpleprefs.prefs.language+"&text="+myEscape(selectedText)
+		content: contentString
 	});
 	
 	var checkTextLocal=Request({
@@ -145,10 +182,11 @@ function widgetClicked() {
 				panel.port.emit("setText", createReport(text, selectedText));
 			}
 		},
-		content: "language="+simpleprefs.prefs.language+"&text="+myEscape(selectedText)
+		content: contentString
 	});
 	
 	if(selectedText!=null && selectedText!="") {
+		console.log(contentString);
 		checkTextLocal.post();
 	} else {
 		panel.port.emit("setText", "<div class=\"status\">"+_("emptyText")+"</div>");

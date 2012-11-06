@@ -4,9 +4,7 @@
 - bug: CTRL-A and check on languagetool.org and you'll get Javascript code checked.
   "Text" in between <script>...</script> should probably be ignored.
 
-- autodetect language (needs code change in lt)
-
 - if you select a headline and the following paragraph you'll get an error because
   LT doesn't consider the paragraph
 
-- language used for text checking should probably be displayed when showing the result
+- more information for the user in case of a 500 error (check language settings)
