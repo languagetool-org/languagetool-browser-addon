@@ -1,0 +1,30 @@
+<!--
+translation notes:
+- use own, suitable examples for mistakes which LanguageTool can detect in your language
+- list your language in the list of supported languages
+- replace links to http://languagetool.org/ with the localized version (like http://languagetool.org/de) if it exists
+-->
+
+With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. Moreover, it warns of typographical mistakes, and <a href="http://en.wikipedia.org/wiki/False_friend">false friends</a> in foreign-language texts. LanguageTool supports <a href="http://languagetool.org/languages/">more than 25 languages</a>, including English, French, German, and Polish.
+
+<h1>Usage</h1>
+
+- Select the text that you want to check, or click in a text field if you want to check its contents.
+- Click on the LT icon, which is displayed in the bottom right corner on the <a href="http://support.mozilla.org/kb/add-on-bar-quick-access-to-add-ons">add-on bar</a> by default, to have the text checked.
+
+By default, the extension tries to use a locally running LanguageTool server. Download the stand-alone version of LanguageTool from the <a href="http://languagetool.org/">LanguageTool-Website</a> and either run <code>java -cp LanguageTool.jar org.languagetool.server.HTTPServer</code>, or open LanguageToolGUI.jar with Java and enable the server in the preferences, and keep the programme running. Alternatively, you can enable the web service in the <a href="http://support.mozilla.org/kb/extensions-add-features-to-firefox#w_how-to-change-extension-settings">settings of the add-on</a> (please read the privacy policy linked above).
+
+LanguageTool tries to auto-detect the language of the text; nevertheless, you should set a sensible fallback language in the settings of the add-on. Furthermore, a mother tongue must be set in order to get warnings about false friends.
+
+If you want to move the LT-icon to another place, follow these steps:
+- Right-click on the add-on bar at the buttom of the browser window.
+- Select “Customize…”.
+- Drag and drop the icon to wherever you want.
+- Click on “Done”.
+- You might want to close add-on bar by clicking on the close icon on the left. 
+
+<h1>Known Issues</h1>
+
+- If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph.
+- "Text" between <script>-HTML-tags is checked, if it is part of the selection.
+- Sometimes it is possible that you see broken images in the list of errors.

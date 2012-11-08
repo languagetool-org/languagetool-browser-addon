@@ -3,6 +3,7 @@
 
 - bug: CTRL-A and check on languagetool.org and you'll get Javascript code checked.
   "Text" in between <script>...</script> should probably be ignored.
+  This also happens when checking text files like extension/common/locales/en-US/description.txt.
 
 - if you select a headline and the following paragraph you'll get an error because
   LT doesn't consider the paragraph
