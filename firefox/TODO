@@ -10,3 +10,5 @@
   LT doesn't consider the paragraph
 
 - more information for the user in case of a 500 error (check language settings)
+
+- make "http//localhost:8081" configurable
