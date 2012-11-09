@@ -1,0 +1,5 @@
+The script tag should not appear in the popup.
+
+<script>alert("Test");</script>
+
+The links should <a href="..">not not</a> mix up the text. <a href="example.com">Another link</a>.

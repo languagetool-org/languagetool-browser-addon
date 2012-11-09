@@ -12,19 +12,23 @@ With this extension you can check text with the free style and grammar checker L
 - Select the text that you want to check, or click in a text field if you want to check its contents.
 - Click on the LT icon, which is displayed in the bottom right corner on the <a href="http://support.mozilla.org/kb/add-on-bar-quick-access-to-add-ons">add-on bar</a> by default, to have the text checked.
 
-By default, the extension tries to use a locally running LanguageTool server. Download the stand-alone version of LanguageTool from the <a href="http://languagetool.org/">LanguageTool website</a> and either run <code>java -cp LanguageTool.jar org.languagetool.server.HTTPServer</code>, or open LanguageToolGUI.jar with Java and enable the server in the preferences, and keep the programme running. Alternatively, you can enable the web service in the <a href="http://support.mozilla.org/kb/extensions-add-features-to-firefox#w_how-to-change-extension-settings">settings of the add-on</a> (please read the privacy policy linked above).
+By default, the extension tries to use a locally running LanguageTool server. Download the stand-alone version of LanguageTool from the <a href="http://languagetool.org/">LanguageTool website</a> and either run <code>java -cp LanguageTool.jar org.languagetool.server.HTTPServer</code>, or open LanguageToolGUI.jar with Java and enable the server in the preferences, and keep the program running. Alternatively, you can enable the web service in the <a href="http://support.mozilla.org/kb/extensions-add-features-to-firefox#w_how-to-change-extension-settings">settings of the add-on</a> (please read the privacy policy linked above).
 
 LanguageTool tries to auto-detect the language of the text; nevertheless, you should set a sensible fallback language in the settings of the add-on. Furthermore, a mother tongue must be set in order to get warnings about false friends.
 
 If you want to move the LT-icon to another place, follow these steps:
-- Right-click on the add-on bar at the button of the browser window.
-- Select “Customize…”.
+- Right-click on the add-on bar at the bottom of the browser window.
+- Select “Customize…“.
 - Drag and drop the icon to wherever you want.
 - Click on “Done”.
 - You might want to close add-on bar by clicking on the close icon on the left. 
 
 <h1>Known Issues</h1>
 
+- It is not possible to check texts on websites which were loaded before the installation of the extension.
 - If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph.
-- "Text" between <script>-HTML-tags is checked, if it is part of the selection.
-- Sometimes it is possible that you see broken images in the list of errors.
+- “Text“ between <script>-HTML-tags is checked, if it is part of the selection.
+
+<h1>What about Thunderbird?</h1>
+
+Those of you who want to check text in Thunderbird using LanguageTool might want to try the <a href="https://addons.mozilla.org/thunderbird/addon/grammar-checker/">Grammar Checker</a> extension.

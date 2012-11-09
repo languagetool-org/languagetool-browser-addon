@@ -39,3 +39,7 @@ div {
 hr:last-child {
 	display: none;
 }
+
+.hidden {
+	display: none;
+}

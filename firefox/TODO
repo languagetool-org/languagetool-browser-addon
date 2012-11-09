@@ -1,9 +1,10 @@
-- bug: CTRL-A and check on languagetool.org and you'll see broken images in the
-  list of errors. Maybe HTML escaping is missing?
+- use radio type simple-pref for language selection when it becomes available in the
+  next version of the sdk (https://bugzilla.mozilla.org/show_bug.cgi?id=710107)
+
+- possibility to undock the panel
 
 - bug: CTRL-A and check on languagetool.org and you'll get Javascript code checked.
   "Text" in between <script>...</script> should probably be ignored.
-  This also happens when checking text files like extension/common/locales/en-US/description.txt.
 
 - if you select a headline and the following paragraph you'll get an error because
   LT doesn't consider the paragraph

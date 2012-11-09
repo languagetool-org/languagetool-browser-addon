@@ -23,8 +23,37 @@ selection.on("select", selectionChanged);
  * escape %, ?, and & in url
  * normal escape does not work properly with umlauts
  */
-function myEscape(string) {
-	return string.replace(/\%/g,"%25").replace(/\?/g,"%3F").replace(/\&/g,"%26")
+function escapeUrl(string) {
+	return string.replace(/\%/g,"%25").replace(/\?/g,"%3F").replace(/\&/g,"%26");
+}
+
+/**
+ * escape <, >, and " in xml
+ */
+function escapeXml(string) {
+	return string.replace(/\</g,"&lt;").replace(/\>/g,"&gt;").replace(/\"/g,"&quot;");
+}
+
+/**
+ * removes contents of <script>, html tags, newlines, and trims the resulting string
+ */
+function preprocess(text) {
+	return text.replace(/\<script\>[\s\S]*?\<\/script\>/gm," <BR> ") // remove everything between <script>-Tags
+	           .replace(/\<\/?([\s\S]*?)\>/gm,"") // remove html tags
+	           .replace(/(\r\n|\n|\r)/gm,"") // remove newlines
+	           .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
+	           .replace(/^\s+|\s+$/g,""); // trim
+}
+
+function formatError(error) {
+	var prepend="";
+	if(error.indexOf("not a language code known")!=-1) {
+		prepend=_("checkLanguageCode")+"<br/>";
+	}
+	return prepend
+	       + error.replace(/(\r\n|\n|\r)/," <a id=\"unhidelink\" href=\"javascript:unhide();\">…</a><br/>")
+	              .replace(/\<br\/\>/,"<div class=\"hidden\">")
+	       + "</div>";
 }
 
 function getAttributeValue(string, attribute) {
@@ -67,18 +96,18 @@ function createReport(response, selectedText) {
 	}
 	
 	for(var i=1; i<response.length; ++i) {
-		var returnText="<div class=\"msg\">"+getAttributeValue(response[i],"msg")+"</div>";
+		var returnText="<div class=\"msg\">"+escapeXml(getAttributeValue(response[i],"msg"))+"</div>";
 		
 		fromx=getAttributeValue(response[i],"fromx");
 		tox=getAttributeValue(response[i],"tox");
 		l=selectedText.substring(0,fromx);
 		if(l.length>MAXCONTEXTLENGTH) {
-			l="&hellip;"+l.substring(l.length-MAXCONTEXTLENGTH);
+			l="&hellip;"+escapeXml(l.substring(l.length-MAXCONTEXTLENGTH));
 		}
-		m=selectedText.substring(fromx,tox);
+		m=escapeXml(selectedText.substring(fromx,tox));
 		r=selectedText.substring(tox);
 		if(r.length>MAXCONTEXTLENGTH) {
-			r=r.substring(0,MAXCONTEXTLENGTH)+"&hellip;";
+			r=escapeXml(r.substring(0,MAXCONTEXTLENGTH))+"&hellip;";
 		}
 		id=getAttributeValue(response[i],"ruleId");
 		if(id.indexOf("MORFOLOGIK")!=-1 || id.indexOf("HUNSPELL")!=-1) {
@@ -122,12 +151,10 @@ panel.port.on("linkClicked", function(url) {
 
 function widgetClicked() {
 	if(selectedText!=null)
-		selectedText=selectedText.replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
-		                         .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
-		                         .replace(/^\s+|\s+$/g,""); // trim
+		selectedText=preprocess(selectedText);
 	
-	console.log("Selection: "+selectedText);
-	console.log("Selection (escaped): "+myEscape(selectedText));
+	console.log("Selection (preprocessed): "+selectedText);
+	console.log("Selection (escaped): "+escapeUrl(selectedText));
 	
 	var autodetect="";
 	if(simpleprefs.prefs.autodetect) {
@@ -139,14 +166,17 @@ function widgetClicked() {
 		mothertongue="&motherTongue="+simpleprefs.prefs.mothertongue;
 	}
 	
-	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+myEscape(selectedText);
+	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+escapeUrl(selectedText);
 	
 	var checkTextOnline=Request({
 		url: "http://api.languagetool.org:8081/",
 		onComplete: function (response) {
 			if(response.status!=200) {
 				console.log("Response status: "+response.status);
-				var errorText=_("errorOccuredStatus")+" "+response.status
+				var errorText=_("errorOccurredStatus")+" "+response.status
+				if(response.status==500) {
+					errorText+="<br/>"+formatError(response.text);
+				}
 				panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
 			} else {
 				text=response.text;
@@ -163,7 +193,7 @@ function widgetClicked() {
 		onComplete: function (response) {
 			if(response.status!=200) {
 				console.log("Response status: "+response.status);
-				var errorText=_("errorOccuredStatus")+" "+response.status
+				var errorText=_("errorOccurredStatus")+" "+response.status
 				if(simpleprefs.prefs.enableWebService) {
 					console.log("Connecting with web service");
 					errorText+="<br>"+_("usingWebService");
@@ -172,6 +202,8 @@ function widgetClicked() {
 				} else {
 					if(response.status==0) {
 						errorText+="<br/>"+_("checkLtRunning");
+					} else if(response.status==500) {
+						errorText+="<br/>"+formatError(response.text);
 					}
 					panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
 				}

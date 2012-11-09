@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>scriptContentsTest</title>
+</head>
+<body>
+
+Press Control+A. LanguageTool should find exactly one errors (and ignore the contents of the following code).
+
+<script type="text/javascript">
+try {
+var myvar = "A error";
+} catch( err ) {}
+</script>
+
+</body>
+</html>
