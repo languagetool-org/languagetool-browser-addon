@@ -20,11 +20,11 @@ function selectionChanged(event) {
 selection.on("select", selectionChanged);
 
 /**
- * escape %, ?, and & in url
+ * escape %, ?, &, and + in url
  * normal escape does not work properly with umlauts
  */
 function escapeUrl(string) {
-	return string.replace(/\%/g,"%25").replace(/\?/g,"%3F").replace(/\&/g,"%26");
+	return string.replace(/\%/g,"%25").replace(/\?/g,"%3F").replace(/\&/g,"%26").replace(/\+/g,"%2B");
 }
 
 /**
@@ -47,7 +47,7 @@ function preprocess(text) {
 
 function formatError(error) {
 	var prepend="";
-	if(error.indexOf("not a language code known")!=-1) {
+	if(error.indexOf("language code")!=-1) {
 		prepend=_("checkLanguageCode")+"<br/>";
 	}
 	return prepend
@@ -76,8 +76,8 @@ function createReport(response, selectedText) {
 	var returnTextGrammar="";
 	var returnTextSpelling="";
 	
-	lang=getLanguage(response, "name");
-	mothertongue=getLanguage(response, "mothertonguename");
+	var lang=getLanguage(response, "name");
+	var mothertongue=getLanguage(response, "mothertonguename");
 	
 	if(lang!="") {
 		returnLanguage="<div class=\"status\">"+_("textLanguage")+" "+lang+"</div>";
@@ -180,7 +180,7 @@ function widgetClicked() {
 				}
 				panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
 			} else {
-				text=response.text;
+				var text=response.text;
 				console.log("Response: "+text);
 				panel.show();
 				panel.port.emit("setText", webServiceNote+createReport(text, selectedText));
@@ -209,7 +209,7 @@ function widgetClicked() {
 					panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
 				}
 			} else {
-				text=response.text;
+				var text=response.text;
 				console.log("Response: "+text);
 				panel.show();
 				panel.port.emit("setText", createReport(text, selectedText));

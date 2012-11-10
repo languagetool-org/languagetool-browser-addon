@@ -29,6 +29,10 @@ If you want to move the LT-icon to another place, follow these steps:
 - If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph.
 - “Text“ between <script>-HTML-tags is checked, if it is part of the selection.
 
+<h1>Where can I report whishes, problems, or false alarms?</h1>
+
+If you have any suggestion or problems, or you want to report a false alarm, you can leave a message in the <a href="http://languagetool.org/forum/">LanguageTool forum<a> or on the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>. Bug reports can also be added to the <a href="http://sourceforge.net/tracker/?group_id=110216">bug tracker</a>. <b>Please do not use the rating feature if you want to report a problem.</b>
+
 <h1>What about Thunderbird?</h1>
 
 Those of you who want to check text in Thunderbird using LanguageTool might want to try the <a href="https://addons.mozilla.org/thunderbird/addon/grammar-checker/">Grammar Checker</a> extension.

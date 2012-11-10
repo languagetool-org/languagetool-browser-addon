@@ -8,14 +8,8 @@ echo "</head>" >> index.html
 echo "<body>" >> index.html
 echo "<table>" >> index.html
 
-for filename in `ls -r`
+for filename in `echo *Test.*`
 do
-	if [[ "$filename" == *.bash ]]; then
-		continue
-	fi
-	if [ "$filename" == "index.html" ]; then
-		continue
-	fi
 	echo "<tr><td><a href=\"$filename\">$filename</a></td></tr>" >> index.html
 done
 
