@@ -1,14 +1,12 @@
 - use radio type simple-pref for language selection when it becomes available in the
   next version of the sdk (https://bugzilla.mozilla.org/show_bug.cgi?id=710107)
 
-- possibility to undock the panel
+- possibility to undock the panel (overlay webpage)
 
 - bug: CTRL-A and check on languagetool.org and you'll get Javascript code checked.
   "Text" in between <script>...</script> should probably be ignored.
 
 - if you select a headline and the following paragraph you'll get an error because
   LT doesn't consider the paragraph
-
-- more information for the user in case of a 500 error (check language settings)
 
 - make "http//localhost:8081" configurable

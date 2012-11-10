@@ -171,9 +171,10 @@ function widgetClicked() {
 	var checkTextOnline=Request({
 		url: "http://api.languagetool.org:8081/",
 		onComplete: function (response) {
+			webServiceNote="<div class=\"status\">"+_("webServiceUsed")+"</div><hr/>";
 			if(response.status!=200) {
 				console.log("Response status: "+response.status);
-				var errorText=_("errorOccurredStatus")+" "+response.status
+				var errorText=webServiceNote+_("errorOccurredStatus")+" "+response.status
 				if(response.status==500) {
 					errorText+="<br/>"+formatError(response.text);
 				}
@@ -182,7 +183,7 @@ function widgetClicked() {
 				text=response.text;
 				console.log("Response: "+text);
 				panel.show();
-				panel.port.emit("setText", createReport(text, selectedText));
+				panel.port.emit("setText", webServiceNote+createReport(text, selectedText));
 			}
 		},
 		content: contentString
