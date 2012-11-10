@@ -53,6 +53,7 @@ function formatError(error) {
 	return prepend
 	       + error.replace(/(\r\n|\n|\r)/," <a id=\"unhidelink\" href=\"javascript:unhide();\">…</a><br/>")
 	              .replace(/\<br\/\>/,"<div class=\"hidden\">")
+	              .replace(/(\r\n|\n|\r)/,"<br/>")
 	       + "</div>";
 }
 
@@ -169,7 +170,7 @@ function widgetClicked() {
 	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+escapeUrl(selectedText);
 	
 	var checkTextOnline=Request({
-		url: "http://api.languagetool.org:8081/",
+		url: "https://languagetool.org:8081/",
 		onComplete: function (response) {
 			webServiceNote="<div class=\"status\">"+_("webServiceUsed")+"</div><hr/>";
 			if(response.status!=200) {

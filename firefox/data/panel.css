@@ -36,6 +36,10 @@ div {
 	background-image: url("squiggle_red.png");
 }
 
+hr {
+	border-color: white;
+}
+
 hr:last-child {
 	display: none;
 }
