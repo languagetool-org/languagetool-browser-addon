@@ -10,3 +10,8 @@
   LT doesn't consider the paragraph
 
 - make "http//localhost:8081" configurable
+
+- using the plugin on Swiss text is confusing, as the language detection
+  will probably return de-DE, thus there will be quite a lot of spelling
+  errors (example: http://de.wikipedia.org/wiki/Z%C3%BCrich). Same for other
+  variants.
