@@ -7,32 +7,38 @@ translation notes:
 
 With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. Moreover, it warns of typographical mistakes, and <a href="http://en.wikipedia.org/wiki/False_friend">false friends</a> in foreign-language texts. LanguageTool supports <a href="http://languagetool.org/languages/">more than 25 languages</a>, including English, French, German, and Polish.
 
-<h1>Usage</h1>
+<b>Usage</b>
 
-- Select the text that you want to check, or click in a text field if you want to check its contents.
-- Click on the LT icon, which is displayed in the bottom right corner on the <a href="http://support.mozilla.org/kb/add-on-bar-quick-access-to-add-ons">add-on bar</a> by default, to have the text checked.
+<ol>
+<li>Select the text that you want to check, or click in a text field if you want to check its contents.</li>
+<li>Click on the LT icon, which is displayed in the bottom right corner on the <a href="http://support.mozilla.org/kb/add-on-bar-quick-access-to-add-ons">add-on bar</a> by default, to have the text checked.</li>
+</ol>
 
 By default, the extension tries to use a locally running LanguageTool server. Download the stand-alone version of LanguageTool from the <a href="http://languagetool.org/">LanguageTool website</a> and either run <code>java -cp LanguageTool.jar org.languagetool.server.HTTPServer</code>, or open LanguageToolGUI.jar with Java and enable the server in the preferences, and keep the program running. Alternatively, you can enable the web service in the <a href="http://support.mozilla.org/kb/extensions-add-features-to-firefox#w_how-to-change-extension-settings">settings of the add-on</a> (please read the privacy policy linked above).
 
 LanguageTool tries to auto-detect the language of the text; nevertheless, you should set a sensible fallback language in the settings of the add-on. Furthermore, a mother tongue must be set in order to get warnings about false friends.
 
 If you want to move the LT-icon to another place, follow these steps:
-- Right-click on the add-on bar at the bottom of the browser window.
-- Select “Customize…“.
-- Drag and drop the icon to wherever you want.
-- Click on “Done”.
-- You might want to close add-on bar by clicking on the close icon on the left. 
+<ol>
+<li>Right-click on the add-on bar at the bottom of the browser window.
+<li>Select “Customize…”.
+<li>Drag and drop the icon to wherever you want.</li>
+<li>Click on “Done”.</li>
+<li>You might want to close add-on bar by clicking on the close icon on the left.</li>
+</ol>
 
-<h1>Known Issues</h1>
+<b>Known Issues</b>
 
-- It is not possible to check texts on websites which were loaded before the installation of the extension.
-- If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph.
-- “Text“ between <script>-HTML-tags is checked, if it is part of the selection.
+<ul>
+<li>It is not possible to check texts on websites which were loaded before the installation of the extension.</li>
+<li>If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph.</li>
+<li>“Text” between <script>-HTML-tags is checked, if it is part of the selection.</li>
+</ul>
 
-<h1>Where can I report whishes, problems, or false alarms?</h1>
+<b>Where can I report whishes, problems, or false alarms?</b>
 
 If you have any suggestion or problems, or you want to report a false alarm, you can leave a message in the <a href="http://languagetool.org/forum/">LanguageTool forum<a> or on the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>. Bug reports can also be added to the <a href="http://sourceforge.net/tracker/?group_id=110216">bug tracker</a>. <b>Please do not use the rating feature if you want to report a problem.</b>
 
-<h1>What about Thunderbird?</h1>
+<b>What about Thunderbird?</b>
 
 Those of you who want to check text in Thunderbird using LanguageTool might want to try the <a href="https://addons.mozilla.org/thunderbird/addon/grammar-checker/">Grammar Checker</a> extension.

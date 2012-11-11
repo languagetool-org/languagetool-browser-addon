@@ -18,14 +18,319 @@
 		"name": "language",
 		"title": "language_title",
 		"description": "language_description",
-		"type": "string",
-		"value": "en-US"
+		"type": "menulist",
+		"value": "en-US",
+		"options": [
+			{
+			"value": "ast-ES",
+			"label": "ast-ES"
+			},
+			{
+			"value": "be-BY",
+			"label": "be-BY"
+			},
+			{
+			"value": "br-FR",
+			"label": "br-FR"
+			},
+			{
+			"value": "ca-ES",
+			"label": "ca-ES"
+			},
+			{
+			"value": "da-DK",
+			"label": "da-DK"
+			},
+			{
+			"value": "de-AT",
+			"label": "de-AT"
+			},
+			{
+			"value": "de-CH",
+			"label": "de-CH"
+			},
+			{
+			"value": "de-DE",
+			"label": "de-DE"
+			},
+			{
+			"value": "el-GR",
+			"label": "el-GR"
+			},
+			{
+			"value": "en-AU",
+			"label": "en-AU"
+			},
+			{
+			"value": "en-CA",
+			"label": "en-CA"
+			},
+			{
+			"value": "en-GB",
+			"label": "en-GB"
+			},
+			{
+			"value": "en-NZ",
+			"label": "en-NZ"
+			},
+			{
+			"value": "en-US",
+			"label": "en-US"
+			},
+			{
+			"value": "en-ZA",
+			"label": "en-ZA"
+			},
+			{
+			"value": "eo-ANY",
+			"label": "eo-ANY"
+			},
+			{
+			"value": "es",
+			"label": "es"
+			},
+			{
+			"value": "fr",
+			"label": "fr"
+			},
+			{
+			"value": "gl-ES",
+			"label": "gl-ES"
+			},
+			{
+			"value": "is-IS",
+			"label": "is-IS"
+			},
+			{
+			"value": "it",
+			"label": "it"
+			},
+			{
+			"value": "ja-JP",
+			"label": "ja-JP"
+			},
+			{
+			"value": "km-KH",
+			"label": "km-KH"
+			},
+			{
+			"value": "lt-LT",
+			"label": "lt-LT"
+			},
+			{
+			"value": "ml-IN",
+			"label": "ml-IN"
+			},
+			{
+			"value": "nl",
+			"label": "nl"
+			},
+			{
+			"value": "pl-PL",
+			"label": "pl-PL"
+			},
+			{
+			"value": "pt-BR",
+			"label": "pt-BR"
+			},
+			{
+			"value": "pt-PT",
+			"label": "pt-PT"
+			},
+			{
+			"value": "ro-RO",
+			"label": "ro-RO"
+			},
+			{
+			"value": "ru-RU",
+			"label": "ru-RU"
+			},
+			{
+			"value": "sk-SK",
+			"label": "sk-SK"
+			},
+			{
+			"value": "sl-SI",
+			"label": "sl-SI"
+			},
+			{
+			"value": "sv",
+			"label": "sv"
+			},
+			{
+			"value": "tl-PH",
+			"label": "tl-PH"
+			},
+			{
+			"value": "uk-UA",
+			"label": "uk-UA"
+			},
+			{
+			"value": "zh-CN",
+			"label": "zh-CN"
+			}
+		]
 	}, {
 		"name": "mothertongue",
 		"title": "mothertongue_title",
 		"description": "mothertongue_description",
-		"type": "string",
-		"value": ""
+		"type": "menulist",
+		"value": "",
+		"options": [
+			{
+			"value": "",
+			"label": "none selected"
+			},
+			
+			{
+			"value": "ast-ES",
+			"label": "ast-ES"
+			},
+			{
+			"value": "be-BY",
+			"label": "be-BY"
+			},
+			{
+			"value": "br-FR",
+			"label": "br-FR"
+			},
+			{
+			"value": "ca-ES",
+			"label": "ca-ES"
+			},
+			{
+			"value": "da-DK",
+			"label": "da-DK"
+			},
+			{
+			"value": "de-AT",
+			"label": "de-AT"
+			},
+			{
+			"value": "de-CH",
+			"label": "de-CH"
+			},
+			{
+			"value": "de-DE",
+			"label": "de-DE"
+			},
+			{
+			"value": "el-GR",
+			"label": "el-GR"
+			},
+			{
+			"value": "en-AU",
+			"label": "en-AU"
+			},
+			{
+			"value": "en-CA",
+			"label": "en-CA"
+			},
+			{
+			"value": "en-GB",
+			"label": "en-GB"
+			},
+			{
+			"value": "en-NZ",
+			"label": "en-NZ"
+			},
+			{
+			"value": "en-US",
+			"label": "en-US"
+			},
+			{
+			"value": "en-ZA",
+			"label": "en-ZA"
+			},
+			{
+			"value": "eo-ANY",
+			"label": "eo-ANY"
+			},
+			{
+			"value": "es",
+			"label": "es"
+			},
+			{
+			"value": "fr",
+			"label": "fr"
+			},
+			{
+			"value": "gl-ES",
+			"label": "gl-ES"
+			},
+			{
+			"value": "is-IS",
+			"label": "is-IS"
+			},
+			{
+			"value": "it",
+			"label": "it"
+			},
+			{
+			"value": "ja-JP",
+			"label": "ja-JP"
+			},
+			{
+			"value": "km-KH",
+			"label": "km-KH"
+			},
+			{
+			"value": "lt-LT",
+			"label": "lt-LT"
+			},
+			{
+			"value": "ml-IN",
+			"label": "ml-IN"
+			},
+			{
+			"value": "nl",
+			"label": "nl"
+			},
+			{
+			"value": "pl-PL",
+			"label": "pl-PL"
+			},
+			{
+			"value": "pt-BR",
+			"label": "pt-BR"
+			},
+			{
+			"value": "pt-PT",
+			"label": "pt-PT"
+			},
+			{
+			"value": "ro-RO",
+			"label": "ro-RO"
+			},
+			{
+			"value": "ru-RU",
+			"label": "ru-RU"
+			},
+			{
+			"value": "sk-SK",
+			"label": "sk-SK"
+			},
+			{
+			"value": "sl-SI",
+			"label": "sl-SI"
+			},
+			{
+			"value": "sv",
+			"label": "sv"
+			},
+			{
+			"value": "tl-PH",
+			"label": "tl-PH"
+			},
+			{
+			"value": "uk-UA",
+			"label": "uk-UA"
+			},
+			{
+			"value": "zh-CN",
+			"label": "zh-CN"
+			}
+		]
 	}, {
 		"name": "enableWebService",
 		"title": "enableWebService_title",

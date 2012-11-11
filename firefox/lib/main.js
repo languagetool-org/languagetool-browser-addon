@@ -10,6 +10,7 @@ var _=require("l10n").get;
 
 var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>";
 var MAXCONTEXTLENGTH=20;
+var MAXLENGTHWEBSERVICE=50000;
 
 var selectedText="";
 
@@ -151,8 +152,15 @@ panel.port.on("linkClicked", function(url) {
 });
 
 function widgetClicked() {
+	var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
+	
 	if(selectedText!=null)
 		selectedText=preprocess(selectedText);
+	
+	if(selectedText==null || selectedText=="") {
+		panel.port.emit("setText", EMPTYTEXTWARNING);
+		return;
+	}
 	
 	console.log("Selection (preprocessed): "+selectedText);
 	console.log("Selection (escaped): "+escapeUrl(selectedText));
@@ -168,11 +176,16 @@ function widgetClicked() {
 	}
 	
 	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+escapeUrl(selectedText);
+	var originalContentStringLength=contentString.length;
 	
 	var checkTextOnline=Request({
 		url: "https://languagetool.org:8081/",
 		onComplete: function (response) {
-			webServiceNote="<div class=\"status\">"+_("webServiceUsed")+"</div><hr/>";
+			var webServiceNote="<div class=\"status\">"+_("webServiceUsed");
+			if(contentString.length!=originalContentStringLength) {
+				webServiceNote+="<br/>"+_("textShortened");
+			}
+			webServiceNote+="</div><hr/>";
 			if(response.status!=200) {
 				console.log("Response status: "+response.status);
 				var errorText=webServiceNote+_("errorOccurredStatus")+" "+response.status
@@ -200,6 +213,7 @@ function widgetClicked() {
 					console.log("Connecting with web service");
 					errorText+="<br>"+_("usingWebService");
 					panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+					contentString=contentString.substring(0,MAXLENGTHWEBSERVICE);
 					checkTextOnline.post();
 				} else {
 					if(response.status==0) {
@@ -223,7 +237,7 @@ function widgetClicked() {
 		console.log(contentString);
 		checkTextLocal.post();
 	} else {
-		panel.port.emit("setText", "<div class=\"status\">"+_("emptyText")+"</div>");
+		panel.port.emit("setText", EMPTYTEXTWARNING);
 	}
 }
 
