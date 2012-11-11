@@ -41,7 +41,7 @@ function escapeXml(string) {
 function preprocess(text) {
 	return text.replace(/\<script\>[\s\S]*?\<\/script\>/gm," <BR> ") // remove everything between <script>-Tags
 	           .replace(/\<\/?([\s\S]*?)\>/gm,"") // remove html tags
-	           .replace(/(\r\n|\n|\r)/gm,"") // remove newlines
+	           .replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
 	           .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
 	           .replace(/^\s+|\s+$/g,""); // trim
 }
@@ -154,8 +154,10 @@ panel.port.on("linkClicked", function(url) {
 function widgetClicked() {
 	var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
 	
-	if(selectedText!=null)
+	if(selectedText!=null) {
+		console.log("Selection: "+selectedText);
 		selectedText=preprocess(selectedText);
+	}
 	
 	if(selectedText==null || selectedText=="") {
 		panel.port.emit("setText", EMPTYTEXTWARNING);
