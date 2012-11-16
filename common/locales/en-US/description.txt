@@ -18,10 +18,10 @@ By default, the extension tries to use a locally running LanguageTool server. Do
 
 LanguageTool tries to auto-detect the language of the text; nevertheless, you should set a sensible fallback language in the settings of the add-on. Furthermore, a mother tongue must be set in order to get warnings about false friends.
 
-If you want to move the LT-icon to another place, follow these steps:
+If you want to move the LT icon to another place, follow these steps:
 <ol>
-<li>Right-click on the add-on bar at the bottom of the browser window.
-<li>Select “Customize…”.
+<li>Right-click on the add-on bar at the bottom of the browser window.</li>
+<li>Select “Customize…”.</li>
 <li>Drag and drop the icon to wherever you want.</li>
 <li>Click on “Done”.</li>
 <li>You might want to close add-on bar by clicking on the close icon on the left.</li>

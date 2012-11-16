@@ -21,14 +21,6 @@ function selectionChanged(event) {
 selection.on("select", selectionChanged);
 
 /**
- * escape %, ?, &, and + in url
- * normal escape does not work properly with umlauts
- */
-function escapeUrl(string) {
-	return string.replace(/\%/g,"%25").replace(/\?/g,"%3F").replace(/\&/g,"%26").replace(/\+/g,"%2B");
-}
-
-/**
  * escape <, >, and " in xml
  */
 function escapeXml(string) {
@@ -39,7 +31,7 @@ function escapeXml(string) {
  * removes contents of <script>, html tags, newlines, and trims the resulting string
  */
 function preprocess(text) {
-	return text.replace(/\<script\>[\s\S]*?\<\/script\>/gm," <BR> ") // remove everything between <script>-Tags
+	return text.replace(/\<script[\s\S]*?\>[\s\S]*?\<\/script\>/gm," <BR> ") // remove everything between <script>-Tags
 	           .replace(/\<\/?([\s\S]*?)\>/gm,"") // remove html tags
 	           .replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
 	           .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
@@ -165,7 +157,7 @@ function widgetClicked() {
 	}
 	
 	console.log("Selection (preprocessed): "+selectedText);
-	console.log("Selection (escaped): "+escapeUrl(selectedText));
+	console.log("Selection (encoded): "+encodeURIComponent(selectedText));
 	
 	var autodetect="";
 	if(simpleprefs.prefs.autodetect) {
@@ -177,7 +169,7 @@ function widgetClicked() {
 		mothertongue="&motherTongue="+simpleprefs.prefs.mothertongue;
 	}
 	
-	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+escapeUrl(selectedText);
+	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedText);
 	var originalContentStringLength=contentString.length;
 	
 	var checkTextOnline=Request({

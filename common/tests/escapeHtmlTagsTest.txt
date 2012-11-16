@@ -2,6 +2,8 @@ The script tags should not appear in the panel..
 
 <script>alert("Test");</script>
 
+<script type="text/javascript">alert("Test");</script>
+
 The links should <a href="..">not not</a> mix up the text. <a href="example.com">Another link</a>.
 
 (2 mistake)
