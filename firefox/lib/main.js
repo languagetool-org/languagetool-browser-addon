@@ -13,6 +13,7 @@ var MAXCONTEXTLENGTH=20;
 var MAXLENGTHWEBSERVICE=50000;
 
 var selectedText="";
+var selectedTextProcessed="";
 
 function selectionChanged(event) {
 	selectedText=selection.text;
@@ -21,7 +22,7 @@ function selectionChanged(event) {
 selection.on("select", selectionChanged);
 
 /**
- * escape <, >, and " in xml
+ * escape &, <, >, and " in xml
  */
 function escapeXml(string) {
 	return string.replace(/\</g,"&lt;").replace(/\>/g,"&gt;").replace(/\"/g,"&quot;");
@@ -65,7 +66,7 @@ function getLanguage(response, attr) {
 	return response.split(" "+attr+"=\"")[1].split("\"")[0];
 }
 
-function createReport(response, selectedText) {
+function createReport(response, selectedTextProcessed) {
 	var returnLanguage="";
 	var returnTextGrammar="";
 	var returnTextSpelling="";
@@ -94,12 +95,12 @@ function createReport(response, selectedText) {
 		
 		fromx=getAttributeValue(response[i],"fromx");
 		tox=getAttributeValue(response[i],"tox");
-		l=selectedText.substring(0,fromx);
+		l=selectedTextProcessed.substring(0,fromx);
 		if(l.length>MAXCONTEXTLENGTH) {
 			l="&hellip;"+escapeXml(l.substring(l.length-MAXCONTEXTLENGTH));
 		}
-		m=escapeXml(selectedText.substring(fromx,tox));
-		r=selectedText.substring(tox);
+		m=escapeXml(selectedTextProcessed.substring(fromx,tox));
+		r=selectedTextProcessed.substring(tox);
 		if(r.length>MAXCONTEXTLENGTH) {
 			r=escapeXml(r.substring(0,MAXCONTEXTLENGTH))+"&hellip;";
 		}
@@ -146,18 +147,21 @@ panel.port.on("linkClicked", function(url) {
 function widgetClicked() {
 	var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
 	
-	if(selectedText!=null) {
-		console.log("Selection: "+selectedText);
-		selectedText=preprocess(selectedText);
+	// avoid that selectedText is changed while the text is being checked
+	selectedTextProcessed=selectedText;
+	
+	if(selectedTextProcessed!=null) {
+		console.log("Selection: "+selectedTextProcessed);
+		selectedTextProcessed=preprocess(selectedTextProcessed);
 	}
 	
-	if(selectedText==null || selectedText=="") {
+	if(selectedTextProcessed==null || selectedTextProcessed=="") {
 		panel.port.emit("setText", EMPTYTEXTWARNING);
 		return;
 	}
 	
-	console.log("Selection (preprocessed): "+selectedText);
-	console.log("Selection (encoded): "+encodeURIComponent(selectedText));
+	console.log("Selection (preprocessed): "+selectedTextProcessed);
+	console.log("Selection (encoded): "+encodeURIComponent(selectedTextProcessed));
 	
 	var autodetect="";
 	if(simpleprefs.prefs.autodetect) {
@@ -169,7 +173,7 @@ function widgetClicked() {
 		mothertongue="&motherTongue="+simpleprefs.prefs.mothertongue;
 	}
 	
-	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedText);
+	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedTextProcessed);
 	var originalContentStringLength=contentString.length;
 	
 	var checkTextOnline=Request({
@@ -191,7 +195,7 @@ function widgetClicked() {
 				var text=response.text;
 				console.log("Response: "+text);
 				panel.show();
-				panel.port.emit("setText", webServiceNote+createReport(text, selectedText));
+				panel.port.emit("setText", webServiceNote+createReport(text, selectedTextProcessed));
 			}
 		},
 		content: contentString
@@ -221,13 +225,13 @@ function widgetClicked() {
 				var text=response.text;
 				console.log("Response: "+text);
 				panel.show();
-				panel.port.emit("setText", createReport(text, selectedText));
+				panel.port.emit("setText", createReport(text, selectedTextProcessed));
 			}
 		},
 		content: contentString
 	});
 	
-	if(selectedText!=null && selectedText!="") {
+	if(selectedTextProcessed!=null && selectedTextProcessed!="") {
 		console.log(contentString);
 		checkTextLocal.post();
 	} else {
