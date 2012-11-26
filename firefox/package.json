@@ -332,6 +332,12 @@
 			}
 		]
 	}, {
+		"name": "localServerUrl",
+		"title": "localServerUrl_title",
+		"description": "localServerUrl_description",
+		"type": "string",
+		"value": "http://localhost:8081"
+	}, {
 		"name": "enableWebService",
 		"title": "enableWebService_title",
 		"description": "enableWebService_description",

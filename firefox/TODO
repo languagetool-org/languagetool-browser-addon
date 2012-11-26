@@ -7,11 +7,12 @@
   "Text" in between <script>...</script> should probably be ignored.
 
 - if you select a headline and the following paragraph you'll get an error because
-  LT doesn't consider the paragraph
-
-- make "http//localhost:8081" configurable
+  LT doesn't consider the paragraph (use html instead of text property?)
 
 - using the plugin on Swiss text is confusing, as the language detection
   will probably return de-DE, thus there will be quite a lot of spelling
   errors (example: http://de.wikipedia.org/wiki/Z%C3%BCrich). Same for other
   variants.
+
+- checking text in text fields which are in an iframe cannot be checked without
+  selecting the text (e.g. lt forum)

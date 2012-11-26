@@ -202,7 +202,7 @@ function widgetClicked() {
 	});
 	
 	var checkTextLocal=Request({
-		url: "http://localhost:8081",
+		url: simpleprefs.prefs.localServerUrl,
 		onComplete: function (response) {
 			if(response.status!=200) {
 				console.log("Response status: "+response.status);
