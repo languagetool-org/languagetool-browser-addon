@@ -25,7 +25,9 @@ selection.on("select", selectionChanged);
  * escape &, <, >, and " in xml
  */
 function escapeXml(string) {
-	return string.replace(/\</g,"&lt;").replace(/\>/g,"&gt;").replace(/\"/g,"&quot;");
+	// prevent double escaping of html entities
+	string=string.replace(/&quot;/g,"\"").replace(/&lt;/g,"<").replace(/&gt;/g,">");
+	return string.replace(/&/g,"&amp;").replace(/\</g,"&lt;").replace(/\>/g,"&gt;").replace(/\"/g,"&quot;");
 }
 
 /**
