@@ -24,18 +24,18 @@ If you want to move the LT icon to another place, follow these steps:
 <li>Select “Customize…”.</li>
 <li>Drag and drop the icon to wherever you want.</li>
 <li>Click on “Done”.</li>
-<li>You might want to close add-on bar by clicking on the close icon on the left.</li>
+<li>You might want to close the add-on bar by clicking on the close icon on the left.</li>
 </ol>
 
 <b>Known Issues</b>
 
 <ul>
 <li>It is not possible to check texts on websites which were loaded before the installation of the extension.</li>
-<li>If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph.</li>
+<li>If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph. It might also happen that the last word of the first paragraph and the first word of the second paragraph are joined together.</li>
 <li>“Text” between <script>-HTML-tags is checked, if it is part of the selection.</li>
 </ul>
 
-<b>Where can I report whishes, problems, or false alarms?</b>
+<b>Where can I report wishes, problems, or false alarms?</b>
 
 If you have any suggestion or problems, or you want to report a false alarm, you can leave a message in the <a href="http://languagetool.org/forum/">LanguageTool forum<a> or on the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>. Bug reports can also be added to the <a href="http://sourceforge.net/tracker/?group_id=110216">bug tracker</a>. <b>Please do not use the rating feature if you want to report a problem.</b>
 

@@ -8,6 +8,7 @@ var tabs=require("tabs");
 var widgets=require("widget");
 var _=require("l10n").get;
 
+var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
 var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>";
 var MAXCONTEXTLENGTH=20;
 var MAXLENGTHWEBSERVICE=50000;
@@ -46,6 +47,7 @@ function formatError(error) {
 	if(error.indexOf("language code")!=-1) {
 		prepend=_("checkLanguageCode")+"<br/>";
 	}
+	error=escapeXml(error);
 	return prepend
 	       + error.replace(/(\r\n|\n|\r)/," <a id=\"unhidelink\" href=\"javascript:unhide();\">…</a><br/>")
 	              .replace(/\<br\/\>/,"<div class=\"hidden\">")
@@ -73,8 +75,8 @@ function createReport(response, selectedTextProcessed) {
 	var returnTextGrammar="";
 	var returnTextSpelling="";
 	
-	var lang=getLanguage(response, "name");
-	var mothertongue=getLanguage(response, "mothertonguename");
+	var lang=escapeXml(getLanguage(response, "name"));
+	var mothertongue=escapeXml(getLanguage(response, "mothertonguename"));
 	
 	if(lang!="") {
 		returnLanguage="<div class=\"status\">"+_("textLanguage")+" "+lang+"</div>";
@@ -114,7 +116,7 @@ function createReport(response, selectedTextProcessed) {
 		}
 		returnText+="<div class=\"context\">"+l+"<span class=\""+spanclass+"\">"+m+"</span>"+r+"</div>";
 		
-		url=getAttributeValue(response[i],"url");
+		url=escapeXml(getAttributeValue(response[i],"url"));
 		if(url!="") {
 			returnText+="<div class=\"url\"><a targer=\"_blank\" href=\""+url+"\">"+_("moreInformation")+"</a></div>";
 		}
@@ -147,8 +149,6 @@ panel.port.on("linkClicked", function(url) {
 });
 
 function widgetClicked() {
-	var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
-	
 	// avoid that selectedText is changed while the text is being checked
 	selectedTextProcessed=selectedText;
 	
@@ -188,7 +188,7 @@ function widgetClicked() {
 			webServiceNote+="</div><hr/>";
 			if(response.status!=200) {
 				console.log("Response status: "+response.status);
-				var errorText=webServiceNote+_("errorOccurredStatus")+" "+response.status
+				var errorText=webServiceNote+_("errorOccurredStatus")+" "+response.status;
 				if(response.status==500) {
 					errorText+="<br/>"+formatError(response.text);
 				}
@@ -208,7 +208,7 @@ function widgetClicked() {
 		onComplete: function (response) {
 			if(response.status!=200) {
 				console.log("Response status: "+response.status);
-				var errorText=_("errorOccurredStatus")+" "+response.status
+				var errorText=_("errorOccurredStatus")+" "+response.status;
 				if(simpleprefs.prefs.enableWebService) {
 					console.log("Connecting with web service");
 					errorText+="<br>"+_("usingWebService");
@@ -217,7 +217,7 @@ function widgetClicked() {
 					checkTextOnline.post();
 				} else {
 					if(response.status==0) {
-						errorText+="<br/>"+_("checkLtRunning");
+						errorText+="<br/>"+_("checkLtRunning", simpleprefs.prefs.localServerUrl);
 					} else if(response.status==500) {
 						errorText+="<br/>"+formatError(response.text);
 					}
