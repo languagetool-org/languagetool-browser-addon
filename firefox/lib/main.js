@@ -130,6 +130,10 @@ function createReport(response, selectedTextProcessed) {
 		}
 	} // for each <error/>
 	
+	if(!simpleprefs.prefs.enableSpellCheck) {
+		returnTextSpelling="";
+	}
+	
 	console.log("returnText: "+returnLanguage+returnTextGrammar+returnTextSpelling);
 	return returnLanguage+returnTextGrammar+returnTextSpelling;
 }

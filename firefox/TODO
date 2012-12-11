@@ -16,3 +16,4 @@
 
 - checking text in text fields which are in an iframe cannot be checked without
   selecting the text (e.g. lt forum)
+
