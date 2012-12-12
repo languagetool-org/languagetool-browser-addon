@@ -152,6 +152,11 @@ panel.port.on("linkClicked", function(url) {
 	tabs.open(url);
 });
 
+panel.port.on("enableWebService", function(url) {
+	simpleprefs.prefs.enableWebService=true;
+	widgetClicked();
+});
+
 function widgetClicked() {
 	// avoid that selectedText is changed while the text is being checked
 	selectedTextProcessed=selectedText;
