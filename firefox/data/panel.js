@@ -9,6 +9,10 @@ function enableWebService() {
 	self.port.emit('enableWebService');
 }
 
+function closePopup() {
+	self.port.emit('closePopup');
+}
+
 self.port.on("setText", function(text) {
 	// dynamically generated text went through escapeXml in main.js to avoid evaluating arbitrary text as html
 	document.getElementById("body").innerHTML=text;
@@ -24,6 +28,8 @@ window.addEventListener(
 			self.port.emit('linkClicked', t.toString());
 		} else if(t.toString().indexOf("javascript:unhide()")==0) {
 			unhide(); // WORKAROUND don't know why fx says "ReferenceError: unhide is not defined"
+		} else if(t.toString().indexOf("javascript:closePopup()")==0) {
+			closePopup();
 		} else if(t.toString().indexOf("javascript:enableWebService()")==0) {
 			enableWebService();
 		}

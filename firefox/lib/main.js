@@ -152,9 +152,13 @@ panel.port.on("linkClicked", function(url) {
 	tabs.open(url);
 });
 
-panel.port.on("enableWebService", function(url) {
+panel.port.on("enableWebService", function() {
 	simpleprefs.prefs.enableWebService=true;
 	widgetClicked();
+});
+
+panel.port.on("closePopup", function() {
+	panel.hide();
 });
 
 function widgetClicked() {

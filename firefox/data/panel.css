@@ -1,10 +1,10 @@
 body {
 	background-color: white;
 	counter-reset: i;
+	font-family: Verdana, sans-serif;
 }
 
 div {
-	font-family: Verdana, sans-serif;
 	font-size: 10px;
 }
 
@@ -46,4 +46,18 @@ hr:last-child {
 
 .hidden {
 	display: none;
+}
+
+#close {
+	float: right;
+}
+
+#close > a {
+	position: relative;
+	top: -4px;
+	right: -4px;
+	padding: 5px 5px 3px 5px;
+	color: red;
+	text-decoration: none;
+	font-size: 14px;
 }
