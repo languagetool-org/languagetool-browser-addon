@@ -143,7 +143,8 @@ var panel=require("panel").Panel({
 	contentScriptFile: self.data.url("panel.js"),
 	onHide: function () {
 		panel.port.emit("setText", PLEASEWAITWHILECHECKING);
-	}
+	},
+	width: 325
 });
 
 panel.port.emit("setText", PLEASEWAITWHILECHECKING);
