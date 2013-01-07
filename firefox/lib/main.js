@@ -109,7 +109,7 @@ function createReport(response, selectedTextProcessed) {
 			r=escapeXml(r.substring(0,MAXCONTEXTLENGTH))+"&hellip;";
 		}
 		id=getAttributeValue(response[i],"ruleId");
-		if(id.indexOf("MORFOLOGIK")!=-1 || id.indexOf("HUNSPELL")!=-1) {
+		if(id.indexOf("MORFOLOGIK")!=-1 || id.indexOf("HUNSPELL")!=-1 || id.indexOf("SPELLER_RULE")!=-1) {
 			spanclass="markerSpelling";
 		} else {
 			spanclass="markerGrammar";
@@ -144,7 +144,8 @@ var panel=require("panel").Panel({
 	onHide: function () {
 		panel.port.emit("setText", PLEASEWAITWHILECHECKING);
 	},
-	width: 325
+	width: 330,
+        heigth: 250
 });
 
 panel.port.emit("setText", PLEASEWAITWHILECHECKING);
