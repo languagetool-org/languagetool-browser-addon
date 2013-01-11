@@ -145,7 +145,7 @@ var panel=require("panel").Panel({
 		panel.port.emit("setText", PLEASEWAITWHILECHECKING);
 	},
 	width: 330,
-        heigth: 250
+	heigth: 250
 });
 
 panel.port.emit("setText", PLEASEWAITWHILECHECKING);

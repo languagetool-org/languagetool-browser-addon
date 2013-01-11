@@ -17,3 +17,8 @@
 - checking text in text fields which are in an iframe cannot be checked without
   selecting the text (e.g. lt forum)
 
+- add context menu item
+
+- possibility to (de)activate rules
+
+- translate the langauge name shown in the popup

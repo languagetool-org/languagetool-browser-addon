@@ -22,9 +22,9 @@ window.addEventListener(
 	'click',
 	function(event) {
 		var t=event.target;
+		event.stopPropagation();
+		event.preventDefault();
 		if(t.nodeName=="A" && t.toString().indexOf("javascript:")!=0) {
-			event.stopPropagation();
-			event.preventDefault();
 			self.port.emit('linkClicked', t.toString());
 		} else if(t.toString().indexOf("javascript:unhide()")==0) {
 			unhide(); // WORKAROUND don't know why fx says "ReferenceError: unhide is not defined"
