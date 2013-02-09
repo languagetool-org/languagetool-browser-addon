@@ -190,7 +190,7 @@ function widgetClicked() {
 		mothertongue="&motherTongue="+simpleprefs.prefs.mothertongue;
 	}
 	
-	var contentString="language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedTextProcessed);
+	var contentString="useragent=languagetoolfx&language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedTextProcessed);
 	var originalContentStringLength=contentString.length;
 	
 	var checkTextOnline=Request({
