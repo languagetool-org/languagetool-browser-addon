@@ -42,3 +42,7 @@ If you have any suggestion or problems, or you want to report a false alarm, you
 <b>What about Thunderbird?</b>
 
 Those of you who want to check text in Thunderbird using LanguageTool might want to try the <a href="https://addons.mozilla.org/thunderbird/addon/grammar-checker/">Grammar Checker</a> extension.
+
+<b>How can I contribute?</b>
+
+This extension is freely available under the <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License, Version 3.0+</a>, and the source code can be obtained from <a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/extension/firefox/">SourceForge</a>. Contributions are welcomed; please send patches (or suggestions) to the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>, or post them in the <a href="http://languagetool.org/forum/">forum</a>.
