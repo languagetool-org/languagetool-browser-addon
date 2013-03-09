@@ -1,3 +1,5 @@
+var cm = require("sdk/context-menu");
+var panels=require("panel");
 var preferencesservice=require("preferences-service");
 var Request=require("request").Request;
 var selection=require("selection");
@@ -138,7 +140,7 @@ function createReport(response, selectedTextProcessed) {
 	return returnLanguage+returnTextGrammar+returnTextSpelling;
 }
 
-var panel=require("panel").Panel({
+var panel=panels.Panel({
 	contentURL: self.data.url("panel.html"),
 	contentScriptFile: self.data.url("panel.js"),
 	onHide: function () {
@@ -256,18 +258,27 @@ function widgetClicked() {
 	}
 }
 
+function widgetOnClick() {
+	tabs.activeTab.attach({
+		contentScriptFile: self.data.url("content.js"),
+		onMessage: function (message) {
+			if(message!="-NULL-") selectedText=message;
+			widgetClicked();
+		}
+	});
+}
+
 var widget=widgets.Widget({
 	id: "lt-check",
 	label: _("checkSelectionWithLT"),
 	contentURL: self.data.url("iconSmall.ico"),
 	panel: panel,
-	onClick: function() {
-		tabs.activeTab.attach({
-			contentScriptFile: self.data.url("content.js"),
-			onMessage: function (message) {
-				if(message!="-NULL-") selectedText=message;
-				widgetClicked();
-			}
-		});
-	}
+	onClick: widgetOnClick
+});
+
+cm.Item({
+	label: _("checkSelectionWithLTShort"),
+	context: cm.SelectionContext(), // TODO or in TEXTAREA (CSS selector)
+	contentScript: 'self.on("click", self.postMessage);',
+	onMessage: widgetOnClick
 });
