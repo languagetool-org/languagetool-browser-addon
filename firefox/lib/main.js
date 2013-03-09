@@ -276,9 +276,16 @@ var widget=widgets.Widget({
 	onClick: widgetOnClick
 });
 
-cm.Item({
+var contextmenuitemSelection=cm.Item({
 	label: _("checkSelectionWithLTShort"),
-	context: cm.SelectionContext(), // TODO or in TEXTAREA (CSS selector)
+	context: cm.SelectionContext(),
+	contentScript: 'self.on("click", self.postMessage);',
+	onMessage: widgetClicked
+});
+
+var contextmenuitemTextarea=cm.Item({
+	label: _("checkTextareaWithLTShort"),
+	context: cm.SelectorContext("textarea"),
 	contentScript: 'self.on("click", self.postMessage);',
 	onMessage: widgetOnClick
 });
