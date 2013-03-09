@@ -1,3 +1,7 @@
+- ignore lines starting with "> " (quotes) in text fields
+
+- panel opened through context menu should have a sensible position (https://bugzilla.mozilla.org/show_bug.cgi?id=669523)
+
 - password fields (type="password") should probably not be send to the server at all,
   for privacy reasons and because it doesn't make sense anyway
 
@@ -17,8 +21,12 @@
 - checking text in text fields which are in an iframe cannot be checked without
   selecting the text (e.g. lt forum)
 
-- add context menu item
-
 - possibility to (de)activate rules
 
 - translate the langauge name shown in the popup
+
+Before releasing:
+- update translations (-> CHANGES)
+- update list of supported langauges (-> CHANGES)
+- check if error messages appear in error console
+- run tests

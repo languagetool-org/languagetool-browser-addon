@@ -1,0 +1,10 @@
+0.2 (??/03/2013, LT 2.1)
+- possibility to check text using a context menu item
+- updated detection of speller rules (esp. German)
+- tell the server that the requests comes from this extension by prepending useragent=languagetoolfx to the URL
+- prevent some error messages to be printed to the error console
+- new translations for xx
+- updated translatations for xx
+
+0.1 (22/12/2012, LT 2.0)
+- first release
