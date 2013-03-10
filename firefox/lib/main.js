@@ -174,6 +174,8 @@ function widgetClicked() {
 		selectedTextProcessed=preprocess(selectedTextProcessed);
 	}
 	
+	panel.show();
+	
 	if(selectedTextProcessed==null || selectedTextProcessed=="") {
 		panel.port.emit("setText", EMPTYTEXTWARNING);
 		return;
@@ -213,7 +215,6 @@ function widgetClicked() {
 			} else {
 				var text=response.text;
 				console.log("Response: "+text);
-				panel.show();
 				panel.port.emit("setText", webServiceNote+createReport(text, selectedTextProcessed));
 			}
 		},
@@ -243,7 +244,6 @@ function widgetClicked() {
 			} else {
 				var text=response.text;
 				console.log("Response: "+text);
-				panel.show();
 				panel.port.emit("setText", createReport(text, selectedTextProcessed));
 			}
 		},
