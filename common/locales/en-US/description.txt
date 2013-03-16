@@ -11,7 +11,7 @@ With this extension you can check text with the free style and grammar checker L
 
 <ol>
 <li>Select the text that you want to check, or click in a text field if you want to check its contents.</li>
-<li>Click on the LT icon, which is displayed in the bottom right corner on the <a href="http://support.mozilla.org/kb/add-on-bar-quick-access-to-add-ons">add-on bar</a> by default, to have the text checked.</li>
+<li>Click on the LT icon, which is displayed in the bottom right corner on the <a href="http://support.mozilla.org/kb/add-on-bar-quick-access-to-add-ons">add-on bar</a> by default, or right-click on the text and select “Check with LanguageTool” to have the text checked.</li>
 </ol>
 
 By default, the extension tries to use a locally running LanguageTool server. Download the stand-alone version of LanguageTool from the <a href="http://languagetool.org/">LanguageTool website</a> and either run <code>java -cp LanguageTool.jar org.languagetool.server.HTTPServer</code>, or open LanguageToolGUI.jar with Java, enable the server in the preferences, and keep the program running. Alternatively, you can enable the web service in the <a href="http://support.mozilla.org/kb/extensions-add-features-to-firefox#w_how-to-change-extension-settings">settings of the add-on</a> (please read the privacy policy linked above).
@@ -33,6 +33,7 @@ If you want to move the LT icon to another place, follow these steps:
 <li>It is not possible to check texts on websites which were loaded before the installation of the extension.</li>
 <li>If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph. It might also happen that the last word of the first paragraph and the first word of the second paragraph are joined together.</li>
 <li>“Text” between <script>-HTML-tags is checked, if it is part of the selection.</li>
+<li>When using the context menu, the panel is shown in the center of the window. (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=669523">Firefox Bug 669523</a>)</li>
 </ul>
 
 <b>Where can I report wishes, problems, or false alarms?</b>
