@@ -1,14 +1,13 @@
-var cm = require("sdk/context-menu");
-var panels=require("panel");
-var preferencesservice=require("preferences-service");
-var Request=require("request").Request;
-var selection=require("selection");
-var self=require("self");
-var simpleprefs=require("simple-prefs");
-var tabs=require("tabs");
+var cm=require("sdk/context-menu");
+var panels=require("sdk/panel");
+var requests=require("sdk/request");
+var selection=require("sdk/selection");
+var self=require("sdk/self");
+var simpleprefs=require("sdk/simple-prefs");
+var tabs=require("sdk/tabs");
 // tabs.open("http://www.languagetool.org/forum/");
-var widgets=require("widget");
-var _=require("l10n").get;
+var widgets=require("sdk/widget");
+var _=require("sdk/l10n").get;
 
 var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
 var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>";
@@ -197,7 +196,7 @@ function widgetClicked() {
 	var contentString="useragent=languagetoolfx&language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedTextProcessed);
 	var originalContentStringLength=contentString.length;
 	
-	var checkTextOnline=Request({
+	var checkTextOnline=requests.Request({
 		url: "https://languagetool.org:8081/",
 		onComplete: function (response) {
 			var webServiceNote="<div class=\"status\">"+_("webServiceUsed");
@@ -221,7 +220,7 @@ function widgetClicked() {
 		content: contentString
 	});
 	
-	var checkTextLocal=Request({
+	var checkTextLocal=requests.Request({
 		url: simpleprefs.prefs.localServerUrl,
 		onComplete: function (response) {
 			if(response.status!=200) {
@@ -279,13 +278,15 @@ var widget=widgets.Widget({
 var contextmenuitemSelection=cm.Item({
 	label: _("checkSelectionWithLTShort"),
 	context: cm.SelectionContext(),
-	contentScript: 'self.on("click", self.postMessage);',
+	// SDK bug 851647
+	contentScript: 'self.on("click", function(){self.postMessage()});',
 	onMessage: widgetClicked
 });
 
 var contextmenuitemTextarea=cm.Item({
 	label: _("checkTextareaWithLTShort"),
 	context: cm.SelectorContext("textarea"),
-	contentScript: 'self.on("click", self.postMessage);',
+	// SDK bug 851647
+	contentScript: 'self.on("click", function(){self.postMessage()});',
 	onMessage: widgetOnClick
 });
