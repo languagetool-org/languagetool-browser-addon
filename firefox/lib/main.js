@@ -6,6 +6,7 @@ var self=require("sdk/self");
 var simpleprefs=require("sdk/simple-prefs");
 var tabs=require("sdk/tabs");
 // tabs.open("http://www.languagetool.org/forum/");
+var timer=require("sdk/timers");
 var widgets=require("sdk/widget");
 var _=require("sdk/l10n").get;
 
@@ -14,6 +15,8 @@ var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking"
 var MAXCONTEXTLENGTH=20;
 var MAXLENGTHWEBSERVICE=50000;
 
+var contentString="";
+var originalContentStringLength=0;
 var selectedText="";
 var selectedTextProcessed="";
 
@@ -164,6 +167,60 @@ panel.port.on("closePopup", function() {
 	panel.hide();
 });
 
+function checkTextOnlineCompleted(response) {
+	var webServiceNote="<div class=\"status\">"+_("webServiceUsed");
+	if(contentString.length!=originalContentStringLength) {
+		webServiceNote+="<br/>"+_("textShortened");
+	}
+	webServiceNote+="</div><hr/>";
+	if(response.status!=200) {
+		console.log("Response status: "+response.status);
+		var errorText=webServiceNote+_("errorOccurredStatus")+" "+response.status;
+		if(response.status==500) {
+			errorText+="<br/>"+formatError(response.text);
+		}
+		panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+	} else {
+		var text=response.text;
+		console.log("Response: "+text);
+		panel.port.emit("setText", webServiceNote+createReport(text, selectedTextProcessed));
+	}
+}
+
+function checkTextLocalCompleted(response) {
+	if(response.status!=200) {
+		console.log("Response status: "+response.status);
+		var errorText=_("errorOccurredStatus")+" "+response.status;
+		if(simpleprefs.prefs.enableWebService) {
+			var checkTextOnline=requests.Request({
+				url: "https://languagetool.org:8081/",
+				onComplete: function (response) {
+					timer.setTimeout(function() {
+						checkTextOnlineCompleted(response, contentString)
+					},0);
+				},
+				content: contentString
+			});
+			console.log("Connecting with web service");
+			errorText+="<br>"+_("usingWebService");
+			panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+			contentString=contentString.substring(0,MAXLENGTHWEBSERVICE);
+			checkTextOnline.post();
+		} else {
+			if(response.status==0) {
+				errorText+="<br/>"+_("checkLtRunning", simpleprefs.prefs.localServerUrl);
+			} else if(response.status==500) {
+				errorText+="<br/>"+formatError(response.text);
+			}
+			panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+		}
+	} else {
+		var text=response.text;
+		console.log("Response: "+text);
+		panel.port.emit("setText", createReport(text, selectedTextProcessed));
+	}
+}
+
 function widgetClicked() {
 	// avoid that selectedText is changed while the text is being checked
 	selectedTextProcessed=selectedText;
@@ -193,58 +250,15 @@ function widgetClicked() {
 		mothertongue="&motherTongue="+simpleprefs.prefs.mothertongue;
 	}
 	
-	var contentString="useragent=languagetoolfx&language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedTextProcessed);
-	var originalContentStringLength=contentString.length;
-	
-	var checkTextOnline=requests.Request({
-		url: "https://languagetool.org:8081/",
-		onComplete: function (response) {
-			var webServiceNote="<div class=\"status\">"+_("webServiceUsed");
-			if(contentString.length!=originalContentStringLength) {
-				webServiceNote+="<br/>"+_("textShortened");
-			}
-			webServiceNote+="</div><hr/>";
-			if(response.status!=200) {
-				console.log("Response status: "+response.status);
-				var errorText=webServiceNote+_("errorOccurredStatus")+" "+response.status;
-				if(response.status==500) {
-					errorText+="<br/>"+formatError(response.text);
-				}
-				panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
-			} else {
-				var text=response.text;
-				console.log("Response: "+text);
-				panel.port.emit("setText", webServiceNote+createReport(text, selectedTextProcessed));
-			}
-		},
-		content: contentString
-	});
+	contentString="useragent=languagetoolfx&language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedTextProcessed);
+	originalContentStringLength=contentString.length;
 	
 	var checkTextLocal=requests.Request({
 		url: simpleprefs.prefs.localServerUrl,
 		onComplete: function (response) {
-			if(response.status!=200) {
-				console.log("Response status: "+response.status);
-				var errorText=_("errorOccurredStatus")+" "+response.status;
-				if(simpleprefs.prefs.enableWebService) {
-					console.log("Connecting with web service");
-					errorText+="<br>"+_("usingWebService");
-					panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
-					contentString=contentString.substring(0,MAXLENGTHWEBSERVICE);
-					checkTextOnline.post();
-				} else {
-					if(response.status==0) {
-						errorText+="<br/>"+_("checkLtRunning", simpleprefs.prefs.localServerUrl);
-					} else if(response.status==500) {
-						errorText+="<br/>"+formatError(response.text);
-					}
-					panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
-				}
-			} else {
-				var text=response.text;
-				console.log("Response: "+text);
-				panel.port.emit("setText", createReport(text, selectedTextProcessed));
-			}
+			timer.setTimeout(function() { // workaround for NS_ERROR_XPC_BAD_CONVERT_JS
+				checkTextLocalCompleted(response)
+			},0);
 		},
 		content: contentString
 	});
