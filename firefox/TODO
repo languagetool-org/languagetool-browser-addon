@@ -30,3 +30,4 @@ Before releasing:
 - update list of supported langauges (-> CHANGES)
 - check if error messages appear in error console
 - run tests
+- update version number

@@ -1,10 +1,11 @@
-0.2 (??/03/2013, LT 2.1)
+0.2 (23/03/2013, LT 2.1)
 - possibility to check selection or text field using a context menu item
 - updated detection of speller rules (esp. German)
-- tell the server that the requests comes from this extension by prepending useragent=languagetoolfx to the URL
-- prevent some error messages to be printed to the error console
-- new translations for xx
-- updated translatations for xx
+- tell the server that the requests come from this extension by prepending useragent=languagetoolfx to the URL
+- prevent some error messages from being printed to the error console
+- support for Simple German has been added to LanguageTool
+- new translations for Esperanto, Galician, Portuguese (Brazil), and Romanian  
+- updated translatations for Belarusian, Portuguese (Portugal), Russian, and Ukrainian 
 
 0.1 (22/12/2012, LT 2.0)
 - first release
