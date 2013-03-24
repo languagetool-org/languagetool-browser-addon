@@ -1,4 +1,5 @@
 var cm=require("sdk/context-menu");
+var hotkeys=require("sdk/hotkeys");
 var panels=require("sdk/panel");
 var requests=require("sdk/request");
 var selection=require("sdk/selection");
@@ -190,8 +191,8 @@ function checkTextOnlineCompleted(response) {
 function checkTextLocalCompleted(response) {
 	if(response.status!=200) {
 		console.log("Response status: "+response.status);
-		var errorText=_("errorOccurredStatus")+" "+response.status;
 		if(simpleprefs.prefs.enableWebService) {
+			contentString=contentString.substring(0,MAXLENGTHWEBSERVICE);
 			var checkTextOnline=requests.Request({
 				url: "https://languagetool.org:8081/",
 				onComplete: function (response) {
@@ -202,11 +203,11 @@ function checkTextLocalCompleted(response) {
 				content: contentString
 			});
 			console.log("Connecting with web service");
-			errorText+="<br>"+_("usingWebService");
+			var errorText=_("usingWebService",response.status);
 			panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
-			contentString=contentString.substring(0,MAXLENGTHWEBSERVICE);
 			checkTextOnline.post();
 		} else {
+			var errorText=_("errorOccurredStatus")+" "+response.status;
 			if(response.status==0) {
 				errorText+="<br/>"+_("checkLtRunning", simpleprefs.prefs.localServerUrl);
 			} else if(response.status==500) {
@@ -303,4 +304,14 @@ var contextmenuitemTextarea=cm.Item({
 	// SDK bug 851647
 	contentScript: 'self.on("click", function(){self.postMessage()});',
 	onMessage: widgetOnClick
+});
+
+var checkSelectionHotkey=hotkeys.Hotkey({
+	combo: "accel-shift-l",
+	onPress: function(){widgetClicked();}
+});
+
+var checkTextareaHotkey=hotkeys.Hotkey({
+	combo: "accel-shift-return",
+	onPress: function(){widgetOnClick();}
 });
