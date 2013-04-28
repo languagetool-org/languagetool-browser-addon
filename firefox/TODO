@@ -19,15 +19,16 @@
   variants.
 
 - checking text in text fields which are in an iframe cannot be checked without
-  selecting the text (e.g. lt forum)
+  selecting the text (e.g. lt forum) - this probably affects all TinyMCE-based
+  editors
 
 - possibility to (de)activate rules
 
-- translate the langauge name shown in the popup
+- translate the language name shown in the popup
 
 Before releasing:
 - update translations (-> CHANGES)
-- update list of supported langauges (-> CHANGES)
+- update list of supported languages (-> CHANGES)
 - check if error messages appear in error console
 - run tests
 - update version number
