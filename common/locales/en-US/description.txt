@@ -3,6 +3,7 @@ translation notes:
 - use own, suitable examples for mistakes which LanguageTool can detect in your language
 - list your language in the list of supported languages
 - replace links to http://languagetool.org/ with the localized version (like http://languagetool.org/de) if it exists
+- you do not have to translate this note
 -->
 
 With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. Moreover, it warns of typographical mistakes, and <a href="http://en.wikipedia.org/wiki/False_friend">false friends</a> in foreign-language texts. LanguageTool supports <a href="http://languagetool.org/languages/">more than 25 languages</a>, including English, French, German, and Polish.
@@ -14,7 +15,7 @@ With this extension you can check text with the free style and grammar checker L
 <li>Click on the LT icon, which is displayed in the bottom right corner on the <a href="http://support.mozilla.org/kb/add-on-bar-quick-access-to-add-ons">add-on bar</a> by default, or right-click on the text and select “Check with LanguageTool” to have the text checked.</li>
 </ol>
 
-By default, the extension tries to use a locally running LanguageTool server. Download the stand-alone version of LanguageTool from the <a href="http://languagetool.org/">LanguageTool website</a> and either run <code>java -cp LanguageTool.jar org.languagetool.server.HTTPServer</code>, or open LanguageToolGUI.jar with Java, enable the server in the preferences, and keep the program running. Alternatively, you can enable the web service in the <a href="http://support.mozilla.org/kb/extensions-add-features-to-firefox#w_how-to-change-extension-settings">settings of the add-on</a> (please read the privacy policy linked above).
+By default, the extension tries to use a locally running LanguageTool server. Download the stand-alone version of LanguageTool from the <a href="http://languagetool.org/">LanguageTool website</a> and either run <code>java -cp languagetool-server.jar org.languagetool.server.HTTPServer</code>, or open LanguageToolGUI.jar with Java, enable the server in the preferences, and keep the program running. Alternatively, you can enable the web service in the <a href="http://support.mozilla.org/kb/extensions-add-features-to-firefox#w_how-to-change-extension-settings">settings of the add-on</a> (please read the privacy policy linked above).
 
 LanguageTool tries to auto-detect the language of the text; nevertheless, you should set a sensible fallback language in the settings of the add-on. Furthermore, a mother tongue must be set in order to get warnings about false friends.
 
@@ -38,7 +39,7 @@ If you want to move the LT icon to another place, follow these steps:
 
 <b>Where can I report wishes, problems, or false alarms?</b>
 
-If you have any suggestion or problems, or you want to report a false alarm, you can leave a message in the <a href="http://languagetool.org/forum/">LanguageTool forum</a> or on the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>. Bug reports can also be added to the <a href="http://sourceforge.net/tracker/?group_id=110216">bug tracker</a>. <b>Please do not use the rating feature if you want to report a problem.</b>
+If you have any suggestion or problems, or you want to report a false alarm, you can leave a message in the <a href="http://languagetool.org/forum/">LanguageTool forum</a> or on the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>. Bug reports can also be added to the <a href="http://sourceforge.net/p/languagetool/bugs/">bug tracker</a>. <b>Please do not use the rating feature if you want to report a problem.</b>
 
 <b>What about Thunderbird?</b>
 
