@@ -22,6 +22,8 @@
   selecting the text (e.g. lt forum) - this probably affects all TinyMCE-based
   editors
 
+- ignore spelling errors in the user's personal dictionary (persdict.dat in the profile directory)
+
 - possibility to (de)activate rules
 
 - translate the language name shown in the popup
