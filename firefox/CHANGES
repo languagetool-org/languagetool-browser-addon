@@ -1,8 +1,8 @@
 0.3 (xx/06/2013, LT 2.2)
-- possibility to check text with keyboard shortcut (Ctrl+Shif+L for selections, Ctrl+Shift+Return for text fields)
+- possibility to check text with keyboard shortcut (Ctrl+Shift+L for selections, Ctrl+Shift+Return for text fields)
 - support for xx has been added to LanguageTool
 - new translations for xx
-- updated translatations for xx
+- updated translations for xx
 
 0.2 (23/03/2013, LT 2.1)
 - possibility to check selection or text field using a context menu item
@@ -11,7 +11,7 @@
 - prevent some error messages from being printed to the error console
 - support for Simple German has been added to LanguageTool
 - new translations for Esperanto, Galician, Portuguese (Brazil), and Romanian
-- updated translatations for Belarusian, Portuguese (Portugal), Russian, and Ukrainian
+- updated translations for Belarusian, Portuguese (Portugal), Russian, and Ukrainian
 
 0.1 (22/12/2012, LT 2.0)
 - first release
