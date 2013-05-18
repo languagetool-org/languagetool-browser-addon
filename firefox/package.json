@@ -345,6 +345,11 @@
 		"type": "bool",
 		"value": true
 	}, {
+		"name": "ignoreQuotes",
+		"title": "ignoreQuotes_title",
+		"type": "bool",
+		"value": true
+	}, {
 		"name": "localServerUrl",
 		"title": "localServerUrl_title",
 		"description": "localServerUrl_description",

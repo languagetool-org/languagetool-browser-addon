@@ -1,11 +1,11 @@
-- ignore lines starting with "> " (quotes) in text fields
-
 - panel opened through context menu should have a sensible position (https://bugzilla.mozilla.org/show_bug.cgi?id=669523)
 
 - password fields (type="password") should probably not be send to the server at all,
   for privacy reasons and because it doesn't make sense anyway
 
-- possibility to undock the panel (overlay webpage or sidebar)
+- possibility to undock the panel (overlay webpage or sidebar, https://bugzilla.mozilla.org/show_bug.cgi?id=787395)
+
+- possibility to apply a suggestion
 
 - bug: CTRL-A and check on languagetool.org and you'll get Javascript code checked.
   "Text" in between <script>...</script> should probably be ignored.

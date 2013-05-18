@@ -40,9 +40,16 @@ function escapeXml(string) {
  * removes contents of <script>, html tags, newlines, and trims the resulting string
  */
 function preprocess(text) {
-	return text.replace(/\<script[\s\S]*?\>[\s\S]*?\<\/script\>/gm," <BR> ") // remove everything between <script>-Tags
-	           .replace(/\<\/?([\s\S]*?)\>/gm,"") // remove html tags
-	           .replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
+	text=text.replace(/\<script[\s\S]*?\>[\s\S]*?\<\/script\>/gm," <BR> ") // remove everything between <script>-Tags
+	         .replace(/\<\/?([\s\S]*?)\>/gm,"") // remove html tags
+	
+	if(simpleprefs.prefs.ignoreQuotes) {
+		text=text.replace(/^>.*?\n/gm, '\n')
+		         .replace(/\n>.*?\n/gm, '\n')
+		         .replace(/\n>.*?$/gm, '\n'); // remove quotes
+	}
+	
+	return text.replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
 	           .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
 	           .replace(/^\s+|\s+$/g,""); // trim
 }
