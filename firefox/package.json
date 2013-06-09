@@ -8,6 +8,7 @@
 	"id": "jid1-j3KiX1n7UXrjxQ", 
 	"description": "LanguageTool for Firefox",
 	"homepage": "http://languagetool.org",
+	"permissions": {"private-browsing": true}, "__comment": "That should be ok, no data is sent to a foreign server unless explicitly allowed by the users",
 	"preferences": [{
 		"name": "autodetect",
 		"title": "autodetect_title",
@@ -349,6 +350,18 @@
 		"title": "ignoreQuotes_title",
 		"type": "bool",
 		"value": true
+	}, {
+		"name": "hotkeySelection",
+		"title": "hotkeySelection_title",
+		"description": "hotkeySelection_description",
+		"type": "string",
+		"value": "accel-shift-l"
+	}, {
+		"name": "hotkeyTextarea",
+		"title": "hotkeyTextarea_title",
+		"description": "hotkeyTextarea_description",
+		"type": "string",
+		"value": "accel-shift-return"
 	}, {
 		"name": "localServerUrl",
 		"title": "localServerUrl_title",

@@ -1,6 +1,11 @@
-0.3 (xx/06/2013, LT 2.2)
-- possibility to check text with keyboard shortcut (Ctrl+Shift+L for selections, Ctrl+Shift+Return for text fields)
+0.4 (xx/09/2013, LT 2.3)
 - support for xx has been added to LanguageTool
+- new translations for xx
+- updated translations for xx
+
+0.3 (xx/06/2013, LT 2.2)
+- possibility to check text with keyboard shortcut (defaults are Ctrl+Shift+L for selections, Ctrl+Shift+Return for text fields)
+- words in the personal dictionary are ignored during spell checking
 - new translations for xx
 - updated translations for xx
 

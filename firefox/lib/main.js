@@ -1,10 +1,12 @@
 var cm=require("sdk/context-menu");
+var file=require("sdk/io/file");
 var hotkeys=require("sdk/hotkeys");
 var panels=require("sdk/panel");
 var requests=require("sdk/request");
 var selection=require("sdk/selection");
 var self=require("sdk/self");
 var simpleprefs=require("sdk/simple-prefs");
+var system = require("sdk/system");
 var tabs=require("sdk/tabs");
 // tabs.open("http://www.languagetool.org/forum/");
 var timer=require("sdk/timers");
@@ -15,6 +17,8 @@ var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
 var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>";
 var MAXCONTEXTLENGTH=20;
 var MAXLENGTHWEBSERVICE=50000;
+var PERSDICTFILE=file.join(system.pathFor("ProfD"), "persdict.dat");
+var PERSDICT=file.exists(PERSDICTFILE) ? file.read(PERSDICTFILE,"r").split("\n") : [];
 
 var contentString="";
 var originalContentStringLength=0;
@@ -138,7 +142,12 @@ function createReport(response, selectedTextProcessed) {
 		if(returnText.indexOf("markerGrammar")!=-1) {
 			returnTextGrammar+=returnText;
 		} else {
-			returnTextSpelling+=returnText;
+			console.log(m);
+			console.log(PERSDICT);
+			console.log(PERSDICT.indexOf(m));
+			if(PERSDICT.indexOf(m)==-1) { // ignore spelling mistakes if the word is in personal dictionary
+				returnTextSpelling+=returnText;
+			}
 		}
 	} // for each <error/>
 	
@@ -314,11 +323,13 @@ var contextmenuitemTextarea=cm.Item({
 });
 
 var checkSelectionHotkey=hotkeys.Hotkey({
-	combo: "accel-shift-l",
+// 	combo: "accel-shift-l",
+	combo: simpleprefs.prefs.hotkeySelection,
 	onPress: function(){widgetClicked();}
 });
 
 var checkTextareaHotkey=hotkeys.Hotkey({
-	combo: "accel-shift-return",
+// 	combo: "accel-shift-return",
+	combo: simpleprefs.prefs.hotkeyTextarea,
 	onPress: function(){widgetOnClick();}
 });
