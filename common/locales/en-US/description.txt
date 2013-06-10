@@ -15,6 +15,8 @@ With this extension you can check text with the free style and grammar checker L
 <li>Click on the LT icon, which is displayed in the bottom right corner on the <a href="http://support.mozilla.org/kb/add-on-bar-quick-access-to-add-ons">add-on bar</a> by default, or right-click on the text and select “Check with LanguageTool” to have the text checked.</li>
 </ol>
 
+It is also possible to check text using a keyboard shortcut. Press <code>Ctrl+Shift+L</code> (or <code>Command+Shift+L</code> on Mac) to check the current selection, or <code>Ctrl+Shift+Return</code> (or <code>Command+Shift+Return</code>) to check a text field. You can change these shortcuts in the <a href="http://support.mozilla.org/kb/extensions-add-features-to-firefox#w_how-to-change-extension-settings">settings of the add-on</a>.
+
 By default, the extension tries to use a locally running LanguageTool server. Download the stand-alone version of LanguageTool from the <a href="http://languagetool.org/">LanguageTool website</a> and either run <code>java -cp languagetool-server.jar org.languagetool.server.HTTPServer</code>, or open languagetool-standalone.jar with Java, enable the server in the preferences, and keep the program running. Alternatively, you can enable the web service in the <a href="http://support.mozilla.org/kb/extensions-add-features-to-firefox#w_how-to-change-extension-settings">settings of the add-on</a> (please read the privacy policy linked above).
 
 LanguageTool tries to auto-detect the language of the text; nevertheless, you should set a sensible fallback language in the settings of the add-on. Furthermore, a mother tongue must be set in order to get warnings about false friends.
@@ -33,6 +35,7 @@ If you want to move the LT icon to another place, follow these steps:
 <ul>
 <li>It is not possible to check texts on websites which were loaded before the installation of the extension.</li>
 <li>If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph. It might also happen that the last word of the first paragraph and the first word of the second paragraph are joined together.</li>
+<li>Checking text in text fields which are in an iframe cannot be checked without selecting the text.</li>
 <li>“Text” between <script>-HTML-tags is checked, if it is part of the selection.</li>
 <li>When using the context menu, the panel is shown in the center of the window. (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=669523">Firefox Bug 669523</a>)</li>
 </ul>
@@ -47,4 +50,4 @@ Those of you who want to check text in Thunderbird using LanguageTool might want
 
 <b>How can I contribute?</b>
 
-This extension is freely available under the <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License, Version 3.0+</a>, and the source code can be obtained from <a href="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/extension/firefox/">SourceForge</a>. Contributions are welcomed; please send patches (or suggestions) to the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>, or post them in the <a href="http://languagetool.org/forum/">forum</a>.
+This extension is freely available under the <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License, Version 3.0+</a>, and the source code can be obtained from <a href="http://sourceforge.net/p/languagetool/code/HEAD/tree/trunk/extension/firefox/">SourceForge</a>. Contributions are welcomed; please send patches (or suggestions) to the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>, or post them in the <a href="http://languagetool.org/forum/">forum</a>.
