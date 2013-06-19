@@ -142,9 +142,6 @@ function createReport(response, selectedTextProcessed) {
 		if(returnText.indexOf("markerGrammar")!=-1) {
 			returnTextGrammar+=returnText;
 		} else {
-			console.log(m);
-			console.log(PERSDICT);
-			console.log(PERSDICT.indexOf(m));
 			if(PERSDICT.indexOf(m)==-1) { // ignore spelling mistakes if the word is in personal dictionary
 				returnTextSpelling+=returnText;
 			}
