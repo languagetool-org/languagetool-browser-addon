@@ -162,6 +162,10 @@ var panel=panels.Panel({
 	onHide: function () {
 		panel.port.emit("setText", PLEASEWAITWHILECHECKING);
 	},
+	position: {
+		right: 0,
+		bottom: 0
+	},
 	width: 330,
 	heigth: 250
 });

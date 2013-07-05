@@ -1,5 +1,6 @@
 0.4 (xx/09/2013, LT 2.3)
-- support for xx has been added to LanguageTool
+- if the panel is opened through the context menu or a keyboard shortcut it is shown in the bottom right corner instead of the center of window
+- support for xx has been added to LanguageTool [update prefs]
 - new translations for xx
 - updated translations for xx
 
@@ -9,7 +10,6 @@
 - words in the personal dictionary are ignored during spell checking
 - new translations for Italian and Chinese
 - updated translations for Esperanto and Ukrainian
-
 
 0.2 (23/03/2013, LT 2.1)
 - possibility to check selection or text field using a context menu item

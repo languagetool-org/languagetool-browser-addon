@@ -1,5 +1,3 @@
-- panel opened through context menu should have a sensible position (https://bugzilla.mozilla.org/show_bug.cgi?id=669523)
-
 - password fields (type="password") should probably not be send to the server at all,
   for privacy reasons and because it doesn't make sense anyway
 
