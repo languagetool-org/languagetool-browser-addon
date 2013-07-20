@@ -22,7 +22,9 @@
 
 - possibility to (de)activate rules
 
-- possibility to add ingored spelling errors to persdict.dat
+- possibility to add ignored spelling errors to persdict.dat
+
+- add icon for LT in the context menu
 
 - translate the language name shown in the popup
 
