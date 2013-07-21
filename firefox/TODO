@@ -24,6 +24,10 @@
 
 - possibility to add ignored spelling errors to persdict.dat
 
+- notice when words are added to persdict.dat so that always the current list of words
+  is used - unfortunately, Firefox writes that file only when the browser exits, so
+  either that would need to change or we would need an API to access the current list
+
 - add icon for LT in the context menu
 
 - translate the language name shown in the popup
