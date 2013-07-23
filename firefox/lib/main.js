@@ -312,7 +312,8 @@ var contextmenuitemSelection=cm.Item({
 	context: cm.SelectionContext(),
 	// SDK bug 851647
 	contentScript: 'self.on("click", function(){self.postMessage()});',
-	onMessage: widgetClicked
+	onMessage: widgetClicked,
+	image: self.data.url("iconSmall.ico")
 });
 
 var contextmenuitemTextarea=cm.Item({
@@ -320,7 +321,8 @@ var contextmenuitemTextarea=cm.Item({
 	context: cm.SelectorContext("textarea"),
 	// SDK bug 851647
 	contentScript: 'self.on("click", function(){self.postMessage()});',
-	onMessage: widgetOnClick
+	onMessage: widgetOnClick,
+	image: self.data.url("iconSmall.ico")
 });
 
 var checkSelectionHotkey=hotkeys.Hotkey({
