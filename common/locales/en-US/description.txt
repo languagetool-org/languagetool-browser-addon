@@ -42,7 +42,7 @@ If you want to move the LT icon to another place, follow these steps:
 
 <b>Where can I report wishes, problems, or false alarms?</b>
 
-If you have any suggestion or problems, or you want to report a false alarm, you can leave a message in the <a href="http://languagetool.org/forum/">LanguageTool forum</a> or on the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>. Bug reports can also be added to the <a href="http://sourceforge.net/p/languagetool/bugs/">bug tracker</a>. <b>Please do not use the rating feature if you want to report a problem.</b>
+If you have any suggestion or problems, or you want to report a false alarm, you can leave a message in the <a href="http://languagetool.org/forum/">LanguageTool forum</a> or on the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>. Bug reports can also be added to the <a href="https://github.com/languagetool-org/languagetool-browser-addon/issues">bug tracker</a>. <b>Please do not use the rating feature if you want to report a problem.</b>
 
 <b>What about Thunderbird?</b>
 
@@ -50,4 +50,4 @@ Those of you who want to check text in Thunderbird using LanguageTool might want
 
 <b>How can I contribute?</b>
 
-This extension is freely available under the <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License, Version 3.0+</a>, and the source code can be obtained from <a href="http://sourceforge.net/p/languagetool/code/HEAD/tree/trunk/extension/firefox/">SourceForge</a>. Contributions are welcomed; please send patches (or suggestions) to the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>, or post them in the <a href="http://languagetool.org/forum/">forum</a>.
+This extension is freely available under the <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License, Version 3.0+</a>, and the source code can be obtained from <a href="https://github.com/languagetool-org/languagetool-browser-addon">GitHub</a>. Contributions are welcomed; please send patches (or suggestions) to the <a href="https://lists.sourceforge.net/lists/listinfo/languagetool-devel">mailing list</a>, or post them in the <a href="http://languagetool.org/forum/">forum</a>.
