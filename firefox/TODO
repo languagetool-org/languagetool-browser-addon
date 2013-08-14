@@ -1,7 +1,0 @@
-
-Before releasing:
-- update translations (-> CHANGES)
-- update list of supported languages (-> CHANGES)
-- check if error messages appear in error console
-- run tests
-- update version number
