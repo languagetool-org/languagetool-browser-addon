@@ -24,6 +24,7 @@ var contentString="";
 var originalContentStringLength=0;
 var selectedText="";
 var selectedTextProcessed="";
+var framePermissionProblem="";
 
 function selectionChanged(event) {
 	selectedText=selection.text;
@@ -90,6 +91,9 @@ function createReport(response, selectedTextProcessed) {
 	var returnLanguage="";
 	var returnTextGrammar="";
 	var returnTextSpelling="";
+	var permissionNote=framePermissionProblem;
+	framePermissionProblem="";
+	
 	
 	var lang=escapeXml(getLanguage(response, "name"));
 	var mothertongue=escapeXml(getLanguage(response, "mothertonguename"));
@@ -152,8 +156,11 @@ function createReport(response, selectedTextProcessed) {
 		returnTextSpelling="";
 	}
 	
-	console.log("returnText: "+returnLanguage+returnTextGrammar+returnTextSpelling);
-	return returnLanguage+returnTextGrammar+returnTextSpelling;
+	// permissionNote at the end since we don't know whether there is any active text field (TODO must be possible to determine it)
+	var returnText=returnLanguage+returnTextGrammar+returnTextSpelling+permissionNote;
+	
+	console.log("returnText: "+returnText);
+	return returnText;
 }
 
 var panel=panels.Panel({
@@ -250,8 +257,11 @@ function widgetClicked() {
 	
 	panel.show();
 	
+	var emptyTextWarning = EMPTYTEXTWARNING+framePermissionProblem;
+	
 	if(selectedTextProcessed==null || selectedTextProcessed=="") {
-		panel.port.emit("setText", EMPTYTEXTWARNING);
+		panel.port.emit("setText", emptyTextWarning);
+		framePermissionProblem="";
 		return;
 	}
 	
@@ -285,7 +295,8 @@ function widgetClicked() {
 		console.log(contentString);
 		checkTextLocal.post();
 	} else {
-		panel.port.emit("setText", EMPTYTEXTWARNING);
+		panel.port.emit("setText", emptyTextWarning);
+		framePermissionProblem="";
 	}
 }
 
@@ -293,8 +304,15 @@ function widgetOnClick() {
 	tabs.activeTab.attach({
 		contentScriptFile: self.data.url("content.js"),
 		onMessage: function (message) {
-			if(message!="-NULL-") selectedText=message;
-			widgetClicked();
+			if(message.substring(0,17)=="-FRAMEPERMISSION-") {
+				// NOTE content.js assures that only the excpetion text and no arbitrary text is passed with this prefix.
+				framePermissionProblem="<hr/><div class=\"status\">"
+					+_("framePermission",message.substring(message.indexOf("-",1)+1))
+					+"</div><hr/>";
+			} else {
+				if(message!="-NULL-") selectedText=message;
+				widgetClicked();
+			}
 		}
 	});
 }

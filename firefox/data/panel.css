@@ -40,7 +40,7 @@ hr {
 	border-color: white;
 }
 
-hr:last-child {
+hr:last-child, hr + hr {
 	display: none;
 }
 

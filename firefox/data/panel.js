@@ -14,7 +14,7 @@ function closePopup() {
 }
 
 self.port.on("setText", function(text) {
-	// dynamically generated text went through escapeXml in main.js to avoid evaluating arbitrary text as html
+	// NOTE dynamically generated text went through escapeXml in main.js to avoid evaluating arbitrary text as html
 	document.getElementById("body").innerHTML=text;
 });
 
