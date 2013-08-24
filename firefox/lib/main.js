@@ -318,7 +318,7 @@ var contextmenuitemSelection=cm.Item({
 
 var contextmenuitemTextarea=cm.Item({
 	label: _("checkTextareaWithLTShort"),
-	context: cm.SelectorContext("textarea"),
+	context: cm.SelectorContext("textarea, [contenteditable='true']"),
 	// SDK bug 851647
 	contentScript: 'self.on("click", function(){self.postMessage()});',
 	onMessage: widgetOnClick,
