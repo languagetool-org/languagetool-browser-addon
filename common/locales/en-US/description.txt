@@ -37,7 +37,6 @@ If you want to move the LT icon to another place, follow these steps:
 <li>If you select a headline and the following paragraph, you might get a warning about wrong case because LanguageTool doesn't consider the paragraph. It might also happen that the last word of the first paragraph and the first word of the second paragraph are joined together.</li>
 <li>Text in text fields which are in an iframe cannot be checked without selecting the text.</li>
 <li>“Text” between <script>-HTML-tags is checked, if it is part of the selection.</li>
-<li>When using the context menu, the panel is shown in the center of the window. (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=669523">Firefox Bug 669523</a>)</li>
 </ul>
 
 <b>Where can I report wishes, problems, or false alarms?</b>
