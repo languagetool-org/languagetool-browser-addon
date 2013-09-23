@@ -1,11 +1,14 @@
-0.4 (xx/09/2013, LT 2.3)
-- if the panel is opened through the context menu or a keyboard shortcut it is shown in the bottom right corner instead of the center of window
+0.5 (xx/09/2013, LT 2.4)
+- support for xx (ca-?) has been added to LanguageTool [update prefs]
+- new translations for xx
+- updated translations for xx
+
+0.4 (23/09/2013, LT 2.3)
+- if the panel is opened through the context menu or a keyboard shortcut it is shown in the bottom right corner instead of the center of the window
 - added LanguageTool icons to the context menu items
 - checking text in text fields which are in a frame is possible (but only if the content of the frame belongs to the same domain)
 - editable elements in web pages (contenteditable="true") are treated like text fields (e. g. Wikipedia Visual Editor)
-- support for xx has been added to LanguageTool [update prefs]
-- new translations for xx
-- updated translations for xx
+- updated translations for Portuguese (Portugal)
 
 0.3 (16/06/2013, LT 2.2)
 - possibility to check text with keyboard shortcut (defaults are Ctrl+Shift+L for selections, Ctrl+Shift+Return for text fields)
