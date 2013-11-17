@@ -25,6 +25,9 @@ var originalContentStringLength=0;
 var selectedText="";
 var selectedTextProcessed="";
 var framePermissionProblem="";
+var showResultsInPanel=true;
+var sidebarWorkers=[];
+var sidebarTextCache="";
 
 function selectionChanged(event) {
 	selectedText=selection.text;
@@ -163,11 +166,59 @@ function createReport(response, selectedTextProcessed) {
 	return returnText;
 }
 
+function emitSetText(text) {
+	panel.port.emit("setText", text);
+	if(sidebarWorkers.length>0) {
+		// TODO should be per window
+		for(var i=0; i<sidebarWorkers.length; ++i) {
+			sidebarWorkers[i].port.emit("setText", text);
+		}
+		sidebarTextCache=text;
+	} else if(!showResultsInPanel) {
+		console.log("setText requested for sidebar, but sidebarWorkers.length is 0");
+		sidebarTextCache=text;
+	}
+}
+
+var sidebar=require("sdk/ui/sidebar").Sidebar({
+	id: 'languagetoolfx-sidebar',
+	title: 'LanguageToolFx',
+	url: require("sdk/self").data.url("sidebar.html"),
+	onAttach: function(worker) {
+		
+		sidebarWorkers.push(worker);
+		console.log("sidebarWorker added " + sidebarWorkers.length + " " + sidebarTextCache.substr(0,10));
+		
+		// it might happen that the sidebarWorker is created delayed, so that the original setText event is missed
+		if(sidebarTextCache!="") {
+			worker.port.emit("setText", sidebarTextCache);
+			sidebarTextCache="";
+			console.log("sidebarTextCache cleared");
+		}
+		
+		worker.port.on("linkClicked", function(url) {
+			tabs.open(url);
+		});
+		
+		worker.port.on("enableWebService", function() {
+			simpleprefs.prefs.enableWebService=true;
+			widgetClicked();
+		});
+		
+	},
+	onDetach: function(worker) {
+		var index=sidebarWorkers.indexOf(worker);
+		if(index!=-1) {
+			sidebarWorkers.splice(index, 1);
+		}
+	}
+});
+
 var panel=panels.Panel({
 	contentURL: self.data.url("panel.html"),
 	contentScriptFile: self.data.url("panel.js"),
 	onHide: function () {
-		panel.port.emit("setText", PLEASEWAITWHILECHECKING);
+		panel.port.emit("setText", "");
 	},
 	position: {
 		right: 0,
@@ -177,7 +228,7 @@ var panel=panels.Panel({
 	heigth: 250
 });
 
-panel.port.emit("setText", PLEASEWAITWHILECHECKING);
+emitSetText("");
 
 panel.port.on("linkClicked", function(url) {
 	tabs.open(url);
@@ -192,6 +243,11 @@ panel.port.on("closePopup", function() {
 	panel.hide();
 });
 
+panel.port.on("openSidebar", function() {
+	showResultsInPanel=false;
+	widgetClicked();
+});
+
 function checkTextOnlineCompleted(response) {
 	var webServiceNote="<div class=\"status\">"+_("webServiceUsed");
 	if(contentString.length!=originalContentStringLength) {
@@ -204,11 +260,11 @@ function checkTextOnlineCompleted(response) {
 		if(response.status==500) {
 			errorText+="<br/>"+formatError(response.text);
 		}
-		panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+		emitSetText("<div class=\"status\">"+errorText+"</div>");
 	} else {
 		var text=response.text;
 		console.log("Response: "+text);
-		panel.port.emit("setText", webServiceNote+createReport(text, selectedTextProcessed));
+		emitSetText(webServiceNote+createReport(text, selectedTextProcessed));
 	}
 }
 
@@ -228,7 +284,7 @@ function checkTextLocalCompleted(response) {
 			});
 			console.log("Connecting with web service");
 			var errorText=_("usingWebService",response.status);
-			panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+			emitSetText("<div class=\"status\">"+errorText+"</div>");
 			checkTextOnline.post();
 		} else {
 			var errorText=_("errorOccurredStatus")+" "+response.status;
@@ -237,16 +293,19 @@ function checkTextLocalCompleted(response) {
 			} else if(response.status==500) {
 				errorText+="<br/>"+formatError(response.text);
 			}
-			panel.port.emit("setText", "<div class=\"status\">"+errorText+"</div>");
+			emitSetText("<div class=\"status\">"+errorText+"</div>");
 		}
 	} else {
 		var text=response.text;
 		console.log("Response: "+text);
-		panel.port.emit("setText", createReport(text, selectedTextProcessed));
+		emitSetText(createReport(text, selectedTextProcessed));
 	}
 }
 
+// TODO functions should get sensible names
 function widgetClicked() {
+	emitSetText(PLEASEWAITWHILECHECKING);
+	
 	// avoid that selectedText is changed while the text is being checked
 	selectedTextProcessed=selectedText;
 	
@@ -255,12 +314,19 @@ function widgetClicked() {
 		selectedTextProcessed=preprocess(selectedTextProcessed);
 	}
 	
-	panel.show();
+	console.log(showResultsInPanel);
+	if(showResultsInPanel) {
+		panel.show();
+		sidebar.hide();
+	} else {
+		sidebar.show();
+		panel.hide();
+	}
 	
 	var emptyTextWarning = EMPTYTEXTWARNING+framePermissionProblem;
 	
 	if(selectedTextProcessed==null || selectedTextProcessed=="") {
-		panel.port.emit("setText", emptyTextWarning);
+		emitSetText(emptyTextWarning);
 		framePermissionProblem="";
 		return;
 	}
@@ -295,7 +361,7 @@ function widgetClicked() {
 		console.log(contentString);
 		checkTextLocal.post();
 	} else {
-		panel.port.emit("setText", emptyTextWarning);
+		emitSetText(emptyTextWarning);
 		framePermissionProblem="";
 	}
 }
@@ -322,7 +388,22 @@ var widget=widgets.Widget({
 	label: _("checkSelectionWithLT"),
 	contentURL: self.data.url("iconSmall.ico"),
 	panel: panel,
-	onClick: widgetOnClick
+	contentScriptFile: self.data.url("widget.js")
+});
+
+widget.port.on("widgetOnLeftClick", function() {
+	showResultsInPanel=(simpleprefs.prefs.leftClickAction=="popup");
+	widgetOnClick();
+});
+
+widget.port.on("widgetOnMiddleClick", function() {
+	showResultsInPanel=(simpleprefs.prefs.middleClickAction=="popup");
+	widgetOnClick();
+});
+
+widget.port.on("widgetOnRightClick", function() {
+	showResultsInPanel=(simpleprefs.prefs.rightClickAction=="popup");
+	widgetOnClick();
 });
 
 var contextmenuitemSelection=cm.Item({
@@ -330,7 +411,10 @@ var contextmenuitemSelection=cm.Item({
 	context: cm.SelectionContext(),
 	// SDK bug 851647
 	contentScript: 'self.on("click", function(){self.postMessage()});',
-	onMessage: widgetClicked,
+	onMessage: function() {
+		showResultsInPanel=(simpleprefs.prefs.contextmenuitemSelectionAction=="popup");
+		widgetClicked();
+	},
 	image: self.data.url("iconSmall.ico")
 });
 
@@ -339,18 +423,27 @@ var contextmenuitemTextarea=cm.Item({
 	context: cm.SelectorContext("textarea, [contenteditable='true']"),
 	// SDK bug 851647
 	contentScript: 'self.on("click", function(){self.postMessage()});',
-	onMessage: widgetOnClick,
+	onMessage: function() {
+		showResultsInPanel=(simpleprefs.prefs.contextmenuitemTextarea=="popup");
+		widgetOnClick();
+	},
 	image: self.data.url("iconSmall.ico")
 });
 
 var checkSelectionHotkey=hotkeys.Hotkey({
 // 	combo: "accel-shift-l",
 	combo: simpleprefs.prefs.hotkeySelection,
-	onPress: function(){widgetClicked();}
+	onPress: function() {
+		showResultsInPanel=(simpleprefs.prefs.hotkeySelectionAction=="popup");
+		widgetClicked();
+	}
 });
 
 var checkTextareaHotkey=hotkeys.Hotkey({
 // 	combo: "accel-shift-return",
 	combo: simpleprefs.prefs.hotkeyTextarea,
-	onPress: function(){widgetOnClick();}
+	onPress: function() {
+		showResultsInPanel=(simpleprefs.prefs.hotkeyTextareaAction=="popup");
+		widgetOnClick();
+	}
 });

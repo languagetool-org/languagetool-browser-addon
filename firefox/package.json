@@ -3,7 +3,7 @@
 	"license": "GPL 3.0", 
 	"author": "Markus Brenneis", 
 	"contributors": ["The LanguageTool Developers"], 
-	"version": "0.4", 
+	"version": "0.5pre", 
 	"fullName": "LanguageToolFx", 
 	"id": "jid1-j3KiX1n7UXrjxQ", 
 	"description": "LanguageTool for Firefox",
@@ -184,7 +184,7 @@
 		"options": [
 			{
 			"value": "",
-			"label": "none selected"
+			"label": "noneSelected"
 			},
 			
 			{
@@ -357,11 +357,116 @@
 		"type": "string",
 		"value": "accel-shift-l"
 	}, {
+		"name": "hotkeySelectionAction",
+		"title": "hotkeyAction_title",
+		"type": "menulist",
+		"value": "popup",
+		"options": [
+			{
+			"value": "popup",
+			"label": "showInPopup"
+			},
+			{
+			"value": "sidebar",
+			"label": "showInSidebar"
+			}
+		]
+	}, {
 		"name": "hotkeyTextarea",
 		"title": "hotkeyTextarea_title",
 		"description": "hotkeyTextarea_description",
 		"type": "string",
 		"value": "accel-shift-return"
+	}, {
+		"name": "hotkeyTextareaAction",
+		"title": "hotkeyAction_title",
+		"type": "menulist",
+		"value": "popup",
+		"options": [
+			{
+			"value": "popup",
+			"label": "showInPopup"
+			},
+			{
+			"value": "sidebar",
+			"label": "showInSidebar"
+			}
+		]
+	}, {
+		"name": "leftClickAction",
+		"title": "leftClickAction_title",
+		"type": "menulist",
+		"value": "popup",
+		"options": [
+			{
+			"value": "popup",
+			"label": "showInPopup"
+			},
+			{
+			"value": "sidebar",
+			"label": "showInSidebar"
+			}
+		]
+	}, {
+		"name": "middleClickAction",
+		"title": "middleClickAction_title",
+		"type": "menulist",
+		"value": "sidebar",
+		"options": [
+			{
+			"value": "popup",
+			"label": "showInPopup"
+			},
+			{
+			"value": "sidebar",
+			"label": "showInSidebar"
+			}
+		]
+	}, {
+		"name": "rightClickAction",
+		"title": "rightClickAction_title",
+		"type": "menulist",
+		"value": "sidebar",
+		"options": [
+			{
+			"value": "popup",
+			"label": "showInPopup"
+			},
+			{
+			"value": "sidebar",
+			"label": "showInSidebar"
+			}
+		]
+	}, {
+		"name": "contextmenuitemSelectionAction",
+		"title": "contextmenuitemSelectionAction_title",
+		"type": "menulist",
+		"value": "popup",
+		"options": [
+			{
+			"value": "popup",
+			"label": "showInPopup"
+			},
+			{
+			"value": "sidebar",
+			"label": "showInSidebar"
+			}
+		]
+	}, {
+		"name": "contextmenuitemTextarea",
+		"title": "contextmenuitemTextarea_title",
+		"type": "menulist",
+		"value": "popup",
+		"options": [
+			{
+			"value": "popup",
+			"label": "showInPopup"
+			},
+			{
+			"value": "sidebar",
+			"label": "showInSidebar"
+			}
+		]
 	}, {
 		"name": "localServerUrl",
 		"title": "localServerUrl_title",
