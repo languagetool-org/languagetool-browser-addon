@@ -71,3 +71,24 @@ hr:last-child, hr + hr {
 	text-decoration: none;
 	font-size: 16px;
 }
+
+#openSidebarTooltip {
+	text-align: right;
+	position: absolute;
+	top: 24px;
+	right: 20px;
+	padding: 2px;
+	color: gray;
+	background: white;
+	border: 1px solid gray;
+	font-size: 10px;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity .3s ease-out, visibility 0s .3s;
+}
+
+#openSidebar:hover ~ #openSidebarTooltip {
+	visibility: visible;
+	opacity: .9;
+	transition: opacity .6s ease-in .3s, visibility 0s .3s;
+}
