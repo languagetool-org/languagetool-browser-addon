@@ -1,8 +1,13 @@
-0.5 (xx/12/2013, LT 2.4)
-- results can be displayed in a sidebar
-- support for xx (ca-?) has been added to LanguageTool [update prefs]
+0.6 (xx/03/2013, LT 2.5)
+- support for xx has been added to LanguageTool [update prefs]
 - new translations for xx
 - updated translations for xx
+
+0.5 (xx/12/2013, LT 2.4)
+- results can be displayed in a sidebar
+- support for ca-ES-valencia has been added to LanguageTool
+- new translation for Breton
+- updated translations for Asturian, Catalan, Esperanto, Galician, Italian
 
 0.4 (23/09/2013, LT 2.3)
 - if the panel is opened through the context menu or a keyboard shortcut it is shown in the bottom right corner instead of the center of the window

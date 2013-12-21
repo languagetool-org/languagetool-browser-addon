@@ -39,6 +39,10 @@
 			"label": "ca-ES"
 			},
 			{
+			"value": "ca-ES-valencia",
+			"label": "ca-ES-valencia"
+			},
+			{
 			"value": "da-DK",
 			"label": "da-DK"
 			},
