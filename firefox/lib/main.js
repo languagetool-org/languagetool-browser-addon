@@ -90,13 +90,32 @@ function getLanguage(response, attr) {
 	return response.split(" "+attr+"=\"")[1].split("\"")[0];
 }
 
+/**
+ * get the suggestions from the given xml snippet, separated by '|'
+ */
+function getSuggestions(xml, msg) {
+	var SEPARATOR="&nbsp;| "
+	
+	var suggestions=getAttributeValue(xml, "replacements");
+	
+	if(suggestions=="") return "";
+	
+	suggestions=suggestions.split("#");
+	
+	var returnText="";
+	for(var i=0; i<suggestions.length; i++) {
+		returnText+=SEPARATOR+suggestions[i];
+	}
+	
+	return '<div class="suggestions">'+returnText.substr(SEPARATOR.length)+'</div>';
+}
+
 function createReport(response, selectedTextProcessed) {
 	var returnLanguage="";
 	var returnTextGrammar="";
 	var returnTextSpelling="";
 	var permissionNote=framePermissionProblem;
 	framePermissionProblem="";
-	
 	
 	var lang=escapeXml(getLanguage(response, "name"));
 	var mothertongue=escapeXml(getLanguage(response, "mothertonguename"));
@@ -114,30 +133,35 @@ function createReport(response, selectedTextProcessed) {
 	response=response.split("<error ");
 	
 	if(response.length<2) {
+		// #22 close sidebar when there are no mistakes
+		sidebar.hide();
+		panel.show();
 		return returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>";
 	}
 	
 	for(var i=1; i<response.length; ++i) {
 		var returnText="<div class=\"msg\">"+escapeXml(getAttributeValue(response[i],"msg"))+"</div>";
 		
+		returnText+=getSuggestions(response[i],returnText);
+		
 		fromx=getAttributeValue(response[i],"fromx");
 		tox=getAttributeValue(response[i],"tox");
-		l=selectedTextProcessed.substring(0,fromx);
-		if(l.length>MAXCONTEXTLENGTH) {
-			l="&hellip;"+escapeXml(l.substring(l.length-MAXCONTEXTLENGTH));
+		leftContext=selectedTextProcessed.substring(0,fromx);
+		if(leftContext.length>MAXCONTEXTLENGTH) {
+			leftContext="&hellip;"+escapeXml(leftContext.substring(leftContext.length-MAXCONTEXTLENGTH));
 		}
-		m=escapeXml(selectedTextProcessed.substring(fromx,tox));
-		r=selectedTextProcessed.substring(tox);
-		if(r.length>MAXCONTEXTLENGTH) {
-			r=escapeXml(r.substring(0,MAXCONTEXTLENGTH))+"&hellip;";
+		markedText=escapeXml(selectedTextProcessed.substring(fromx,tox));
+		rightContext=selectedTextProcessed.substring(tox);
+		if(rightContext.length>MAXCONTEXTLENGTH) {
+			rightContext=escapeXml(rightContext.substring(0,MAXCONTEXTLENGTH))+"&hellip;";
 		}
 		id=getAttributeValue(response[i],"ruleId");
 		if(id.indexOf("MORFOLOGIK")!=-1 || id.indexOf("HUNSPELL")!=-1 || id.indexOf("SPELLER_RULE")!=-1) {
-			spanclass="markerSpelling";
+			markerClass="markerSpelling";
 		} else {
-			spanclass="markerGrammar";
+			markerClass="markerGrammar";
 		}
-		returnText+="<div class=\"context\">"+l+"<span class=\""+spanclass+"\">"+m+"</span>"+r+"</div>";
+		returnText+="<div class=\"context\">"+leftContext+"<span class=\""+markerClass+"\">"+markedText+"</span>"+rightContext+"</div>";
 		
 		url=escapeXml(getAttributeValue(response[i],"url"));
 		if(url!="") {
@@ -149,7 +173,7 @@ function createReport(response, selectedTextProcessed) {
 		if(returnText.indexOf("markerGrammar")!=-1) {
 			returnTextGrammar+=returnText;
 		} else {
-			if(PERSDICT.indexOf(m)==-1) { // ignore spelling mistakes if the word is in personal dictionary
+			if(PERSDICT.indexOf(markedText)==-1) { // ignore spelling mistakes if the word is in personal dictionary
 				returnTextSpelling+=returnText;
 			}
 		}
