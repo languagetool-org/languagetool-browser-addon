@@ -1,4 +1,6 @@
 0.6 (xx/03/2013, LT 2.5)
+- suggestions are shown
+- the sidebar is closed when no mistakes have been found (#20)
 - support for xx has been added to LanguageTool [update prefs]
 - new translations for xx
 - updated translations for xx
