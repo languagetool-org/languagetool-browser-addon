@@ -3,7 +3,7 @@
 	"license": "GPL 3.0", 
 	"author": "Markus Brenneis", 
 	"contributors": ["The LanguageTool Developers"], 
-	"version": "0.5pre", 
+	"version": "0.6pre", 
 	"fullName": "LanguageToolFx", 
 	"id": "jid1-j3KiX1n7UXrjxQ", 
 	"description": "LanguageTool for Firefox",

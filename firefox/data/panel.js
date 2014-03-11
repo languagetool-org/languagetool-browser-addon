@@ -20,6 +20,13 @@ function closePopup() {
 self.port.on("setText", function(text) {
 	// NOTE dynamically generated text went through escapeXml in main.js to avoid evaluating arbitrary text as html
 	document.getElementById("body").innerHTML=text;
+	
+	// when there are no errors, hide the 'open sidebar' link
+	if(document.getElementById("clickAnywhereToClose")==null) {
+		document.getElementById("openSidebar").style.display="block";
+	} else {
+		document.getElementById("openSidebar").style.display="none";
+	}
 });
 
 window.addEventListener(
@@ -38,6 +45,26 @@ window.addEventListener(
 			closePopup();
 		} else if(t.toString().indexOf("javascript:enableWebService()")==0) {
 			enableWebService();
+		} else if(t.nodeName=="SPAN" && t.parentNode.className=="suggestions") {
+			var error=t.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
+			var replacement=t.textContent;
+			var context=t.parentNode.nextSibling.childNodes;
+			var contextLeft="";
+			var contextRight="";
+			if(context.length==3) {
+				contextLeft=context[0].textContent;
+				contextRight=context[2].textContent;
+			} else if(context.length==2) {
+				if(context[0].nodeName=="SPAN") {
+					contextRight=context[1].textContent;
+				} else {
+					contextLeft=context[0].textContent;
+				}
+			}
+			if(contextLeft.substr(0,1)=='…') contextLeft=contextLeft.substr(1);
+			if(contextRight.substr(contextRight.length-1,1)=='…') contextRight=contextRight.slice(0,contextRight.length-1);
+			self.port.emit("applySuggestion", error, replacement, contextLeft, contextRight);
+			t.className="clicked";
 		}
 	},
 	false

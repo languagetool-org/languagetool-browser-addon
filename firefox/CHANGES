@@ -1,6 +1,7 @@
 0.6 (xx/03/2013, LT 2.5)
-- suggestions are shown
+- suggestions are shown and can be applied to text in text fields
 - the sidebar is closed when no mistakes have been found (#20)
+- text in one-line input fields (<input>) can be checked without selecting it
 - support for xx has been added to LanguageTool [update prefs]
 - new translations for xx
 - updated translations for xx

@@ -91,11 +91,9 @@ function getLanguage(response, attr) {
 }
 
 /**
- * get the suggestions from the given xml snippet, separated by '|'
+ * @returns the suggestions from the given @param xml snippet, each within a <span>, wrapped in a <div class="suggestions"> (if any)
  */
-function getSuggestions(xml, msg) {
-	var SEPARATOR="&nbsp;| "
-	
+function getSuggestions(xml) {
 	var suggestions=getAttributeValue(xml, "replacements");
 	
 	if(suggestions=="") return "";
@@ -104,10 +102,10 @@ function getSuggestions(xml, msg) {
 	
 	var returnText="";
 	for(var i=0; i<suggestions.length; i++) {
-		returnText+=SEPARATOR+suggestions[i];
+		returnText+="<span>"+suggestions[i]+"</span>";
 	}
 	
-	return '<div class="suggestions">'+returnText.substr(SEPARATOR.length)+'</div>';
+	return '<div class="suggestions">'+returnText+'</div>';
 }
 
 function createReport(response, selectedTextProcessed) {
@@ -136,13 +134,14 @@ function createReport(response, selectedTextProcessed) {
 		// #22 close sidebar when there are no mistakes
 		sidebar.hide();
 		panel.show();
-		return returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>";
+		return returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>"
+		                     +"<div id=\"clickAnywhereToClose\" class=\"status\">("+_("clickAnywhereToClose")+")</div>";
 	}
 	
 	for(var i=1; i<response.length; ++i) {
 		var returnText="<div class=\"msg\">"+escapeXml(getAttributeValue(response[i],"msg"))+"</div>";
 		
-		returnText+=getSuggestions(response[i],returnText);
+		returnText+=getSuggestions(response[i]);
 		
 		fromx=getAttributeValue(response[i],"fromx");
 		tox=getAttributeValue(response[i],"tox");
@@ -224,6 +223,10 @@ var sidebar=require("sdk/ui/sidebar").Sidebar({
 			tabs.open(url);
 		});
 		
+		worker.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight) {
+			applySuggestion(error, replacement, contextLeft, contextRight)
+		});
+		
 		worker.port.on("enableWebService", function() {
 			simpleprefs.prefs.enableWebService=true;
 			widgetClicked();
@@ -261,6 +264,10 @@ panel.port.on("linkClicked", function(url) {
 panel.port.on("enableWebService", function() {
 	simpleprefs.prefs.enableWebService=true;
 	widgetClicked();
+});
+
+panel.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight) {
+	applySuggestion(error, replacement, contextLeft, contextRight)
 });
 
 panel.port.on("closePopup", function() {
@@ -326,7 +333,19 @@ function checkTextLocalCompleted(response) {
 	}
 }
 
+function applySuggestion(error, replacement, contextLeft, contextRight) {
+	replaceWorker = tabs.activeTab.attach({
+		contentScriptFile: self.data.url("replaceText.js"),
+	});
+	replaceWorker.port.emit("applySuggestion", error, replacement, contextLeft, contextRight, "Sorry, suggestions can be applied to text in (“real”) text fields only. (Please make also sure that the cursor is still in the text field.");
+	timer.setTimeout(function(){recheck()},300);
+}
+
 // TODO functions should get sensible names
+function recheck() {
+	widgetOnClick();
+}
+
 function widgetClicked() {
 	emitSetText(PLEASEWAITWHILECHECKING);
 	
@@ -395,7 +414,7 @@ function widgetOnClick() {
 		contentScriptFile: self.data.url("content.js"),
 		onMessage: function (message) {
 			if(message.substring(0,17)=="-FRAMEPERMISSION-") {
-				// NOTE content.js assures that only the excpetion text and no arbitrary text is passed with this prefix.
+				// NOTE content.js assures that only the exception text and no arbitrary text is passed with this prefix.
 				framePermissionProblem="<hr/><div class=\"status\">"
 					+_("framePermission",message.substring(message.indexOf("-",1)+1))
 					+"</div><hr/>";
@@ -444,7 +463,7 @@ var contextmenuitemSelection=cm.Item({
 
 var contextmenuitemTextarea=cm.Item({
 	label: _("checkTextareaWithLTShort"),
-	context: cm.SelectorContext("textarea, [contenteditable='true']"),
+	context: cm.SelectorContext("input, textarea, [contenteditable='true']"),
 	// SDK bug 851647
 	contentScript: 'self.on("click", function(){self.postMessage()});',
 	onMessage: function() {

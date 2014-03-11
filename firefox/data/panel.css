@@ -27,6 +27,21 @@ div {
 	text-overflow: ellipsis;
 }
 
+.suggestions span:hover {
+	cursor: pointer;
+}
+
+.suggestions span.clicked {
+	color: rgba(0,0,0,0);
+	transition: .3s;
+}
+
+.suggestions span:not(:last-child)::after {
+	content: "\0000a0| "; /* U+00a0 = nbsp */
+	color: black;
+	cursor: default;
+}
+
 [class^="marker"] {
 	padding-bottom: 2px;
 	background-repeat: repeat-x;
