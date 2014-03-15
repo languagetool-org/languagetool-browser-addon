@@ -337,7 +337,7 @@ function applySuggestion(error, replacement, contextLeft, contextRight) {
 	replaceWorker = tabs.activeTab.attach({
 		contentScriptFile: self.data.url("replaceText.js"),
 	});
-	replaceWorker.port.emit("applySuggestion", error, replacement, contextLeft, contextRight, _(applySuggestionNoTextField));
+	replaceWorker.port.emit("applySuggestion", error, replacement, contextLeft, contextRight, _("applySuggestionNoTextField"));
 	timer.setTimeout(function(){recheck()},300);
 }
 
