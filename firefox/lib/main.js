@@ -1,7 +1,9 @@
+const {Cc, Ci} = require("chrome");
 var cm=require("sdk/context-menu");
 var file=require("sdk/io/file");
 var hotkeys=require("sdk/hotkeys");
 var panels=require("sdk/panel");
+var persDict=Cc["@mozilla.org/spellchecker/personaldictionary;1"].getService(Ci.mozIPersonalDictionary);
 var requests=require("sdk/request");
 var selection=require("sdk/selection");
 var self=require("sdk/self");
@@ -17,8 +19,6 @@ var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
 var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>";
 var MAXCONTEXTLENGTH=20;
 var MAXLENGTHWEBSERVICE=50000;
-var PERSDICTFILE=file.join(system.pathFor("ProfD"), "persdict.dat");
-var PERSDICT=file.exists(PERSDICTFILE) ? file.read(PERSDICTFILE,"r").split("\n") : [];
 
 var contentString="";
 var originalContentStringLength=0;
@@ -172,7 +172,7 @@ function createReport(response, selectedTextProcessed) {
 		if(returnText.indexOf("markerGrammar")!=-1) {
 			returnTextGrammar+=returnText;
 		} else {
-			if(PERSDICT.indexOf(markedText)==-1) { // ignore spelling mistakes if the word is in personal dictionary
+			if(!persDict.check(markedText, "xx")) { // ignore spelling mistakes if the word is in personal dictionary
 				returnTextSpelling+=returnText;
 			}
 		}
@@ -337,7 +337,7 @@ function applySuggestion(error, replacement, contextLeft, contextRight) {
 	replaceWorker = tabs.activeTab.attach({
 		contentScriptFile: self.data.url("replaceText.js"),
 	});
-	replaceWorker.port.emit("applySuggestion", error, replacement, contextLeft, contextRight, "Sorry, suggestions can be applied to text in (“real”) text fields only. (Please make also sure that the cursor is still in the text field.");
+	replaceWorker.port.emit("applySuggestion", error, replacement, contextLeft, contextRight, _(applySuggestionNoTextField));
 	timer.setTimeout(function(){recheck()},300);
 }
 
