@@ -45,7 +45,11 @@ window.addEventListener(
 			closePopup();
 		} else if(t.toString().indexOf("javascript:enableWebService()")==0) {
 			enableWebService();
-		} else if(t.nodeName=="SPAN" && t.parentNode.className=="suggestions") {
+		} else if(t.parentNode.className=="addword") {
+			var word=t.parentNode.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
+			self.port.emit("addWordToDictionary", word);
+			t.parentNode.classList.add("clicked");
+		} else if(t.className=="suggestion") {
 			var error=t.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
 			var replacement=t.textContent;
 			var context=t.parentNode.nextSibling.childNodes;
@@ -64,7 +68,7 @@ window.addEventListener(
 			if(contextLeft.substr(0,1)=='…') contextLeft=contextLeft.substr(1);
 			if(contextRight.substr(contextRight.length-1,1)=='…') contextRight=contextRight.slice(0,contextRight.length-1);
 			self.port.emit("applySuggestion", error, replacement, contextLeft, contextRight);
-			t.className="clicked";
+			t.classList.add("clicked");
 		}
 	},
 	false

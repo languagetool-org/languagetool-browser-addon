@@ -2,6 +2,7 @@ body {
 	background-color: white;
 	counter-reset: i;
 	font-family: Verdana, sans-serif;
+	overflow-x: hidden;
 }
 
 div {
@@ -27,7 +28,7 @@ div {
 	text-overflow: ellipsis;
 }
 
-.suggestions span:hover {
+.suggestions span:not(.addword):hover {
 	cursor: pointer;
 }
 
@@ -40,6 +41,30 @@ div {
 	content: "\0000a0| "; /* U+00a0 = nbsp */
 	color: black;
 	cursor: default;
+}
+
+.addword {
+	overflow: hidden;
+	white-space: nowrap;
+	position: relative;
+	cursor: e-resize;
+}
+
+.addword span {
+	position: absolute;
+	top: 0px;
+	left: -10000px;
+	opacity: 0;
+	background: rgba(255,255,255,.9);
+	transition: .4s opacity ease-out .2s, 0s left ease .6s;
+}
+
+
+.addword:hover span {
+	left: 13px;
+	cursor: pointer;
+	opacity: 1;
+	transition: .4s opacity ease-in .2s;
 }
 
 [class^="marker"] {

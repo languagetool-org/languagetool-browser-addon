@@ -19,6 +19,7 @@ var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
 var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>";
 var MAXCONTEXTLENGTH=20;
 var MAXLENGTHWEBSERVICE=50000;
+var RECHECKDELAY=300;
 
 var contentString="";
 var originalContentStringLength=0;
@@ -27,6 +28,7 @@ var selectedTextProcessed="";
 var framePermissionProblem="";
 var showResultsInPanel=true;
 var sidebarWorkers=[];
+var sidebarCacheTimer=null;
 var sidebarTextCache="";
 
 function selectionChanged(event) {
@@ -91,21 +93,26 @@ function getLanguage(response, attr) {
 }
 
 /**
- * @returns the suggestions from the given @param xml snippet, each within a <span>, wrapped in a <div class="suggestions"> (if any)
+ * @returns the suggestions from the given @param xml snippet, each within a <span class="suggestion">, wrapped in a <div class="suggestions"> (if any)
+ * @param showAddToDict when true, a link for adding the marked text to the user’s dictionary is appended to the list of suggestions
  */
-function getSuggestions(xml) {
+function getSuggestions(xml, showAddToDict) {
 	var suggestions=getAttributeValue(xml, "replacements");
 	
-	if(suggestions=="") return "";
-	
-	suggestions=suggestions.split("#");
-	
 	var returnText="";
-	for(var i=0; i<suggestions.length; i++) {
-		returnText+="<span>"+suggestions[i]+"</span>";
+	
+	if(suggestions!="") {
+		suggestions=suggestions.split("#");
+		
+		for(var i=0; i<suggestions.length; i++) {
+			returnText+='<span class="suggestion">'+suggestions[i]+'</span>';
+		}
 	}
 	
-	return '<div class="suggestions">'+returnText+'</div>';
+	var addword=(showAddToDict ? ' <span class="addword">+<span> '+_("addWordToDictionary")+'</span></span>' : '');
+	
+	if(returnText+addword=="") return "";
+	return '<div class="suggestions">'+returnText+addword+'</div>';
 }
 
 function createReport(response, selectedTextProcessed) {
@@ -130,18 +137,18 @@ function createReport(response, selectedTextProcessed) {
 	
 	response=response.split("<error ");
 	
+	var noProblemsFoundText=returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>"
+		               +"<div id=\"clickAnywhereToClose\" class=\"status\">("+_("clickAnywhereToClose")+")</div>";
+	
 	if(response.length<2) {
 		// #22 close sidebar when there are no mistakes
 		sidebar.hide();
 		panel.show();
-		return returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>"
-		                     +"<div id=\"clickAnywhereToClose\" class=\"status\">("+_("clickAnywhereToClose")+")</div>";
+		return noProblemsFoundText;
 	}
 	
 	for(var i=1; i<response.length; ++i) {
 		var returnText="<div class=\"msg\">"+escapeXml(getAttributeValue(response[i],"msg"))+"</div>";
-		
-		returnText+=getSuggestions(response[i]);
 		
 		fromx=getAttributeValue(response[i],"fromx");
 		tox=getAttributeValue(response[i],"tox");
@@ -157,9 +164,12 @@ function createReport(response, selectedTextProcessed) {
 		id=getAttributeValue(response[i],"ruleId");
 		if(id.indexOf("MORFOLOGIK")!=-1 || id.indexOf("HUNSPELL")!=-1 || id.indexOf("SPELLER_RULE")!=-1) {
 			markerClass="markerSpelling";
+			returnText+=getSuggestions(response[i], true);
 		} else {
 			markerClass="markerGrammar";
+			returnText+=getSuggestions(response[i], false);
 		}
+		
 		returnText+="<div class=\"context\">"+leftContext+"<span class=\""+markerClass+"\">"+markedText+"</span>"+rightContext+"</div>";
 		
 		url=escapeXml(getAttributeValue(response[i],"url"));
@@ -182,6 +192,13 @@ function createReport(response, selectedTextProcessed) {
 		returnTextSpelling="";
 	}
 	
+	if(returnTextGrammar+returnTextSpelling+permissionNote=="") {
+		// #18 say that no problems have been found even if we found problems, but these are ignored
+		sidebar.hide();
+		panel.show();
+		return noProblemsFoundText;
+	}
+	
 	// permissionNote at the end since we don't know whether there is any active text field (TODO must be possible to determine it)
 	var returnText=returnLanguage+returnTextGrammar+returnTextSpelling+permissionNote;
 	
@@ -195,6 +212,7 @@ function emitSetText(text) {
 		// TODO should be per window
 		for(var i=0; i<sidebarWorkers.length; ++i) {
 			sidebarWorkers[i].port.emit("setText", text);
+			timer.clearTimeout(sidebarCacheTimer);
 		}
 		sidebarTextCache=text;
 	} else if(!showResultsInPanel) {
@@ -214,7 +232,7 @@ var sidebar=require("sdk/ui/sidebar").Sidebar({
 		
 		// it might happen that the sidebarWorker is created delayed, so that the original setText event is missed
 		if(sidebarTextCache!="") {
-			worker.port.emit("setText", sidebarTextCache);
+			sidebarCacheTimer=timer.setTimeout(worker.port.emit, 200, "setText", sidebarTextCache);
 			sidebarTextCache="";
 			console.log("sidebarTextCache cleared");
 		}
@@ -223,8 +241,12 @@ var sidebar=require("sdk/ui/sidebar").Sidebar({
 			tabs.open(url);
 		});
 		
+		worker.port.on("addWordToDictionary", function(word) {
+			addWordToDictionary(word);
+		});
+		
 		worker.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight) {
-			applySuggestion(error, replacement, contextLeft, contextRight)
+			applySuggestion(error, replacement, contextLeft, contextRight);
 		});
 		
 		worker.port.on("enableWebService", function() {
@@ -264,6 +286,10 @@ panel.port.on("linkClicked", function(url) {
 panel.port.on("enableWebService", function() {
 	simpleprefs.prefs.enableWebService=true;
 	widgetClicked();
+});
+
+panel.port.on("addWordToDictionary", function(word) {
+	addWordToDictionary(word)
 });
 
 panel.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight) {
@@ -333,12 +359,17 @@ function checkTextLocalCompleted(response) {
 	}
 }
 
+function addWordToDictionary(word) {
+	persDict.addWord(word, "xx");
+	timer.setTimeout(recheck, RECHECKDELAY);
+}
+
 function applySuggestion(error, replacement, contextLeft, contextRight) {
 	replaceWorker = tabs.activeTab.attach({
 		contentScriptFile: self.data.url("replaceText.js"),
 	});
 	replaceWorker.port.emit("applySuggestion", error, replacement, contextLeft, contextRight, _("applySuggestionNoTextField"));
-	timer.setTimeout(function(){recheck()},300);
+	timer.setTimeout(recheck, RECHECKDELAY);
 }
 
 // TODO functions should get sensible names
@@ -393,9 +424,7 @@ function widgetClicked() {
 	var checkTextLocal=requests.Request({
 		url: simpleprefs.prefs.localServerUrl,
 		onComplete: function (response) {
-			timer.setTimeout(function() { // workaround for NS_ERROR_XPC_BAD_CONVERT_JS
-				checkTextLocalCompleted(response)
-			},0);
+			timer.setTimeout(checkTextLocalCompleted, 0, response); // workaround for NS_ERROR_XPC_BAD_CONVERT_JS
 		},
 		content: contentString
 	});
