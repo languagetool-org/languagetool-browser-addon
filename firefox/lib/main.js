@@ -241,6 +241,10 @@ var sidebar=require("sdk/ui/sidebar").Sidebar({
 			tabs.open(url);
 		});
 		
+		worker.port.on("recheck", function() {
+			recheck();
+		});
+		
 		worker.port.on("addWordToDictionary", function(word) {
 			addWordToDictionary(word);
 		});
@@ -332,7 +336,6 @@ function checkTextLocalCompleted(response) {
 			contentString=contentString.substring(0,MAXLENGTHWEBSERVICE);
 			// make sure that we do not cut off percent-encoded character (#19)
 			if(contentString.lastIndexOf("%")==MAXLENGTHWEBSERVICE-1) {
-				console.log("yes");
 				contentString=contentString.substring(0,MAXLENGTHWEBSERVICE-1);
 			} else if(contentString.lastIndexOf("%")==MAXLENGTHWEBSERVICE-2) {
 				contentString=contentString.substring(0,MAXLENGTHWEBSERVICE-2);

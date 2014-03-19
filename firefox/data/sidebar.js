@@ -26,6 +26,8 @@ window.addEventListener(
 			unhide(); // WORKAROUND don't know why fx says "ReferenceError: unhide is not defined"
 		} else if(t.toString().indexOf("javascript:enableWebService()")==0) {
 			enableWebService();
+		} else if(t.toString().indexOf("javascript:recheck()")==0) {
+			addon.port.emit("recheck");
 		} else if(t.parentNode.className=="addword") {
 			var word=t.parentNode.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
 			addon.port.emit("addWordToDictionary", word);

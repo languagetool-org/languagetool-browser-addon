@@ -94,18 +94,34 @@ hr:last-child, hr + hr {
 	display: none;
 }
 
-#close, #openSidebar {
+#close, #openSidebar, #recheck {
 	float: right;
 }
 
-#close > a {
+#openSidebar, #recheck {
+	opacity: .7;
+	transition: .3s;
+}
+
+#openSidebar:hover, #recheck:hover {
+	opacity: 1;
+}
+
+#close > a, #recheck a {
 	position: relative;
 	top: -4px;
 	right: -4px;
 	padding: 5px 5px 3px 5px;
-	color: red;
 	text-decoration: none;
 	font-size: 14px;
+}
+
+#close > a {
+	color: red;
+}
+
+#recheck > a {
+	color: gray;
 }
 
 #openSidebar > a {
