@@ -330,6 +330,13 @@ function checkTextLocalCompleted(response) {
 		console.log("Response status: "+response.status);
 		if(simpleprefs.prefs.enableWebService) {
 			contentString=contentString.substring(0,MAXLENGTHWEBSERVICE);
+			// make sure that we do not cut off percent-encoded character (#19)
+			if(contentString.lastIndexOf("%")==MAXLENGTHWEBSERVICE-1) {
+				console.log("yes");
+				contentString=contentString.substring(0,MAXLENGTHWEBSERVICE-1);
+			} else if(contentString.lastIndexOf("%")==MAXLENGTHWEBSERVICE-2) {
+				contentString=contentString.substring(0,MAXLENGTHWEBSERVICE-2);
+			}
 			var checkTextOnline=requests.Request({
 				url: "https://languagetool.org:8081/",
 				onComplete: function (response) {
