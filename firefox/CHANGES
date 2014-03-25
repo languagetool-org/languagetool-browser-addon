@@ -1,3 +1,8 @@
+0.7 (xx/06/2013, LT 2.6)
+- support for xx has been added to LanguageTool [update prefs]
+- new translations for xx
+- updated translations for xx
+
 0.6 (xx/03/2013, LT 2.5)
 - suggestions are shown and can be applied to text in text fields
 - possibility to add words to the personal dictionary (issue #10)
@@ -5,15 +10,13 @@
 - the sidebar has a recheck button (useful when the LT button in not in the toolbar, issue #21)
 - text in one-line input fields (<input>) can be checked without selecting it
 - do not create invalid requests when shortening the text for the web service (issue #19)
-- support for xx has been added to LanguageTool [update prefs]
-- new translations for xx
-- updated translations for xx
+- updated translations for Belarusian, Breton, Polish, and Portuguese (Brazil)
 
 0.5 (22/12/2013, LT 2.4)
 - results can be displayed in a sidebar
 - support for ca-ES-valencia has been added to LanguageTool
 - new translation for Breton
-- updated translations for Asturian, Catalan, Esperanto, Galician, Italian
+- updated translations for Asturian, Catalan, Esperanto, Galician, and Italian
 
 0.4 (23/09/2013, LT 2.3)
 - if the panel is opened through the context menu or a keyboard shortcut it is shown in the bottom right corner instead of the center of the window
