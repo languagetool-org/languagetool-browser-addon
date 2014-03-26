@@ -13,7 +13,7 @@ var text="-NULL-";
 
 if(activeElement.hasAttribute("contenteditable")) {
 	text=activeElement.textContent;
-} else if(activeElement.tagName=="TEXTAREA" || activeElement.tagName=="INPUT") {
+} else if(activeElement.tagName=="TEXTAREA" || (activeElement.tagName=="INPUT" && activeElement.type!="password") ) {
 	text=activeElement.value.toString();
 } else {
 // 	text=window.getSelection().toString()); // This does not work when the selected text is in an iframe (e.g. lt forum), and we also want to have the latest selection (multiple selections possible with frames)
