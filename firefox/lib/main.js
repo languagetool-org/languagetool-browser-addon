@@ -105,8 +105,10 @@ function getSuggestions(xml, showAddToDict) {
 		suggestions=suggestions.split("#");
 		
 		for(var i=0; i<suggestions.length; i++) {
+			if(suggestions[i]==" ") suggestions[i]="␣";
 			returnText+='<span class="suggestion">'+suggestions[i]+'</span>';
 		}
+		console.log(returnText);
 	}
 	
 	var addword=(showAddToDict ? ' <span class="addword">+<span> '+_("addWordToDictionary")+'</span></span>' : '');
