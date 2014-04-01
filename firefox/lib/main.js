@@ -12,7 +12,8 @@ var system = require("sdk/system");
 var tabs=require("sdk/tabs");
 // tabs.open("http://www.languagetool.org/forum/");
 var timer=require("sdk/timers");
-var widgets=require("sdk/widget");
+var {ToggleButton} = require("sdk/ui/button/toggle");
+// var widgets=require("sdk/widget");
 var _=require("sdk/l10n").get;
 
 var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
@@ -467,28 +468,42 @@ function widgetOnClick() {
 	});
 }
 
-var widget=widgets.Widget({
+// var widget=widgets.Widget({
+// 	id: "lt-check",
+// 	label: _("checkSelectionWithLT"),
+// 	contentURL: self.data.url("iconSmall.ico"),
+// 	panel: panel,
+// 	contentScriptFile: self.data.url("widget.js")
+// });
+
+var ltButton=ToggleButton({
 	id: "lt-check",
-	label: _("checkSelectionWithLT"),
-	contentURL: self.data.url("iconSmall.ico"),
-	panel: panel,
-	contentScriptFile: self.data.url("widget.js")
+	label: _("ltButtonLabel"),
+	// tooltip: _("checkSelectionWithLT"),
+	icon: {
+		"16": "./iconSmall.ico",
+		"32": "./icon32.png"
+	},
+	onClick: function(state) {
+		panel.show({position: ltButton});
+		widgetOnClick();
+	}
 });
 
-widget.port.on("widgetOnLeftClick", function() {
-	showResultsInPanel=(simpleprefs.prefs.leftClickAction=="popup");
-	widgetOnClick();
-});
-
-widget.port.on("widgetOnMiddleClick", function() {
-	showResultsInPanel=(simpleprefs.prefs.middleClickAction=="popup");
-	widgetOnClick();
-});
-
-widget.port.on("widgetOnRightClick", function() {
-	showResultsInPanel=(simpleprefs.prefs.rightClickAction=="popup");
-	widgetOnClick();
-});
+// widget.port.on("widgetOnLeftClick", function() {
+// 	showResultsInPanel=(simpleprefs.prefs.leftClickAction=="popup");
+// 	widgetOnClick();
+// });
+// 
+// widget.port.on("widgetOnMiddleClick", function() {
+// 	showResultsInPanel=(simpleprefs.prefs.middleClickAction=="popup");
+// 	widgetOnClick();
+// });
+// 
+// widget.port.on("widgetOnRightClick", function() {
+// 	showResultsInPanel=(simpleprefs.prefs.rightClickAction=="popup");
+// 	widgetOnClick();
+// });
 
 var contextmenuitemSelection=cm.Item({
 	label: _("checkSelectionWithLTShort"),
