@@ -106,7 +106,7 @@ function getSuggestions(xml, showAddToDict) {
 		
 		for(var i=0; i<suggestions.length; i++) {
 			if(suggestions[i]==" ") suggestions[i]="␣";
-			returnText+='<span class="suggestion">'+suggestions[i]+'</span>';
+			returnText+='<span class="suggestion">'+escapeXml(suggestions[i])+'</span>';
 		}
 		console.log(returnText);
 	}
