@@ -5,7 +5,7 @@ function escape(str) {
 self.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight, sorryText) {
 	var activeElement = document.activeElement;
 	
-	if(replacement=="␣") replacement=" ";
+	replacement=replacement.replace(/^␣/, " ").replace(/␣$/, " ");
 	
 	if(activeElement.tagName=="IFRAME" || activeElement.tagName=="FRAME") {
 		try {
