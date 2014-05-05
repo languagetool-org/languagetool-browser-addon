@@ -3,14 +3,13 @@ var cm=require("sdk/context-menu");
 var file=require("sdk/io/file");
 var hotkeys=require("sdk/hotkeys");
 var panels=require("sdk/panel");
+var parser=Cc["@mozilla.org/parserutils;1"].getService(Ci.nsIParserUtils);
 var persDict=Cc["@mozilla.org/spellchecker/personaldictionary;1"].getService(Ci.mozIPersonalDictionary);
 var requests=require("sdk/request");
 var selection=require("sdk/selection");
 var self=require("sdk/self");
 var simpleprefs=require("sdk/simple-prefs");
-var system = require("sdk/system");
 var tabs=require("sdk/tabs");
-// tabs.open("http://www.languagetool.org/forum/");
 var timer=require("sdk/timers");
 var widgets=require("sdk/widget");
 var _=require("sdk/l10n").get;
@@ -71,7 +70,7 @@ function formatError(error) {
 	}
 	error=escapeXml(error);
 	return prepend
-	       + error.replace(/(\r\n|\n|\r)/," <a id=\"unhidelink\" href=\"javascript:unhide();\">…</a><br/>")
+	       + error.replace(/(\r\n|\n|\r)/," <a id=\"unhidelink\" href=\"http://unhide\">…</a><br/>")
 	              .replace(/\<br\/\>/,"<div class=\"hidden\">")
 	              .replace(/(\r\n|\n|\r)/,"<br/>")
 	       + "</div>";
@@ -209,6 +208,9 @@ function createReport(response, selectedTextProcessed) {
 }
 
 function emitSetText(text) {
+	// assure that we do not evaluating arbitrary text as (evil) html, we shouldn't (or may not) even trust our translations
+	text=parser.sanitize(text, 0).replace(/.*<body>/, "").replace(/<\/body>.*/, "");
+	
 	panel.port.emit("setText", text);
 	if(sidebarWorkers.length>0) {
 		// TODO should be per window

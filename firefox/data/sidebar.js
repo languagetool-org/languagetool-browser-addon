@@ -20,11 +20,10 @@ window.addEventListener(
 		var t=event.target;
 		event.stopPropagation();
 		event.preventDefault();
-		if(t.nodeName=="A" && t.toString().indexOf("javascript:")!=0) {
-			addon.port.emit('linkClicked', t.toString());
-		} else if(t.toString().indexOf("javascript:unhide()")==0) {
-			unhide(); // WORKAROUND don't know why fx says "ReferenceError: unhide is not defined"
-		} else if(t.toString().indexOf("javascript:enableWebService()")==0) {
+		// the sanitizer eats all javascript:-links, so we use http
+		if(t.toString().indexOf("http://unhide/")==0) {
+			unhide();
+		} else if(t.toString().indexOf("http://enablewebservice")==0) {
 			enableWebService();
 		} else if(t.toString().indexOf("javascript:recheck()")==0) {
 			addon.port.emit("recheck");
@@ -52,6 +51,10 @@ window.addEventListener(
 			if(contextRight.substr(contextRight.length-1,1)=='…') contextRight=contextRight.slice(0,contextRight.length-1);
 			addon.port.emit("applySuggestion", error, replacement, contextLeft, contextRight);
 			t.classList.add("clicked");
+		} else  if(t.nodeName=="A") {
+			var link=t.toString();
+			if(link=="http://about_addons") link="about:addons";
+			addon.port.emit('linkClicked', link);
 		}
 	},
 	false
