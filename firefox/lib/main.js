@@ -156,11 +156,15 @@ function createReport(response, selectedTextProcessed) {
 		leftContext=selectedTextProcessed.substring(0,fromx);
 		if(leftContext.length>MAXCONTEXTLENGTH) {
 			leftContext="&hellip;"+escapeXml(leftContext.substring(leftContext.length-MAXCONTEXTLENGTH));
+		} else {
+			leftContext=escapeXml(leftContext);
 		}
 		markedText=escapeXml(selectedTextProcessed.substring(fromx,tox));
 		rightContext=selectedTextProcessed.substring(tox);
 		if(rightContext.length>MAXCONTEXTLENGTH) {
 			rightContext=escapeXml(rightContext.substring(0,MAXCONTEXTLENGTH))+"&hellip;";
+		} else {
+			rightContext=escapeXml(rightContext);
 		}
 		id=getAttributeValue(response[i],"ruleId");
 		if(id.indexOf("MORFOLOGIK")!=-1 || id.indexOf("HUNSPELL")!=-1 || id.indexOf("SPELLER_RULE")!=-1) {
