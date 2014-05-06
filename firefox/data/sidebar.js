@@ -53,7 +53,7 @@ window.addEventListener(
 			t.classList.add("clicked");
 		} else  if(t.nodeName=="A") {
 			var link=t.toString();
-			if(link=="http://about_addons") link="about:addons";
+			if(link=="http://about_addons/") link="about:addons";
 			addon.port.emit('linkClicked', link);
 		}
 	},
