@@ -13,7 +13,7 @@ var tabs=require("sdk/tabs");
 // tabs.open("http://www.languagetool.org/forum/");
 var timer=require("sdk/timers");
 var {ToggleButton} = require("sdk/ui/button/toggle");
-// var widgets=require("sdk/widget");
+var widgets=require("sdk/widget");
 var _=require("sdk/l10n").get;
 
 var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
@@ -275,6 +275,7 @@ var panel=panels.Panel({
 	contentScriptFile: self.data.url("panel.js"),
 	onHide: function () {
 		panel.port.emit("setText", "");
+		ltButton.state('window', {checked: false});
 	},
 	position: {
 		right: 0,
@@ -468,13 +469,13 @@ function widgetOnClick() {
 	});
 }
 
-// var widget=widgets.Widget({
-// 	id: "lt-check",
-// 	label: _("checkSelectionWithLT"),
-// 	contentURL: self.data.url("iconSmall.ico"),
-// 	panel: panel,
-// 	contentScriptFile: self.data.url("widget.js")
-// });
+var widget=widgets.Widget({
+	id: "lt-check",
+	label: _("checkSelectionWithLT"),
+	contentURL: self.data.url("iconSmall.ico"),
+	panel: panel,
+	contentScriptFile: self.data.url("widget.js")
+});
 
 var ltButton=ToggleButton({
 	id: "lt-check",
@@ -484,26 +485,29 @@ var ltButton=ToggleButton({
 		"16": "./iconSmall.ico",
 		"32": "./icon32.png"
 	},
+	// NOTE as per https://blog.mozilla.org/addons/2014/03/13/new-add-on-sdk-australis-ui-features-in-firefox-29/comment-page-1/#comment-178621,
+	// it is not possible to distinguish between left/right click
 	onClick: function(state) {
+		showResultsInPanel=(simpleprefs.prefs.leftClickAction=="popup");
 		panel.show({position: ltButton});
 		widgetOnClick();
 	}
 });
 
-// widget.port.on("widgetOnLeftClick", function() {
-// 	showResultsInPanel=(simpleprefs.prefs.leftClickAction=="popup");
-// 	widgetOnClick();
-// });
-// 
-// widget.port.on("widgetOnMiddleClick", function() {
-// 	showResultsInPanel=(simpleprefs.prefs.middleClickAction=="popup");
-// 	widgetOnClick();
-// });
-// 
-// widget.port.on("widgetOnRightClick", function() {
-// 	showResultsInPanel=(simpleprefs.prefs.rightClickAction=="popup");
-// 	widgetOnClick();
-// });
+widget.port.on("widgetOnLeftClick", function() {
+	showResultsInPanel=(simpleprefs.prefs.leftClickAction=="popup");
+	widgetOnClick();
+});
+
+widget.port.on("widgetOnMiddleClick", function() {
+	showResultsInPanel=(simpleprefs.prefs.middleClickAction=="popup");
+	widgetOnClick();
+});
+
+widget.port.on("widgetOnRightClick", function() {
+	showResultsInPanel=(simpleprefs.prefs.rightClickAction=="popup");
+	widgetOnClick();
+});
 
 var contextmenuitemSelection=cm.Item({
 	label: _("checkSelectionWithLTShort"),
