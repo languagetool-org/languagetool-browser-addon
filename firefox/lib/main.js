@@ -136,6 +136,12 @@ function createReport(response, selectedTextProcessed) {
 		returnLanguage+="<hr/>";
 	}
 	
+	// contains a list of phrases which are ignored (must match markedText)
+	// format: "phrase 1","phrase 2","phrase 1",
+	// TODO add gui (like adding words to personal dictionary)
+	ignoredPhrases = simpleprefs.prefs.ignoredPhrases;
+	if(!ignoredPhrases) ignoredPhrases = "";
+	
 	response=response.split("<error ");
 	
 	var noProblemsFoundText=returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>"
@@ -184,11 +190,13 @@ function createReport(response, selectedTextProcessed) {
 		
 		returnText+="<hr/>";
 		
-		if(returnText.indexOf("markerGrammar")!=-1) {
-			returnTextGrammar+=returnText;
-		} else {
-			if(!persDict.check(markedText, "xx")) { // ignore spelling mistakes if the word is in personal dictionary
-				returnTextSpelling+=returnText;
+		if(ignoredPhrases.indexOf("\""+markedText+"\",") == -1) {
+			if(returnText.indexOf("markerGrammar")!=-1) {
+				returnTextGrammar+=returnText;
+			} else {
+				if(!persDict.check(markedText, "xx")) { // ignore spelling mistakes if the word is in personal dictionary
+					returnTextSpelling+=returnText;
+				}
 			}
 		}
 	} // for each <error/>
