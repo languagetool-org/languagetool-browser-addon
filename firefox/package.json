@@ -99,6 +99,10 @@
 			"label": "es"
 			},
 			{
+			"value": "fa",
+			"label": "fa"
+			},
+			{
 			"value": "fr",
 			"label": "fr"
 			},
@@ -262,6 +266,10 @@
 			{
 			"value": "es",
 			"label": "es"
+			},
+			{
+			"value": "fa",
+			"label": "fa"
 			},
 			{
 			"value": "fr",
