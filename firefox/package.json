@@ -3,7 +3,7 @@
 	"license": "GPL 3.0", 
 	"author": "Markus Brenneis", 
 	"contributors": ["The LanguageTool Developers"], 
-	"version": "0.6.2", 
+	"version": "0.7pre", 
 	"fullName": "LanguageToolFx", 
 	"id": "jid1-j3KiX1n7UXrjxQ", 
 	"description": "LanguageTool for Firefox",
@@ -91,12 +91,16 @@
 			"label": "en-ZA"
 			},
 			{
-			"value": "eo-ANY",
-			"label": "eo-ANY"
+			"value": "eo",
+			"label": "eo"
 			},
 			{
 			"value": "es",
 			"label": "es"
+			},
+			{
+			"value": "fa",
+			"label": "fa"
 			},
 			{
 			"value": "fr",
@@ -165,6 +169,10 @@
 			{
 			"value": "sv",
 			"label": "sv"
+			},
+			{
+			"value": "ta-IN",
+			"label": "ta-IN"
 			},
 			{
 			"value": "tl-PH",
@@ -264,6 +272,10 @@
 			"label": "es"
 			},
 			{
+			"value": "fa",
+			"label": "fa"
+			},
+			{
 			"value": "fr",
 			"label": "fr"
 			},
@@ -330,6 +342,10 @@
 			{
 			"value": "sv",
 			"label": "sv"
+			},
+			{
+			"value": "ta-IN",
+			"label": "ta-IN"
 			},
 			{
 			"value": "tl-PH",
