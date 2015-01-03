@@ -9,6 +9,11 @@ div {
 	font-size: 10px;
 }
 
+#throbber {
+	position: relative;
+	top: 7px;
+}
+
 .msg:before {
 	counter-increment: i;
 	content: counter(i) ": ";

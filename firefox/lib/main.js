@@ -15,7 +15,8 @@ var widgets=require("sdk/widget");
 var _=require("sdk/l10n").get;
 
 var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
-var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>";
+var THROBBERIMG="<img id=\"throbber\" src=\"throbber_48.png\"/>";
+var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>"+THROBBERIMG;
 var MAXCONTEXTLENGTH=20;
 var MAXLENGTHWEBSERVICE=50000;
 var RECHECKDELAY=300;
@@ -367,7 +368,7 @@ function checkTextLocalCompleted(response) {
 			});
 			console.log("Connecting with web service");
 			var errorText=_("usingWebService",response.status);
-			emitSetText("<div class=\"status\">"+errorText+"</div>");
+			emitSetText("<div class=\"status\">"+errorText+"</div>"+THROBBERIMG);
 			checkTextOnline.post();
 		} else {
 			var errorText=_("errorOccurredStatus")+" "+response.status;
