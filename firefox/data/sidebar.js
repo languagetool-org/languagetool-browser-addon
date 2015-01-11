@@ -31,6 +31,10 @@ window.addEventListener(
 			var word=t.parentNode.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
 			addon.port.emit("addWordToDictionary", word);
 			t.parentNode.classList.add("clicked");
+		} else if(t.parentNode.className=="ignorephrase") {
+			var word=t.parentNode.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
+			addon.port.emit("addToIgnoredPhrases", word);
+			t.parentNode.classList.add("clicked");
 		} else if(t.className=="suggestion") {
 			var error=t.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
 			var replacement=t.textContent;
