@@ -12,7 +12,6 @@ var simpleprefs=require("sdk/simple-prefs");
 var tabs=require("sdk/tabs");
 var timer=require("sdk/timers");
 var {ToggleButton} = require("sdk/ui/button/toggle");
-var widgets=require("sdk/widget");
 var _=require("sdk/l10n").get;
 
 var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
@@ -504,14 +503,6 @@ function widgetOnClick() {
 	});
 }
 
-var widget=widgets.Widget({
-	id: "lt-check",
-	label: _("checkSelectionWithLT"),
-	contentURL: self.data.url("iconSmall.ico"),
-	panel: panel,
-	contentScriptFile: self.data.url("widget.js")
-});
-
 var ltButton=ToggleButton({
 	id: "lt-check",
 	label: _("ltButtonLabel"),
@@ -527,21 +518,6 @@ var ltButton=ToggleButton({
 		panel.show({position: ltButton});
 		widgetOnClick();
 	}
-});
-
-widget.port.on("widgetOnLeftClick", function() {
-	showResultsInPanel=(simpleprefs.prefs.leftClickAction=="popup");
-	widgetOnClick();
-});
-
-widget.port.on("widgetOnMiddleClick", function() {
-	showResultsInPanel=(simpleprefs.prefs.middleClickAction=="popup");
-	widgetOnClick();
-});
-
-widget.port.on("widgetOnRightClick", function() {
-	showResultsInPanel=(simpleprefs.prefs.rightClickAction=="popup");
-	widgetOnClick();
 });
 
 var contextmenuitemSelection=cm.Item({

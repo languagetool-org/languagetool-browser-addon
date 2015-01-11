@@ -428,36 +428,6 @@
 			}
 		]
 	}, {
-		"name": "middleClickAction",
-		"title": "middleClickAction_title",
-		"type": "menulist",
-		"value": "sidebar",
-		"options": [
-			{
-			"value": "popup",
-			"label": "showInPopup"
-			},
-			{
-			"value": "sidebar",
-			"label": "showInSidebar"
-			}
-		]
-	}, {
-		"name": "rightClickAction",
-		"title": "rightClickAction_title",
-		"type": "menulist",
-		"value": "sidebar",
-		"options": [
-			{
-			"value": "popup",
-			"label": "showInPopup"
-			},
-			{
-			"value": "sidebar",
-			"label": "showInSidebar"
-			}
-		]
-	}, {
 		"name": "contextmenuitemSelectionAction",
 		"title": "contextmenuitemSelectionAction_title",
 		"type": "menulist",
