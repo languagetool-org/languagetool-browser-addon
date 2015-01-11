@@ -15,6 +15,5 @@ The default language is en-US. You might want to change this in the settings of 
 Build installable XPI file
 --------------------------
 
-1. get and extract the Add-on SDK from https://addons.mozilla.org/en-US/developers/docs/sdk/latest/dev-guide/tutorials/installation.html
-2. run source bin/activate
-3. run cfx xpi
+1. npm install jpm
+2. jpm xpi
