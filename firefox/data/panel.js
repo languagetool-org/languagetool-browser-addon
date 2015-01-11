@@ -18,7 +18,7 @@ function closePopup() {
 }
 
 self.port.on("setText", function(text) {
-	// NOTE dynamically generated text went through escapeXml in main.js to avoid evaluating arbitrary text as html
+	// NOTE dynamically generated text went through escapeXml and parser.sanitize in main.js to avoid evaluating arbitrary text as html
 	document.getElementById("body").innerHTML=text;
 	
 	// when there are no errors, hide the 'open sidebar' link
@@ -35,19 +35,21 @@ window.addEventListener(
 		var t=event.target;
 		event.stopPropagation();
 		event.preventDefault();
-		if(t.nodeName=="A" && t.toString().indexOf("javascript:")!=0) {
-			self.port.emit('linkClicked', t.toString());
-		} else if(t.toString().indexOf("javascript:unhide()")==0) {
-			unhide(); // WORKAROUND don't know why fx says "ReferenceError: unhide is not defined"
+		if(t.toString().indexOf("http://unhide")==0) {
+			unhide();
 		} else if(t.toString().indexOf("javascript:openSidebar()")==0) {
 			openSidebar();
 		} else if(t.toString().indexOf("javascript:closePopup()")==0) {
 			closePopup();
-		} else if(t.toString().indexOf("javascript:enableWebService()")==0) {
+		} else if(t.toString().indexOf("http://enablewebservice")==0) {
 			enableWebService();
 		} else if(t.parentNode.className=="addword") {
 			var word=t.parentNode.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
 			self.port.emit("addWordToDictionary", word);
+			t.parentNode.classList.add("clicked");
+		} else if(t.parentNode.className=="ignorephrase") {
+			var word=t.parentNode.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
+			self.port.emit("addToIgnoredPhrases", word);
 			t.parentNode.classList.add("clicked");
 		} else if(t.className=="suggestion") {
 			var error=t.parentNode.nextSibling.getElementsByTagName("span")[0].textContent;
@@ -69,6 +71,10 @@ window.addEventListener(
 			if(contextRight.substr(contextRight.length-1,1)=='…') contextRight=contextRight.slice(0,contextRight.length-1);
 			self.port.emit("applySuggestion", error, replacement, contextLeft, contextRight);
 			t.classList.add("clicked");
+		} else  if(t.nodeName=="A") {
+			var link=t.toString();
+			if(link=="http://about_addons/") link="about:addons";
+			self.port.emit('linkClicked', link);
 		}
 	},
 	false

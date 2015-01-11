@@ -3,21 +3,21 @@ var cm=require("sdk/context-menu");
 var file=require("sdk/io/file");
 var hotkeys=require("sdk/hotkeys");
 var panels=require("sdk/panel");
+var parser=Cc["@mozilla.org/parserutils;1"].getService(Ci.nsIParserUtils);
 var persDict=Cc["@mozilla.org/spellchecker/personaldictionary;1"].getService(Ci.mozIPersonalDictionary);
 var requests=require("sdk/request");
 var selection=require("sdk/selection");
 var self=require("sdk/self");
 var simpleprefs=require("sdk/simple-prefs");
-var system = require("sdk/system");
 var tabs=require("sdk/tabs");
-// tabs.open("http://www.languagetool.org/forum/");
 var timer=require("sdk/timers");
 var {ToggleButton} = require("sdk/ui/button/toggle");
 var widgets=require("sdk/widget");
 var _=require("sdk/l10n").get;
 
 var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
-var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>";
+var THROBBERIMG="<img id=\"throbber\" src=\"throbber_48.png\"/>";
+var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>"+THROBBERIMG;
 var MAXCONTEXTLENGTH=20;
 var MAXLENGTHWEBSERVICE=50000;
 var RECHECKDELAY=300;
@@ -72,7 +72,7 @@ function formatError(error) {
 	}
 	error=escapeXml(error);
 	return prepend
-	       + error.replace(/(\r\n|\n|\r)/," <a id=\"unhidelink\" href=\"javascript:unhide();\">…</a><br/>")
+	       + error.replace(/(\r\n|\n|\r)/," <a id=\"unhidelink\" href=\"http://unhide\">…</a><br/>")
 	              .replace(/\<br\/\>/,"<div class=\"hidden\">")
 	              .replace(/(\r\n|\n|\r)/,"<br/>")
 	       + "</div>";
@@ -95,9 +95,9 @@ function getLanguage(response, attr) {
 
 /**
  * @returns the suggestions from the given @param xml snippet, each within a <span class="suggestion">, wrapped in a <div class="suggestions"> (if any)
- * @param showAddToDict when true, a link for adding the marked text to the user’s dictionary is appended to the list of suggestions
+ * @param spellerRuleSuggestion when true, a link for adding the marked text to the user’s dictionary is appended to the list of suggestions, otherwise for ignoring the phrase
  */
-function getSuggestions(xml, showAddToDict) {
+function getSuggestions(xml, spellerRuleSuggestion) {
 	var suggestions=getAttributeValue(xml, "replacements");
 	
 	var returnText="";
@@ -106,13 +106,18 @@ function getSuggestions(xml, showAddToDict) {
 		suggestions=suggestions.split("#");
 		
 		for(var i=0; i<suggestions.length; i++) {
-			if(suggestions[i]==" ") suggestions[i]="␣";
-			returnText+='<span class="suggestion">'+suggestions[i]+'</span>';
+			suggestions[i]=suggestions[i].replace(/^ /, "␣").replace(/ $/, "␣");
+			returnText+='<span class="suggestion">'+escapeXml(suggestions[i])+'</span>';
 		}
 		console.log(returnText);
 	}
 	
-	var addword=(showAddToDict ? ' <span class="addword">+<span> '+_("addWordToDictionary")+'</span></span>' : '');
+	var addword;
+	if(spellerRuleSuggestion) {
+		addword = ' <span class="addword">+<span> '+_("addWordToDictionary")+'</span></span>';
+	} else {
+		addword = ' <span class="ignorephrase">+<span> '+_("ignorePhrase")+'</span></span>';
+	}
 	
 	if(returnText+addword=="") return "";
 	return '<div class="suggestions">'+returnText+addword+'</div>';
@@ -138,6 +143,9 @@ function createReport(response, selectedTextProcessed) {
 		returnLanguage+="<hr/>";
 	}
 	
+	ignoredPhrases = simpleprefs.prefs.ignoredPhrases;
+	if(!ignoredPhrases) ignoredPhrases = "";
+	
 	response=response.split("<error ");
 	
 	var noProblemsFoundText=returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>"
@@ -158,11 +166,16 @@ function createReport(response, selectedTextProcessed) {
 		leftContext=selectedTextProcessed.substring(0,fromx);
 		if(leftContext.length>MAXCONTEXTLENGTH) {
 			leftContext="&hellip;"+escapeXml(leftContext.substring(leftContext.length-MAXCONTEXTLENGTH));
+		} else {
+			leftContext=escapeXml(leftContext);
 		}
-		markedText=escapeXml(selectedTextProcessed.substring(fromx,tox));
+		markedTextUnescaped=selectedTextProcessed.substring(fromx,tox);
+		markedText=escapeXml(markedTextUnescaped);
 		rightContext=selectedTextProcessed.substring(tox);
 		if(rightContext.length>MAXCONTEXTLENGTH) {
 			rightContext=escapeXml(rightContext.substring(0,MAXCONTEXTLENGTH))+"&hellip;";
+		} else {
+			rightContext=escapeXml(rightContext);
 		}
 		id=getAttributeValue(response[i],"ruleId");
 		if(id.indexOf("MORFOLOGIK")!=-1 || id.indexOf("HUNSPELL")!=-1 || id.indexOf("SPELLER_RULE")!=-1) {
@@ -182,11 +195,13 @@ function createReport(response, selectedTextProcessed) {
 		
 		returnText+="<hr/>";
 		
-		if(returnText.indexOf("markerGrammar")!=-1) {
-			returnTextGrammar+=returnText;
-		} else {
-			if(!persDict.check(markedText, "xx")) { // ignore spelling mistakes if the word is in personal dictionary
-				returnTextSpelling+=returnText;
+		if(ignoredPhrases.indexOf("\""+markedTextUnescaped+"\",") == -1) {
+			if(returnText.indexOf("markerGrammar")!=-1) {
+				returnTextGrammar+=returnText;
+			} else {
+				if(!persDict.check(markedText, "xx")) { // ignore spelling mistakes if the word is in personal dictionary
+					returnTextSpelling+=returnText;
+				}
 			}
 		}
 	} // for each <error/>
@@ -210,6 +225,9 @@ function createReport(response, selectedTextProcessed) {
 }
 
 function emitSetText(text) {
+	// assure that we do not evaluating arbitrary text as (evil) html, we shouldn't (or may not) even trust our translations
+	text=parser.sanitize(text, 0).replace(/.*<body>/, "").replace(/<\/body>.*/, "");
+	
 	panel.port.emit("setText", text);
 	if(sidebarWorkers.length>0) {
 		// TODO should be per window
@@ -250,6 +268,10 @@ var sidebar=require("sdk/ui/sidebar").Sidebar({
 		
 		worker.port.on("addWordToDictionary", function(word) {
 			addWordToDictionary(word);
+		});
+		
+		worker.port.on("addToIgnoredPhrases", function(phrase) {
+			addToIgnoredPhrases(phrase);
 		});
 		
 		worker.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight) {
@@ -298,6 +320,10 @@ panel.port.on("enableWebService", function() {
 
 panel.port.on("addWordToDictionary", function(word) {
 	addWordToDictionary(word)
+});
+
+panel.port.on("addToIgnoredPhrases", function(phrase) {
+	addToIgnoredPhrases(phrase)
 });
 
 panel.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight) {
@@ -355,7 +381,7 @@ function checkTextLocalCompleted(response) {
 			});
 			console.log("Connecting with web service");
 			var errorText=_("usingWebService",response.status);
-			emitSetText("<div class=\"status\">"+errorText+"</div>");
+			emitSetText("<div class=\"status\">"+errorText+"</div>"+THROBBERIMG);
 			checkTextOnline.post();
 		} else {
 			var errorText=_("errorOccurredStatus")+" "+response.status;
@@ -375,6 +401,15 @@ function checkTextLocalCompleted(response) {
 
 function addWordToDictionary(word) {
 	persDict.addWord(word, "xx");
+	timer.setTimeout(recheck, RECHECKDELAY);
+}
+
+function addToIgnoredPhrases(phrase) {
+	// contains a list of phrases which are ignored (must match markedText)
+	// format: "phrase 1","phrase 2","phrase 3",
+	// Note that escaping is not (really) necessery, things like """, work.
+	var ignoredPhrases = simpleprefs.prefs.ignoredPhrases;
+	simpleprefs.prefs.ignoredPhrases = (ignoredPhrases ? ignoredPhrases : "") + '"'+phrase+'",';
 	timer.setTimeout(recheck, RECHECKDELAY);
 }
 
