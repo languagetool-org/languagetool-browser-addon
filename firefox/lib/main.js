@@ -94,9 +94,9 @@ function getLanguage(response, attr) {
 
 /**
  * @returns the suggestions from the given @param xml snippet, each within a <span class="suggestion">, wrapped in a <div class="suggestions"> (if any)
- * @param showAddToDict when true, a link for adding the marked text to the user’s dictionary is appended to the list of suggestions
+ * @param spellerRuleSuggestion when true, a link for adding the marked text to the user’s dictionary is appended to the list of suggestions, otherwise for ignoring the phrase
  */
-function getSuggestions(xml, showAddToDict) {
+function getSuggestions(xml, spellerRuleSuggestion) {
 	var suggestions=getAttributeValue(xml, "replacements");
 	
 	var returnText="";
@@ -111,7 +111,12 @@ function getSuggestions(xml, showAddToDict) {
 		console.log(returnText);
 	}
 	
-	var addword=(showAddToDict ? ' <span class="addword">+<span> '+_("addWordToDictionary")+'</span></span>' : '');
+	var addword;
+	if(spellerRuleSuggestion) {
+		addword = ' <span class="addword">+<span> '+_("addWordToDictionary")+'</span></span>';
+	} else {
+		addword = ' <span class="ignorephrase">+<span> '+_("ignorePhrase")+'</span></span>';
+	}
 	
 	if(returnText+addword=="") return "";
 	return '<div class="suggestions">'+returnText+addword+'</div>';
@@ -137,9 +142,6 @@ function createReport(response, selectedTextProcessed) {
 		returnLanguage+="<hr/>";
 	}
 	
-	// contains a list of phrases which are ignored (must match markedText)
-	// format: "phrase 1","phrase 2","phrase 1",
-	// TODO add gui (like adding words to personal dictionary)
 	ignoredPhrases = simpleprefs.prefs.ignoredPhrases;
 	if(!ignoredPhrases) ignoredPhrases = "";
 	
@@ -166,7 +168,8 @@ function createReport(response, selectedTextProcessed) {
 		} else {
 			leftContext=escapeXml(leftContext);
 		}
-		markedText=escapeXml(selectedTextProcessed.substring(fromx,tox));
+		markedTextUnescaped=selectedTextProcessed.substring(fromx,tox);
+		markedText=escapeXml(markedTextUnescaped);
 		rightContext=selectedTextProcessed.substring(tox);
 		if(rightContext.length>MAXCONTEXTLENGTH) {
 			rightContext=escapeXml(rightContext.substring(0,MAXCONTEXTLENGTH))+"&hellip;";
@@ -191,7 +194,7 @@ function createReport(response, selectedTextProcessed) {
 		
 		returnText+="<hr/>";
 		
-		if(ignoredPhrases.indexOf("\""+markedText+"\",") == -1) {
+		if(ignoredPhrases.indexOf("\""+markedTextUnescaped+"\",") == -1) {
 			if(returnText.indexOf("markerGrammar")!=-1) {
 				returnTextGrammar+=returnText;
 			} else {
@@ -266,6 +269,10 @@ var sidebar=require("sdk/ui/sidebar").Sidebar({
 			addWordToDictionary(word);
 		});
 		
+		worker.port.on("addToIgnoredPhrases", function(phrase) {
+			addToIgnoredPhrases(phrase);
+		});
+		
 		worker.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight) {
 			applySuggestion(error, replacement, contextLeft, contextRight);
 		});
@@ -311,6 +318,10 @@ panel.port.on("enableWebService", function() {
 
 panel.port.on("addWordToDictionary", function(word) {
 	addWordToDictionary(word)
+});
+
+panel.port.on("addToIgnoredPhrases", function(phrase) {
+	addToIgnoredPhrases(phrase)
 });
 
 panel.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight) {
@@ -388,6 +399,15 @@ function checkTextLocalCompleted(response) {
 
 function addWordToDictionary(word) {
 	persDict.addWord(word, "xx");
+	timer.setTimeout(recheck, RECHECKDELAY);
+}
+
+function addToIgnoredPhrases(phrase) {
+	// contains a list of phrases which are ignored (must match markedText)
+	// format: "phrase 1","phrase 2","phrase 3",
+	// Note that escaping is not (really) necessery, things like """, work.
+	var ignoredPhrases = simpleprefs.prefs.ignoredPhrases;
+	simpleprefs.prefs.ignoredPhrases = (ignoredPhrases ? ignoredPhrases : "") + '"'+phrase+'",';
 	timer.setTimeout(recheck, RECHECKDELAY);
 }
 

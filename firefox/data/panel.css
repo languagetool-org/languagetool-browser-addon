@@ -33,7 +33,7 @@ div {
 	text-overflow: ellipsis;
 }
 
-.suggestions span:not(.addword):hover {
+.suggestions span:not(.addword):not(.ignorephrase):hover {
 	cursor: pointer;
 }
 
@@ -48,14 +48,14 @@ div {
 	cursor: default;
 }
 
-.addword {
+.addword, .ignorephrase {
 	overflow: hidden;
 	white-space: nowrap;
 	position: relative;
 	cursor: e-resize;
 }
 
-.addword span {
+.addword span, .ignorephrase span {
 	position: absolute;
 	top: 0px;
 	left: -10000px;
@@ -65,7 +65,7 @@ div {
 }
 
 
-.addword:hover span {
+.addword:hover span, .ignorephrase:hover span {
 	left: 13px;
 	cursor: pointer;
 	opacity: 1;
