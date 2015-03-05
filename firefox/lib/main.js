@@ -303,7 +303,7 @@ var panel=panels.Panel({
 		bottom: 0
 	},
 	width: 330,
-	heigth: 250
+	height: 250
 });
 
 emitSetText("");
