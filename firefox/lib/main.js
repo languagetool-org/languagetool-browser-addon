@@ -379,8 +379,9 @@ function checkTextLocalCompleted(response) {
 				content: contentString
 			});
 			console.log("Connecting with web service");
-			var errorText=_("usingWebService",response.status);
-			emitSetText("<div class=\"status\">"+errorText+"</div>"+THROBBERIMG);
+			//var errorText=_("usingWebService",response.status);
+			////emitSetText("<div class=\"status\">"+errorText+"</div>"+THROBBERIMG);
+			//emitSetText("<div class=\"status\"></div>"+THROBBERIMG);
 			checkTextOnline.post();
 		} else {
 			var errorText=_("errorOccurredStatus")+" "+response.status;
