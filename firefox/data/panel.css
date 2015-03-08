@@ -123,6 +123,7 @@ hr:last-child, hr + hr {
 
 #close > a {
 	/*color: red;*/
+    cursor: pointer;
     background: url('resource://jid1-j3kix1n7uxrjxq-at-jetpack/languagetoolfx/data/close.png') no-repeat 0 6px;
     padding: 5px 10px 3px 10px;
 }
