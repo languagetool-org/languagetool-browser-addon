@@ -5,6 +5,6 @@ self.port.on("backFocus", function (msg) {
     var activeDom = document.querySelectorAll('[langToolActive="1"]');
     if (activeDom.length !== 0) {
         activeDom[0].focus();
-        activeDom.removeAttribute("langToolActive");
+        activeDom[0].removeAttribute("langToolActive");
     }
 });
