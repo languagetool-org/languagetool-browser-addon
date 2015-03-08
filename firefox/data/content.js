@@ -24,4 +24,5 @@ if(text.substring(0,17)=="-FRAMEPERMISSION-") {
 	text=text.substring(1);
 }
 
+activeElement.setAttribute("langToolActive", 1);
 self.postMessage(text);

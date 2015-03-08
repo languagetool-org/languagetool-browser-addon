@@ -13,6 +13,7 @@ var tabs=require("sdk/tabs");
 var timer=require("sdk/timers");
 var {ToggleButton} = require("sdk/ui/button/toggle");
 var _=require("sdk/l10n").get;
+var pageMod = require("sdk/page-mod");
 
 var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
 var THROBBERIMG="<img id=\"throbber\" src=\"throbber_48.png\"/>";
@@ -30,6 +31,7 @@ var showResultsInPanel=true;
 var sidebarWorkers=[];
 var sidebarCacheTimer=null;
 var sidebarTextCache="";
+var ports = [];
 
 function selectionChanged(event) {
 	selectedText=selection.text;
@@ -42,7 +44,7 @@ selection.on("select", selectionChanged);
  */
 function escapeXml(string) {
 	// prevent double escaping of html entities
-	string=string.replace(/&quot;/g,"\"").replace(/&lt;/g,"<").replace(/&gt;/g,">");
+	string=string.replace(/&quot;/g,"\"").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/\&apos;/g, "'");
 	return string.replace(/&/g,"&amp;").replace(/\</g,"&lt;").replace(/\>/g,"&gt;").replace(/\"/g,"&quot;");
 }
 
@@ -52,13 +54,13 @@ function escapeXml(string) {
 function preprocess(text) {
 	text=text.replace(/\<script[\s\S]*?\>[\s\S]*?\<\/script\>/gm," <BR> ") // remove everything between <script>-Tags
 	         .replace(/\<\/?([\s\S]*?)\>/gm,"") // remove html tags
-	
+
 	if(simpleprefs.prefs.ignoreQuotes) {
 		text=text.replace(/^>.*?\n/gm, '\n')
 		         .replace(/\n>.*?\n/gm, '\n')
 		         .replace(/\n>.*?$/gm, '\n'); // remove quotes
 	}
-	
+
 	return text.replace(/(\r\n|\n|\r)/gm," <BR> ") // remove newlines
 	           .replace(/(\s+\<BR\>\s+(\<BR\>\s+)*)/g," ") // remove extra spaces added after newline
 	           .replace(/^\s+|\s+$/g,""); // trim
@@ -98,26 +100,26 @@ function getLanguage(response, attr) {
  */
 function getSuggestions(xml, spellerRuleSuggestion) {
 	var suggestions=getAttributeValue(xml, "replacements");
-	
+
 	var returnText="";
-	
+
 	if(suggestions!="") {
 		suggestions=suggestions.split("#");
-		
+
 		for(var i=0; i<suggestions.length; i++) {
 			suggestions[i]=suggestions[i].replace(/^ /, "␣").replace(/ $/, "␣");
 			returnText+='<span class="suggestion">'+escapeXml(suggestions[i])+'</span>';
 		}
 		console.log(returnText);
 	}
-	
+
 	var addword;
 	if(spellerRuleSuggestion) {
 		addword = ' <span class="addword">+<span> '+_("addWordToDictionary")+'</span></span>';
 	} else {
 		addword = ' <span class="ignorephrase">+<span> '+_("ignorePhrase")+'</span></span>';
 	}
-	
+
 	if(returnText+addword=="") return "";
 	return '<div class="suggestions">'+returnText+addword+'</div>';
 }
@@ -128,10 +130,10 @@ function createReport(response, selectedTextProcessed) {
 	var returnTextSpelling="";
 	var permissionNote=framePermissionProblem;
 	framePermissionProblem="";
-	
+
 	var lang=escapeXml(getLanguage(response, "name"));
 	var mothertongue=escapeXml(getLanguage(response, "mothertonguename"));
-	
+
 	if(lang!="") {
 		returnLanguage="<div class=\"status\">"+_("textLanguage")+" "+lang+"</div>";
 	}
@@ -141,25 +143,25 @@ function createReport(response, selectedTextProcessed) {
 	if(returnLanguage!="") {
 		returnLanguage+="<hr/>";
 	}
-	
+
 	ignoredPhrases = simpleprefs.prefs.ignoredPhrases;
 	if(!ignoredPhrases) ignoredPhrases = "";
-	
+
 	response=response.split("<error ");
-	
+
 	var noProblemsFoundText=returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>"
 		               +"<div id=\"clickAnywhereToClose\" class=\"status\">("+_("clickAnywhereToClose")+")</div>";
-	
+
 	if(response.length<2) {
 		// #22 close sidebar when there are no mistakes
 		sidebar.hide();
 		panel.show();
 		return noProblemsFoundText;
 	}
-	
+
 	for(var i=1; i<response.length; ++i) {
 		var returnText="<div class=\"msg\">"+escapeXml(getAttributeValue(response[i],"msg"))+"</div>";
-		
+
 		fromx=getAttributeValue(response[i],"fromx");
 		tox=getAttributeValue(response[i],"tox");
 		leftContext=selectedTextProcessed.substring(0,fromx);
@@ -184,16 +186,16 @@ function createReport(response, selectedTextProcessed) {
 			markerClass="markerGrammar";
 			returnText+=getSuggestions(response[i], false);
 		}
-		
+
 		returnText+="<div class=\"context\">"+leftContext+"<span class=\""+markerClass+"\">"+markedText+"</span>"+rightContext+"</div>";
-		
+
 		url=escapeXml(getAttributeValue(response[i],"url"));
 		if(url!="") {
 			returnText+="<div class=\"url\"><a targer=\"_blank\" href=\""+url+"\">"+_("moreInformation")+"</a></div>";
 		}
-		
+
 		returnText+="<hr/>";
-		
+
 		if(ignoredPhrases.indexOf("\""+markedTextUnescaped+"\",") == -1) {
 			if(returnText.indexOf("markerGrammar")!=-1) {
 				returnTextGrammar+=returnText;
@@ -204,21 +206,21 @@ function createReport(response, selectedTextProcessed) {
 			}
 		}
 	} // for each <error/>
-	
+
 	if(!simpleprefs.prefs.enableSpellCheck) {
 		returnTextSpelling="";
 	}
-	
+
 	if(returnTextGrammar+returnTextSpelling+permissionNote=="") {
 		// #18 say that no problems have been found even if we found problems, but these are ignored
 		sidebar.hide();
 		panel.show();
 		return noProblemsFoundText;
 	}
-	
+
 	// permissionNote at the end since we don't know whether there is any active text field (TODO must be possible to determine it)
 	var returnText=returnLanguage+returnTextGrammar+returnTextSpelling+permissionNote;
-	
+
 	console.log("returnText: "+returnText);
 	return returnText;
 }
@@ -226,7 +228,7 @@ function createReport(response, selectedTextProcessed) {
 function emitSetText(text) {
 	// assure that we do not evaluating arbitrary text as (evil) html, we shouldn't (or may not) even trust our translations
 	text=parser.sanitize(text, 0).replace(/.*<body>/, "").replace(/<\/body>.*/, "");
-	
+
 	panel.port.emit("setText", text);
 	if(sidebarWorkers.length>0) {
 		// TODO should be per window
@@ -246,42 +248,42 @@ var sidebar=require("sdk/ui/sidebar").Sidebar({
 	title: 'LanguageToolFx',
 	url: require("sdk/self").data.url("sidebar.html"),
 	onAttach: function(worker) {
-		
+
 		sidebarWorkers.push(worker);
 		console.log("sidebarWorker added " + sidebarWorkers.length + " " + sidebarTextCache.substr(0,10));
-		
+
 		// it might happen that the sidebarWorker is created delayed, so that the original setText event is missed
 		if(sidebarTextCache!="") {
 			sidebarCacheTimer=timer.setTimeout(worker.port.emit, 200, "setText", sidebarTextCache);
 			sidebarTextCache="";
 			console.log("sidebarTextCache cleared");
 		}
-		
+
 		worker.port.on("linkClicked", function(url) {
 			tabs.open(url);
 		});
-		
+
 		worker.port.on("recheck", function() {
 			recheck();
 		});
-		
+
 		worker.port.on("addWordToDictionary", function(word) {
 			addWordToDictionary(word);
 		});
-		
+
 		worker.port.on("addToIgnoredPhrases", function(phrase) {
 			addToIgnoredPhrases(phrase);
 		});
-		
+
 		worker.port.on("applySuggestion", function(error, replacement, contextLeft, contextRight) {
 			applySuggestion(error, replacement, contextLeft, contextRight);
 		});
-		
+
 		worker.port.on("enableWebService", function() {
 			simpleprefs.prefs.enableWebService=true;
 			widgetClicked();
 		});
-		
+
 	},
 	onDetach: function(worker) {
 		var index=sidebarWorkers.indexOf(worker);
@@ -297,13 +299,18 @@ var panel=panels.Panel({
 	onHide: function () {
 		panel.port.emit("setText", "");
 		ltButton.state('window', {checked: false});
+        if (ports.length !== 0) {
+            for (var i = 0; i < ports.length; i++) {
+                ports[i].emit("backFocus", "");
+            }
+        }
 	},
 	position: {
 		right: 0,
 		bottom: 0
 	},
 	width: 330,
-	heigth: 250
+	height: 250
 });
 
 emitSetText("");
@@ -379,8 +386,8 @@ function checkTextLocalCompleted(response) {
 				content: contentString
 			});
 			console.log("Connecting with web service");
-			var errorText=_("usingWebService",response.status);
-			emitSetText("<div class=\"status\">"+errorText+"</div>"+THROBBERIMG);
+			//var errorText=_("usingWebService",response.status);
+			//emitSetText("<div class=\"status\">"+errorText+"</div>"+THROBBERIMG);
 			checkTextOnline.post();
 		} else {
 			var errorText=_("errorOccurredStatus")+" "+response.status;
@@ -427,15 +434,15 @@ function recheck() {
 
 function widgetClicked() {
 	emitSetText(PLEASEWAITWHILECHECKING);
-	
+
 	// avoid that selectedText is changed while the text is being checked
 	selectedTextProcessed=selectedText;
-	
+
 	if(selectedTextProcessed!=null) {
 		console.log("Selection: "+selectedTextProcessed);
 		selectedTextProcessed=preprocess(selectedTextProcessed);
 	}
-	
+
 	console.log(showResultsInPanel);
 	if(showResultsInPanel) {
 		panel.show();
@@ -444,31 +451,31 @@ function widgetClicked() {
 		sidebar.show();
 		panel.hide();
 	}
-	
+
 	var emptyTextWarning = EMPTYTEXTWARNING+framePermissionProblem;
-	
+
 	if(selectedTextProcessed==null || selectedTextProcessed=="") {
 		emitSetText(emptyTextWarning);
 		framePermissionProblem="";
 		return;
 	}
-	
+
 	console.log("Selection (preprocessed): "+selectedTextProcessed);
 	console.log("Selection (encoded): "+encodeURIComponent(selectedTextProcessed));
-	
+
 	var autodetect="";
 	if(simpleprefs.prefs.autodetect) {
 		autodetect="&autodetect=1";
 	}
-	
+
 	var mothertongue="";
 	if(simpleprefs.prefs.mothertongue!="") {
 		mothertongue="&motherTongue="+simpleprefs.prefs.mothertongue;
 	}
-	
+
 	contentString="useragent=languagetoolfx&language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedTextProcessed);
 	originalContentStringLength=contentString.length;
-	
+
 	var checkTextLocal=requests.Request({
 		url: simpleprefs.prefs.localServerUrl,
 		onComplete: function (response) {
@@ -476,7 +483,7 @@ function widgetClicked() {
 		},
 		content: contentString
 	});
-	
+
 	if(selectedTextProcessed!=null && selectedTextProcessed!="") {
 		console.log(contentString);
 		checkTextLocal.post();
@@ -560,4 +567,18 @@ var checkTextareaHotkey=hotkeys.Hotkey({
 		showResultsInPanel=(simpleprefs.prefs.hotkeyTextareaAction=="popup");
 		widgetOnClick();
 	}
+});
+
+pageMod.PageMod({
+    include: ['*'],
+    contentScriptFile: [self.data.url('backFocus.js')],
+    onAttach: function (worker) {
+        ports.push(worker.port);
+        worker.on('detach', function () {
+            var index = ports.indexOf(worker.port);
+            if (index !== -1) {
+                ports.splice(index, 1);
+            }
+        });
+    }
 });
