@@ -102,7 +102,9 @@ hr:last-child, hr + hr {
 #close, #openSidebar, #recheck {
 	float: right;
 }
-
+#openSidebar{
+    margin-right: 15px;
+}
 #openSidebar, #recheck {
 	opacity: .7;
 	transition: .3s;
@@ -129,7 +131,7 @@ hr:last-child, hr + hr {
 
 #close > a {
     cursor: pointer;
-    background: url('resource://jid1-j3kix1n7uxrjxq-at-jetpack/languagetoolfx/data/close.png') no-repeat 0 6px;
+    background: url('close.png') no-repeat 0 6px;
     padding: 5px 10px 3px 10px;
 }
 
@@ -140,7 +142,7 @@ hr:last-child, hr + hr {
 #openSidebar > a {
 	position: relative;
 	top: -5px;
-	right: 10px;
+	right: 0;
 	padding: 4px 5px 2px 5px;
 	color: black;
 	text-decoration: none;
