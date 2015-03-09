@@ -112,6 +112,12 @@ hr:last-child, hr + hr {
 	opacity: 1;
 }
 
+#close{
+    position: fixed;
+    right: 8px;
+    top: 10px;
+}
+
 #close > a, #recheck a {
 	position: relative;
 	top: -4px;
@@ -134,7 +140,7 @@ hr:last-child, hr + hr {
 #openSidebar > a {
 	position: relative;
 	top: -5px;
-	right: -3px;
+	right: 10px;
 	padding: 4px 5px 2px 5px;
 	color: black;
 	text-decoration: none;
