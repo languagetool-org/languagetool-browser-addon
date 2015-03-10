@@ -13,7 +13,7 @@ var tabs=require("sdk/tabs");
 var timer=require("sdk/timers");
 var {ToggleButton} = require("sdk/ui/button/toggle");
 var _=require("sdk/l10n").get;
-var pageMod = require("sdk/page-mod");
+var pageMod=require("sdk/page-mod");
 
 var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
 var THROBBERIMG="<img id=\"throbber\" src=\"throbber_48.png\"/>";
@@ -31,7 +31,7 @@ var showResultsInPanel=true;
 var sidebarWorkers=[];
 var sidebarCacheTimer=null;
 var sidebarTextCache="";
-var ports = [];
+var ports=[];
 
 function selectionChanged(event) {
 	selectedText=selection.text;
@@ -466,12 +466,12 @@ function widgetClicked() {
 		autodetect="&autodetect=1";
 	}
 
-	var mothertongue="";
+	var motherTongue="";
 	if(simpleprefs.prefs.mothertongue!="") {
-		mothertongue="&motherTongue="+simpleprefs.prefs.mothertongue;
+		motherTongue="&motherTongue="+simpleprefs.prefs.mothertongue;
 	}
 
-	contentString="useragent=languagetoolfx&language="+simpleprefs.prefs.language+mothertongue+autodetect+"&text="+encodeURIComponent(selectedTextProcessed);
+	contentString="useragent=languagetoolfx&language="+simpleprefs.prefs.language+motherTongue+autodetect+"&text="+encodeURIComponent(selectedTextProcessed);
 	originalContentStringLength=contentString.length;
 
 	var checkTextLocal=requests.Request({
