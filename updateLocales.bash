@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ -z "$U" || -z "$P" ]]; then
+	echo "Set \$U and \$P with username and password for transifex"
+	exit
+fi
+
 rm -rI firefox/locale~
 mv firefox/locale firefox/locale~
 mkdir firefox/locale
