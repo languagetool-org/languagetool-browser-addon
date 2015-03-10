@@ -16,7 +16,7 @@ var _=require("sdk/l10n").get;
 var pageMod=require("sdk/page-mod");
 
 var EMPTYTEXTWARNING="<div class=\"status\">"+_("emptyText")+"</div>";
-var THROBBERIMG="<img id=\"throbber\" src=\"throbber_48.png\"/>";
+var THROBBERIMG="<img id=\"throbber\" src=\"throbber_28.gif\"/>";
 var PLEASEWAITWHILECHECKING="<div class=\"status\">"+_("pleaseWaitWhileChecking")+"</div>"+THROBBERIMG;
 var MAXCONTEXTLENGTH=20;
 var MAXLENGTHWEBSERVICE=50000;
