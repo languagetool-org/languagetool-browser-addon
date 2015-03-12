@@ -31,6 +31,7 @@ var showResultsInPanel=true;
 var sidebarWorkers=[];
 var sidebarCacheTimer=null;
 var sidebarTextCache="";
+var sidebarIsShown=false;
 var ports=[];
 
 function selectionChanged(event) {
@@ -154,7 +155,7 @@ function createReport(response, selectedTextProcessed) {
 
 	if(response.length<2) {
 		// #22 close sidebar when there are no mistakes
-		sidebar.hide();
+		if(sidebarIsShown) sidebar.hide();
 		panel.show();
 		return noProblemsFoundText;
 	}
@@ -213,7 +214,7 @@ function createReport(response, selectedTextProcessed) {
 
 	if(returnTextGrammar+returnTextSpelling+permissionNote=="") {
 		// #18 say that no problems have been found even if we found problems, but these are ignored
-		sidebar.hide();
+		if(sidebarIsShown) sidebar.hide();
 		panel.show();
 		return noProblemsFoundText;
 	}
@@ -290,6 +291,12 @@ var sidebar=require("sdk/ui/sidebar").Sidebar({
 		if(index!=-1) {
 			sidebarWorkers.splice(index, 1);
 		}
+	},
+	onShow: function(worker) {
+		sidebarIsShown = true;
+	},
+	onHide: function(worker) {
+		sidebarIsShown = false;
 	}
 });
 
@@ -444,7 +451,7 @@ function widgetClicked() {
 	console.log(showResultsInPanel);
 	if(showResultsInPanel) {
 		panel.show();
-		sidebar.hide();
+		if(sidebarIsShown) sidebar.hide();
 	} else {
 		sidebar.show();
 		panel.hide();
@@ -568,15 +575,15 @@ var checkTextareaHotkey=hotkeys.Hotkey({
 });
 
 pageMod.PageMod({
-    include: ['*'],
-    contentScriptFile: [self.data.url('backFocus.js')],
-    onAttach: function (worker) {
-        ports.push(worker.port);
-        worker.on('detach', function () {
-            var index = ports.indexOf(worker.port);
-            if (index !== -1) {
-                ports.splice(index, 1);
-            }
-        });
-    }
+	include: ['*'],
+	contentScriptFile: [self.data.url('backFocus.js')],
+	onAttach: function (worker) {
+		ports.push(worker.port);
+		worker.on('detach', function () {
+			var index = ports.indexOf(worker.port);
+			if (index !== -1) {
+				ports.splice(index, 1);
+			}
+		});
+	}
 });
