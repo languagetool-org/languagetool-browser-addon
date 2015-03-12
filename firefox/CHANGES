@@ -1,9 +1,17 @@
-0.7 (xx/06/2013, LT 2.6)
+0.8 (xx/xx/201x, LT x.x)
 - support for xx has been added to LanguageTool [update prefs]
 - new translations for xx
 - updated translations for xx
 
-0.6 (26/03/2013, LT 2.5)
+0.7 (12/03/2015, LT 2.9)
+- support for Persian and Tamil has been added to LanguageTool
+- new translations for French, Lithuanian, Persian, Spanish, and Swedish
+- phrases can be ignored
+- spinning wheel displayed while text is being checked
+- an ordinary toolbar button is used now, hence right click action on LT-button is no longer available (limitation of add-on SDK)
+- fixed issue with escaped characters (like &apos;) appearing in error messages
+
+0.6 (26/03/2014, LT 2.5)
 - suggestions are shown and can be applied to text in text fields
 - possibility to add words to the personal dictionary (issue #10)
 - the sidebar is closed when no mistakes have been found (issue #20)
