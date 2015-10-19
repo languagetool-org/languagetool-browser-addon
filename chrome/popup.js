@@ -44,7 +44,7 @@ function renderStatus(statusHtml) {
 function renderMatchesToHtml(resultXml) {
     let dom = (new window.DOMParser()).parseFromString(resultXml, "text/xml");
     let language = dom.getElementsByTagName("language")[0].getAttribute("name");
-    var html = "Detected language: " + language;
+    var html = "Detected language: " + escapeHtml(language);
     let matches = dom.getElementsByTagName("error");
     if (matches.length === 0) {
         html += "<p>No errors found</p>";
@@ -57,7 +57,7 @@ function renderMatchesToHtml(resultXml) {
                 html += "<li>";
                 html += renderContext(context, m);
                 html += renderReplacements(context, m);
-                html += m.getAttribute("msg");
+                html += escapeHtml(m.getAttribute("msg"));
                 html += "</li>";
             }
         }
@@ -71,11 +71,10 @@ function renderContext(context, m) {
     let errStart = parseInt(m.getAttribute("contextoffset"));
     let errLen = parseInt(m.getAttribute("errorlength"));
     return "<div class='errorArea'>"
-        + context.substr(0, errStart)
-        + "<span class='error'>"
-        + context.substr(errStart, errLen)
-        + "</span>" + context.substr(errStart + errLen)
-        + "</div>";
+          + escapeHtml(context.substr(0, errStart))
+          + "<span class='error'>" + escapeHtml(context.substr(errStart, errLen)) + "</span>" 
+          + escapeHtml(context.substr(errStart + errLen))
+          + "</div>";
 }
 
 function renderReplacements(context, m) {
@@ -94,10 +93,10 @@ function renderReplacements(context, m) {
                 html += " | ";
             }
             html += "<a href='#' " +
-                "data-contextleft='" + escapeApostrophes(contextLeft) + "'" +
-                "data-contextright='" + escapeApostrophes(contextRight) + "'" +
-                "data-errortext='" + escapeApostrophes(errorText) + "'" +
-                "data-replacement='" + escapeApostrophes(replacements[idx]) + "'" +
+                "data-contextleft='" + escapeHtml(contextLeft) + "'" +
+                "data-contextright='" + escapeHtml(contextRight) + "'" +
+                "data-errortext='" + escapeHtml(errorText) + "'" +
+                "data-replacement='" + escapeHtml(replacements[idx]) + "'" +
                 "'>" + replacements[idx] + "</a>";
         }
         html += "<br/>";
@@ -105,8 +104,12 @@ function renderReplacements(context, m) {
     return html;
 }
 
-function escapeApostrophes(s) {
-    return s.replace(/'/g, "&#039;");
+function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;')
+            .replace(/>/g, '&gt;')
+            .replace(/</g, '&lt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&apos;');
 }
 
 function handleCheckResult(response, tabs) {
