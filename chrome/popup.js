@@ -106,34 +106,38 @@ function escapeApostrophes(s) {
     return s.replace(/'/g, "&#039;");
 }
 
+function handleCheckResult(response, tabs) {
+    if (response.message) {
+        renderStatus(response.message);
+        return;
+    }
+    getCheckResult(response.text, function(resultText) {
+        let resultHtml = renderMatchesToHtml(resultText);
+        renderStatus(resultHtml);
+        let links = document.getElementsByTagName("a");
+        for (let linkIdx in links) {
+            let link = links[linkIdx];
+            link.addEventListener("click", function() {
+                let data = {
+                    action: 'applyCorrection',
+                    contextLeft: link.getAttribute('data-contextleft'),
+                    contextRight: link.getAttribute('data-contextright'),
+                    errorText: link.getAttribute('data-errortext'),
+                    replacement: link.getAttribute('data-replacement')
+                };
+                chrome.tabs.sendMessage(tabs[0].id, data, function(response) {});
+            });
+        }
+    }, function(errorMessage) {
+        renderStatus('Could not check text: ' + errorMessage);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     renderStatus('Checking...');
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
-            if (response.message) {
-                renderStatus(response.message);
-                return;
-            }
-            getCheckResult(response.text, function(resultText) {
-                let resultHtml = renderMatchesToHtml(resultText);
-                renderStatus(resultHtml);
-                let links = document.getElementsByTagName("a");
-                for (let linkIdx in links) {
-                    let link = links[linkIdx];
-                    link.addEventListener("click", function() {
-                        let data = {
-                            action: 'applyCorrection',
-                            contextLeft: link.getAttribute('data-contextleft'),
-                            contextRight: link.getAttribute('data-contextright'),
-                            errorText: link.getAttribute('data-errortext'),
-                            replacement: link.getAttribute('data-replacement')
-                        };
-                        chrome.tabs.sendMessage(tabs[0].id, data, function(response) {});
-                    });
-                }
-            }, function(errorMessage) {
-                renderStatus('Could not check text: ' + errorMessage);
-            });
+            handleCheckResult(response, tabs);
         });
     });
 });
