@@ -141,7 +141,7 @@ function handleCheckResult(response, tabs) {
 }
 
 function doCheck() {
-    renderStatus('Checking...');
+    renderStatus('<img src="images/throbber_28.gif"> Checking...');
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
             handleCheckResult(response, tabs);
