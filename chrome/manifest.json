@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "LanguageTool for Chrome",
-  "description": "Style and grammar checking for Chrome, using LanguageTool",
+  "name": "LanguageTool",
+  "description": "Style and grammar checking for Chrome",
   "version": "0.8",
 
   "browser_action": {

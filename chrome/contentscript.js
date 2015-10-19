@@ -16,19 +16,42 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+"use strict";
+
 chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-        var selection = window.getSelection();
-        if (selection && selection.toString() !== "") {
-            sendResponse({text: selection.toString()});
+    function(request, sender, callback) {
+        if (request.action === 'checkText') {
+            checkText(callback);
+        } else if (request.action === 'applyCorrection') {
+            applyCorrection(request);
         } else {
-            if (document.activeElement.tagName === "TEXTAREA") {
-                sendResponse({text: document.activeElement.value});
-            } else if (document.activeElement.hasAttribute("contenteditable")) {
-                sendResponse({text: document.activeElement.textContent});
-            } else {
-                sendResponse({message: "Please place the cursor in an editable field or select text."});
-            }
+            console.log("Unknown action: " + request.action);
         }
     }
 );
+
+function checkText(callback) {
+    let selection = window.getSelection();
+    if (selection && selection.toString() !== "") {
+        callback({text: selection.toString()});
+    } else {
+        if (document.activeElement.tagName === "TEXTAREA") {
+            callback({text: document.activeElement.value});
+        } else if (document.activeElement.hasAttribute("contenteditable")) {
+            callback({text: document.activeElement.textContent});
+        } else {
+            callback({message: "Please place the cursor in an editable field or select text."});
+        }
+    }
+}
+
+function applyCorrection(request) {
+    let searchText = request.contextLeft + request.errorText + request.contextRight;
+    // TODO: active element might have changed in between:
+    if (document.activeElement.value.indexOf(searchText) !== -1) {
+        let replaceText = request.contextLeft + request.replacement + request.contextRight;
+        document.activeElement.value = document.activeElement.value.replace(searchText, replaceText);    
+    } else {
+        alert("Sorry, LanguageTool extension could not find error context in text:\n" + searchText);
+    }
+}
