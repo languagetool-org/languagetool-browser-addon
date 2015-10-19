@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+
+  "name": "LanguageTool for Chrome",
+  "description": "Style and grammar checking for Chrome, using LanguageTool",
+  "version": "0.8",
+
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Check the current selection\nor text field with LanguageTool"
+  },
+  "permissions": [
+    "activeTab",
+    "https://languagetool.org:8081/"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["contentscript.js"]
+    }
+  ]
+}
