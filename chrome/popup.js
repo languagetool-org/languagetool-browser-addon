@@ -43,10 +43,11 @@ function renderStatus(statusHtml) {
 
 function renderMatchesToHtml(resultXml) {
     let dom = (new window.DOMParser()).parseFromString(resultXml, "text/xml");
+    let language = dom.getElementsByTagName("language")[0].getAttribute("name");
+    var html = "Detected language: " + language;
     let matches = dom.getElementsByTagName("error");
-    var html = "";
     if (matches.length === 0) {
-        return "No errors found";
+        return html + "<p>No errors found</p>";
     }
     html += "<ul>";
     for (var match in matches) {
