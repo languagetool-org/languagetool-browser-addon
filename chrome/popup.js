@@ -25,13 +25,13 @@ function getCheckResult(text, callback, errorCallback) {
     req.onload = function() {
         let response = req.response;
         if (!response) {
-            errorCallback('No response!');
+            errorCallback('No response from ' + url);
             return;
         }
         callback(response);
     };
     req.onerror = function() {
-        errorCallback('Network error.');
+        errorCallback('Network error (' + url + ')');
     };
     let params = 'autodetect=1&text=' + encodeURIComponent(text);
     req.send(params);
@@ -50,11 +50,11 @@ function renderMatchesToHtml(resultXml) {
         html += "<p>No errors found</p>";
     } else {
         html += "<ul>";
-        for (var match in matches) {
-            var m = matches[match];
+        for (let match in matches) {
+            let m = matches[match];
             if (m.getAttribute) {
+                let context = m.getAttribute("context");
                 html += "<li>";
-                var context = m.getAttribute("context");
                 html += renderContext(context, m);
                 html += renderReplacements(context, m);
                 html += m.getAttribute("msg");
