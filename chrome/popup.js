@@ -63,7 +63,7 @@ function renderMatchesToHtml(resultXml) {
         }
         html += "</ul>";
     }
-    html += "<p class='poweredBy'>Powered by <a target='_blank' href='https://languagetool.org'>languagetool.org</a></p>";
+    html += "<p class='poweredBy'>Text checked remotely by <a target='_blank' href='https://languagetool.org'>languagetool.org</a></p>";
     return html;
 }
 
@@ -118,8 +118,8 @@ function handleCheckResult(response, tabs) {
         let resultHtml = renderMatchesToHtml(resultText);
         renderStatus(resultHtml);
         let links = document.getElementsByTagName("a");
-        for (let linkIdx in links) {
-            let link = links[linkIdx];
+        for (var i = 0; i < links.length; i++) {
+            let link = links[i];
             link.addEventListener("click", function() {
                 if (link.getAttribute('data-contextleft')) {   // don't attach to link to our homepage
                     let data = {
@@ -140,6 +140,24 @@ function handleCheckResult(response, tabs) {
     });
 }
 
+function startCheckMaybeWithWarning() {
+    if (localStorage.allowRemoteCheck === "true") {
+        doCheck();
+    } else {
+        renderStatus('<p>This extension will check your text by sending it to ' +
+            '<a href="https://languagetool.org" target="_blank">https://languagetool.org</a> ' +
+            'over an encrypted connection. Your text will not be stored. For details, ' +
+            'see <a href="https://languagetool.org/privacy/" target="_blank">our privacy policy</a>.</p>' +
+            '<a class="privacyLink" id="confirmCheck" href="#">Continue and don\'t warn again</a> &nbsp;&nbsp;' +
+            '<a class="privacyLink" id="cancelCheck" href="#">Cancel</a>');
+        document.getElementById("confirmCheck").addEventListener("click", function() {
+            localStorage.allowRemoteCheck = "true";
+            doCheck();
+        });
+        document.getElementById("cancelCheck").addEventListener("click", function() { self.close(); });
+    }
+}
+
 function doCheck() {
     renderStatus('<img src="images/throbber_28.gif"> Checking...');
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -150,5 +168,5 @@ function doCheck() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    doCheck();
+    startCheckMaybeWithWarning();
 });
