@@ -110,6 +110,12 @@ function escapeApostrophes(s) {
 }
 
 function handleCheckResult(response, tabs) {
+    if (!response) {
+        // not sure *why* this happens...
+        renderStatus('If you have just installed or (re-)activated this extension, ' +
+                     'please reload the tab first in which you want to check a text.');
+        return;
+    }
     if (response.message) {
         renderStatus(response.message);
         return;
