@@ -48,10 +48,12 @@ function checkText(callback) {
 
 function applyCorrection(request) {
     let searchText = request.contextLeft + request.errorText + request.contextRight;
+    let replaceText = request.contextLeft + request.replacement + request.contextRight;
     // TODO: active element might have changed in between:
-    if (document.activeElement.value.indexOf(searchText) !== -1) {
-        let replaceText = request.contextLeft + request.replacement + request.contextRight;
-        document.activeElement.value = document.activeElement.value.replace(searchText, replaceText);    
+    if (document.activeElement.value && document.activeElement.value.indexOf(searchText) !== -1) {
+        document.activeElement.value = document.activeElement.value.replace(searchText, replaceText);
+    } else if (document.activeElement.textContent && document.activeElement.textContent.indexOf(searchText) !== -1) {  // contentEditable=true
+        document.activeElement.textContent = document.activeElement.textContent.replace(searchText, replaceText);
     } else {
         alert("Sorry, LanguageTool extension could not find error context in text:\n" + searchText);
     }
