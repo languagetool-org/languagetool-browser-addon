@@ -47,21 +47,23 @@ function renderMatchesToHtml(resultXml) {
     var html = "Detected language: " + language;
     let matches = dom.getElementsByTagName("error");
     if (matches.length === 0) {
-        return html + "<p>No errors found</p>";
-    }
-    html += "<ul>";
-    for (var match in matches) {
-        var m = matches[match];
-        if (m.getAttribute) {
-            html += "<li>";
-            var context = m.getAttribute("context");
-            html += renderContext(context, m);
-            html += renderReplacements(context, m);
-            html += m.getAttribute("msg");
-            html += "</li>";
+        html += "<p>No errors found</p>";
+    } else {
+        html += "<ul>";
+        for (var match in matches) {
+            var m = matches[match];
+            if (m.getAttribute) {
+                html += "<li>";
+                var context = m.getAttribute("context");
+                html += renderContext(context, m);
+                html += renderReplacements(context, m);
+                html += m.getAttribute("msg");
+                html += "</li>";
+            }
         }
+        html += "</ul>";
     }
-    html += "</ul>";
+    html += "<p class='poweredBy'>Powered by <a target='_blank' href='https://languagetool.org'>languagetool.org</a></p>";
     return html;
 }
 
@@ -119,14 +121,16 @@ function handleCheckResult(response, tabs) {
         for (let linkIdx in links) {
             let link = links[linkIdx];
             link.addEventListener("click", function() {
-                let data = {
-                    action: 'applyCorrection',
-                    contextLeft: link.getAttribute('data-contextleft'),
-                    contextRight: link.getAttribute('data-contextright'),
-                    errorText: link.getAttribute('data-errortext'),
-                    replacement: link.getAttribute('data-replacement')
-                };
-                chrome.tabs.sendMessage(tabs[0].id, data, function(response) {});
+                if (link.getAttribute('data-contextleft')) {   // don't attach to link to our homepage
+                    let data = {
+                        action: 'applyCorrection',
+                        contextLeft: link.getAttribute('data-contextleft'),
+                        contextRight: link.getAttribute('data-contextright'),
+                        errorText: link.getAttribute('data-errortext'),
+                        replacement: link.getAttribute('data-replacement')
+                    };
+                    chrome.tabs.sendMessage(tabs[0].id, data, function(response) {});
+                }
             });
         }
     }, function(errorMessage) {
