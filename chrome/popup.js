@@ -129,7 +129,9 @@ function handleCheckResult(response, tabs) {
                         errorText: link.getAttribute('data-errortext'),
                         replacement: link.getAttribute('data-replacement')
                     };
-                    chrome.tabs.sendMessage(tabs[0].id, data, function(response) {});
+                    chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
+                        doCheck();   // re-check, as applying changes might change context also for other errors
+                    });
                 }
             });
         }
@@ -138,11 +140,15 @@ function handleCheckResult(response, tabs) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function doCheck() {
     renderStatus('Checking...');
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
             handleCheckResult(response, tabs);
         });
     });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    doCheck();
 });

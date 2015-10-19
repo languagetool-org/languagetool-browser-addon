@@ -24,6 +24,7 @@ chrome.runtime.onMessage.addListener(
             checkText(callback);
         } else if (request.action === 'applyCorrection') {
             applyCorrection(request);
+            callback();
         } else {
             console.log("Unknown action: " + request.action);
         }
