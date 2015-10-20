@@ -36,12 +36,32 @@ function checkText(callback) {
     if (selection && selection.toString() !== "") {
         callback({text: selection.toString()});
     } else {
-        if (document.activeElement.tagName === "TEXTAREA") {
-            callback({text: document.activeElement.value});
-        } else if (document.activeElement.hasAttribute("contenteditable")) {
-            callback({text: document.activeElement.textContent});
+        try {
+            let text = getTextOfActiveElement();
+            callback({text: text});
+        } catch(e) {
+            callback({message: e});
+        }
+    }
+}
+
+function getTextOfActiveElement() {
+    if (document.activeElement.tagName === "TEXTAREA") {
+        return document.activeElement.value;
+    } else if (document.activeElement.hasAttribute("contenteditable")) {
+        return document.activeElement.textContent;
+    } else if (document.activeElement.tagName === "IFRAME") {
+        let activeElem = document.activeElement.contentWindow.document.activeElement;
+        if (activeElem.textContent) {
+            return activeElem.textContent.toString();
         } else {
-            callback({message: "Please place the cursor in an editable field or select text."});
+            throw "Please place the cursor in an editable field or select text (no active element in iframe found)."
+        }
+    } else {
+        if (document.activeElement) {
+            throw "Please place the cursor in an editable field or select text (active element: " + document.activeElement.tagName + ")."
+        } else {
+            throw "Please place the cursor in an editable field or select text (no active element found)."
         }
     }
 }
