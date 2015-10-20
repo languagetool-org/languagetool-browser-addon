@@ -92,7 +92,7 @@ function renderReplacements(context, m) {
             if (i++ > 0) {
                 html += " | ";
             }
-            html += "<a href='#' " +
+            html += "<a class='replacement' href='#' " +
                 "data-contextleft='" + escapeHtml(contextLeft) + "'" +
                 "data-contextright='" + escapeHtml(contextRight) + "'" +
                 "data-errortext='" + escapeHtml(errorText) + "'" +
