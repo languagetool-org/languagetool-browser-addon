@@ -418,7 +418,7 @@ function addWordToDictionary(word) {
 function addToIgnoredPhrases(phrase) {
 	// contains a list of phrases which are ignored (must match markedText)
 	// format: "phrase 1","phrase 2","phrase 3",
-	// Note that escaping is not (really) necessery, things like """, work.
+	// Note that escaping is not (really) necessary, things like """, work.
 	var ignoredPhrases = simpleprefs.prefs.ignoredPhrases;
 	simpleprefs.prefs.ignoredPhrases = (ignoredPhrases ? ignoredPhrases : "") + '"'+phrase+'",';
 	timer.setTimeout(recheck, RECHECKDELAY);
