@@ -37,29 +37,45 @@ function checkText(callback) {
         callback({text: selection.toString()});
     } else {
         try {
-            let text = getTextOfActiveElement();
+            let text = getTextOfActiveElement(document.activeElement);
             callback({text: text});
         } catch(e) {
-            callback({message: e});
+            // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simple doesn't
+            // seem to work if focus is inside the iframe. Too bad th
+            let iframes = document.getElementsByTagName("iframe");
+            var found = false;
+            for (var i = 0; i < iframes.length; i++) {
+                try {
+                    found = true;
+                    let text = getTextOfActiveElement(iframes[i].contentWindow.document.activeElement);
+                    callback({text: text});
+                } catch(e) {
+                    // ignore - what else could we do here? We just iterate the frames until
+                    // we find one with text in its activeElement
+                }
+            }
+            if (!found) {
+                callback({message: e});
+            }
         }
     }
 }
 
-function getTextOfActiveElement() {
-    if (document.activeElement.tagName === "TEXTAREA") {
-        return document.activeElement.value;
-    } else if (document.activeElement.hasAttribute("contenteditable")) {
-        return document.activeElement.textContent;
-    } else if (document.activeElement.tagName === "IFRAME") {
-        let activeElem = document.activeElement.contentWindow.document.activeElement;
+function getTextOfActiveElement(elem) {
+    if (elem.tagName === "TEXTAREA") {
+        return elem.value;
+    } else if (elem.hasAttribute("contenteditable")) {
+        return elem.textContent;
+    } else if (elem.tagName === "IFRAME") {
+        let activeElem = elem.contentWindow.document.activeElement;
         if (activeElem.textContent) {
             return activeElem.textContent.toString();
         } else {
             throw "Please place the cursor in an editable field or select text (no active element in iframe found)."
         }
     } else {
-        if (document.activeElement) {
-            throw "Please place the cursor in an editable field or select text (active element: " + document.activeElement.tagName + ")."
+        if (elem) {
+            throw "Please place the cursor in an editable field or select text (active element: " + elem.tagName + ")."
         } else {
             throw "Please place the cursor in an editable field or select text (no active element found)."
         }
