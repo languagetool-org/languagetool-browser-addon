@@ -135,7 +135,7 @@ function handleCheckResult(response, tabs, callback) {
         for (var i = 0; i < links.length; i++) {
             let link = links[i];
             link.addEventListener("click", function() {
-                if (link.getAttribute('data-contextleft')) {   // don't attach to link to our homepage
+                if (link.getAttribute('data-errortext')) {   // don't attach to link to our homepage etc.
                     let data = {
                         action: 'applyCorrection',
                         contextLeft: link.getAttribute('data-contextleft'),
