@@ -68,7 +68,7 @@ function getCurrentText() {
 }
 
 function getTextOfActiveElement(elem) {
-    if (elem.tagName === "TEXTAREA") {
+    if (isSimpleInput(elem)) {
         return elem.value;
     } else if (elem.hasAttribute("contenteditable")) {
         return elem.textContent;
@@ -94,7 +94,7 @@ function applyCorrection(request) {
     let activeElem = document.activeElement;
     var found = false;
     // Note: this duplicates the logic from getTextOfActiveElement():
-    if (activeElem.tagName === "TEXTAREA") {
+    if (isSimpleInput(activeElem)) {
         found = replaceIn(activeElem, "value", request);
     } else if (activeElem.hasAttribute("contenteditable")) {
         found = replaceIn(activeElem, "textContent", request);  // contentEditable=true
@@ -111,6 +111,15 @@ function applyCorrection(request) {
     }
 }
 
+function isSimpleInput(elem) {
+    if (elem.tagName === "TEXTAREA") {
+        return true;
+    } else if (elem.tagName === "INPUT" && elem.type === "text") {
+        return true;
+    }
+    return false;
+}
+    
 function replaceIn(elem, elemValue, request) {
     if (elem && elem[elemValue]) {
         elem[elemValue] = elem[elemValue].substr(0, request.errorOffset) +
