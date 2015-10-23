@@ -19,21 +19,26 @@
 "use strict";
 
 var testMode = false;
+let serverUrl = 'https://languagetool.org:8081/';
+//let serverUrl = 'http://localhost:8081/';  // for local testing
 
 function getCheckResult(text, callback, errorCallback) {
-    let url = 'https://languagetool.org:8081/';
     let req = new XMLHttpRequest();
-    req.open('POST', url);
+    req.open('POST', serverUrl);
     req.onload = function() {
         let response = req.response;
         if (!response) {
-            errorCallback('No response from ' + url);
+            errorCallback('No response from ' + serverUrl);
+            return;
+        }
+        if (req.status !== 200) {
+            errorCallback('No valid response from ' + serverUrl + ': ' + req.response + ', code ' + req.status);
             return;
         }
         callback(response);
     };
     req.onerror = function() {
-        errorCallback('Network error (' + url + ')');
+        errorCallback('Network error (' + serverUrl + ')');
     };
     let params = 'autodetect=1&text=' + encodeURIComponent(text);
     req.send(params);
@@ -129,7 +134,7 @@ function handleCheckResult(response, tabs, callback) {
         return;
     }
     if (response.message) {
-        renderStatus(response.message);
+        renderStatus(escapeHtml(response.message));
         return;
     }
     getCheckResult(response.text, function(resultText) {
@@ -157,7 +162,7 @@ function handleCheckResult(response, tabs, callback) {
             callback(response.text);
         }
     }, function(errorMessage) {
-        renderStatus('Could not check text: ' + errorMessage);
+        renderStatus('Could not check text: ' + escapeHtml(errorMessage));
         if (callback) {
             callback(response.text, errorMessage);
         }
