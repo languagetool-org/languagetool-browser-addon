@@ -91,6 +91,7 @@ function renderReplacements(context, m, createLinks) {
     let replacementsStr = m.getAttribute("replacements");
     let contextOffset = parseInt(m.getAttribute('contextoffset'));
     let errLen = parseInt(m.getAttribute("errorlength"));
+    let errOffset = parseInt(m.getAttribute("offset"));
     let contextLeft = context.substr(0, contextOffset).replace(/^\.\.\./, "");
     let contextRight = context.substr(contextOffset + errLen).replace(/\.\.\.$/, "");
     let errorText = context.substr(contextOffset, errLen);
@@ -104,6 +105,7 @@ function renderReplacements(context, m, createLinks) {
             }
             if (createLinks) {
                 html += "<a class='replacement' href='#' " +
+                    "data-erroroffset='" + errOffset + "'" +
                     "data-contextleft='" + escapeHtml(contextLeft) + "'" +
                     "data-contextright='" + escapeHtml(contextRight) + "'" +
                     "data-errortext='" + escapeHtml(errorText) + "'" +
@@ -147,6 +149,7 @@ function handleCheckResult(response, tabs, callback) {
                 if (link.getAttribute('data-errortext')) {   // don't attach to link to our homepage etc.
                     let data = {
                         action: 'applyCorrection',
+                        errorOffset: parseInt(link.getAttribute('data-erroroffset')),
                         contextLeft: link.getAttribute('data-contextleft'),
                         contextRight: link.getAttribute('data-contextright'),
                         errorText: link.getAttribute('data-errortext'),

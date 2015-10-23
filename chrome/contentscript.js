@@ -90,18 +90,17 @@ function getTextOfActiveElement(elem) {
 
 function applyCorrection(request) {
     let searchText = request.contextLeft + request.errorText + request.contextRight;
-    let replaceText = request.contextLeft + request.replacement + request.contextRight;
-    // TODO: active element might have changed in between:
+    // TODO: active element might have changed in between?!
     let activeElem = document.activeElement;
     var found = false;
     // Note: this duplicates the logic from getTextOfActiveElement():
     if (activeElem.tagName === "TEXTAREA") {
-        found = replaceIn(activeElem, "value", searchText, replaceText);
+        found = replaceIn(activeElem, "value", request);
     } else if (activeElem.hasAttribute("contenteditable")) {
-        found = replaceIn(activeElem, "textContent", searchText, replaceText);  // contentEditable=true
+        found = replaceIn(activeElem, "textContent", request);  // contentEditable=true
     } else if (activeElem.tagName === "IFRAME") {
         let activeElem2 = activeElem.contentWindow.document.activeElement;
-        found = replaceIn(activeElem2, "textContent", searchText, replaceText);  // tinyMCE as used on languagetool.org
+        found = replaceIn(activeElem2, "textContent", request);  // tinyMCE as used on languagetool.org
     }
     if (!found) {
         if (activeElem) {
@@ -112,9 +111,11 @@ function applyCorrection(request) {
     }
 }
 
-function replaceIn(elem, elemValue, searchText, replaceText) {
-    if (elem && elem[elemValue] && elem[elemValue].indexOf(searchText) !== -1) {
-        elem[elemValue] = elem[elemValue].replace(searchText, replaceText);
+function replaceIn(elem, elemValue, request) {
+    if (elem && elem[elemValue]) {
+        elem[elemValue] = elem[elemValue].substr(0, request.errorOffset) +
+                          request.replacement +
+                          elem[elemValue].substr(request.errorOffset + request.errorText.length);
         return true;
     }
     return false;
