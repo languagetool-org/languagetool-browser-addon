@@ -100,6 +100,7 @@ function renderReplacements(context, m, createLinks) {
         let replacements = replacementsStr.split("#");
         var i = 0;
         for (let idx in replacements) {
+            let replacement = replacements[idx];
             if (i++ > 0) {
                 html += " | ";
             }
@@ -110,9 +111,9 @@ function renderReplacements(context, m, createLinks) {
                     "data-contextright='" + escapeHtml(contextRight) + "'" +
                     "data-errortext='" + escapeHtml(errorText) + "'" +
                     "data-replacement='" + escapeHtml(replacements[idx]) + "'" +
-                    "'>" + replacements[idx] + "</a>";
+                    "'>&nbsp;" + replacement + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
             } else {
-                html += "<b>" + replacements[idx] + "</b>";
+                html += "<b>" + replacement + "</b>";
             }
         }
         html += "<br/>";
