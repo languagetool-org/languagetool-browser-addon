@@ -67,6 +67,9 @@ function getCurrentText() {
     return getTextOfActiveElement(document.activeElement);
 }
 
+// Note: document.activeElement sometimes seems to be wrong, e.g. on languagetool.org
+// it sometimes points to the language selection drop down even when the cursor
+// is inside the text field - probably related to the iframe...
 function getTextOfActiveElement(elem) {
     if (isSimpleInput(elem)) {
         return elem.value;
