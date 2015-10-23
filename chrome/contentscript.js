@@ -92,11 +92,30 @@ function applyCorrection(request) {
     let searchText = request.contextLeft + request.errorText + request.contextRight;
     let replaceText = request.contextLeft + request.replacement + request.contextRight;
     // TODO: active element might have changed in between:
-    if (document.activeElement.value && document.activeElement.value.indexOf(searchText) !== -1) {
-        document.activeElement.value = document.activeElement.value.replace(searchText, replaceText);
-    } else if (document.activeElement.textContent && document.activeElement.textContent.indexOf(searchText) !== -1) {  // contentEditable=true
-        document.activeElement.textContent = document.activeElement.textContent.replace(searchText, replaceText);
-    } else {
-        alert("Sorry, LanguageTool extension could not find error context in text:\n" + searchText);
+    let activeElem = document.activeElement;
+    var found = false;
+    // Note: this duplicates the logic from getTextOfActiveElement():
+    if (activeElem.tagName === "TEXTAREA") {
+        found = replaceIn(activeElem, "value", searchText, replaceText);
+    } else if (activeElem.hasAttribute("contenteditable")) {
+        found = replaceIn(activeElem, "textContent", searchText, replaceText);  // contentEditable=true
+    } else if (activeElem.tagName === "IFRAME") {
+        let activeElem2 = activeElem.contentWindow.document.activeElement;
+        found = replaceIn(activeElem2, "textContent", searchText, replaceText);  // tinyMCE as used on languagetool.org
     }
+    if (!found) {
+        if (activeElem) {
+            alert("Sorry, LanguageTool extension could not find error context in text:\n" + searchText);
+        } else {
+            alert("Sorry, LanguageTool extension could not find error context in text:\n" + searchText);
+        }
+    }
+}
+
+function replaceIn(elem, elemValue, searchText, replaceText) {
+    if (elem && elem[elemValue] && elem[elemValue].indexOf(searchText) !== -1) {
+        elem[elemValue] = elem[elemValue].replace(searchText, replaceText);
+        return true;
+    }
+    return false;
 }
