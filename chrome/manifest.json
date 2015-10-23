@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "LanguageTool",
   "short_name": "LanguageTool",
-  "version": "0.8",
+  "version": "0.8.1",
 
   "description": "Style and grammar checking for Chrome",
   "icons": { "16": "images/icon16.png",
