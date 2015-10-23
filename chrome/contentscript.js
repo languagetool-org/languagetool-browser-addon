@@ -89,7 +89,6 @@ function getTextOfActiveElement(elem) {
 }
 
 function applyCorrection(request) {
-    let searchText = request.contextLeft + request.errorText + request.contextRight;
     // TODO: active element might have changed in between?!
     let activeElem = document.activeElement;
     var found = false;
@@ -103,11 +102,7 @@ function applyCorrection(request) {
         found = replaceIn(activeElem2, "textContent", request);  // tinyMCE as used on languagetool.org
     }
     if (!found) {
-        if (activeElem) {
-            alert("Sorry, LanguageTool extension could not find error context in text:\n" + searchText);
-        } else {
-            alert("Sorry, LanguageTool extension could not find error context in text:\n" + searchText);
-        }
+        alert("Sorry, LanguageTool extension could not find error context in text");
     }
 }
 
