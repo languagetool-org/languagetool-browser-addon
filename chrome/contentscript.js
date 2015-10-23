@@ -36,11 +36,11 @@ function handleRequest(request, sender, callback) {
 function checkText(callback) {
     let selection = window.getSelection();
     if (selection && selection.toString() !== "") {
-        callback({text: selection.toString()});
+        callback({text: selection.toString(), isEditableText: false});
     } else {
         try {
             let text = getTextOfActiveElement(document.activeElement);
-            callback({text: text});
+            callback({text: text, isEditableText: true});
         } catch(e) {
             // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simple doesn't
             // seem to work if focus is inside the iframe.
@@ -50,7 +50,7 @@ function checkText(callback) {
                 try {
                     found = true;
                     let text = getTextOfActiveElement(iframes[i].contentWindow.document.activeElement);
-                    callback({text: text});
+                    callback({text: text, isEditableText: true});
                 } catch(e) {
                     // ignore - what else could we do here? We just iterate the frames until
                     // we find one with text in its activeElement

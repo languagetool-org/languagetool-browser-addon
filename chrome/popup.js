@@ -43,7 +43,7 @@ function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
 }
 
-function renderMatchesToHtml(resultXml) {
+function renderMatchesToHtml(resultXml, createLinks) {
     let dom = (new window.DOMParser()).parseFromString(resultXml, "text/xml");
     let language = dom.getElementsByTagName("language")[0].getAttribute("name");
     var html = "Detected language: " + escapeHtml(language);
@@ -58,7 +58,7 @@ function renderMatchesToHtml(resultXml) {
                 let context = m.getAttribute("context");
                 html += "<li>";
                 html += renderContext(context, m);
-                html += renderReplacements(context, m);
+                html += renderReplacements(context, m, createLinks);
                 html += escapeHtml(m.getAttribute("msg"));
                 html += "</li>";
             }
@@ -82,7 +82,7 @@ function renderContext(context, m) {
           + "</div>";
 }
 
-function renderReplacements(context, m) {
+function renderReplacements(context, m, createLinks) {
     let replacementsStr = m.getAttribute("replacements");
     let contextOffset = parseInt(m.getAttribute('contextoffset'));
     let errLen = parseInt(m.getAttribute("errorlength"));
@@ -97,12 +97,16 @@ function renderReplacements(context, m) {
             if (i++ > 0) {
                 html += " | ";
             }
-            html += "<a class='replacement' href='#' " +
-                "data-contextleft='" + escapeHtml(contextLeft) + "'" +
-                "data-contextright='" + escapeHtml(contextRight) + "'" +
-                "data-errortext='" + escapeHtml(errorText) + "'" +
-                "data-replacement='" + escapeHtml(replacements[idx]) + "'" +
-                "'>" + replacements[idx] + "</a>";
+            if (createLinks) {
+                html += "<a class='replacement' href='#' " +
+                    "data-contextleft='" + escapeHtml(contextLeft) + "'" +
+                    "data-contextright='" + escapeHtml(contextRight) + "'" +
+                    "data-errortext='" + escapeHtml(errorText) + "'" +
+                    "data-replacement='" + escapeHtml(replacements[idx]) + "'" +
+                    "'>" + replacements[idx] + "</a>";
+            } else {
+                html += "<b>" + replacements[idx] + "</b>";
+            }
         }
         html += "<br/>";
     }
@@ -129,7 +133,7 @@ function handleCheckResult(response, tabs, callback) {
         return;
     }
     getCheckResult(response.text, function(resultText) {
-        let resultHtml = renderMatchesToHtml(resultText);
+        let resultHtml = renderMatchesToHtml(resultText, response.isEditableText);
         renderStatus(resultHtml);
         let links = document.getElementsByTagName("a");
         for (var i = 0; i < links.length; i++) {
