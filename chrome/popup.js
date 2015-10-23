@@ -18,6 +18,8 @@
  */
 "use strict";
 
+var testMode = false;
+
 function getCheckResult(text, callback, errorCallback) {
     let url = 'https://languagetool.org:8081/';
     let req = new XMLHttpRequest();
@@ -64,6 +66,9 @@ function renderMatchesToHtml(resultXml) {
         html += "</ul>";
     }
     html += "<p class='poweredBy'>Text checked remotely by <a target='_blank' href='https://languagetool.org'>languagetool.org</a></p>";
+    if (testMode) {
+        html += "*** running in test mode ***";
+    }
     return html;
 }
 
@@ -112,7 +117,7 @@ function escapeHtml(s) {
             .replace(/'/g, '&apos;');
 }
 
-function handleCheckResult(response, tabs) {
+function handleCheckResult(response, tabs, callback) {
     if (!response) {
         // not sure *why* this happens...
         renderStatus('If you have just installed or (re-)activated this extension, ' +
@@ -139,19 +144,25 @@ function handleCheckResult(response, tabs) {
                         replacement: link.getAttribute('data-replacement')
                     };
                     chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
-                        doCheck();   // re-check, as applying changes might change context also for other errors
+                        doCheck(tabs);   // re-check, as applying changes might change context also for other errors
                     });
                 }
             });
         }
+        if (callback) {
+            callback(response.text);
+        }
     }, function(errorMessage) {
         renderStatus('Could not check text: ' + errorMessage);
+        if (callback) {
+            callback(response.text, errorMessage);
+        }
     });
 }
 
-function startCheckMaybeWithWarning() {
+function startCheckMaybeWithWarning(tabs) {
     if (localStorage.allowRemoteCheck === "true") {
-        doCheck();
+        doCheck(tabs);
     } else {
         renderStatus('<p>This extension will check your text by sending it to ' +
             '<a href="https://languagetool.org" target="_blank">https://languagetool.org</a> ' +
@@ -161,21 +172,28 @@ function startCheckMaybeWithWarning() {
             '<a class="privacyLink" id="cancelCheck" href="#">Cancel</a>');
         document.getElementById("confirmCheck").addEventListener("click", function() {
             localStorage.allowRemoteCheck = "true";
-            doCheck();
+            doCheck(tabs);
         });
         document.getElementById("cancelCheck").addEventListener("click", function() { self.close(); });
     }
 }
 
-function doCheck() {
+function doCheck(tabs) {
     renderStatus('<img src="images/throbber_28.gif"> Checking...');
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
-            handleCheckResult(response, tabs);
-        });
+    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
+        handleCheckResult(response, tabs);
     });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    startCheckMaybeWithWarning();
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        if (tabs[0].url === "http://localhost/languagetool-for-chrome-tests.html") {
+            testMode = true;
+            runTest1(tabs, "textarea1", 1);
+            // TODO: more tests here
+        } else {
+            testMode = false;
+            startCheckMaybeWithWarning(tabs);
+        }
+    });
 });

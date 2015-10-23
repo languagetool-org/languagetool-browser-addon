@@ -18,18 +18,20 @@
  */
 "use strict";
 
-chrome.runtime.onMessage.addListener(
-    function(request, sender, callback) {
-        if (request.action === 'checkText') {
-            checkText(callback);
-        } else if (request.action === 'applyCorrection') {
-            applyCorrection(request);
-            callback();
-        } else {
-            console.log("Unknown action: " + request.action);
-        }
+chrome.runtime.onMessage.addListener(handleRequest);
+
+function handleRequest(request, sender, callback) {
+    if (request.action === 'checkText') {
+        checkText(callback);
+    } else if (request.action === 'getCurrentText') {
+        callback(getCurrentText());
+    } else if (request.action === 'applyCorrection') {
+        applyCorrection(request);
+        callback();
+    } else {
+        alert("Unknown action: " + request.action);
     }
-);
+}
 
 function checkText(callback) {
     let selection = window.getSelection();
@@ -41,7 +43,7 @@ function checkText(callback) {
             callback({text: text});
         } catch(e) {
             // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simple doesn't
-            // seem to work if focus is inside the iframe. Too bad th
+            // seem to work if focus is inside the iframe.
             let iframes = document.getElementsByTagName("iframe");
             var found = false;
             for (var i = 0; i < iframes.length; i++) {
@@ -59,6 +61,10 @@ function checkText(callback) {
             }
         }
     }
+}
+
+function getCurrentText() {
+    return getTextOfActiveElement(document.activeElement);
 }
 
 function getTextOfActiveElement(elem) {
