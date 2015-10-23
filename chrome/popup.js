@@ -24,6 +24,7 @@ let serverUrl = 'https://languagetool.org:8081/';
 
 function getCheckResult(text, callback, errorCallback) {
     let req = new XMLHttpRequest();
+    req.timeout = 60 * 1000; // milliseconds
     req.open('POST', serverUrl);
     req.onload = function() {
         let response = req.response;
@@ -39,6 +40,9 @@ function getCheckResult(text, callback, errorCallback) {
     };
     req.onerror = function() {
         errorCallback('Network error (' + serverUrl + ')');
+    };
+    req.ontimeout = function() {
+        errorCallback('Timeout from server - please try again later (' + serverUrl + ')');
     };
     let params = 'autodetect=1&text=' + encodeURIComponent(text);
     req.send(params);
