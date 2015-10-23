@@ -110,10 +110,10 @@ function renderReplacements(context, m, createLinks) {
                     "data-contextleft='" + escapeHtml(contextLeft) + "'" +
                     "data-contextright='" + escapeHtml(contextRight) + "'" +
                     "data-errortext='" + escapeHtml(errorText) + "'" +
-                    "data-replacement='" + escapeHtml(replacements[idx]) + "'" +
-                    "'>&nbsp;" + replacement + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
+                    "data-replacement='" + escapeHtml(replacement) + "'" +
+                    "'>&nbsp;" + escapeHtml(replacement) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
             } else {
-                html += "<b>" + replacement + "</b>";
+                html += "<b>" + escapeHtml(replacement) + "</b>";
             }
         }
         html += "<br/>";
