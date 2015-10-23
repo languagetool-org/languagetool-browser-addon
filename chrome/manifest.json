@@ -26,5 +26,12 @@
       "matches": ["http://*/*", "https://*/*"],
       "js": ["contentscript.js"]
     }
-  ]
+  ],
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Space"
+      }
+    }
+  }
 }
