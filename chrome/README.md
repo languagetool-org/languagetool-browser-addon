@@ -1,0 +1,19 @@
+## LanguageTool for Chrome
+
+A [LanguageTool](https://languagetool.org) extension for Chrome. Get it from:
+
+https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji
+
+### Unit tests
+
+Run `mocha`. To run tests continuously during development:
+`alias automocha="supervisor -q -n exit -x mocha -- -b"` then call `automocha` 
+to automatically run the test as soon as the test files change
+(source: https://coderwall.com/p/fdcsyq/auto-run-tests-in-node-js)
+
+### Integration tests
+
+Link `languagetool-for-chrome-tests.html` from your web root so that it can be accessed
+via `http://localhost/languagetool-for-chrome-tests.html`. If you open that URL with Chrome
+and click the LanguageTool extension icon, tests will run automatically (note: these tests
+are very incomplete yet).
