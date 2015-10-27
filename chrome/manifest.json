@@ -33,5 +33,10 @@
         "default": "Ctrl+Shift+Space"
       }
     }
+  },
+  "applications": {
+    "gecko": {
+      "id": "languagetool-webextension@languagetool.org"
+    }
   }
 }
