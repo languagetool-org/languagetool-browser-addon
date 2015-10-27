@@ -33,4 +33,6 @@ class Tools {
 
 }
 
-module.exports = Tools;
+if (typeof module !== 'undefined') {
+    module.exports = Tools;
+}

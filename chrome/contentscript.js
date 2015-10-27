@@ -36,11 +36,11 @@ function handleRequest(request, sender, callback) {
 function checkText(callback) {
     let selection = window.getSelection();
     if (selection && selection.toString() !== "") {
-        callback({text: selection.toString(), isEditableText: false});
+        callback({markupList: [{text: selection.toString()}], isEditableText: false});
     } else {
         try {
-            let text = getTextOfActiveElement(document.activeElement);
-            callback({text: text, isEditableText: true});
+            let markupList = getMarkupListOfActiveElement(document.activeElement);
+            callback({markupList: markupList, isEditableText: true});
         } catch(e) {
             // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simple doesn't
             // seem to work if focus is inside the iframe.
@@ -49,36 +49,36 @@ function checkText(callback) {
             for (var i = 0; i < iframes.length; i++) {
                 try {
                     found = true;
-                    let text = getTextOfActiveElement(iframes[i].contentWindow.document.activeElement);
-                    callback({text: text, isEditableText: true});
+                    let markupList = getMarkupListOfActiveElement(iframes[i].contentWindow.document.activeElement);
+                    callback({markupList: markupList, isEditableText: true});
                 } catch(e) {
                     // ignore - what else could we do here? We just iterate the frames until
                     // we find one with text in its activeElement
                 }
             }
             if (!found) {
-                callback({message: e});
+                callback({message: e.toString()});
             }
         }
     }
 }
 
 function getCurrentText() {
-    return getTextOfActiveElement(document.activeElement);
+    return getMarkupListOfActiveElement(document.activeElement);
 }
 
 // Note: document.activeElement sometimes seems to be wrong, e.g. on languagetool.org
 // it sometimes points to the language selection drop down even when the cursor
 // is inside the text field - probably related to the iframe...
-function getTextOfActiveElement(elem) {
+function getMarkupListOfActiveElement(elem) {
     if (isSimpleInput(elem)) {
-        return elem.value;
+        return [{ text: elem.value }];
     } else if (elem.hasAttribute("contenteditable")) {
-        return elem.textContent;
+        return Markup.html2markupList(elem.innerHTML);
     } else if (elem.tagName === "IFRAME") {
         let activeElem = elem.contentWindow.document.activeElement;
         if (activeElem.textContent) {
-            return activeElem.textContent.toString();
+            return [{ text: activeElem.textContent.toString() }];
         } else {
             throw "Please place the cursor in an editable field or select text (no active element in iframe found)."
         }
@@ -92,17 +92,18 @@ function getTextOfActiveElement(elem) {
 }
 
 function applyCorrection(request) {
+    let newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
     // TODO: active element might have changed in between?!
     let activeElem = document.activeElement;
-    var found = false;
     // Note: this duplicates the logic from getTextOfActiveElement():
+    var found = false;
     if (isSimpleInput(activeElem)) {
-        found = replaceIn(activeElem, "value", request);
+        found = replaceIn(activeElem, "value", newMarkupList);
     } else if (activeElem.hasAttribute("contenteditable")) {
-        found = replaceIn(activeElem, "textContent", request);  // contentEditable=true
+        found = replaceIn(activeElem, "innerHTML", newMarkupList);  // contentEditable=true
     } else if (activeElem.tagName === "IFRAME") {
         let activeElem2 = activeElem.contentWindow.document.activeElement;
-        found = replaceIn(activeElem2, "textContent", request);  // tinyMCE as used on languagetool.org
+        found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
     }
     if (!found) {
         alert("Sorry, LanguageTool extension could not find error context in text");
@@ -118,11 +119,9 @@ function isSimpleInput(elem) {
     return false;
 }
     
-function replaceIn(elem, elemValue, request) {
+function replaceIn(elem, elemValue, markupList) {
     if (elem && elem[elemValue]) {
-        elem[elemValue] = elem[elemValue].substr(0, request.errorOffset) +
-                          request.replacement +
-                          elem[elemValue].substr(request.errorOffset + request.errorText.length);
+        elem[elemValue] = Markup.markupList2html(markupList);
         return true;
     }
     return false;

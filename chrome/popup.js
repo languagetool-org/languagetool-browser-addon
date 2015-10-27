@@ -22,7 +22,7 @@ var testMode = false;
 let serverUrl = 'https://languagetool.org:8081/';
 //let serverUrl = 'http://localhost:8081/';  // for local testing
 
-function getCheckResult(text, callback, errorCallback) {
+function getCheckResult(markupList, callback, errorCallback) {
     let req = new XMLHttpRequest();
     req.timeout = 60 * 1000; // milliseconds
     req.open('POST', serverUrl);
@@ -44,6 +44,7 @@ function getCheckResult(text, callback, errorCallback) {
     req.ontimeout = function() {
         errorCallback('Timeout from server - please try again later (' + serverUrl + ')');
     };
+    let text = Markup.markupList2text(markupList);
     let params = 'autodetect=1&text=' + encodeURIComponent(text);
     req.send(params);
 }
@@ -136,7 +137,7 @@ function handleCheckResult(response, tabs, callback) {
         renderStatus(Tools.escapeHtml(response.message));
         return;
     }
-    getCheckResult(response.text, function(resultText) {
+    getCheckResult(response.markupList, function(resultText) {
         let resultHtml = renderMatchesToHtml(resultText, response.isEditableText);
         renderStatus(resultHtml);
         let links = document.getElementsByTagName("a");
@@ -150,7 +151,8 @@ function handleCheckResult(response, tabs, callback) {
                         contextLeft: link.getAttribute('data-contextleft'),
                         contextRight: link.getAttribute('data-contextright'),
                         errorText: link.getAttribute('data-errortext'),
-                        replacement: link.getAttribute('data-replacement')
+                        replacement: link.getAttribute('data-replacement'),
+                        markupList: response.markupList
                     };
                     chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
                         doCheck(tabs);   // re-check, as applying changes might change context also for other errors
@@ -159,12 +161,12 @@ function handleCheckResult(response, tabs, callback) {
             });
         }
         if (callback) {
-            callback(response.text);
+            callback(response.markupList);
         }
     }, function(errorMessage) {
         renderStatus('Could not check text: ' + Tools.escapeHtml(errorMessage));
         if (callback) {
-            callback(response.text, errorMessage);
+            callback(response.markupList, errorMessage);
         }
     });
 }
