@@ -15,3 +15,8 @@ Link `languagetool-for-chrome-tests.html` from your web root so that it can be a
 via `http://localhost/languagetool-for-chrome-tests.html`. If you open that URL with Chrome
 and click the LanguageTool extension icon, tests will run automatically (note: these tests
 are very incomplete yet).
+
+### License
+
+Lesser General Public License 2.1 or later, see file `COPYING`
+
