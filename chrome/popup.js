@@ -55,7 +55,7 @@ function renderStatus(statusHtml) {
 function renderMatchesToHtml(resultXml, createLinks) {
     let dom = (new window.DOMParser()).parseFromString(resultXml, "text/xml");
     let language = dom.getElementsByTagName("language")[0].getAttribute("name");
-    var html = "Detected language: " + escapeHtml(language);
+    var html = "Detected language: " + Tools.escapeHtml(language);
     let matches = dom.getElementsByTagName("error");
     if (matches.length === 0) {
         html += "<p>No errors found</p>";
@@ -68,7 +68,7 @@ function renderMatchesToHtml(resultXml, createLinks) {
                 html += "<li>";
                 html += renderContext(context, m);
                 html += renderReplacements(context, m, createLinks);
-                html += escapeHtml(m.getAttribute("msg"));
+                html += Tools.escapeHtml(m.getAttribute("msg"));
                 html += "</li>";
             }
         }
@@ -85,9 +85,9 @@ function renderContext(context, m) {
     let errStart = parseInt(m.getAttribute("contextoffset"));
     let errLen = parseInt(m.getAttribute("errorlength"));
     return "<div class='errorArea'>"
-          + escapeHtml(context.substr(0, errStart))
-          + "<span class='error'>" + escapeHtml(context.substr(errStart, errLen)) + "</span>" 
-          + escapeHtml(context.substr(errStart + errLen))
+          + Tools.escapeHtml(context.substr(0, errStart))
+          + "<span class='error'>" + Tools.escapeHtml(context.substr(errStart, errLen)) + "</span>" 
+          + Tools.escapeHtml(context.substr(errStart + errLen))
           + "</div>";
 }
 
@@ -111,26 +111,18 @@ function renderReplacements(context, m, createLinks) {
             if (createLinks) {
                 html += "<a class='replacement' href='#' " +
                     "data-erroroffset='" + errOffset + "'" +
-                    "data-contextleft='" + escapeHtml(contextLeft) + "'" +
-                    "data-contextright='" + escapeHtml(contextRight) + "'" +
-                    "data-errortext='" + escapeHtml(errorText) + "'" +
-                    "data-replacement='" + escapeHtml(replacement) + "'" +
-                    "'>&nbsp;" + escapeHtml(replacement) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
+                    "data-contextleft='" + Tools.escapeHtml(contextLeft) + "'" +
+                    "data-contextright='" + Tools.escapeHtml(contextRight) + "'" +
+                    "data-errortext='" + Tools.escapeHtml(errorText) + "'" +
+                    "data-replacement='" + Tools.escapeHtml(replacement) + "'" +
+                    "'>&nbsp;" + Tools.escapeHtml(replacement) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
             } else {
-                html += "<b>" + escapeHtml(replacement) + "</b>";
+                html += "<b>" + Tools.escapeHtml(replacement) + "</b>";
             }
         }
         html += "<br/>";
     }
     return html;
-}
-
-function escapeHtml(s) {
-    return s.replace(/&/g, '&amp;')
-            .replace(/>/g, '&gt;')
-            .replace(/</g, '&lt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&apos;');
 }
 
 function handleCheckResult(response, tabs, callback) {
@@ -141,7 +133,7 @@ function handleCheckResult(response, tabs, callback) {
         return;
     }
     if (response.message) {
-        renderStatus(escapeHtml(response.message));
+        renderStatus(Tools.escapeHtml(response.message));
         return;
     }
     getCheckResult(response.text, function(resultText) {
@@ -170,7 +162,7 @@ function handleCheckResult(response, tabs, callback) {
             callback(response.text);
         }
     }, function(errorMessage) {
-        renderStatus('Could not check text: ' + escapeHtml(errorMessage));
+        renderStatus('Could not check text: ' + Tools.escapeHtml(errorMessage));
         if (callback) {
             callback(response.text, errorMessage);
         }
