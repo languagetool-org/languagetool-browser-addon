@@ -6,10 +6,8 @@ https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpd
 
 ### Unit tests
 
-Run `mocha`. To run tests continuously during development:
-`alias automocha="supervisor -q -n exit -x mocha -- -b"` then call `automocha` 
-to automatically run the test as soon as the test files change
-(source: https://coderwall.com/p/fdcsyq/auto-run-tests-in-node-js)
+Run `mocha`. To run tests continuously during development, run `mocha -w`
+(this will automatically run the tests as soon as the source files change).
 
 ### Integration tests
 
