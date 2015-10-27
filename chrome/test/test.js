@@ -149,6 +149,16 @@ describe('Markup', function () {
         let output4a = [{markup: '<div>', text: '\n\n'}, {text: 'foo'}, {markup: '</div>'},
                         {markup: '<div>', text: '\n\n'}, {text: 'new'}, {markup: '</div>'}];
         assert.deepEqual(f(input4, 7, 3, 'new'), output4a);
+
+        // "This <b>is</b> is ..." - not supported yet, as error area spans more than a single
+        // 'text' element:
+        try {
+            let input5   = [{text: 'This '}, {markup: '<b>'}, {text: 'is'}, {markup: '</b>'}, {text: ' is'}];
+            let output5a = [{text: 'This '}, {markup: '<b>'}, {text: 'is'}, {markup: '</b>'}];
+            assert.deepEqual(f(input5, 5, 5, 'is'), output5a);
+        } catch (expected) {
+            // expected
+        }
     });
     
 });

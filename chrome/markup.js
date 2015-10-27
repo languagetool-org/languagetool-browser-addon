@@ -92,6 +92,7 @@ class Markup {
     static replace(markupList, plainTextErrorOffset, errorLen, errorReplacement) {
         var result = [];
         var plainTextPos = 0;
+        var found = false;
         for (let idx in markupList) {
             let elem = markupList[idx];
             if (elem.text && elem.markup) {
@@ -107,8 +108,10 @@ class Markup {
                         // <div>foo</div>bar
                         // -> but is position 3 after the "foo" or in front of "bar"? We assume it's in front of 'bar',
                         // that seems to be the better choice for our use case
-                        //console.log("relErrorOffset: " + relErrorOffset + ", elem.text.length: " + elem.text.length + ", elem.text: " +  elem.text);
                         let newText = elem.text.substr(0, relErrorOffset) + errorReplacement + elem.text.substr(relErrorOffset+errorLen);
+                        if (newText !== elem.text) {
+                            found = true;
+                        }
                         result.push({text: newText});
                     } else {
                         result.push({text: elem.text});
@@ -120,6 +123,10 @@ class Markup {
             } else if (elem.markup) {
                 result.push({markup: elem.markup});
             }
+        }
+        if (!found) {
+            // see test case for when this might happen
+            throw "Sorry, could not replace error with suggestion. This can happen when editing HTML.";
         }
         return result;
     }

@@ -92,7 +92,14 @@ function getMarkupListOfActiveElement(elem) {
 }
 
 function applyCorrection(request) {
-    let newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
+    var newMarkupList;
+    try {
+        newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
+    } catch (e) {
+        // e.g. when replacement fails because of complicated HTML
+        alert(e.toString());
+        return;
+    }
     // TODO: active element might have changed in between?!
     let activeElem = document.activeElement;
     // Note: this duplicates the logic from getTextOfActiveElement():
