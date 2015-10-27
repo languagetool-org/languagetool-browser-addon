@@ -159,6 +159,11 @@ describe('Markup', function () {
         } catch (expected) {
             // expected
         }
+
+        // TODO: this doesn't work yet:
+        let input6   = [{text: 'This '}, {text: 'is '}, {markup: '<b>'}, {text: 'is'}, {markup: '</b>'}];
+        let output6a = [{text: 'This '}, {markup: '<b>'}, {text: 'is'}, {markup: '</b>'}];
+        //assert.deepEqual(f(input6, 5, 5, 'is'), output6a);
     });
     
 });
