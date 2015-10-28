@@ -74,7 +74,7 @@ function getMarkupListOfActiveElement(elem) {
     if (isSimpleInput(elem)) {
         return [{ text: elem.value }];
     } else if (elem.hasAttribute("contenteditable")) {
-        return Markup.html2markupList(elem.innerHTML);
+        return Markup.html2markupList(elem.innerHTML, document);
     } else if (elem.tagName === "IFRAME") {
         let activeElem = elem.contentWindow.document.activeElement;
         if (activeElem.textContent) {

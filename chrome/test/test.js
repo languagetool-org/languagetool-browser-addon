@@ -36,40 +36,44 @@ describe('Tools', function () {
 });
 
 describe('Markup', function () {
-    
+
+    // see https://www.npmjs.com/package/mock-browser
+    let MockBrowser = require('mock-browser').mocks.MockBrowser;
+    let doc = new MockBrowser().getDocument();
+
     it('html2markupList', function () {
         let f = Markup.html2markupList;
-        assert.deepEqual(f("foo"), [{text: 'foo'}]);
-        assert.deepEqual(f("<x/>"), [{markup: '<x/>'}]);
-        assert.deepEqual(f("<div/>"), [{markup: '<div/>', text: '\n\n'}]);
-        assert.deepEqual(f("y <x/> z"), [
+        assert.deepEqual(f("foo", doc), [{text: 'foo'}]);
+        assert.deepEqual(f("<x/>", doc), [{markup: '<x/>'}]);
+        assert.deepEqual(f("<div/>", doc), [{markup: '<div/>', text: '\n\n'}]);
+        assert.deepEqual(f("y <x/> z", doc), [
             {text: 'y '},
             {markup: '<x/>'},
             {text: ' z'}
         ]);
-        assert.deepEqual(f("<div>foo</div>"), [
+        assert.deepEqual(f("<div>foo</div>", doc), [
             {markup: '<div>', text: '\n\n'},
             {text: 'foo'},
             {markup: '</div>'}
         ]);
-        assert.deepEqual(f("<div class='myclass'>foo</div>"), [
+        assert.deepEqual(f("<div class='myclass'>foo</div>", doc), [
             {markup: '<div class=\'myclass\'>', text: '\n\n'},
             {text: 'foo'},
             {markup: '</div>'}
         ]);
-        assert.deepEqual(f("<p>foo</p>"), [
+        assert.deepEqual(f("<p>foo</p>", doc), [
             {markup: '<p>', text: '\n\n'},
             {text: 'foo'},
             {markup: '</p>'}
         ]);
-        assert.deepEqual(f("<x><div>foo</div></x>"), [
+        assert.deepEqual(f("<x><div>foo</div></x>", doc), [
             {markup: '<x>'},
             {markup: '<div>', text: '\n\n'},
             {text: 'foo'},
             {markup: '</div>'},
             {markup: '</x>'}
         ]);
-        assert.deepEqual(f("<x><div>foo</div></x> end"), [
+        assert.deepEqual(f("<x><div>foo</div></x> end", doc), [
             {markup: '<x>'},
             {markup: '<div>', text: '\n\n'},
             {text: 'foo'},
@@ -164,6 +168,13 @@ describe('Markup', function () {
         let input6   = [{text: 'This '}, {text: 'is '}, {markup: '<b>'}, {text: 'is'}, {markup: '</b>'}];
         let output6a = [{text: 'This '}, {markup: '<b>'}, {text: 'is'}, {markup: '</b>'}];
         //assert.deepEqual(f(input6, 5, 5, 'is'), output6a);
+    });
+
+    it('resolveEntities', function () {
+        let f = Markup._resolveEntities;
+        assert.equal(f("", doc), "");
+        assert.equal(f("foo&nbsp;bar", doc), "foo\u00A0bar");
+        assert.equal(f("&Uuml;ber &uuml;bel &szlig;", doc), "Über übel ß");
     });
     
 });

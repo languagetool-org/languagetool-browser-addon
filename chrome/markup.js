@@ -20,7 +20,7 @@
 
 class Markup {
 
-    static html2markupList(html) {
+    static html2markupList(html, doc) {
         var result = [];
         var inMarkup = false;
         var buffer = "";
@@ -29,7 +29,7 @@ class Markup {
             var skip = false;
             if (ch === '<') {
                 if (buffer) {
-                    result.push({text: buffer});
+                    result.push({text: Markup._resolveEntities(buffer, doc)});
                     buffer = "";
                 }
                 inMarkup = true;
@@ -48,9 +48,19 @@ class Markup {
         if (inMarkup && buffer) {
             Markup._handleMarkupItem(buffer, result);
         } else if (buffer) {
-            result.push({text: buffer});
+            result.push({text: Markup._resolveEntities(buffer, doc)});
         }
         return result;
+    }
+
+    // LT would be confused if it gets e.g. "&nbsp;" as input, so we resolve entities.
+    // We change the text we work on, so when we replace errors with suggestions we
+    // also set a text that has entities resolved, but I hope that never makes a difference.
+    static _resolveEntities(str, doc) {
+        // Source: http://stackoverflow.com/questions/3700326/decode-amp-back-to-in-javascript/3700369#3700369
+        let elem = doc.createElement('textarea');
+        elem.innerHTML = str;
+        return elem.value;
     }
     
     static _handleMarkupItem(buffer, result) {
