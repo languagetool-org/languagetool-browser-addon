@@ -19,7 +19,8 @@
   },
   "permissions": [
     "activeTab",
-    "https://languagetool.org:8081/"
+    "https://languagetool.org:8081/",
+    "storage"
   ],
   "content_scripts": [
     {
@@ -33,6 +34,10 @@
         "default": "Ctrl+Shift+Space"
       }
     }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
   },
   "applications": {
     "gecko": {

@@ -18,9 +18,10 @@
  */
 "use strict";
 
+let defaultServerUrl = 'https://languagetool.org:8081/';   // keep in sync with defaultServerUrl in options.js
+
 var testMode = false;
-let serverUrl = 'https://languagetool.org:8081/';
-//let serverUrl = 'http://localhost:8081/';  // for local testing
+var serverUrl = defaultServerUrl;
 
 function getCheckResult(markupList, callback, errorCallback) {
     let req = new XMLHttpRequest();
@@ -75,7 +76,11 @@ function renderMatchesToHtml(resultXml, createLinks) {
         }
         html += "</ul>";
     }
-    html += "<p class='poweredBy'>Text checked remotely by <a target='_blank' href='https://languagetool.org'>languagetool.org</a></p>";
+    if (serverUrl === defaultServerUrl) {
+        html += "<p class='poweredBy'>Text checked remotely by <a target='_blank' href='https://languagetool.org'>languagetool.org</a></p>";
+    } else {
+        html += "<p class='poweredBy'>Text checked by " + serverUrl + "</a></p>";
+    }
     if (testMode) {
         html += "*** running in test mode ***";
     }
@@ -172,21 +177,33 @@ function handleCheckResult(response, tabs, callback) {
 }
 
 function startCheckMaybeWithWarning(tabs) {
-    if (localStorage.allowRemoteCheck === "true") {
-        doCheck(tabs);
-    } else {
-        renderStatus('<p>This extension will check your text by sending it to ' +
-            '<a href="https://languagetool.org" target="_blank">https://languagetool.org</a> ' +
-            'over an encrypted connection. Your text will not be stored. For details, ' +
-            'see <a href="https://languagetool.org/privacy/" target="_blank">our privacy policy</a>.</p>' +
-            '<a class="privacyLink" id="confirmCheck" href="#">Continue and don\'t warn again</a> &nbsp;&nbsp;' +
-            '<a class="privacyLink" id="cancelCheck" href="#">Cancel</a>');
-        document.getElementById("confirmCheck").addEventListener("click", function() {
-            localStorage.allowRemoteCheck = "true";
+    chrome.storage.sync.get({
+        apiServerUrl: serverUrl
+    }, function(items) {
+        serverUrl = items.apiServerUrl;
+        if (localStorage.allowRemoteCheck === "true") {
             doCheck(tabs);
-        });
-        document.getElementById("cancelCheck").addEventListener("click", function() { self.close(); });
-    }
+        } else {
+            if (serverUrl === defaultServerUrl) {
+                renderStatus('<p>This extension will check your text by sending it to ' +
+                    '<a href="https://languagetool.org" target="_blank">https://languagetool.org</a> ' +
+                    'over an encrypted connection. Your text will not be stored. For details, ' +
+                    'see <a href="https://languagetool.org/privacy/" target="_blank">our privacy policy</a>.</p>' +
+                    '<a class="privacyLink" id="confirmCheck" href="#">Continue and don\'t warn again</a> &nbsp;&nbsp;' +
+                    '<a class="privacyLink" id="cancelCheck" href="#">Cancel</a>');
+            } else {
+                renderStatus('<p>This extension will check your text by sending it to ' + serverUrl + '. ' +
+                    'To switch back to the default server, please visit the extension\'s options page.</p>' +
+                    '<a class="privacyLink" id="confirmCheck" href="#">Continue and don\'t warn again</a> &nbsp;&nbsp;' +
+                    '<a class="privacyLink" id="cancelCheck" href="#">Cancel</a>');
+            }
+            document.getElementById("confirmCheck").addEventListener("click", function() {
+                localStorage.allowRemoteCheck = "true";
+                doCheck(tabs);
+            });
+            document.getElementById("cancelCheck").addEventListener("click", function() { self.close(); });
+        }
+    });
 }
 
 function doCheck(tabs) {
