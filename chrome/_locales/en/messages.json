@@ -24,5 +24,18 @@
   "noReplacementPossible": {
     "message": "Sorry, LanguageTool extension could not find error context in text",
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML."
+  },
+  
+  "serverText": {
+    "message": "LanguageTool API server URL:",
+    "description": "Options dialog: description of the text field for the API server URL"
+  },
+  "defaultServerLink": {
+    "message": "Use default",
+    "description": "Options dialog: Link to reset the URL of the API server to the default value"
+  },
+  "save": {
+    "message": "Save",
+    "description": "Options dialog: save button"
   }
 }

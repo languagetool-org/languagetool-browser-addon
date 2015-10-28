@@ -19,5 +19,15 @@
   },
   "noReplacementPossible": {
     "message": "Leider konnte die LanguageTool-Erweiterung den Fehler im Text nicht ersetzen"
+  },
+  
+  "serverText": {
+    "message": "URL des LanguageTool API-Servers:"
+  },
+  "defaultServerLink": {
+    "message": "auf Standardwert zurücksetzen"
+  },
+  "save": {
+    "message": "Speichern"
   }
 }

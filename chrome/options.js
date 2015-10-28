@@ -36,6 +36,9 @@ function saveOptions() {
 }
 
 function restoreOptions() {
+    document.getElementById('serverText').textContent = chrome.i18n.getMessage("serverText");
+    document.getElementById('defaultServerLink').textContent = chrome.i18n.getMessage("defaultServerLink");
+    document.getElementById('save').textContent = chrome.i18n.getMessage("save");
     chrome.storage.sync.get({
         apiServerUrl: defaultServerUrl
     }, function(items) {
