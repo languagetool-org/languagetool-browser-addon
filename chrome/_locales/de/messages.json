@@ -1,0 +1,23 @@
+{
+  "appDesc": {
+    "message": "Textprüfung für Grammatik, Stil und Rechtschreibung"
+  },
+  "placeCursor1": {
+    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (keine aktives Element im IFRAME gefunden)."
+  },
+  "placeCursor2": {
+    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (aktives Element: $elem$).",
+    "placeholders": {
+      "elem": {
+        "content": "$1",
+        "example": "BODY"
+      }
+    }
+  },
+  "placeCursor3": {
+    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (kein aktives Element gefunden)."
+  },
+  "noReplacementPossible": {
+    "message": "Leider konnte die LanguageTool-Erweiterung den Fehler im Text nicht ersetzen"
+  }
+}

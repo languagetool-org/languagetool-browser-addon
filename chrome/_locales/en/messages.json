@@ -1,0 +1,28 @@
+{
+  "appDesc": {
+    "message": "Style and grammar checking for Chrome",
+    "description": "The description of the application, displayed in the web store."
+  },
+  "placeCursor1": {
+    "message": "Please place the cursor in an editable field or select text (no active element in iframe found).",
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
+  },
+  "placeCursor2": {
+    "message": "Please place the cursor in an editable field or select text (active element: $elem$).",
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "placeholders": {
+      "elem": {
+        "content": "$1",
+        "example": "BODY"
+      }
+    }
+  },
+  "placeCursor3": {
+    "message": "Please place the cursor in an editable field or select text (no active element found).",
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
+  },
+  "noReplacementPossible": {
+    "message": "Sorry, LanguageTool extension could not find error context in text",
+    "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML."
+  }
+}

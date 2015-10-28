@@ -80,13 +80,13 @@ function getMarkupListOfActiveElement(elem) {
         if (activeElem.textContent) {
             return [{ text: activeElem.textContent.toString() }];
         } else {
-            throw "Please place the cursor in an editable field or select text (no active element in iframe found)."
+            throw chrome.i18n.getMessage("placeCursor1")
         }
     } else {
         if (elem) {
-            throw "Please place the cursor in an editable field or select text (active element: " + elem.tagName + ")."
+            throw chrome.i18n.getMessage("placeCursor2", elem.tagName)
         } else {
-            throw "Please place the cursor in an editable field or select text (no active element found)."
+            throw chrome.i18n.getMessage("placeCursor3")
         }
     }
 }
@@ -113,7 +113,7 @@ function applyCorrection(request) {
         found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
     }
     if (!found) {
-        alert("Sorry, LanguageTool extension could not find error context in text");
+        alert(chrome.i18n.getMessage("noReplacementPossible"));
     }
 }
 
