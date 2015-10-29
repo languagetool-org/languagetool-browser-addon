@@ -30,20 +30,20 @@ function getCheckResult(markupList, callback, errorCallback) {
     req.onload = function() {
         let response = req.response;
         if (!response) {
-            errorCallback('No response from ' + serverUrl);
+            errorCallback(chrome.i18n.getMessage("noResponseFromServer", serverUrl));
             return;
         }
         if (req.status !== 200) {
-            errorCallback('No valid response from ' + serverUrl + ': ' + req.response + ', code ' + req.status);
+            errorCallback(chrome.i18n.getMessage("noValidResponseFromServer", [serverUrl, req.response, req.status]));
             return;
         }
         callback(response);
     };
     req.onerror = function() {
-        errorCallback('Network error (' + serverUrl + ')');
+        errorCallback(chrome.i18n.getMessage("networkError", serverUrl));
     };
     req.ontimeout = function() {
-        errorCallback('Timeout from server - please try again later (' + serverUrl + ')');
+        errorCallback(chrome.i18n.getMessage("timeoutError", serverUrl));
     };
     let text = Markup.markupList2text(markupList);
     let params = 'autodetect=1&text=' + encodeURIComponent(text);
@@ -57,10 +57,10 @@ function renderStatus(statusHtml) {
 function renderMatchesToHtml(resultXml, createLinks) {
     let dom = (new window.DOMParser()).parseFromString(resultXml, "text/xml");
     let language = dom.getElementsByTagName("language")[0].getAttribute("name");
-    var html = "Detected language: " + Tools.escapeHtml(language);
+    var html = chrome.i18n.getMessage("detectedLanguage", Tools.escapeHtml(language));
     let matches = dom.getElementsByTagName("error");
     if (matches.length === 0) {
-        html += "<p>No errors found</p>";
+        html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
     } else {
         html += "<ul>";
         for (let match in matches) {
@@ -77,9 +77,9 @@ function renderMatchesToHtml(resultXml, createLinks) {
         html += "</ul>";
     }
     if (serverUrl === defaultServerUrl) {
-        html += "<p class='poweredBy'>Text checked remotely by <a target='_blank' href='https://languagetool.org'>languagetool.org</a></p>";
+        html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
     } else {
-        html += "<p class='poweredBy'>Text checked by " + serverUrl + "</a></p>";
+        html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedBy", serverUrl) + "</p>";
     }
     if (testMode) {
         html += "*** running in test mode ***";
@@ -134,8 +134,7 @@ function renderReplacements(context, m, createLinks) {
 function handleCheckResult(response, tabs, callback) {
     if (!response) {
         // not sure *why* this happens...
-        renderStatus('If you have just installed or (re-)activated this extension, ' +
-                     'please reload the tab first in which you want to check a text.');
+        renderStatus(chrome.i18n.getMessage("freshInstallReload"));
         return;
     }
     if (response.message) {
@@ -169,7 +168,7 @@ function handleCheckResult(response, tabs, callback) {
             callback(response.markupList);
         }
     }, function(errorMessage) {
-        renderStatus('Could not check text: ' + Tools.escapeHtml(errorMessage));
+        renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(errorMessage)));
         if (callback) {
             callback(response.markupList, errorMessage);
         }
@@ -184,19 +183,16 @@ function startCheckMaybeWithWarning(tabs) {
         if (localStorage.allowRemoteCheck === "true") {
             doCheck(tabs);
         } else {
+            var message = "<p>";
             if (serverUrl === defaultServerUrl) {
-                renderStatus('<p>This extension will check your text by sending it to ' +
-                    '<a href="https://languagetool.org" target="_blank">https://languagetool.org</a> ' +
-                    'over an encrypted connection. Your text will not be stored. For details, ' +
-                    'see <a href="https://languagetool.org/privacy/" target="_blank">our privacy policy</a>.</p>' +
-                    '<a class="privacyLink" id="confirmCheck" href="#">Continue and don\'t warn again</a> &nbsp;&nbsp;' +
-                    '<a class="privacyLink" id="cancelCheck" href="#">Cancel</a>');
+                message += chrome.i18n.getMessage("privacyNoteForDefaultServer", ["https://languagetool.org", "https://languagetool.org/privacy/"]);
             } else {
-                renderStatus('<p>This extension will check your text by sending it to ' + serverUrl + '. ' +
-                    'To switch back to the default server, please visit the extension\'s options page.</p>' +
-                    '<a class="privacyLink" id="confirmCheck" href="#">Continue and don\'t warn again</a> &nbsp;&nbsp;' +
-                    '<a class="privacyLink" id="cancelCheck" href="#">Cancel</a>');
+                message += chrome.i18n.getMessage("privacyNoteForOtherServer", serverUrl);
             }
+            message += '</p>';
+            message += '<a class="privacyLink" id="confirmCheck" href="#">' + chrome.i18n.getMessage("continue") + '</a> &nbsp;&nbsp;' +
+                       '<a class="privacyLink" id="cancelCheck" href="#">' + chrome.i18n.getMessage("cancel") + '</a>';
+            renderStatus(message);
             document.getElementById("confirmCheck").addEventListener("click", function() {
                 localStorage.allowRemoteCheck = "true";
                 doCheck(tabs);
@@ -207,7 +203,7 @@ function startCheckMaybeWithWarning(tabs) {
 }
 
 function doCheck(tabs) {
-    renderStatus('<img src="images/throbber_28.gif"> Checking...');
+    renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
     chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
         handleCheckResult(response, tabs);
     });

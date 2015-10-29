@@ -26,6 +26,141 @@
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML."
   },
   
+  
+  "noResponseFromServer": {
+    "message": "No response from $serverUrl$",
+    "description": "Error message if API server doesn't respond",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "noValidResponseFromServer": {
+    "message": "No valid response from $serverUrl$: $response$, code $status$",
+    "description": "Error message shown we cannot parse API server response",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      },
+      "response": {
+        "content": "$2",
+        "example": "Page not found"
+      },
+      "status": {
+        "content": "$3",
+        "example": "404"
+      }
+    }
+  },
+  "networkError": {
+    "message": "Network error ($serverUrl$)",
+    "description": "Error message shown if API server could not be connected due to network issues",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "timeoutError": {
+    "message": "Timeout from server - please try again later ($serverUrl$)",
+    "description": "Error message shown if API server doesn't respond timely",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "detectedLanguage": {
+    "message": "Detected language: $language$",
+    "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English"
+      }
+    }
+  },
+  "noErrorsFound": {
+    "message": "No errors found",
+    "description": "Text shown in the popup when the server found no potential errors in the text to check"
+  },
+  "textCheckedRemotely": {
+    "message": "Text checked remotely by <a target='_blank' href='$url$'>languagetool.org</a>",
+    "description": "Text shown in the popup to make the user aware of which remote service was used to check their text",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      }
+    }
+  },
+  "textCheckedBy": {
+    "message": "Text checked by $serverUrl$",
+    "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "freshInstallReload": {
+    "message": "If you have just installed or (re-)activated this extension, please reload the tab first in which you want to check a text.",
+    "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet"
+  },
+  "couldNotCheckText": {
+    "message": "Could not check text: $detail$",
+    "description": "Error shown in the popup to indicate an error",
+    "placeholders": {
+      "detail": {
+        "content": "$1",
+        "example": "Network error (https://languagetool.org:8081/)"
+      }
+    }
+  },
+  "checkingProgress": {
+    "message": "Checking...",
+    "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress"
+  },
+  "privacyNoteForDefaultServer": {
+    "message": "This extension will check your text by sending it to <a href='$serverUrl$' target='_blank'>$serverUrl$</a> over an encrypted connection. Your text will not be stored. For details, see <a href='$privacyUrl$' target='_blank'>our privacy policy</a>.",
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      },
+      "privacyUrl": {
+        "content": "$2",
+        "example": "https://languagetool.org/privacy/"
+      }
+    }
+  },
+  "privacyNoteForOtherServer": {
+    "message": "This extension will check your text by sending it to $serverUrl$. To switch back to the default server, please visit the extension's options page.",
+    "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "continue": {
+    "message": "Continue and don't ask again",
+    "description": "Link shown below the privacy note on first use"
+  },
+  "cancel": {
+    "message": "Cancel",
+    "description": "Link shown below the privacy note on first use"
+  },
+
+  
   "serverText": {
     "message": "LanguageTool API server URL:",
     "description": "Options dialog: description of the text field for the API server URL"
