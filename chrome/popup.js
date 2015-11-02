@@ -19,6 +19,7 @@
 "use strict";
 
 let defaultServerUrl = 'https://languagetool.org:8081/';   // keep in sync with defaultServerUrl in options.js
+let unsupportedSitesRegex = /https?:\/\/docs.google.com.*/;
 
 var testMode = false;
 var serverUrl = defaultServerUrl;
@@ -205,7 +206,11 @@ function startCheckMaybeWithWarning(tabs) {
 function doCheck(tabs) {
     renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
     chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
-        handleCheckResult(response, tabs);
+        if (tabs[0].url.match(unsupportedSitesRegex)) {
+            renderStatus(chrome.i18n.getMessage("siteNotSupported"));
+        } else {
+            handleCheckResult(response, tabs);
+        }
     });
 }
 

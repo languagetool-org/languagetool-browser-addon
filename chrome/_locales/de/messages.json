@@ -97,6 +97,10 @@
         "message": "Konnte Fehler nicht durch Vorschlag ersetzen. Dies kann passieren, wenn Sie HTML editieren.",
         "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported"
     },
+    "siteNotSupported": {
+        "message": "Tut uns leid, aber diese Site wird von dieser Erweiterung nicht unterstützt.",
+        "description": "Some sites like Google Docs are too complex, so we show this error"
+    },
     "noErrorsFound": {
         "message": "Keine Fehler gefunden",
         "description": "Text shown in the popup when the server found no potential errors in the text to check"

@@ -33,6 +33,10 @@
     "message": "Sorry, could not replace error with suggestion. This can happen when editing HTML.",
     "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported"
   },
+  "siteNotSupported": {
+    "message": "Sorry, this site is not supported by this extension.",
+    "description": "Some sites like Google Docs are too complex, so we show this error"
+  },
 
 
   "noResponseFromServer": {
