@@ -16,7 +16,7 @@
   "browser_action": {
     "default_icon": "images/icon48.png",
     "default_popup": "popup.html",
-    "default_title": "Check the current selection\nor text field with LanguageTool"
+    "default_title": "__MSG_tooltip__"
   },
   "permissions": [
     "activeTab",

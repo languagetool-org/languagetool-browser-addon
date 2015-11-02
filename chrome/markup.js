@@ -136,7 +136,7 @@ class Markup {
         }
         if (!found) {
             // see test case for when this might happen
-            throw "Sorry, could not replace error with suggestion. This can happen when editing HTML.";
+            throw chrome.i18n.getMessage("noReplacementPossible2")
         }
         return result;
     }

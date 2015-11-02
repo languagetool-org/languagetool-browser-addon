@@ -67,6 +67,10 @@
         "message": "Textprüfung für Grammatik, Stil und Rechtschreibung",
         "description": "The description of the application, displayed in the web store."
     },
+    "tooltip": {
+        "message": "Die aktuelle Textauswahl oder\ndas Textfeld mit LanguageTool prüfen",
+        "description": "Tooltip shown when hovering over the extension icon"
+    },
     "privacyNoteForDefaultServer": {
         "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie über eine verschlüsselte Verbindung an <a href='$serverUrl$' target='_blank'>$serverUrl$</a> überträgt. Ihr Text wird nicht gespeichert. Genaueres erfahren Sie in unseren <a href='$privacyUrl$' target='_blank'>Datenschutzrichtlinien</a>.",
         "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
@@ -88,6 +92,10 @@
     "noReplacementPossible": {
         "message": "Leider konnte die LanguageTool-Erweiterung den Fehler im Text nicht ersetzen",
         "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML."
+    },
+    "noReplacementPossible2": {
+        "message": "Konnte Fehler nicht durch Vorschlag ersetzen. Dies kann passieren, wenn Sie HTML editieren.",
+        "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported"
     },
     "noErrorsFound": {
         "message": "Keine Fehler gefunden",
