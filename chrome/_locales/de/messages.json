@@ -1,33 +1,94 @@
 {
-  "appDesc": {
-    "message": "Textprüfung für Grammatik, Stil und Rechtschreibung"
-  },
-  "placeCursor1": {
-    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (keine aktives Element im IFRAME gefunden)."
-  },
-  "placeCursor2": {
-    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (aktives Element: $elem$).",
-    "placeholders": {
-      "elem": {
-        "content": "$1",
-        "example": "BODY"
-      }
+    "placeCursor3": {
+        "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (kein aktives Element gefunden).",
+        "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
+    },
+    "textCheckedRemotely": {
+        "message": "Text wurde durch <a target='_blank' href='$url$'>languagetool.org</a> geprüft",
+        "description": "Text shown in the popup to make the user aware of which remote service was used to check their text"
+    },
+    "noValidResponseFromServer": {
+        "message": "Keine gültige Antwort von Server $serverUrl$: $response$, Nummer $status$",
+        "description": "Error message shown we cannot parse API server response"
+    },
+    "serverText": {
+        "message": "URL des LanguageTool API-Servers:",
+        "description": "Options dialog: description of the text field for the API server URL"
+    },
+    "checkingProgress": {
+        "message": "Text wird geprüft...",
+        "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress"
+    },
+    "continue": {
+        "message": "Weitermachen und nicht wieder nachfragen",
+        "description": "Link shown below the privacy note on first use"
+    },
+    "placeCursor2": {
+        "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (aktives Element: $elem$).",
+        "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
+    },
+    "privacyNoteForOtherServer": {
+        "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie an $serverUrl$ überträgt. Um den Standard-Server zu benutzen, stellen Sie ihn bitte in der Konfiguration dieser Erweiterung ein.",
+        "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server"
+    },
+    "appDesc": {
+        "message": "Textprüfung für Grammatik, Stil und Rechtschreibung",
+        "description": "The description of the application, displayed in the web store."
+    },
+    "privacyNoteForDefaultServer": {
+        "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie über eine verschlüsselte Verbindung an <a href='$serverUrl$' target='_blank'>$serverUrl$</a> überträgt. Ihr Text wird nicht gespeichert. Genaueres erfahren Sie in unseren <a href='$privacyUrl$' target='_blank'>Datenschutzrichtlinien</a>.",
+        "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org"
+    },
+    "defaultServerLink": {
+        "message": "auf Standardwert zurücksetzen",
+        "description": "Options dialog: Link to reset the URL of the API server to the default value"
+    },
+    "noReplacementPossible": {
+        "message": "Leider konnte die LanguageTool-Erweiterung den Fehler im Text nicht ersetzen",
+        "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML."
+    },
+    "noErrorsFound": {
+        "message": "Keine Fehler gefunden",
+        "description": "Text shown in the popup when the server found no potential errors in the text to check"
+    },
+    "detectedLanguage": {
+        "message": "Erkannte Sprache: $language$",
+        "description": "Text shown in the popup to indicate the automatically detected language of the text checked"
+    },
+    "networkError": {
+        "message": "Netzwerk-Fehler ($serverUrl$)",
+        "description": "Error message shown if API server could not be connected due to network issues"
+    },
+    "placeCursor1": {
+        "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (keine aktives Element im IFRAME gefunden).",
+        "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
+    },
+    "save": {
+        "message": "Speichern",
+        "description": "Options dialog: save button"
+    },
+    "couldNotCheckText": {
+        "message": "Konnte Text nicht prüfen: $detail$",
+        "description": "Error shown in the popup to indicate an error"
+    },
+    "freshInstallReload": {
+        "message": "Wenn Sie diese Erweiterung gerade installiert oder (re-)aktiviert haben, laden Sie bitte das Tab mit dem zu prüfenden Text neu.",
+        "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet"
+    },
+    "cancel": {
+        "message": "Abbrechen",
+        "description": "Link shown below the privacy note on first use"
+    },
+    "noResponseFromServer": {
+        "message": "Server $serverUrl$ antwortet nicht",
+        "description": "Error message if API server doesn't respond"
+    },
+    "textCheckedBy": {
+        "message": "Text wurde durch $serverUrl$ geprüft",
+        "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text"
+    },
+    "timeoutError": {
+        "message": "Zeitüberschreitung - bitte versuchen Sie es später noch einmal ($serverUrl$)",
+        "description": "Error message shown if API server doesn't respond timely"
     }
-  },
-  "placeCursor3": {
-    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (kein aktives Element gefunden)."
-  },
-  "noReplacementPossible": {
-    "message": "Leider konnte die LanguageTool-Erweiterung den Fehler im Text nicht ersetzen"
-  },
-  
-  "serverText": {
-    "message": "URL des LanguageTool API-Servers:"
-  },
-  "defaultServerLink": {
-    "message": "auf Standardwert zurücksetzen"
-  },
-  "save": {
-    "message": "Speichern"
-  }
 }
