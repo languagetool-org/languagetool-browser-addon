@@ -5,11 +5,31 @@
     },
     "textCheckedRemotely": {
         "message": "Text wurde durch <a target='_blank' href='$url$'>languagetool.org</a> geprüft",
-        "description": "Text shown in the popup to make the user aware of which remote service was used to check their text"
+        "description": "Text shown in the popup to make the user aware of which remote service was used to check their text",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://languagetool.org"
+            }
+        }
     },
     "noValidResponseFromServer": {
         "message": "Keine gültige Antwort von Server $serverUrl$: $response$, Nummer $status$",
-        "description": "Error message shown we cannot parse API server response"
+        "description": "Error message shown we cannot parse API server response",
+        "placeholders": {
+            "serverUrl": {
+                "content": "$1",
+                "example": "https://languagetool.org:8081/"
+            },
+            "response": {
+                "content": "$2",
+                "example": "Page not found"
+            },
+            "status": {
+                "content": "$3",
+                "example": "404"
+            }
+        }
     },
     "serverText": {
         "message": "URL des LanguageTool API-Servers:",
@@ -25,11 +45,23 @@
     },
     "placeCursor2": {
         "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (aktives Element: $elem$).",
-        "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
+        "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+        "placeholders": {
+            "elem": {
+                "content": "$1",
+                "example": "BODY"
+            }
+        }
     },
     "privacyNoteForOtherServer": {
         "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie an $serverUrl$ überträgt. Um den Standard-Server zu benutzen, stellen Sie ihn bitte in der Konfiguration dieser Erweiterung ein.",
-        "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server"
+        "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
+        "placeholders": {
+            "serverUrl": {
+                "content": "$1",
+                "example": "http://localhost:8081/"
+            }
+        }
     },
     "appDesc": {
         "message": "Textprüfung für Grammatik, Stil und Rechtschreibung",
@@ -37,7 +69,17 @@
     },
     "privacyNoteForDefaultServer": {
         "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie über eine verschlüsselte Verbindung an <a href='$serverUrl$' target='_blank'>$serverUrl$</a> überträgt. Ihr Text wird nicht gespeichert. Genaueres erfahren Sie in unseren <a href='$privacyUrl$' target='_blank'>Datenschutzrichtlinien</a>.",
-        "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org"
+        "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+        "placeholders": {
+            "serverUrl": {
+                "content": "$1",
+                "example": "https://languagetool.org"
+            },
+            "privacyUrl": {
+                "content": "$2",
+                "example": "https://languagetool.org/privacy/"
+            }
+        }
     },
     "defaultServerLink": {
         "message": "auf Standardwert zurücksetzen",
@@ -53,11 +95,23 @@
     },
     "detectedLanguage": {
         "message": "Erkannte Sprache: $language$",
-        "description": "Text shown in the popup to indicate the automatically detected language of the text checked"
+        "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
+        "placeholders": {
+            "language": {
+                "content": "$1",
+                "example": "English"
+            }
+        }
     },
     "networkError": {
         "message": "Netzwerk-Fehler ($serverUrl$)",
-        "description": "Error message shown if API server could not be connected due to network issues"
+        "description": "Error message shown if API server could not be connected due to network issues",
+        "placeholders": {
+            "serverUrl": {
+                "content": "$1",
+                "example": "https://languagetool.org:8081/"
+            }
+        }
     },
     "placeCursor1": {
         "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (keine aktives Element im IFRAME gefunden).",
@@ -69,7 +123,13 @@
     },
     "couldNotCheckText": {
         "message": "Konnte Text nicht prüfen: $detail$",
-        "description": "Error shown in the popup to indicate an error"
+        "description": "Error shown in the popup to indicate an error",
+        "placeholders": {
+            "detail": {
+                "content": "$1",
+                "example": "Network error (https://languagetool.org:8081/)"
+            }
+        }
     },
     "freshInstallReload": {
         "message": "Wenn Sie diese Erweiterung gerade installiert oder (re-)aktiviert haben, laden Sie bitte das Tab mit dem zu prüfenden Text neu.",
@@ -81,14 +141,32 @@
     },
     "noResponseFromServer": {
         "message": "Server $serverUrl$ antwortet nicht",
-        "description": "Error message if API server doesn't respond"
+        "description": "Error message if API server doesn't respond",
+        "placeholders": {
+            "serverUrl": {
+                "content": "$1",
+                "example": "https://languagetool.org:8081/"
+            }
+        }
     },
     "textCheckedBy": {
         "message": "Text wurde durch $serverUrl$ geprüft",
-        "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text"
+        "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text",
+        "placeholders": {
+            "serverUrl": {
+                "content": "$1",
+                "example": "http://localhost:8081/"
+            }
+        }
     },
     "timeoutError": {
         "message": "Zeitüberschreitung - bitte versuchen Sie es später noch einmal ($serverUrl$)",
-        "description": "Error message shown if API server doesn't respond timely"
+        "description": "Error message shown if API server doesn't respond timely",
+        "placeholders": {
+            "serverUrl": {
+                "content": "$1",
+                "example": "https://languagetool.org:8081/"
+            }
+        }
     }
 }
