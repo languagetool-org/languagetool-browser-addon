@@ -4,7 +4,7 @@
     "description": "The description of the application, displayed in the web store."
   },
   "tooltip": {
-    "message": "Check the current selection\nor text field with LanguageTool",
+    "message": "Aktuelle Textauswahl oder\nTextfeld mit LanguageTool prüfen",
     "description": "Tooltip shown when hovering over the extension icon."
   },
   "placeCursor1": {
@@ -30,11 +30,11 @@
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML."
   },
   "noReplacementPossible2": {
-    "message": "Sorry, could not replace error with suggestion. This can happen when editing HTML.",
+    "message": "Leider konnte der Fehler nicht durch die Korrektur ersetzt werden. Dies kann manchmal beim Editieren von HTML passieren.",
     "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported"
   },
   "siteNotSupported": {
-    "message": "Sorry, this site is not supported by this extension.",
+    "message": "Tut uns leid, aber diese Website wird von der Erweiterung nicht unterstützt.",
     "description": "Some sites like Google Docs are too complex, so we show this error"
   },
 
