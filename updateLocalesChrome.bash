@@ -11,6 +11,6 @@ fi
 for lang in `ls chrome/_locales | sed "s/en//g"`; do
 	echo "Getting $lang..."
 	curl --user $U:$P http://www.transifex.net/api/2/project/languagetool/resource/chrome-extension/translation/$lang/?file > chrome/_locales/$lang/messages.json && \
-  	  ./injectTranslations.py chrome/_locales/en/messages.json chrome/_locales/$lang/messages.json > chrome/_locales/$lang/messages.json.tmp && \
+  	  ./injectTranslations.py $lang chrome/_locales/en/messages.json chrome/_locales/$lang/messages.json > chrome/_locales/$lang/messages.json.tmp && \
 	  mv chrome/_locales/$lang/messages.json.tmp chrome/_locales/$lang/messages.json
 done

@@ -1,189 +1,368 @@
 {
-  "appDesc": {
-    "message": "Textprüfung für Grammatik, Stil und Rechtschreibung",
-    "description": "The description of the application, displayed in the web store."
+  "defaultServerLink": {
+    "message": "auf Standardwert zurücksetzen",
+    "description": "Options dialog: Link to reset the URL of the API server to the default value"
   },
-  "tooltip": {
-    "message": "Aktuelle Textauswahl oder\nTextfeld mit LanguageTool prüfen",
-    "description": "Tooltip shown when hovering over the extension icon."
-  },
-  "placeCursor1": {
-    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (keine aktives Element im IFRAME gefunden).",
-    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
-  },
-  "placeCursor2": {
-    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (aktives Element: $elem$).",
-    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
-    "placeholders": {
-      "elem": {
-        "content": "$1",
-        "example": "BODY"
-      }
-    }
-  },
-  "placeCursor3": {
-    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (kein aktives Element gefunden).",
-    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
-  },
-  "noReplacementPossible": {
-    "message": "Leider konnte die LanguageTool-Erweiterung den Fehler im Text nicht ersetzen",
-    "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML."
-  },
-  "noReplacementPossible2": {
-    "message": "Leider konnte der Fehler nicht durch die Korrektur ersetzt werden. Dies kann manchmal beim Editieren von HTML passieren.",
-    "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported"
-  },
-  "siteNotSupported": {
-    "message": "Tut uns leid, aber diese Website wird von der Erweiterung nicht unterstützt.",
-    "description": "Some sites like Google Docs are too complex, so we show this error"
-  },
-
-
-  "noResponseFromServer": {
-    "message": "Server $serverUrl$ antwortet nicht",
-    "description": "Error message if API server doesn't respond",
+  "privacyNoteForOtherServer": {
     "placeholders": {
       "serverUrl": {
-        "content": "$1",
-        "example": "https://languagetool.org:8081/"
+        "example": "http://localhost:8081/",
+        "content": "$1"
       }
-    }
+    },
+    "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie an $serverUrl$ überträgt. Um den Standard-Server zu benutzen, stellen Sie ihn bitte in der Konfiguration dieser Erweiterung ein.",
+    "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server"
   },
-  "noValidResponseFromServer": {
-    "message": "Keine gültige Antwort von Server $serverUrl$: $response$, Nummer $status$",
-    "description": "Error message shown we cannot parse API server response",
+  "privacyNoteForDefaultServer": {
     "placeholders": {
+      "privacyUrl": {
+        "example": "https://languagetool.org/privacy/",
+        "content": "$2"
+      },
       "serverUrl": {
-        "content": "$1",
-        "example": "https://languagetool.org:8081/"
-      },
-      "response": {
-        "content": "$2",
-        "example": "Page not found"
-      },
-      "status": {
-        "content": "$3",
-        "example": "404"
+        "example": "https://languagetool.org",
+        "content": "$1"
       }
-    }
+    },
+    "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie über eine verschlüsselte Verbindung an <a href='$serverUrl$' target='_blank'>$serverUrl$</a> überträgt. Ihr Text wird nicht gespeichert. Genaueres erfahren Sie in unseren <a href='$privacyUrl$' target='_blank'>Datenschutzrichtlinien</a>.",
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org"
+  },
+  "appStoreWarning": {
+    "message": "*** HINWEIS: *** Dies ist noch eine der ersten Versionen dieser Erweiterung - wir wünschen uns Feedback dazu hier oder auf https://github.com/languagetool-org/languagetool-browser-addon/issues",
+    "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)"
   },
   "networkError": {
+    "placeholders": {
+      "serverUrl": {
+        "example": "https://languagetool.org:8081/",
+        "content": "$1"
+      }
+    },
     "message": "Netzwerk-Fehler ($serverUrl$)",
-    "description": "Error message shown if API server could not be connected due to network issues",
-    "placeholders": {
-      "serverUrl": {
-        "content": "$1",
-        "example": "https://languagetool.org:8081/"
-      }
-    }
-  },
-  "timeoutError": {
-    "message": "Zeitüberschreitung - bitte versuchen Sie es später noch einmal ($serverUrl$)",
-    "description": "Error message shown if API server doesn't respond timely",
-    "placeholders": {
-      "serverUrl": {
-        "content": "$1",
-        "example": "https://languagetool.org:8081/"
-      }
-    }
-  },
-  "detectedLanguage": {
-    "message": "Erkannte Sprache: $language$",
-    "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
-    "placeholders": {
-      "language": {
-        "content": "$1",
-        "example": "English"
-      }
-    }
-  },
-  "noErrorsFound": {
-    "message": "Keine Fehler gefunden",
-    "description": "Text shown in the popup when the server found no potential errors in the text to check"
+    "description": "Error message shown if API server could not be connected due to network issues"
   },
   "textCheckedRemotely": {
-    "message": "Text wurde durch <a target='_blank' href='$url$'>languagetool.org</a> geprüft",
-    "description": "Text shown in the popup to make the user aware of which remote service was used to check their text",
     "placeholders": {
       "url": {
-        "content": "$1",
-        "example": "https://languagetool.org"
+        "example": "https://languagetool.org",
+        "content": "$1"
       }
-    }
+    },
+    "message": "Text wurde durch <a target='_blank' href='$url$'>languagetool.org</a> geprüft",
+    "description": "Text shown in the popup to make the user aware of which remote service was used to check their text"
   },
-  "textCheckedBy": {
-    "message": "Text wurde durch $serverUrl$ geprüft",
-    "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text",
+  "placeCursor2": {
     "placeholders": {
-      "serverUrl": {
-        "content": "$1",
-        "example": "http://localhost:8081/"
+      "elem": {
+        "example": "BODY",
+        "content": "$1"
       }
-    }
+    },
+    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (aktives Element: $elem$).",
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
+  },
+  "es": {
+    "message": "Spanisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "appStoreDesc": {
+    "message": "Mit dieser Erweiterung können Sie Text mit der freien Stil- und Grammatikprüfung LanguageTool prüfen. LanguageTool findet viele Fehler, die eine normale Rechtschreibprüfung nicht finden kann, z.B. Probleme mit der Groß- und Kleinschreibung oder Wortverwechselungen wie Mine/Miene. Neben Deutsch unterstützt es auch Englisch und mehr als 25 weitere Sprachen.\n\nBenutzung: Markieren Sie den zu prüfenden Text oder klicken Sie in ein Textfeld. Dann klicken Sie auf das Icon dieser Erweiterung, das rechts oben im Browser angezeigt wird. Sie können alternativ auch Strg+Shift+Leertaste drücken.\n\nStandardmäßig  wird diese Erweiterung Ihre Texte über eine verschlüsselte Verbindung an https://languagetool.org schicken. Ihre Texte werden nicht gespeichert. Einzelheiten finden Sie in unseren Datenschutzrichtlinien unter https://languagetool.org/privacy/.",
+    "description": "Description in Google Chrome Web Store (does not appear in the extension itself)"
   },
   "freshInstallReload": {
     "message": "Wenn Sie diese Erweiterung gerade installiert oder (re-)aktiviert haben, laden Sie bitte das Tab mit dem zu prüfenden Text neu.",
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet"
   },
-  "couldNotCheckText": {
-    "message": "Konnte Text nicht prüfen: $detail$",
-    "description": "Error shown in the popup to indicate an error",
+  "is": {
+    "message": "Isländisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "be": {
+    "message": "Weißrussisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "km": {
+    "message": "Khmer",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "uk": {
+    "message": "Ukrainisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "noErrorsFound": {
+    "message": "Keine Fehler gefunden",
+    "description": "Text shown in the popup when the server found no potential errors in the text to check"
+  },
+  "pt_PT": {
+    "message": "Portugiesisch (Portugal)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "sl": {
+    "message": "Slowenisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "da": {
+    "message": "Dänisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "zh": {
+    "message": "Chinesisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "textCheckedBy": {
     "placeholders": {
-      "detail": {
-        "content": "$1",
-        "example": "Network error (https://languagetool.org:8081/)"
+      "serverUrl": {
+        "example": "http://localhost:8081/",
+        "content": "$1"
       }
-    }
+    },
+    "message": "Text wurde durch $serverUrl$ geprüft",
+    "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text"
+  },
+  "pt": {
+    "message": "Portugiesisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "lt": {
+    "message": "Litauisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "ja": {
+    "message": "Japanisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "ru": {
+    "message": "Russisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "br": {
+    "message": "Bretonisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "noResponseFromServer": {
+    "placeholders": {
+      "serverUrl": {
+        "example": "https://languagetool.org:8081/",
+        "content": "$1"
+      }
+    },
+    "message": "Server $serverUrl$ antwortet nicht",
+    "description": "Error message if API server doesn't respond"
   },
   "checkingProgress": {
     "message": "Text wird geprüft...",
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress"
   },
-  "privacyNoteForDefaultServer": {
-    "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie über eine verschlüsselte Verbindung an <a href='$serverUrl$' target='_blank'>$serverUrl$</a> überträgt. Ihr Text wird nicht gespeichert. Genaueres erfahren Sie in unseren <a href='$privacyUrl$' target='_blank'>Datenschutzrichtlinien</a>.",
-    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
-    "placeholders": {
-      "serverUrl": {
-        "content": "$1",
-        "example": "https://languagetool.org"
-      },
-      "privacyUrl": {
-        "content": "$2",
-        "example": "https://languagetool.org/privacy/"
-      }
-    }
+  "de": {
+    "message": "Deutsch",
+    "description": "automatically added by injectTranslation.py"
   },
-  "privacyNoteForOtherServer": {
-    "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie an $serverUrl$ überträgt. Um den Standard-Server zu benutzen, stellen Sie ihn bitte in der Konfiguration dieser Erweiterung ein.",
-    "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
-    "placeholders": {
-      "serverUrl": {
-        "content": "$1",
-        "example": "http://localhost:8081/"
-      }
-    }
+  "de_DE": {
+    "message": "Deutsch (Deutschland)",
+    "description": "automatically added by injectTranslation.py"
   },
-  "continue": {
-    "message": "Weitermachen und nicht wieder nachfragen",
-    "description": "Link shown below the privacy note on first use"
+  "en": {
+    "message": "Englisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "sv": {
+    "message": "Schwedisch",
+    "description": "automatically added by injectTranslation.py"
   },
   "cancel": {
     "message": "Abbrechen",
     "description": "Link shown below the privacy note on first use"
   },
-
-  
-  "serverText": {
-    "message": "URL des LanguageTool API-Servers:",
-    "description": "Options dialog: description of the text field for the API server URL"
+  "gl": {
+    "message": "Galicisch",
+    "description": "automatically added by injectTranslation.py"
   },
-  "defaultServerLink": {
-    "message": "auf Standardwert zurücksetzen",
-    "description": "Options dialog: Link to reset the URL of the API server to the default value"
+  "detectedLanguage": {
+    "placeholders": {
+      "language": {
+        "example": "English",
+        "content": "$1"
+      }
+    },
+    "message": "Erkannte Sprache: $language$",
+    "description": "Text shown in the popup to indicate the automatically detected language of the text checked"
+  },
+  "de_AT": {
+    "message": "Deutsch (Österreich)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "placeCursor3": {
+    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (kein aktives Element gefunden).",
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
+  },
+  "pt_BR": {
+    "message": "Portugiesisch (Brasilien)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "ro": {
+    "message": "Rumänisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "noReplacementPossible": {
+    "message": "Leider konnte die LanguageTool-Erweiterung den Fehler im Text nicht ersetzen",
+    "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML."
+  },
+  "sk": {
+    "message": "Slowakisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "ast": {
+    "message": "Asturisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "atd": {
+    "message": "Sprache automatisch erkennen",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "pl": {
+    "message": "Polnisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "de_CH": {
+    "message": "Deutsch (Schweiz)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "appDesc": {
+    "message": "Textprüfung für Grammatik, Stil und Rechtschreibung",
+    "description": "The description of the application, displayed in the web store."
   },
   "save": {
     "message": "Speichern",
     "description": "Options dialog: save button"
+  },
+  "ta": {
+    "message": "Tamil",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "it": {
+    "message": "Italienisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "fr": {
+    "message": "Französisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "en_NZ": {
+    "message": "Englisch (Neuseeland)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "nl": {
+    "message": "Niederländisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "couldNotCheckText": {
+    "placeholders": {
+      "detail": {
+        "example": "Network error (https://languagetool.org:8081/)",
+        "content": "$1"
+      }
+    },
+    "message": "Konnte Text nicht prüfen: $detail$",
+    "description": "Error shown in the popup to indicate an error"
+  },
+  "serverText": {
+    "message": "URL des LanguageTool API-Servers:",
+    "description": "Options dialog: description of the text field for the API server URL"
+  },
+  "cs": {
+    "message": "Tschechisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "continue": {
+    "message": "Weitermachen und nicht wieder nachfragen",
+    "description": "Link shown below the privacy note on first use"
+  },
+  "noValidResponseFromServer": {
+    "placeholders": {
+      "response": {
+        "example": "Page not found",
+        "content": "$2"
+      },
+      "serverUrl": {
+        "example": "https://languagetool.org:8081/",
+        "content": "$1"
+      },
+      "status": {
+        "example": "404",
+        "content": "$3"
+      }
+    },
+    "message": "Keine gültige Antwort von Server $serverUrl$: $response$, Nummer $status$",
+    "description": "Error message shown we cannot parse API server response"
+  },
+  "fa": {
+    "message": "Persisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "noReplacementPossible2": {
+    "message": "Leider konnte der Fehler nicht durch die Korrektur ersetzt werden. Dies kann manchmal beim Editieren von HTML passieren.",
+    "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported"
+  },
+  "ml": {
+    "message": "Malayalam",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "ca": {
+    "message": "Katalanisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "en_CA": {
+    "message": "Englisch (Kanada)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "timeoutError": {
+    "placeholders": {
+      "serverUrl": {
+        "example": "https://languagetool.org:8081/",
+        "content": "$1"
+      }
+    },
+    "message": "Zeitüberschreitung - bitte versuchen Sie es später noch einmal ($serverUrl$)",
+    "description": "Error message shown if API server doesn't respond timely"
+  },
+  "siteNotSupported": {
+    "message": "Tut uns leid, aber diese Website wird von der Erweiterung nicht unterstützt.",
+    "description": "Some sites like Google Docs are too complex, so we show this error"
+  },
+  "eo": {
+    "message": "Esperanto",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "en_US": {
+    "message": "Englisch (US)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "placeCursor1": {
+    "message": "Bitte platzieren Sie den Cursor in ein editierbares Feld, oder markieren Sie Text (keine aktives Element im IFRAME gefunden).",
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either."
+  },
+  "en_AU": {
+    "message": "Englisch (Australien)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "tl": {
+    "message": "Tagalog",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "el": {
+    "message": "Griechisch",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "en_GB": {
+    "message": "Englisch (Großbritannien)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "en_ZA": {
+    "message": "Englisch (Südafrika)",
+    "description": "automatically added by injectTranslation.py"
+  },
+  "tooltip": {
+    "message": "Aktuelle Textauswahl oder\nTextfeld mit LanguageTool prüfen",
+    "description": "Tooltip shown when hovering over the extension icon."
   }
 }
-

@@ -58,7 +58,12 @@ function renderStatus(statusHtml) {
 function renderMatchesToHtml(resultXml, createLinks) {
     let dom = (new window.DOMParser()).parseFromString(resultXml, "text/xml");
     let language = dom.getElementsByTagName("language")[0].getAttribute("name");
-    var html = chrome.i18n.getMessage("detectedLanguage", Tools.escapeHtml(language));
+    let languageCode = dom.getElementsByTagName("language")[0].getAttribute("shortname");
+    var translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
+    if (!translatedLanguage) {
+        translatedLanguage = language;
+    }
+    var html = chrome.i18n.getMessage("detectedLanguage", translatedLanguage);
     let matches = dom.getElementsByTagName("error");
     if (matches.length === 0) {
         html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
