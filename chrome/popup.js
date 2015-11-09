@@ -61,6 +61,10 @@ function renderMatchesToHtml(resultXml, createLinks) {
     let languageCode = dom.getElementsByTagName("language")[0].getAttribute("shortname");
     var translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
     if (!translatedLanguage) {
+        let shortCode = languageCode.replace(/-.*/, "");
+        translatedLanguage = chrome.i18n.getMessage(shortCode);  // needed for e.g. "ru-RU"
+    }
+    if (!translatedLanguage) {
         translatedLanguage = language;
     }
     var html = chrome.i18n.getMessage("detectedLanguage", translatedLanguage);
