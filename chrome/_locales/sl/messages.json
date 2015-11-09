@@ -1,0 +1,368 @@
+{
+  "appDesc": {
+    "description": "The description of the application, displayed in the web store.",
+    "message": "Preverjanje slovnice in sloga za Chrome"
+  },
+  "appStoreDesc": {
+    "description": "Description in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "S to razširitvijo lahko preverite besedilo z uporabo brezplačnega slovničnega in slogovnega preverjalnika LanguageTool. Slednji najde številne napake, ki jih navadno preverjanje črkovanja ne zazna, kot je postavljanje vejic, podvajanje besed itn. Podpira več kot 25 jezikov, med njimi slovenščino, angleščino, španščino, francoščino in nemščino.\n\nUporaba: izberite besedilo, ki ga želite preveriti, ali kliknite v polje z besedilom, če želite preveriti njegovo vsebino. Nato kliknite ikono LT, ki je prikazana v desnem zgornjem kotu vašega brskalnika. Namesto tega lahko uporabite tudi kombinacijo tipk krmilka+dvigalka+preslednica. \n\nRazširitev privzeto preveri besedilo, tako da ga pošlje na naslov https://languagetool.org prek šifrirane povezave. Vaše besedilo ne bo shranjeno. Podrobnosti si lahko preberete v naši politiki zasebnosti na naslovu https://languagetool.org/privacy/."
+  },
+  "appStoreWarning": {
+    "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
+    "message": "*** OPOMBA: *** to je zgodnja izdaja razširitve, o napakah poročajte tu ali na naslovu https://github.com/languagetool-org/languagetool-browser-addon/issues"
+  },
+  "ast": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "asturijski"
+  },
+  "atd": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Samodejno zaznaj jezik"
+  },
+  "be": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "beloruski"
+  },
+  "br": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "bretonski"
+  },
+  "ca": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "katalonski"
+  },
+  "cancel": {
+    "description": "Link shown below the privacy note on first use",
+    "message": "Prekliči"
+  },
+  "checkingProgress": {
+    "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
+    "message": "Preverjanje ..."
+  },
+  "continue": {
+    "description": "Link shown below the privacy note on first use",
+    "message": "Nadaljuj in ne sprašuj več"
+  },
+  "couldNotCheckText": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "Besedila ni mogoče preveriti: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1",
+        "example": "Network error (https://languagetool.org:8081/)"
+      }
+    }
+  },
+  "cs": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "češki"
+  },
+  "da": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "danski"
+  },
+  "de": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "nemški"
+  },
+  "de_AT": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "nemški (Avstrija)"
+  },
+  "de_CH": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "nemški (Švica)"
+  },
+  "de_DE": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "nemški (Nemčija)"
+  },
+  "defaultServerLink": {
+    "description": "Options dialog: Link to reset the URL of the API server to the default value",
+    "message": "Uporabi privzeto"
+  },
+  "detectedLanguage": {
+    "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
+    "message": "Zaznan jezik: $language$",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English"
+      }
+    }
+  },
+  "el": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "grški"
+  },
+  "en": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "angleški"
+  },
+  "en_AU": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "angleški (Avstralija)"
+  },
+  "en_CA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "angleški (Kanada)"
+  },
+  "en_GB": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "britanska angleščina"
+  },
+  "en_NZ": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "angleški (Nova Zelandija)"
+  },
+  "en_US": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "ameriška angleščina"
+  },
+  "en_ZA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "angleški (Južna Afrika)"
+  },
+  "eo": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "esperanto"
+  },
+  "es": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "španski"
+  },
+  "fa": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "perzijski"
+  },
+  "fr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "francoski"
+  },
+  "freshInstallReload": {
+    "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
+    "message": "Če ste le namestili ali (ponovno) aktivirali to razširitev, najprej ponovno naložite zavihek, v katerem želite preverjati besedilo."
+  },
+  "gl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "galicijski"
+  },
+  "is": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "islandski"
+  },
+  "it": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "italijanski"
+  },
+  "ja": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "japonski"
+  },
+  "km": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "kmerski"
+  },
+  "lt": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "litovski"
+  },
+  "ml": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "malajalamski"
+  },
+  "networkError": {
+    "description": "Error message shown if API server could not be connected due to network issues",
+    "message": "Omrežna napaka ($serverUrl$)",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "nl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "nizozemski"
+  },
+  "noErrorsFound": {
+    "description": "Text shown in the popup when the server found no potential errors in the text to check",
+    "message": "Nobenih napak ni videti"
+  },
+  "noReplacementPossible": {
+    "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
+    "message": "Žal z razširitvijo LanguageTool v besedilu ni bilo mogoče najti konteksta napake"
+  },
+  "noReplacementPossible2": {
+    "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported",
+    "message": "Žal napake ni mogoče zamenjati s predlogom. To se včasih zgodi pri urejanju HTML."
+  },
+  "noResponseFromServer": {
+    "description": "Error message if API server doesn't respond",
+    "message": "Ni odziva s strežnika $serverUrl$",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "noValidResponseFromServer": {
+    "description": "Error message shown we cannot parse API server response",
+    "message": "Strežnik $serverUrl$ ni poslal veljavnega odgovora: $response$, koda $status$",
+    "placeholders": {
+      "response": {
+        "content": "$2",
+        "example": "Page not found"
+      },
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      },
+      "status": {
+        "content": "$3",
+        "example": "404"
+      }
+    }
+  },
+  "pl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "poljski"
+  },
+  "placeCursor1": {
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "message": "Postavite kazalko v polje za urejanje ali izberite besedilo (nobenega aktivnega elementa namreč ni mogoče najti v iframe)."
+  },
+  "placeCursor2": {
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "message": "Postavite kazalko v polje za urejanje ali izberite besedilo (aktivni element: $elem$).",
+    "placeholders": {
+      "elem": {
+        "content": "$1",
+        "example": "BODY"
+      }
+    }
+  },
+  "placeCursor3": {
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "message": "Postavite kazalko v polje za urejanje ali izberite besedilo (nobenega aktivnega elementa namreč ni mogoče najti)."
+  },
+  "privacyNoteForDefaultServer": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "message": "S to razširitvijo boste preverili besedilo, tako da bo poslano na strežnik <a href='$serverUrl$' target='_blank'>$serverUrl$</a> prek šifrirane povezave. Vaše besedilo ne bo shranjeno. Podrobnosti si preberite v <a href='$privacyUrl$' target='_blank'>naši politiki zasebnosti</a>.",
+    "placeholders": {
+      "privacyUrl": {
+        "content": "$2",
+        "example": "https://languagetool.org/privacy/"
+      },
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      }
+    }
+  },
+  "privacyNoteForOtherServer": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
+    "message": "S to razširitvijo boste preverili besedilo, tako da bo poslano na strežnik $serverUrl$. Če želite preklopiti nazaj na privzeti strežnik, obiščite stran nastavitev razširitve.",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "pt": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "portugalski"
+  },
+  "pt_BR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "portugalski (Brazilija)"
+  },
+  "pt_PT": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "portugalski (Portugalska)"
+  },
+  "ro": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "romunski"
+  },
+  "ru": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "ruski"
+  },
+  "save": {
+    "description": "Options dialog: save button",
+    "message": "Shrani"
+  },
+  "serverText": {
+    "description": "Options dialog: description of the text field for the API server URL",
+    "message": "URL strežnika API LanguageTool:"
+  },
+  "siteNotSupported": {
+    "description": "Some sites like Google Docs are too complex, so we show this error",
+    "message": "Žal razširitev ne podpira tega spletnega mesta."
+  },
+  "sk": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "slovaški"
+  },
+  "sl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "slovenski"
+  },
+  "sv": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "švedski"
+  },
+  "ta": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "tamilski"
+  },
+  "textCheckedBy": {
+    "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text",
+    "message": "Preverjanje besedila je izvedel strežnik $serverUrl$",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "textCheckedRemotely": {
+    "description": "Text shown in the popup to make the user aware of which remote service was used to check their text",
+    "message": "Besedilo oddaljeno preverjeno z <a target='_blank' href='$url$'>languagetool.org</a>",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      }
+    }
+  },
+  "timeoutError": {
+    "description": "Error message shown if API server doesn't respond timely",
+    "message": "Strežnik je prekoračil čas, poskusite znova kasneje ($serverUrl$)",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "tl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "tagaloški"
+  },
+  "tooltip": {
+    "description": "Tooltip shown when hovering over the extension icon.",
+    "message": "Izbrano besedilo ali besedilo\nv polju preveri z LanguageTool"
+  },
+  "uk": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "ukrajinski"
+  },
+  "zh": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "kitajski"
+  }
+}

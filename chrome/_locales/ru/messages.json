@@ -1,0 +1,368 @@
+{
+  "appDesc": {
+    "description": "The description of the application, displayed in the web store.",
+    "message": "Проверка грамматики и стиля для Chrome"
+  },
+  "appStoreDesc": {
+    "description": "Description in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "С помощью этого расширения вы можете проверить текст используюя свободную программу для проверки грамматики и стиля LanguageTool. LanguageTool находит много ошибок, которые не удаётся обнаружить при проверке орфографии, например повтор слов и он может обнаружить некоторые проблемы в грамматике и стиле. Он поддерживает более чем 25 языков, включая английский, испанский, французский, немецкий, польский и русский.\n\nИспользование: Выделите текст, который вы хотите проверить, или щёлкните в текстовом поле, если вы хотите проверить его содержимое. Затем нажмите на значок LT, который отображается в верхнем правом углу вашего браузера. Можно также использовать сочетание клавиш Ctrl + Shift + Space как быстрые клавиши.\n\nПо умолчанию это расширение будет проверять ваш текст путём отправки его на https://languagetool.org по зашифрованному соединению. Этот текст не будет сохраняться на сервере. Для подробной информации смотрите нашу политику конфиденциальности по адресу https://languagetool.org/privacy/."
+  },
+  "appStoreWarning": {
+    "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
+    "message": "***Примечание: *** это ранний пре-релиз, пожалуйста, сообщайте об ошибках здесь или на https://github.com/languagetool-org/languagetool-browser-addon/issues"
+  },
+  "ast": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Астурийский"
+  },
+  "atd": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Определить язык автоматически"
+  },
+  "be": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Белорусский"
+  },
+  "br": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Бретонский"
+  },
+  "ca": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Каталанский"
+  },
+  "cancel": {
+    "description": "Link shown below the privacy note on first use",
+    "message": "Отмена"
+  },
+  "checkingProgress": {
+    "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
+    "message": "Идёт проверка..."
+  },
+  "continue": {
+    "description": "Link shown below the privacy note on first use",
+    "message": "Продолжить и не спрашивать снова"
+  },
+  "couldNotCheckText": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "Невозможно проверить текст: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1",
+        "example": "Network error (https://languagetool.org:8081/)"
+      }
+    }
+  },
+  "cs": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Чешский"
+  },
+  "da": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Датский"
+  },
+  "de": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Немецкий"
+  },
+  "de_AT": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Немецкий (Австрия)"
+  },
+  "de_CH": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Немецкий (Швейцария)"
+  },
+  "de_DE": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Немецкий (Германия)"
+  },
+  "defaultServerLink": {
+    "description": "Options dialog: Link to reset the URL of the API server to the default value",
+    "message": "Использовать по умолчанию"
+  },
+  "detectedLanguage": {
+    "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
+    "message": "Определён язык: $language$",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English"
+      }
+    }
+  },
+  "el": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Греческий"
+  },
+  "en": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Английский"
+  },
+  "en_AU": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Английский (Австралия)"
+  },
+  "en_CA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Английский (Канада)"
+  },
+  "en_GB": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Английский (Великобритания)"
+  },
+  "en_NZ": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Английский (Новая Зеландия)"
+  },
+  "en_US": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Английский (США)"
+  },
+  "en_ZA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Английский (Южная Африка)"
+  },
+  "eo": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Эсперанто"
+  },
+  "es": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Испанский"
+  },
+  "fa": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Персидский"
+  },
+  "fr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Французский"
+  },
+  "freshInstallReload": {
+    "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
+    "message": "Если расширение было только что установлено или активировано, то необходимо перезагрузить вкладку, в которой необходимо проверить текст."
+  },
+  "gl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Галисийский"
+  },
+  "is": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Исландский"
+  },
+  "it": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Итальянский"
+  },
+  "ja": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Японский"
+  },
+  "km": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Кхмерский"
+  },
+  "lt": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Литовский"
+  },
+  "ml": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Малайский"
+  },
+  "networkError": {
+    "description": "Error message shown if API server could not be connected due to network issues",
+    "message": "Ошибка сети ($serverUrl$)",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "nl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Нидерландский"
+  },
+  "noErrorsFound": {
+    "description": "Text shown in the popup when the server found no potential errors in the text to check",
+    "message": "Ошибки не найдены"
+  },
+  "noReplacementPossible": {
+    "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
+    "message": "Расширению LanguageTool не удалось найти контекст ошибки в тексте"
+  },
+  "noReplacementPossible2": {
+    "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported",
+    "message": "Невозможно применить вариант исправления ошибки. Это может произойти при редактировании HTML."
+  },
+  "noResponseFromServer": {
+    "description": "Error message if API server doesn't respond",
+    "message": "Нет ответа от $serverUrl$",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "noValidResponseFromServer": {
+    "description": "Error message shown we cannot parse API server response",
+    "message": "Нет корректного ответа от $serverUrl$: $response$, статус $status$",
+    "placeholders": {
+      "response": {
+        "content": "$2",
+        "example": "Page not found"
+      },
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      },
+      "status": {
+        "content": "$3",
+        "example": "404"
+      }
+    }
+  },
+  "pl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Польский"
+  },
+  "placeCursor1": {
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "message": "Пожалуйста, установите курсор в редактируемое поле или выберите текст (во фрейме найден неактивный элемент)."
+  },
+  "placeCursor2": {
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "message": "Пожалуйста, поместите курсор в редактируемое поле или выберите текст (активный элемент: $elem$).",
+    "placeholders": {
+      "elem": {
+        "content": "$1",
+        "example": "BODY"
+      }
+    }
+  },
+  "placeCursor3": {
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "message": "Пожалуйста, поместите курсор в редактируемое поле или выделите текст (текст для проверки не выбран)."
+  },
+  "privacyNoteForDefaultServer": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "message": "Это расширение будет проверять текст путём отправки его на <a href='$serverUrl$' target='_blank'>$serverUrl$</a> через зашифрованное соединение. Передаваемый текст не будет сохраняться. Для подробной информации смотрите <a href='$privacyUrl$' target='_blank'> нашу политику конфиденциальности</a>.",
+    "placeholders": {
+      "privacyUrl": {
+        "content": "$2",
+        "example": "https://languagetool.org/privacy/"
+      },
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      }
+    }
+  },
+  "privacyNoteForOtherServer": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
+    "message": "Это расширение будет проверять текст путём отправки его на $serverUrl$. Чтобы переключиться обратно на сервер по умолчанию, пожалуйста, посетите страницу с параметрами расширения.",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "pt": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Португальский"
+  },
+  "pt_BR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Португальский (Бразилия)"
+  },
+  "pt_PT": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Португальский (Португалия)"
+  },
+  "ro": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Румынский"
+  },
+  "ru": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Русский"
+  },
+  "save": {
+    "description": "Options dialog: save button",
+    "message": "Сохранить"
+  },
+  "serverText": {
+    "description": "Options dialog: description of the text field for the API server URL",
+    "message": "URL-адрес сервера LanguageTool API:"
+  },
+  "siteNotSupported": {
+    "description": "Some sites like Google Docs are too complex, so we show this error",
+    "message": "К сожалению этот сайт не поддерживается этим расширением."
+  },
+  "sk": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Словацкий"
+  },
+  "sl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Словенский"
+  },
+  "sv": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Шведский"
+  },
+  "ta": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Тамильский"
+  },
+  "textCheckedBy": {
+    "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text",
+    "message": "Текст проверен через $serverUrl$",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "textCheckedRemotely": {
+    "description": "Text shown in the popup to make the user aware of which remote service was used to check their text",
+    "message": "Текст проверен удалённо с помощью <a target='_blank' href='$url$'>languagetool.org</a>",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      }
+    }
+  },
+  "timeoutError": {
+    "description": "Error message shown if API server doesn't respond timely",
+    "message": "Тайм-аут сервера - попробуйте позже ($serverUrl$)",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "tl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Тагальский"
+  },
+  "tooltip": {
+    "description": "Tooltip shown when hovering over the extension icon.",
+    "message": "Проверить текущее выделение\nили текстовое поле с помощью LanguageTool"
+  },
+  "uk": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Украинский"
+  },
+  "zh": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Китайский"
+  }
+}
