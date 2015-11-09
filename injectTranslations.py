@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
 # Daniel Naber, 2015-11-04
 # Created a JSON file based on the existing English file,
 # but using the translations from another language (needed
@@ -8,9 +9,10 @@
 import json
 import re
 import sys
+import collections
 
 def loadLanguageDict(filename):
-    codeToLang = {}
+    codeToLang = collections.OrderedDict()
     file = open(filename)
     for line in file:
         regex = re.compile("([a-z][a-z]|[a-z][a-z]-[A-Z][A-Z]|[a-z][a-z][a-z])\\s*=\\s*(.*)")  # e.g. "de", "de-DE", "ast"
@@ -24,11 +26,12 @@ if len(sys.argv) != 4:
     sys.exit()
 
 translationLangCode = sys.argv[1]
-coreDictFile = "../languagetool/languagetool-language-modules/" + translationLangCode + "/src/main/resources/org/languagetool/MessagesBundle_" + translationLangCode + ".properties"
+translationLangCodeShort = re.sub('_.*', '', translationLangCode)
+coreDictFile = "../languagetool/languagetool-language-modules/" + translationLangCodeShort + "/src/main/resources/org/languagetool/MessagesBundle_" + translationLangCode + ".properties"
 codeToLang = loadLanguageDict(coreDictFile)
 englishFile = open(sys.argv[2]).read()
 translatedFile = open(sys.argv[3])
-translatedJson = json.loads(translatedFile.read())
+translatedJson = json.loads(translatedFile.read(), object_pairs_hook=collections.OrderedDict)
 newFile = englishFile
 
 for k in translatedJson:
@@ -38,7 +41,7 @@ for k in translatedJson:
     if backup == newFile:
         sys.stderr.write("WARN: Could not replace " + k + "\n")
 
-newJson = json.loads(newFile)
+newJson = json.loads(newFile, object_pairs_hook=collections.OrderedDict)
 for key in codeToLang:
     newKey = key.replace("-", "_")
     if newKey in newJson:
@@ -46,4 +49,4 @@ for key in codeToLang:
     translatedLang = bytes(codeToLang[key], "utf-8").decode("unicode_escape")   # e.g. Franz\\u00f6sisch -> Französisch
     newJson[newKey] = {'message': translatedLang, 'description': 'automatically added by injectTranslation.py'}
 
-print(json.dumps(newJson, indent=2, ensure_ascii=False))
+print(json.dumps(newJson, indent=2, ensure_ascii=False, sort_keys=True))
