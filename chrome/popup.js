@@ -47,7 +47,7 @@ function getCheckResult(markupList, callback, errorCallback) {
         errorCallback(chrome.i18n.getMessage("timeoutError", serverUrl));
     };
     let text = Markup.markupList2text(markupList);
-    let params = 'autodetect=1&text=' + encodeURIComponent(text);
+    let params = 'useragent=chrome-extension&autodetect=1&text=' + encodeURIComponent(text);
     req.send(params);
 }
 
