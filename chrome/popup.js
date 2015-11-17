@@ -19,7 +19,7 @@
 "use strict";
 
 let defaultServerUrl = 'https://languagetool.org:8081/';   // keep in sync with defaultServerUrl in options.js
-let unsupportedSitesRegex = /https?:\/\/docs.google.com.*/;
+let unsupportedSitesRegex = /^(https?:\/\/(docs|chrome).google.com.*)|(file:.*)/;
 
 var testMode = false;
 var serverUrl = defaultServerUrl;
