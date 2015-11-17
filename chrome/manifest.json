@@ -27,6 +27,10 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["contentscript.js", "markup.js"]
+    },
+    {
+      "matches": ["https://languagetool.org/*", "https://www.languagetool.org/*"],
+      "js": ["contentscript-lt.js"]
     }
   ],
   "commands": {
