@@ -1,0 +1,368 @@
+{
+  "appDesc": {
+    "description": "The description of the application, displayed in the web store.",
+    "message": "Γραμματικός έλεγχος για Chrome"
+  },
+  "appStoreDesc": {
+    "description": "Description in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "Με αυτή την επέκταση μπορείτε να ελέγξετε το κείμενοι σας με το ελεύθερο εργαλείο γραμματικού ελέγχου LanguageTool. Το εργαλείο LanguageTool μπορεί να βρει πολλά λάθη τα οποία δεν ανιχνεύονται από έναν απλό ορθογραφικό διορθωτή. Υποστηρίζει περισσότερες από 25 γλώσσες, όπως αγγλικά, ισπανικά, γαλλικά, γερμανικά και ελληνικά.\n\nΧρήση: Επιλέξτε το κείμενο που θέλετε να ελέγξετε, ή κάνετε κλικ σε ένα πεδίο κειμένου του οποίου το περιεχόμενο θέλετε να ελέγξετε. Στη συνέχεια κάντε κλικ στο εικονίδιο LT,  το οποίο βρίσκεται στην πάνω δεξιά γωνία του περιηγητή ιστού. Εναλλακτικά, χρησιμοποιήστε την συντόμευση Ctrl+Shift+Space.\n\nΑυτή η επέκταση θα στείλει το κείμενο σας στον διακομιστή https://languagetool.org κάνοντας χρήση κρυπτογράφησης. Το κείμενο σας δεν θα αποθηκευτεί στον απομακρυσμένο διακομιστή. Για περισσότερες λεπτομέρειες μπορείτε να διαβάσετε την πολιτική προστασίας προσωπικών δεδομένων στην διεύθυνση. https://languagetool.org/privacy/"
+  },
+  "appStoreWarning": {
+    "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
+    "message": "*** Προσοχή: *** η έκδοση αυτή δεν είναι τελική, παρακαλείσθε να αναφέρετε τυχόν σφάλματα εδώ ή στο https://github.com/languagetool-org/languagetool-browser-addon/issues"
+  },
+  "ast": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Αστουριανά"
+  },
+  "atd": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Αυτόματος εντοπισμός γλώσσας"
+  },
+  "be": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Λευκορωσική"
+  },
+  "br": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Βρετονικά"
+  },
+  "ca": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Καταλανικά"
+  },
+  "cancel": {
+    "description": "Link shown below the privacy note on first use",
+    "message": "Άκυρο"
+  },
+  "checkingProgress": {
+    "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
+    "message": "Έλεγχος..."
+  },
+  "continue": {
+    "description": "Link shown below the privacy note on first use",
+    "message": "Συνέχεια χωρίς επιβεβαίωση"
+  },
+  "couldNotCheckText": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "Αδυναμία ελέγχου κειμένου: $detail$",
+    "placeholders": {
+      "detail": {
+        "content": "$1",
+        "example": "Network error (https://languagetool.org:8081/)"
+      }
+    }
+  },
+  "cs": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Τσεχική"
+  },
+  "da": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Δανική"
+  },
+  "de": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Γερμανικά"
+  },
+  "de_AT": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Γερμανικά (Αυστρίας)"
+  },
+  "de_CH": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Γερμανικά (Σουηδίας)"
+  },
+  "de_DE": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Γερμανικά (Γερμανίας)"
+  },
+  "defaultServerLink": {
+    "description": "Options dialog: Link to reset the URL of the API server to the default value",
+    "message": "Χρήση προκαθορισμένων"
+  },
+  "detectedLanguage": {
+    "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
+    "message": "Γλώσσα που εντοπίστηκε: $language$",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English"
+      }
+    }
+  },
+  "el": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ελληνική"
+  },
+  "en": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Αγγλικά"
+  },
+  "en_AU": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Αγγλικά (Αυστραλίας)"
+  },
+  "en_CA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Αγγλικά (Καναδά)"
+  },
+  "en_GB": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Αγγλική (Ηνωμένου Βασίλειου)"
+  },
+  "en_NZ": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Αγγλικά (Νέας Ζηλανδίας)"
+  },
+  "en_US": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Αγγλική (Αμερικής)"
+  },
+  "en_ZA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Αγγλικά (Νότιας Αφρικής)"
+  },
+  "eo": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Εσπεράντο"
+  },
+  "es": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ισπανικά"
+  },
+  "fa": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Περσικά"
+  },
+  "fr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Γαλλικά"
+  },
+  "freshInstallReload": {
+    "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
+    "message": "Στην περίπτωση που εγκαταστήσατε ή ενεργοποιήσατε την επέκταση μόλις τώρα, επαναφορτώστε την καρτέλα στην οποία θέλετε να ελέγξετε το κείμενο."
+  },
+  "gl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Γαλικιανά"
+  },
+  "is": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ισλανδικά"
+  },
+  "it": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ιταλικά"
+  },
+  "ja": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ιαπωνικά"
+  },
+  "km": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Χμερ (Καμποτζιανά)"
+  },
+  "lt": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Λιθουανικά"
+  },
+  "ml": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Μαλαγιαλαμικά"
+  },
+  "networkError": {
+    "description": "Error message shown if API server could not be connected due to network issues",
+    "message": "Σφάλμα Δικτύου ($serverUrl$)",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "nl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ολλανδικά"
+  },
+  "noErrorsFound": {
+    "description": "Text shown in the popup when the server found no potential errors in the text to check",
+    "message": "Δεν βρέθηκαν λάθη"
+  },
+  "noReplacementPossible": {
+    "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
+    "message": "Η επέκταση LanguageTool δεν μπόρεσε να βρει το λανθασμένο περικείμενο στο κείμενο"
+  },
+  "noReplacementPossible2": {
+    "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported",
+    "message": "Δυστυχώς, δεν μπορεί να γίνει αντικατάσταση του λάθους με την πρόταση. Αυτό μπορεί να συμβεί εάν επεξεργάζεστε κώδικα HTML."
+  },
+  "noResponseFromServer": {
+    "description": "Error message if API server doesn't respond",
+    "message": "Δεν υπάρχει απόκριση από $serverUrl$",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "noValidResponseFromServer": {
+    "description": "Error message shown we cannot parse API server response",
+    "message": "Μη έγκυρη απόκριση από $serverUrl$: $response$, κωδικός $status$",
+    "placeholders": {
+      "response": {
+        "content": "$2",
+        "example": "Page not found"
+      },
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      },
+      "status": {
+        "content": "$3",
+        "example": "404"
+      }
+    }
+  },
+  "pl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Πολωνικά"
+  },
+  "placeCursor1": {
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "message": "Τοποθετήστε τον κέρσορα σε ένα πεδίο κειμένου ή επιλέξτε κείμενο (δεν βρέθηκε ενεργό στοιχείο στο iframe)."
+  },
+  "placeCursor2": {
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "message": "Τοποθετήστε τον κέρσορα σε ένα πεδίο κειμένου ή επιλέξτε κείμενο (ενεργό στοιχείο: $elem$).",
+    "placeholders": {
+      "elem": {
+        "content": "$1",
+        "example": "BODY"
+      }
+    }
+  },
+  "placeCursor3": {
+    "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
+    "message": "Τοποθετήστε τον κέρσορα σε ένα πεδίο κειμένου ή επιλέξτε κείμενο (δεν βρέθηκε ενεργό στοιχείο)."
+  },
+  "privacyNoteForDefaultServer": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "message": "Αυτή η επέκταση θα ελέγξει το κείμενο σας κάνοντας χρήση του διακομιστή <a href='$serverUrl$' target='_blank'>$serverUrl$</a> κάνοντας χρήση κρυπτογράφησης. Το κείμενο σας δεν θα αποθηκευτεί στον απομακρυσμένο διακομιστή. Για περισσότερες λεπτομέρειες μπορείτε να διαβάσετε την <a href='$privacyUrl$' target='_blank'>πολιτική προστασίας προσωπικών δεδομένων</a>.",
+    "placeholders": {
+      "privacyUrl": {
+        "content": "$2",
+        "example": "https://languagetool.org/privacy/"
+      },
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      }
+    }
+  },
+  "privacyNoteForOtherServer": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
+    "message": "Αυτή η επέκταση για να ελέγξει το κείμενο σας θα χρειαστεί να το στείλει στον διακομιστή $serverUrl$. Για να κάνετε χρήση του προκαθορισμένου διακομιστή, επισκεφθείτε την σελίδα επιλογών της επέκτασης.",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "pt": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Πορτογαλικά"
+  },
+  "pt_BR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Πορτογαλικά (Βραζιλίας)"
+  },
+  "pt_PT": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Πορτογαλικά (Πορτογαλίας)"
+  },
+  "ro": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ρουμανικά"
+  },
+  "ru": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ρώσικα"
+  },
+  "save": {
+    "description": "Options dialog: save button",
+    "message": "Αποθήκευση"
+  },
+  "serverText": {
+    "description": "Options dialog: description of the text field for the API server URL",
+    "message": "LanguageTool API server URL:"
+  },
+  "siteNotSupported": {
+    "description": "Some sites like Google Docs are too complex, so we show this error",
+    "message": "Αυτός ο ιστότοπος δεν υποστηρίζεται από την επέκταση."
+  },
+  "sk": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Σλοβάκικα"
+  },
+  "sl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Σλοβενικά"
+  },
+  "sv": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Σουηδικά"
+  },
+  "ta": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ταμίλ"
+  },
+  "textCheckedBy": {
+    "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text",
+    "message": "Το κείμενο ελέγχθηκε από $serverUrl$",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "textCheckedRemotely": {
+    "description": "Text shown in the popup to make the user aware of which remote service was used to check their text",
+    "message": "Το κείμενο ελέγθηκε από <a target='_blank' href='$url$'>languagetool.org</a>",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      }
+    }
+  },
+  "timeoutError": {
+    "description": "Error message shown if API server doesn't respond timely",
+    "message": "Λήξη χρονικού ορίου από τον διακομιστή - προσπαθήστε ξανά αργότερα ($serverUrl$)",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "tl": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ταγκάλογκ"
+  },
+  "tooltip": {
+    "description": "Tooltip shown when hovering over the extension icon.",
+    "message": "Έλεγχος του επιλεγμένου κειμένου\nή πεδίου κειμένου με το LanguageTool"
+  },
+  "uk": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Ουκρανικά"
+  },
+  "zh": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Κινέζικα"
+  }
+}
