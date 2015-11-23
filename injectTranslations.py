@@ -27,7 +27,10 @@ if len(sys.argv) != 4:
 
 translationLangCode = sys.argv[1]
 translationLangCodeShort = re.sub('_.*', '', translationLangCode)
-coreDictFile = "../languagetool/languagetool-language-modules/" + translationLangCodeShort + "/src/main/resources/org/languagetool/MessagesBundle_" + translationLangCode + ".properties"
+if translationLangCodeShort == "el":
+    coreDictFile = "../languagetool/languagetool-language-modules/" + translationLangCodeShort + "/src/main/resources/org/languagetool/MessagesBundle_el_GR.properties"
+else:
+    coreDictFile = "../languagetool/languagetool-language-modules/" + translationLangCodeShort + "/src/main/resources/org/languagetool/MessagesBundle_" + translationLangCode + ".properties"
 codeToLang = loadLanguageDict(coreDictFile)
 englishFile = open(sys.argv[2]).read()
 translatedFile = open(sys.argv[3])
@@ -37,9 +40,10 @@ newFile = englishFile
 for k in translatedJson:
     translation = translatedJson[k]['message'].replace("\n", "\\\\n")
     backup = newFile
-    newFile = re.sub('("' + k + '": {\\s*"message":\\s*".*?")', '"' + k + '": {\n    "message": "' + translation + '"', newFile, flags=re.MULTILINE|re.DOTALL)
+    searchStr = '("' + k + '": {\\s*"message":\\s*".*?")'
+    newFile = re.sub(searchStr, '"' + k + '": {\n    "message": "' + translation + '"', newFile, flags=re.MULTILINE|re.DOTALL)
     if backup == newFile:
-        sys.stderr.write("WARN: Could not replace " + k + "\n")
+        sys.stderr.write("WARN: Could not add translation '" + translation + "' for key '" + k + "', searched for: '" + searchStr + "'\n")
 
 newJson = json.loads(newFile, object_pairs_hook=collections.OrderedDict)
 for key in codeToLang:
