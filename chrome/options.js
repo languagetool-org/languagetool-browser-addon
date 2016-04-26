@@ -27,7 +27,8 @@ function saveOptions() {
         status.textContent = 'This URL is not valid.';
     } else {
         status.textContent = '';
-        chrome.storage.sync.set({
+        var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+        storage.set({
             apiServerUrl: url
         }, function() {
             close();
@@ -39,7 +40,8 @@ function restoreOptions() {
     document.getElementById('serverText').textContent = chrome.i18n.getMessage("serverText");
     document.getElementById('defaultServerLink').textContent = chrome.i18n.getMessage("defaultServerLink");
     document.getElementById('save').textContent = chrome.i18n.getMessage("save");
-    chrome.storage.sync.get({
+    var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+    storage.get({
         apiServerUrl: defaultServerUrl
     }, function(items) {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;

@@ -186,7 +186,8 @@ function handleCheckResult(response, tabs, callback) {
 }
 
 function startCheckMaybeWithWarning(tabs) {
-    chrome.storage.sync.get({
+    var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+    storage.get({
         apiServerUrl: serverUrl
     }, function(items) {
         serverUrl = items.apiServerUrl;
