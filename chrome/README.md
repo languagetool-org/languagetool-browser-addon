@@ -16,6 +16,12 @@ via `http://localhost/languagetool-for-chrome-tests.html`. If you open that URL 
 and click the LanguageTool extension icon, tests will run automatically (note: these tests
 are very incomplete yet).
 
+### Testing in Firefox
+
+Go to `about:debugging`, enable add-on debugging and add a file from the extension directory.
+See https://blog.mozilla.org/addons/2016/04/14/developing-extensions-with-web-ext-1-0/ for details.
+
+
 ### License
 
 Lesser General Public License 2.1 or later, see file `COPYING`
