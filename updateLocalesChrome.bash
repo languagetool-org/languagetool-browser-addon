@@ -1,5 +1,5 @@
 #!/bin/bash
-# script to fetch translated JSON files for Chrome from Transifex
+# script to fetch translated JSON files for Chrome/WebExtension from Transifex
 
 source .lgn
 
@@ -8,13 +8,13 @@ if [[ -z "$U" || -z "$P" ]]; then
 	exit
 fi
 
-for lang in `ls chrome/_locales | sed "s/en//g"`; do
+for lang in `ls webextension/_locales | sed "s/en//g"`; do
 	echo "Getting $lang..."
 	LTLANG=$lang
 	if [ $lang = "el" ]; then
 		LTLANG="el_GR"
 	fi
-	curl --user $U:$P http://www.transifex.net/api/2/project/languagetool/resource/chrome-extension/translation/$LTLANG/?file > chrome/_locales/$lang/messages.json && \
-  	  ./injectTranslations.py $lang chrome/_locales/en/messages.json chrome/_locales/$lang/messages.json > chrome/_locales/$lang/messages.json.tmp && \
-	  mv chrome/_locales/$lang/messages.json.tmp chrome/_locales/$lang/messages.json
+	curl --user $U:$P http://www.transifex.net/api/2/project/languagetool/resource/chrome-extension/translation/$LTLANG/?file > webextension/_locales/$lang/messages.json && \
+  	  ./injectTranslations.py $lang webextension/_locales/en/messages.json webextension/_locales/$lang/messages.json > webextension/_locales/$lang/messages.json.tmp && \
+	  mv webextension/_locales/$lang/messages.json.tmp webextension/_locales/$lang/messages.json
 done
