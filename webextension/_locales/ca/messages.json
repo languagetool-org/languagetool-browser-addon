@@ -67,11 +67,11 @@
   },
   "de_AT": {
     "description": "automatically added by injectTranslation.py",
-    "message": "alemany (austríac)"
+    "message": "alemany (Àustria)"
   },
   "de_CH": {
     "description": "automatically added by injectTranslation.py",
-    "message": "alemany (suís)"
+    "message": "alemany (Suïssa)"
   },
   "de_DE": {
     "description": "automatically added by injectTranslation.py",
@@ -101,27 +101,27 @@
   },
   "en_AU": {
     "description": "automatically added by injectTranslation.py",
-    "message": "anglès (australià)"
+    "message": "anglès (Austràlia)"
   },
   "en_CA": {
     "description": "automatically added by injectTranslation.py",
-    "message": "anglès (canadenc)"
+    "message": "anglès (Canadà)"
   },
   "en_GB": {
     "description": "automatically added by injectTranslation.py",
-    "message": "anglès (britànic)"
+    "message": "anglès (Regne Unit)"
   },
   "en_NZ": {
     "description": "automatically added by injectTranslation.py",
-    "message": "anglès (neozelandès)"
+    "message": "anglès (Nova Zelanda)"
   },
   "en_US": {
     "description": "automatically added by injectTranslation.py",
-    "message": "anglès (americà)"
+    "message": "anglès (EUA)"
   },
   "en_ZA": {
     "description": "automatically added by injectTranslation.py",
-    "message": "anglès (sud-africà)"
+    "message": "anglès (Sud-àfrica)"
   },
   "eo": {
     "description": "automatically added by injectTranslation.py",
@@ -133,7 +133,7 @@
   },
   "fa": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Persa"
+    "message": "persa"
   },
   "fr": {
     "description": "automatically added by injectTranslation.py",
