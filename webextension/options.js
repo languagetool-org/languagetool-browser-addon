@@ -22,6 +22,7 @@ let defaultServerUrl = 'https://languagetool.org:8081/';   // keep in sync with 
 
 function saveOptions() {
     let url = document.getElementById('apiServerUrl').value;
+    let ignoreQuotedLines = document.getElementById('ignoreQuotedLines').checked;
     let status = document.getElementById('status');
     if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
         status.textContent = 'This URL is not valid.';
@@ -29,7 +30,8 @@ function saveOptions() {
         status.textContent = '';
         var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
         storage.set({
-            apiServerUrl: url
+            apiServerUrl: url,
+            ignoreQuotedLines: ignoreQuotedLines
         }, function() {
             close();
         });
@@ -40,11 +42,14 @@ function restoreOptions() {
     document.getElementById('serverText').textContent = chrome.i18n.getMessage("serverText");
     document.getElementById('defaultServerLink').textContent = chrome.i18n.getMessage("defaultServerLink");
     document.getElementById('save').textContent = chrome.i18n.getMessage("save");
+    document.getElementById('ignoreQuotedLinesDesc').innerHTML = chrome.i18n.getMessage("ignoreQuotedLines");
     var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
     storage.get({
-        apiServerUrl: defaultServerUrl
+        apiServerUrl: defaultServerUrl,
+        ignoreQuotedLines: true
     }, function(items) {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;
+        document.getElementById('ignoreQuotedLines').checked = items.ignoreQuotedLines;
     });
 }
 

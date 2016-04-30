@@ -23,6 +23,8 @@ let unsupportedSitesRegex = /^(https?:\/\/(docs|chrome).google.com.*)|(file:.*)/
 
 var testMode = false;
 var serverUrl = defaultServerUrl;
+var ignoreQuotedLines = true;
+var quotedLinesIgnored = false;
 
 function getCheckResult(markupList, callback, errorCallback) {
     let req = new XMLHttpRequest();
@@ -47,6 +49,11 @@ function getCheckResult(markupList, callback, errorCallback) {
         errorCallback(chrome.i18n.getMessage("timeoutError", serverUrl));
     };
     let text = Markup.markupList2text(markupList);
+    if (ignoreQuotedLines) {
+        var textOrig = text;
+        text = text.replace(/^>.*?\n/gm, '\n');
+        quotedLinesIgnored = text != textOrig;
+    }
     let params = 'useragent=chrome-extension&autodetect=1&text=' + encodeURIComponent(text);
     req.send(params);
 }
@@ -85,6 +92,9 @@ function renderMatchesToHtml(resultXml, createLinks) {
             }
         }
         html += "</ul>";
+    }
+    if (quotedLinesIgnored) {
+        html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
     }
     if (serverUrl === defaultServerUrl) {
         html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
@@ -188,9 +198,11 @@ function handleCheckResult(response, tabs, callback) {
 function startCheckMaybeWithWarning(tabs) {
     var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
     storage.get({
-        apiServerUrl: serverUrl
+        apiServerUrl: serverUrl,
+        ignoreQuotedLines: ignoreQuotedLines
     }, function(items) {
         serverUrl = items.apiServerUrl;
+        ignoreQuotedLines = items.ignoreQuotedLines;
         if (localStorage.allowRemoteCheck === "true") {
             doCheck(tabs);
         } else {

@@ -6,6 +6,12 @@
         body { padding: 10px; }
         #apiServerUrl { width: 250px; margin-top: 5px; margin-bottom: 5px; }
         #save { margin-top: 10px; }
+        #quoteChar {
+            padding-left: 2px;
+            padding-right: 2px;
+            font-family: monospace;
+            background-color: #dddddd;
+        }
     </style>
 </head>
 <body>
@@ -14,7 +20,11 @@
 <input autofocus id="apiServerUrl" type="text" /><br>
 <a id="defaultServerLink" href="#"></a><br>
 
+<br>
+<label><input id="ignoreQuotedLines" type="checkbox" checked> <span id="ignoreQuotedLinesDesc"></span></label>
+
 <div id="status"></div>
+<br>
 <button id="save">Save</button>
 
 <script src="options.js"></script>

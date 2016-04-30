@@ -129,6 +129,16 @@
       }
     }
   },
+  "quotedLinesIgnored": {
+    "message": "Quoted lines starting with $char$ have been ignored",
+    "description": "Text shown in the popup to let the user know when parts of the text have been ignored",
+    "placeholders": {
+      "char": {
+        "content": "<span class='quoteChar'>&gt;</span>",
+        "example": "(do not translate)"
+      }
+    }
+  },
   "freshInstallReload": {
     "message": "If you have just installed or (re-)activated this extension, please reload the tab first in which you want to check a text.",
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet"
@@ -188,6 +198,16 @@
   "defaultServerLink": {
     "message": "Use default",
     "description": "Options dialog: Link to reset the URL of the API server to the default value"
+  },
+  "ignoreQuotedLines": {
+    "message": "Ignore lines starting with $char$ (typically quoted text)",
+    "description": "Options dialog: checkbox to exclude quoted text from checking",
+    "placeholders": {
+      "char": {
+        "content": "<span id='quoteChar'>&gt;</span>",
+        "example": "(do not translate)"
+      }
+    }
   },
   "save": {
     "message": "Save",
