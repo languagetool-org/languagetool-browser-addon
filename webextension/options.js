@@ -23,6 +23,7 @@ let defaultServerUrl = 'https://languagetool.org:8081/';   // keep in sync with 
 function saveOptions() {
     let url = document.getElementById('apiServerUrl').value;
     let ignoreQuotedLines = document.getElementById('ignoreQuotedLines').checked;
+    let motherTongue = document.getElementById('motherTongue').value;
     let status = document.getElementById('status');
     if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
         status.textContent = 'This URL is not valid.';
@@ -31,7 +32,8 @@ function saveOptions() {
         var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
         storage.set({
             apiServerUrl: url,
-            ignoreQuotedLines: ignoreQuotedLines
+            ignoreQuotedLines: ignoreQuotedLines,
+            motherTongue: motherTongue
         }, function() {
             close();
         });
@@ -43,13 +45,17 @@ function restoreOptions() {
     document.getElementById('defaultServerLink').textContent = chrome.i18n.getMessage("defaultServerLink");
     document.getElementById('save').textContent = chrome.i18n.getMessage("save");
     document.getElementById('ignoreQuotedLinesDesc').innerHTML = chrome.i18n.getMessage("ignoreQuotedLines");
+    document.getElementById('motherTongueDesc').textContent = chrome.i18n.getMessage("motherTongueDesc");
+    document.getElementById('motherTongueExpl').textContent = chrome.i18n.getMessage("motherTongueExpl");
     var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
     storage.get({
         apiServerUrl: defaultServerUrl,
-        ignoreQuotedLines: true
+        ignoreQuotedLines: true,
+        motherTongue: ""
     }, function(items) {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;
         document.getElementById('ignoreQuotedLines').checked = items.ignoreQuotedLines;
+        document.getElementById('motherTongue').value = items.motherTongue;
     });
 }
 

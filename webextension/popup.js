@@ -25,6 +25,7 @@ var testMode = false;
 var serverUrl = defaultServerUrl;
 var ignoreQuotedLines = true;
 var quotedLinesIgnored = false;
+var motherTongue = "";
 
 function getCheckResult(markupList, callback, errorCallback) {
     let req = new XMLHttpRequest();
@@ -58,8 +59,11 @@ function getCheckResult(markupList, callback, errorCallback) {
         });
         quotedLinesIgnored = text != textOrig;
     }
-    let params = 'disabled=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
+    var params = 'disabled=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
                  '&useragent=chrome-extension&autodetect=1&text=' + encodeURIComponent(text);
+    if (motherTongue) {
+        params += "&motherTongue=" + motherTongue;
+    }
     req.send(params);
 }
 
@@ -204,10 +208,12 @@ function startCheckMaybeWithWarning(tabs) {
     var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
     storage.get({
         apiServerUrl: serverUrl,
-        ignoreQuotedLines: ignoreQuotedLines
+        ignoreQuotedLines: ignoreQuotedLines,
+        motherTongue: motherTongue
     }, function(items) {
         serverUrl = items.apiServerUrl;
         ignoreQuotedLines = items.ignoreQuotedLines;
+        motherTongue = items.motherTongue;
         if (localStorage.allowRemoteCheck === "true") {
             doCheck(tabs);
         } else {
