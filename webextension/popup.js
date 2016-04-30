@@ -26,6 +26,7 @@ var serverUrl = defaultServerUrl;
 var ignoreQuotedLines = true;
 var quotedLinesIgnored = false;
 var motherTongue = "";
+var manuallySelectedLanguage = "";
 
 function getCheckResult(markupList, callback, errorCallback) {
     let req = new XMLHttpRequest();
@@ -60,9 +61,15 @@ function getCheckResult(markupList, callback, errorCallback) {
         quotedLinesIgnored = text != textOrig;
     }
     var params = 'disabled=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
-                 '&useragent=chrome-extension&autodetect=1&text=' + encodeURIComponent(text);
+                 '&useragent=chrome-extension&text=' + encodeURIComponent(text);
     if (motherTongue) {
         params += "&motherTongue=" + motherTongue;
+    }
+    if (manuallySelectedLanguage) {
+        params += "&language=" + manuallySelectedLanguage;
+        manuallySelectedLanguage = "";
+    } else {
+        params += "&autodetect=1";
     }
     req.send(params);
 }
@@ -83,7 +90,7 @@ function renderMatchesToHtml(resultXml, createLinks) {
     if (!translatedLanguage) {
         translatedLanguage = language;
     }
-    var html = chrome.i18n.getMessage("detectedLanguage", translatedLanguage);
+    var html = getLanguageSelector(languageCode);
     let matches = dom.getElementsByTagName("error");
     if (matches.length === 0) {
         html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
@@ -113,6 +120,31 @@ function renderMatchesToHtml(resultXml, createLinks) {
     if (testMode) {
         html += "*** running in test mode ***";
     }
+    return html;
+}
+
+function getLanguageSelector(languageCode) {
+    // It might be better to get the languages from the API (but not for every check call):
+    let languages = [
+        "ast-ES", "be-BY", "br-FR", "ca-ES", "ca-ES-valencia", "zh-CN", "da-DK", "nl",
+        "en", "en-AU", "en-CA", "en-GB", "en-NZ", "en-ZA", "en-US", "eo", "fr", "gl-ES",
+        "de", "de-AT", "de-DE", "de-CH", "el-GR", "is-IS", "it", "ja-JP", "km-KH", "lt-LT", "ml-IN",
+        "fa", "pl-PL", "pt", "pt-BR", "pt-PT", "ro-RO", "ru-RU", "de-DE-x-simple-language", "sk-SK",
+        "sl-SI", "es", "sv", "tl-PH", "ta-IN", "uk-UA"
+    ];
+    var html = chrome.i18n.getMessage("language");
+    html += "&nbsp;<select id='language'>";
+    for (var l in languages) {
+        let langCode = languages[l];
+        let langCodeForTrans = languages[l].replace("-", "_");
+        let selected = languageCode == langCode ? "selected" : "";
+        var translatedLang = chrome.i18n.getMessage(langCodeForTrans);
+        if (!translatedLang) {
+            translatedLang = chrome.i18n.getMessage(langCodeForTrans.replace(/_.*/, ""));
+        }
+        html += "<option " + selected + " value='" + langCode + "'>" + (translatedLang ? translatedLang : langCode) + "</option>";
+    }
+    html += "</select>";
     return html;
 }
 
@@ -173,6 +205,10 @@ function handleCheckResult(response, tabs, callback) {
     getCheckResult(response.markupList, function(resultText) {
         let resultHtml = renderMatchesToHtml(resultText, response.isEditableText);
         renderStatus(resultHtml);
+        document.getElementById("language").addEventListener("change", function() {
+            manuallySelectedLanguage = document.getElementById("language").value;
+            doCheck(tabs);
+        });
         let links = document.getElementsByTagName("a");
         for (var i = 0; i < links.length; i++) {
             let link = links[i];

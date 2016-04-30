@@ -95,6 +95,10 @@
       }
     }
   },
+  "language": {
+    "message": "Language:",
+    "description": "Text shown in the popup to indicate the automatically detected language of the text checked"
+  },
   "detectedLanguage": {
     "message": "Detected language: $language$",
     "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
