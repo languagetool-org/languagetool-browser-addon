@@ -23,6 +23,12 @@
     "https://languagetool.org:8081/",
     "storage"
   ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "web_accessible_resources": [
+    "toolbar/ui.html"
+  ],
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],

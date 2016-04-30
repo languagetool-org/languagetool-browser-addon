@@ -20,6 +20,11 @@
 
 chrome.runtime.onMessage.addListener(handleRequest);
 
+let toolbarUI;
+let lastUseDate = new Date().getTime();  // TODO: should actually be saved in prefs
+let lastReminderDate = new Date().getTime();  // TODO: should actually be saved in prefs
+let unusedMinutesShowReminder = 0.5;
+    
 function handleRequest(request, sender, callback) {
     if (request.action === 'checkText') {
         checkText(callback);
@@ -28,12 +33,19 @@ function handleRequest(request, sender, callback) {
     } else if (request.action === 'applyCorrection') {
         applyCorrection(request);
         callback();
+    } else if (request === 'toggle-in-page-toolbar') {
+        if (toolbarUI) {
+            toggleToolbar(toolbarUI);
+        } else {
+            toolbarUI = initToolbar();
+        }
     } else {
         alert("Unknown action: " + request.action);
     }
 }
 
 function checkText(callback) {
+    lastUseDate = new Date().getTime();
     let selection = window.getSelection();
     if (selection && selection.toString() !== "") {
         callback({markupList: [{text: selection.toString()}], isEditableText: false});
@@ -133,3 +145,63 @@ function replaceIn(elem, elemValue, markupList) {
     }
     return false;
 }
+
+// --------------------------------------------------------------------------------
+// code just for showing a reminder toolbar when LT hasn't been used for some time:
+// Based on https://github.com/rpl/webextensions-examples/tree/fx46/inpage-toolbar-ui/inpage-toolbar-ui
+// --------------------------------------------------------------------------------
+
+/*
+function initToolbar() {
+    var iframe = document.createElement("iframe");
+    iframe.setAttribute("src", chrome.runtime.getURL("toolbar/ui.html"));
+    iframe.setAttribute("style", "position: fixed; top: 0; left: 0; z-index: 10000; width: 100%; height: 36px;");
+    document.body.appendChild(iframe);
+    return toolbarUI = {
+        iframe: iframe, visible: true
+    };
+}
+
+function toggleToolbar(toolbarUI) {
+    if (!toolbarUI) {
+        toolbarUI = initToolbar();
+    }
+    if (toolbarUI.visible) {
+        toolbarUI.visible = false;
+        toolbarUI.iframe.style["display"] = "none";
+    } else {
+        showToolbar(toolbarUI);
+    }
+}
+
+function showToolbar(toolbarUI) {
+    if (!toolbarUI) {
+        toolbarUI = initToolbar();
+    }
+    toolbarUI.visible = true;
+    toolbarUI.iframe.style["display"] = "block";
+    lastReminderDate = new Date().getTime();
+}
+
+function addListener(elements) {
+    for (var i = 0; i < elements.length; i++) {
+        var textArea = elements[i];
+        textArea.addEventListener("keyup", function(msg) {
+            let now = new Date().getTime();
+            let unusedMinutes = (now - lastUseDate) / 1000 / 60;
+            let unremindedMinutes = (now - lastReminderDate) / 1000 / 60;
+            console.log("unusedMinutes: " + unusedMinutes + ", unremindedMinutes: " + unremindedMinutes);
+            if (unusedMinutes > unusedMinutesShowReminder && unremindedMinutes > unusedMinutesShowReminder) {
+                showToolbar(toolbarUI);
+            }
+        });
+    }
+}
+// Handle messages from the add-on background page (only in top level iframes)
+if (window.parent == window) {
+    var textAreas = document.querySelectorAll("textarea");
+    addListener(textAreas);
+    var contentEditables = document.querySelectorAll("[contentEditable=true]");
+    addListener(contentEditables);
+}
+*/
