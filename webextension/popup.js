@@ -51,10 +51,15 @@ function getCheckResult(markupList, callback, errorCallback) {
     let text = Markup.markupList2text(markupList);
     if (ignoreQuotedLines) {
         var textOrig = text;
-        text = text.replace(/^>.*?\n/gm, '\n');
+        // A hack so the following replacements don't happen on messed up character positions.
+        // See https://github.com/languagetool-org/languagetool-browser-addon/issues/25:
+        text = text.replace(/^>.*?\n/gm, function(match) {
+            return " ".repeat(match.length - 1) + "\n";
+        });
         quotedLinesIgnored = text != textOrig;
     }
-    let params = 'useragent=chrome-extension&autodetect=1&text=' + encodeURIComponent(text);
+    let params = 'disabled=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
+                 '&useragent=chrome-extension&autodetect=1&text=' + encodeURIComponent(text);
     req.send(params);
 }
 
