@@ -8,6 +8,8 @@ https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpd
 
 Run `mocha`. To run tests continuously during development, run `mocha -w`
 (this will automatically run the tests as soon as the source files change).
+Tests should work with Node.js v4.2.1 or later. You can switch between different
+Node.js versions using e.g. `nvm use v4.2.1`.
 
 ### Integration tests
 
