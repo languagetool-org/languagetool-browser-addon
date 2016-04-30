@@ -16,12 +16,17 @@
             margin-top: 2px;
             color: #777777;
         }
+        .error {
+            font-weight: bold;
+            color: darkred;
+        }
     </style>
 </head>
 <body>
 
 <div id="serverText"></div>
-<input autofocus id="apiServerUrl" type="text" /><br>
+<input autofocus id="apiServerUrl" type="text" />
+<div class="error" id="status"></div>
 <a id="defaultServerLink" href="#"></a><br>
 
 <br>
@@ -48,7 +53,6 @@
 </select>
 <div class="expl" id="motherTongueExpl"></div>
 
-<div id="status"></div>
 <br>
 <button id="save">Save</button>
 

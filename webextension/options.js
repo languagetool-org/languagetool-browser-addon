@@ -61,6 +61,7 @@ function restoreOptions() {
 
 function useDefaultServer() {
     document.getElementById('apiServerUrl').value = defaultServerUrl;
+    document.getElementById('status').textContent = "";
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
