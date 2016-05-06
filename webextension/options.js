@@ -22,8 +22,6 @@ let defaultServerUrl = 'https://languagetool.org:8081/';   // keep in sync with 
 
 function saveOptions() {
     let url = document.getElementById('apiServerUrl').value;
-    let ignoreQuotedLines = document.getElementById('ignoreQuotedLines').checked;
-    let motherTongue = document.getElementById('motherTongue').value;
     let status = document.getElementById('status');
     if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
         status.textContent = 'This URL is not valid.';
@@ -32,8 +30,11 @@ function saveOptions() {
         var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
         storage.set({
             apiServerUrl: url,
-            ignoreQuotedLines: ignoreQuotedLines,
-            motherTongue: motherTongue
+            ignoreQuotedLines: document.getElementById('ignoreQuotedLines').checked,
+            motherTongue: document.getElementById('motherTongue').value,
+            enVariant: document.getElementById('variant-en').value,
+            deVariant: document.getElementById('variant-de').value,
+            ptVariant: document.getElementById('variant-pt').value
         }, function() {
             close();
         });
@@ -47,15 +48,26 @@ function restoreOptions() {
     document.getElementById('ignoreQuotedLinesDesc').innerHTML = chrome.i18n.getMessage("ignoreQuotedLines");
     document.getElementById('motherTongueDesc').textContent = chrome.i18n.getMessage("motherTongueDesc");
     document.getElementById('motherTongueExpl').textContent = chrome.i18n.getMessage("motherTongueExpl");
+    document.getElementById('variant-en-desc').textContent = chrome.i18n.getMessage("variantEnDesc");
+    document.getElementById('variant-de-desc').textContent = chrome.i18n.getMessage("variantDeDesc");
+    document.getElementById('variant-pt-desc').textContent = chrome.i18n.getMessage("variantPtDesc");
     var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
     storage.get({
         apiServerUrl: defaultServerUrl,
         ignoreQuotedLines: true,
-        motherTongue: ""
+        motherTongue: "",
+        enVariant: "en-US",
+        deVariant: "de-DE",
+        ptVariant: "pt-PT"
+        //caVariant: "ca"  just 'ca' wouldn't work
     }, function(items) {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;
         document.getElementById('ignoreQuotedLines').checked = items.ignoreQuotedLines;
         document.getElementById('motherTongue').value = items.motherTongue;
+        document.getElementById('variant-en').value = items.enVariant;
+        document.getElementById('variant-de').value = items.deVariant;
+        document.getElementById('variant-pt').value = items.ptVariant;
+        //document.getElementById('variant-ca-desc').value = items.caVariant;
     });
 }
 

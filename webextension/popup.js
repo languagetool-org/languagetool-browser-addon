@@ -26,6 +26,7 @@ var serverUrl = defaultServerUrl;
 var ignoreQuotedLines = true;
 var quotedLinesIgnored = false;
 var motherTongue = "";
+var preferredVariants = [];
 var manuallySelectedLanguage = "";
 
 function getCheckResult(markupList, callback, errorCallback) {
@@ -70,6 +71,9 @@ function getCheckResult(markupList, callback, errorCallback) {
         manuallySelectedLanguage = "";
     } else {
         params += "&autodetect=1";
+        if (preferredVariants.length > 0) {
+            params += "&preferredvariants=" + preferredVariants;
+        }
     }
     req.send(params);
 }
@@ -242,14 +246,22 @@ function handleCheckResult(response, tabs, callback) {
 
 function startCheckMaybeWithWarning(tabs) {
     var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
-    storage.get({
-        apiServerUrl: serverUrl,
-        ignoreQuotedLines: ignoreQuotedLines,
-        motherTongue: motherTongue
-    }, function(items) {
+    storage.get([
+        "apiServerUrl", "ignoreQuotedLines", "motherTongue",
+        "enVariant", "deVariant", "ptVariant" 
+    ], function(items) {
         serverUrl = items.apiServerUrl;
         ignoreQuotedLines = items.ignoreQuotedLines;
         motherTongue = items.motherTongue;
+        if (items.enVariant) {
+            preferredVariants.push(items.enVariant);
+        }
+        if (items.deVariant) {
+            preferredVariants.push(items.deVariant);
+        }
+        if (items.ptVariant) {
+            preferredVariants.push(items.ptVariant);
+        }
         if (localStorage.allowRemoteCheck === "true") {
             doCheck(tabs);
         } else {

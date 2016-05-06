@@ -221,6 +221,18 @@
     "message": "Set this if you want to be warned about false friends when checking texts not written in your mother tongue.",
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does"
   },
+  "variantEnDesc": {
+    "message": "Assume this variant for English:",
+    "description": "Options dialog: set the language variant"
+  },
+  "variantDeDesc": {
+    "message": "Assume this variant for German:",
+    "description": "Options dialog: set the language variant"
+  },
+  "variantPtDesc": {
+    "message": "Assume this variant for Portuguese:",
+    "description": "Options dialog: set the language variant"
+  },
   "save": {
     "message": "Save",
     "description": "Options dialog: save button"
