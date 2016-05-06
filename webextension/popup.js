@@ -276,8 +276,10 @@ function startCheckMaybeWithWarning(tabs) {
                 message += chrome.i18n.getMessage("privacyNoteForOtherServer", serverUrl);
             }
             message += '</p>';
-            message += '<a class="privacyLink" id="confirmCheck" href="#">' + chrome.i18n.getMessage("continue") + '</a> &nbsp;&nbsp;' +
-                       '<a class="privacyLink" id="cancelCheck" href="#">' + chrome.i18n.getMessage("cancel") + '</a>';
+            message += '<ul>' +
+                       '  <li><a class="privacyLink" id="confirmCheck" href="#">' + chrome.i18n.getMessage("continue") + '</a></li>' +
+                       '  <li><a class="privacyLink" id="cancelCheck" href="#">' + chrome.i18n.getMessage("cancel") + '</a></li>' +
+                       '</ul>';
             renderStatus(message);
             document.getElementById("confirmCheck").addEventListener("click", function() {
                 localStorage.allowRemoteCheck = "true";
