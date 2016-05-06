@@ -246,10 +246,14 @@ function handleCheckResult(response, tabs, callback) {
 
 function startCheckMaybeWithWarning(tabs) {
     var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
-    storage.get([
-        "apiServerUrl", "ignoreQuotedLines", "motherTongue",
-        "enVariant", "deVariant", "ptVariant" 
-    ], function(items) {
+    storage.get({
+            apiServerUrl: serverUrl,
+            ignoreQuotedLines: ignoreQuotedLines,
+            motherTongue: motherTongue,
+            enVariant: "en-US",
+            deVariant: "de-DE",
+            ptVariant: "pt-PT"
+        }, function(items) {
         serverUrl = items.apiServerUrl;
         ignoreQuotedLines = items.ignoreQuotedLines;
         motherTongue = items.motherTongue;
