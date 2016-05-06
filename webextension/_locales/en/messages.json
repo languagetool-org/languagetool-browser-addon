@@ -218,7 +218,7 @@
     "description": "Options dialog: text next to the 'mother tongue' selection"
   },
   "motherTongueExpl": {
-    "message": "Set this if you want to be warned about false friends when checking texts not written in your mother tongue.",
+    "message": "Set mother tongue if you want to be warned about false friends when checking texts not written in your mother tongue.",
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does"
   },
   "variantEnDesc": {
