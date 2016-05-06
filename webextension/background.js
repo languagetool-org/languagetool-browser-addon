@@ -1,3 +1,18 @@
+
+// TODO: this needs "contextMenus" permissions
+/*
+function onClickHandler(info, tab) {
+  //TODO: check text
+}
+
+chrome.contextMenus.onClicked.addListener(onClickHandler);
+chrome.runtime.onInstalled.addListener(function() {
+  //TODO: i18n
+  chrome.contextMenus.create({"title": "Check selected text", "contexts":["selection"], "id": "contextLT"});
+  chrome.contextMenus.create({"title": "Check text field", "contexts":["editable"], "id": "contextLTeditable"});
+});
+*/
+
 function toggleToolbar() {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, "toggle-in-page-toolbar");
