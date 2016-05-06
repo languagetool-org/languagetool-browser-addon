@@ -147,6 +147,16 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Galego"
   },
+  "ignoreQuotedLines": {
+    "description": "Options dialog: checkbox to exclude quoted text from checking",
+    "message": "Ignorar as linhas que começam com $char$ (tipicamente texto citado)",
+    "placeholders": {
+      "char": {
+        "content": "<span id='quoteChar'>&gt;</span>",
+        "example": "(do not translate)"
+      }
+    }
+  },
   "is": {
     "description": "automatically added by injectTranslation.py",
     "message": "Islandês"
@@ -163,6 +173,10 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Khmer"
   },
+  "language": {
+    "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
+    "message": "Idioma:"
+  },
   "lt": {
     "description": "automatically added by injectTranslation.py",
     "message": "Lituano"
@@ -170,6 +184,14 @@
   "ml": {
     "description": "automatically added by injectTranslation.py",
     "message": "Malaiala"
+  },
+  "motherTongueDesc": {
+    "description": "Options dialog: text next to the 'mother tongue' selection",
+    "message": "Língua mãe:"
+  },
+  "motherTongueExpl": {
+    "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
+    "message": "Activa isto se quiseres ser avisado sobre falsos amigos ao verificar textos não escritos na tua língua materna."
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",
@@ -283,6 +305,16 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Português (Portugal)"
   },
+  "quotedLinesIgnored": {
+    "description": "Text shown in the popup to let the user know when parts of the text have been ignored",
+    "message": "Linhas citadas a começar com $char$ foram ignoradas",
+    "placeholders": {
+      "char": {
+        "content": "<span class='quoteChar'>&gt;</span>",
+        "example": "(do not translate)"
+      }
+    }
+  },
   "ro": {
     "description": "automatically added by injectTranslation.py",
     "message": "Romeno"
@@ -360,6 +392,18 @@
   "uk": {
     "description": "automatically added by injectTranslation.py",
     "message": "Ucraniano"
+  },
+  "variantDeDesc": {
+    "description": "Options dialog: set the language variant",
+    "message": "Assume this variant for German:"
+  },
+  "variantEnDesc": {
+    "description": "Options dialog: set the language variant",
+    "message": "Assume this variant for English:"
+  },
+  "variantPtDesc": {
+    "description": "Options dialog: set the language variant",
+    "message": "Assume this variant for Portuguese:"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",
