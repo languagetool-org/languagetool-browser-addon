@@ -38,7 +38,7 @@ translatedJson = json.loads(translatedFile.read(), object_pairs_hook=collections
 newFile = englishFile
 
 for k in translatedJson:
-    translation = translatedJson[k]['message'].replace("\n", "\\\\n")
+    translation = translatedJson[k]['message'].replace("\n", "\\\\n").replace("\"", "\\\"")
     backup = newFile
     searchStr = '("' + k + '": {\\s*"message":\\s*".*?")'
     newFile = re.sub(searchStr, '"' + k + '": {\n    "message": "' + translation + '"', newFile, flags=re.MULTILINE|re.DOTALL)
