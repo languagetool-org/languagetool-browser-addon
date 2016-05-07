@@ -161,9 +161,9 @@ function getLanguageSelector(languageCode) {
     // It might be better to get the languages from the API (but not for every check call):
     let languages = [
         "ast-ES", "be-BY", "br-FR", "ca-ES", /* translation missing: "ca-ES-valencia"*/ "zh-CN", "da-DK", "nl",
-        "en-AU", "en-CA", "en-GB", "en-NZ", "en-ZA", "en-US", "eo", "fr", "gl-ES",
-        "de-AT", "de-DE", "de-CH", "el-GR", "is-IS", "it", "ja-JP", "km-KH", "lt-LT", "ml-IN",
-        "fa", "pl-PL", "pt-BR", "pt-PT", "ro-RO", "ru-RU", "sk-SK",
+        "en-US", "en-GB", "en-AU", "en-CA", "en-NZ", "en-ZA", "eo", "fr", "gl-ES",
+        "de-DE", "de-AT", "de-CH", "el-GR", "is-IS", "it", "ja-JP", "km-KH", "lt-LT", "ml-IN",
+        "fa", "pl-PL", "pt-PT", "pt-BR", "ro-RO", "ru-RU", "sk-SK",
         "sl-SI", "es", "sv", "tl-PH", "ta-IN", "uk-UA"
     ];
     var html = chrome.i18n.getMessage("language");
