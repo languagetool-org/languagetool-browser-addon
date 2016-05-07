@@ -1,6 +1,6 @@
 {
   "appStoreWarning": {
-    "message": "*** NOTE: *** this is an early release, please report bugs here or at https://github.com/languagetool-org/languagetool-browser-addon/issues",
+    "message": "Please report bugs here or at https://github.com/languagetool-org/languagetool-browser-addon/issues",
     "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)"
   },
   "appStoreDesc": {
