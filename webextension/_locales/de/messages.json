@@ -191,7 +191,7 @@
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
-    "message": "Setzen, um vor \"falschen Freunden\" gewarnt zu werden, wenn ein Text geprüft wird, der nicht in der Muttersprache verfasst ist"
+    "message": "Wählen Sie hier Ihre Muttersprache aus, um in fremdsprachigen Texten vor \"falschen Freunden\" gewarnt zu werden."
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",
@@ -395,15 +395,15 @@
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for German:"
+    "message": "Diese Variante des Deutschen benutzen:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for English:"
+    "message": "Diese Variante des Englischen benutzen:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for Portuguese:"
+    "message": "Diese Variante des Portugiesischen benutzen:"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",

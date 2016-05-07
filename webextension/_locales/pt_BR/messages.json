@@ -191,7 +191,7 @@
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
-    "message": "Habilite isso caso deseje ser avisado sobre falsos cognatos ao verificar textos que não estejam em seu idioma."
+    "message": "Set mother tongue if you want to be warned about false friends when checking texts not written in your mother tongue."
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",

@@ -9,7 +9,7 @@
   },
   "appStoreWarning": {
     "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
-    "message": "***Примечание: *** это ранний пре-релиз, пожалуйста, сообщайте об ошибках здесь или на https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "***Примечание: *** это ранний пре-релиз. Пожалуйста, сообщайте об ошибках здесь или на https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -149,7 +149,7 @@
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
-    "message": "Ignore lines starting with $char$ (typically quoted text)",
+    "message": "Игнорировать строки, начинающиеся с $char$ (обычно это цитаты)",
     "placeholders": {
       "char": {
         "content": "<span id='quoteChar'>&gt;</span>",
@@ -175,7 +175,7 @@
   },
   "language": {
     "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
-    "message": "Language:"
+    "message": "Язык:"
   },
   "lt": {
     "description": "automatically added by injectTranslation.py",
@@ -187,11 +187,11 @@
   },
   "motherTongueDesc": {
     "description": "Options dialog: text next to the 'mother tongue' selection",
-    "message": "Mother tongue:"
+    "message": "Родной язык:"
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
-    "message": "Set this if you want to be warned about false friends when checking texts not written in your mother tongue."
+    "message": "Set mother tongue if you want to be warned about false friends when checking texts not written in your mother tongue."
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",
@@ -307,7 +307,7 @@
   },
   "quotedLinesIgnored": {
     "description": "Text shown in the popup to let the user know when parts of the text have been ignored",
-    "message": "Quoted lines starting with $char$ have been ignored",
+    "message": "Строки с кавычками, начинающиеся с $char$, будут проигнорированы",
     "placeholders": {
       "char": {
         "content": "<span class='quoteChar'>&gt;</span>",
