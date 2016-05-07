@@ -99,16 +99,24 @@ function renderMatchesToHtml(resultXml, createLinks) {
     if (matches.length === 0) {
         html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
     } else {
+        var prevErrStart = -1;
+        var prevErrLen = -1;
         html += "<ul>";
         for (let match in matches) {
             let m = matches[match];
             if (m.getAttribute) {
-                let context = m.getAttribute("context");
-                html += "<li>";
-                html += renderContext(context, m);
-                html += renderReplacements(context, m, createLinks);
-                html += Tools.escapeHtml(m.getAttribute("msg"));
-                html += "</li>";
+                let errStart = parseInt(m.getAttribute("contextoffset"));
+                let errLen = parseInt(m.getAttribute("errorlength"));
+                if (errStart != prevErrStart || errLen != prevErrLen) {
+                    let context = m.getAttribute("context");
+                    html += "<li>";
+                    html += renderContext(m.getAttribute("context"), errStart, errLen);
+                    html += renderReplacements(context, m, createLinks);
+                    html += Tools.escapeHtml(m.getAttribute("msg"));
+                    html += "</li>";
+                }
+                prevErrStart = errStart;
+                prevErrLen = errLen;
             }
         }
         html += "</ul>";
@@ -152,9 +160,7 @@ function getLanguageSelector(languageCode) {
     return html;
 }
 
-function renderContext(context, m) {
-    let errStart = parseInt(m.getAttribute("contextoffset"));
-    let errLen = parseInt(m.getAttribute("errorlength"));
+function renderContext(context, errStart, errLen) {
     return "<div class='errorArea'>"
           + Tools.escapeHtml(context.substr(0, errStart))
           + "<span class='error'>" + Tools.escapeHtml(context.substr(errStart, errLen)) + "</span>" 
