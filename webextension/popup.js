@@ -182,6 +182,10 @@ function renderReplacements(context, m, createLinks) {
         var i = 0;
         for (let idx in replacements) {
             let replacement = replacements[idx];
+            if (i >= 7) {
+                // showing more suggestions usually doesn't make sense
+                break;
+            }
             if (i++ > 0) {
                 html += " | ";
             }
