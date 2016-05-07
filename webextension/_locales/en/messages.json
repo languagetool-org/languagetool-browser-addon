@@ -143,6 +143,20 @@
       }
     }
   },
+  "addToDictionary": {
+    "message": "add to dictionary",
+    "description": "Link shown in the popup to accept a word to the internal dictionary"
+  },
+  "addToDictionaryTitle": {
+    "message": "add \"$word$\" to personal dictionary",
+    "description": "Title hover shown in the popup to accept a word to the internal dictionary",
+    "placeholders": {
+      "word": {
+        "content": "$1",
+        "example": "foobar"
+      }
+    }
+  },
   "freshInstallReload": {
     "message": "If you have just installed or (re-)activated this extension, please reload the tab first in which you want to check a text.",
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet"

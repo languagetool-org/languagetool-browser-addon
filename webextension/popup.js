@@ -82,7 +82,8 @@ function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
 }
 
-function renderMatchesToHtml(resultXml, createLinks) {
+function renderMatchesToHtml(resultXml, response, tabs, callback) {
+    let createLinks = response.isEditableText;
     let dom = (new window.DOMParser()).parseFromString(resultXml, "text/xml");
     let language = dom.getElementsByTagName("language")[0].getAttribute("name");
     let languageCode = dom.getElementsByTagName("language")[0].getAttribute("shortname");
@@ -96,43 +97,64 @@ function renderMatchesToHtml(resultXml, createLinks) {
     }
     var html = getLanguageSelector(languageCode);
     let matches = dom.getElementsByTagName("error");
-    if (matches.length === 0) {
-        html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
-    } else {
-        var prevErrStart = -1;
-        var prevErrLen = -1;
-        html += "<ul>";
+    var prevErrStart = -1;
+    var prevErrLen = -1;
+    html += "<ul>";
+    let storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+    storage.get({
+        dictionary: []
+    }, function(items) {
+        var matchesCount = 0;
         for (let match in matches) {
             let m = matches[match];
             if (m.getAttribute) {
+                let context = m.getAttribute("context");
                 let errStart = parseInt(m.getAttribute("contextoffset"));
                 let errLen = parseInt(m.getAttribute("errorlength"));
-                if (errStart != prevErrStart || errLen != prevErrLen) {
-                    let context = m.getAttribute("context");
+                let word = context.substr(errStart, errLen);
+                let ruleId = m.getAttribute("ruleId");
+                let isSpellingError = ruleId.indexOf("MORFOLOGIK") != -1 || ruleId.indexOf("HUNSPELL") != -1 || ruleId.indexOf("SPELLER_RULE") != -1;
+                // TODO: also accept uppercase versions of words in personal dict
+                let ignoreSpellingError = isSpellingError && items.dictionary.indexOf(word) != -1;
+                if (!ignoreSpellingError && (errStart != prevErrStart || errLen != prevErrLen)) {
                     html += "<li>";
                     html += renderContext(m.getAttribute("context"), errStart, errLen);
                     html += renderReplacements(context, m, createLinks);
                     html += Tools.escapeHtml(m.getAttribute("msg"));
+                    if (isSpellingError) {
+                        let escapedWord = Tools.escapeHtml(word);
+                        html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
+                                "title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord) + "'" +
+                                "href='' class='addToDictLink'>" + chrome.i18n.getMessage("addToDictionary") + "</a></div>";
+                    }
                     html += "</li>";
+                    matchesCount++;
                 }
                 prevErrStart = errStart;
                 prevErrLen = errLen;
             }
         }
         html += "</ul>";
-    }
-    if (quotedLinesIgnored) {
-        html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
-    }
-    if (serverUrl === defaultServerUrl) {
-        html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
-    } else {
-        html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedBy", serverUrl) + "</p>";
-    }
-    if (testMode) {
-        html += "*** running in test mode ***";
-    }
-    return html;
+        if (matchesCount == 0) {
+            html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
+        }
+        if (quotedLinesIgnored) {
+            html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
+        }
+        if (serverUrl === defaultServerUrl) {
+            html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
+        } else {
+            html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedBy", serverUrl) + "</p>";
+        }
+        if (testMode) {
+            html += "*** running in test mode ***";
+        }
+        renderStatus(html);
+        addLinkListeners(response, tabs);
+        if (callback) {
+            callback(response.markupList);
+        }
+    });
 }
 
 function getLanguageSelector(languageCode) {
@@ -169,6 +191,7 @@ function renderContext(context, errStart, errLen) {
 }
 
 function renderReplacements(context, m, createLinks) {
+    let ruleId = m.getAttribute("ruleId");
     let replacementsStr = m.getAttribute("replacements");
     let contextOffset = parseInt(m.getAttribute('contextoffset'));
     let errLen = parseInt(m.getAttribute("errorlength"));
@@ -176,7 +199,7 @@ function renderReplacements(context, m, createLinks) {
     let contextLeft = context.substr(0, contextOffset).replace(/^\.\.\./, "");
     let contextRight = context.substr(contextOffset + errLen).replace(/\.\.\.$/, "");
     let errorText = context.substr(contextOffset, errLen);
-    var html = "";
+    var html = "<div class='replacements'>";
     if (replacementsStr) {
         let replacements = replacementsStr.split("#");
         var i = 0;
@@ -191,6 +214,7 @@ function renderReplacements(context, m, createLinks) {
             }
             if (createLinks) {
                 html += "<a class='replacement' href='#' " +
+                    "data-ruleid='" + ruleId + "'" +
                     "data-erroroffset='" + errOffset + "'" +
                     "data-contextleft='" + Tools.escapeHtml(contextLeft) + "'" +
                     "data-contextright='" + Tools.escapeHtml(contextRight) + "'" +
@@ -201,9 +225,50 @@ function renderReplacements(context, m, createLinks) {
                 html += "<b>" + Tools.escapeHtml(replacement) + "</b>";
             }
         }
-        html += "<br/>";
+        html += "</div>";
     }
     return html;
+}
+
+function addLinkListeners(response, tabs) {
+    document.getElementById("language").addEventListener("change", function() {
+        manuallySelectedLanguage = document.getElementById("language").value;
+        doCheck(tabs);
+    });
+    let links = document.getElementsByTagName("a");
+    for (var i = 0; i < links.length; i++) {
+        let link = links[i];
+        link.addEventListener("click", function() {
+            if (link.getAttribute('data-addtodict')) {
+                var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+                storage.get({
+                    dictionary: []
+                }, function(items) {
+                    var dictionary = items.dictionary;
+                    dictionary.push(link.getAttribute('data-addtodict'));
+                    storage.set({'dictionary': dictionary}, function() {
+                        chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
+                            doCheck(tabs);   // re-check
+                        });
+                    });
+                });
+
+            } else if (link.getAttribute('data-errortext')) {
+                let data = {
+                    action: 'applyCorrection',
+                    errorOffset: parseInt(link.getAttribute('data-erroroffset')),
+                    contextLeft: link.getAttribute('data-contextleft'),
+                    contextRight: link.getAttribute('data-contextright'),
+                    errorText: link.getAttribute('data-errortext'),
+                    replacement: link.getAttribute('data-replacement'),
+                    markupList: response.markupList
+                };
+                chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
+                    doCheck(tabs);   // re-check, as applying changes might change context also for other errors
+                });
+            }
+        });
+    }
 }
 
 function handleCheckResult(response, tabs, callback) {
@@ -217,35 +282,7 @@ function handleCheckResult(response, tabs, callback) {
         return;
     }
     getCheckResult(response.markupList, function(resultText) {
-        let resultHtml = renderMatchesToHtml(resultText, response.isEditableText);
-        renderStatus(resultHtml);
-        document.getElementById("language").addEventListener("change", function() {
-            manuallySelectedLanguage = document.getElementById("language").value;
-            doCheck(tabs);
-        });
-        let links = document.getElementsByTagName("a");
-        for (var i = 0; i < links.length; i++) {
-            let link = links[i];
-            link.addEventListener("click", function() {
-                if (link.getAttribute('data-errortext')) {   // don't attach to link to our homepage etc.
-                    let data = {
-                        action: 'applyCorrection',
-                        errorOffset: parseInt(link.getAttribute('data-erroroffset')),
-                        contextLeft: link.getAttribute('data-contextleft'),
-                        contextRight: link.getAttribute('data-contextright'),
-                        errorText: link.getAttribute('data-errortext'),
-                        replacement: link.getAttribute('data-replacement'),
-                        markupList: response.markupList
-                    };
-                    chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
-                        doCheck(tabs);   // re-check, as applying changes might change context also for other errors
-                    });
-                }
-            });
-        }
-        if (callback) {
-            callback(response.markupList);
-        }
+        renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage) {
         renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(errorMessage)));
         if (callback) {
