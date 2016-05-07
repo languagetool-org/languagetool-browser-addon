@@ -99,7 +99,7 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
     let matches = dom.getElementsByTagName("error");
     var prevErrStart = -1;
     var prevErrLen = -1;
-    html += "<ul>";
+    html += "<br><br>";
     let storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
     storage.get({
         dictionary: []
@@ -117,24 +117,22 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
                 // TODO: also accept uppercase versions of words in personal dict
                 let ignoreSpellingError = isSpellingError && items.dictionary.indexOf(word) != -1;
                 if (!ignoreSpellingError && (errStart != prevErrStart || errLen != prevErrLen)) {
-                    html += "<li>";
+                    html += Tools.escapeHtml(m.getAttribute("msg"));
                     html += renderContext(m.getAttribute("context"), errStart, errLen);
                     html += renderReplacements(context, m, createLinks);
-                    html += Tools.escapeHtml(m.getAttribute("msg"));
                     if (isSpellingError) {
                         let escapedWord = Tools.escapeHtml(word);
                         html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
                                 "title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord) + "'" +
                                 "href='' class='addToDictLink'>" + chrome.i18n.getMessage("addToDictionary") + "</a></div>";
                     }
-                    html += "</li>";
+                    html += "<hr>";
                     matchesCount++;
                 }
                 prevErrStart = errStart;
                 prevErrLen = errLen;
             }
         }
-        html += "</ul>";
         if (matchesCount == 0) {
             html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
         }
