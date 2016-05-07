@@ -1,13 +1,13 @@
 
-// TODO: this needs "contextMenus" permissions
 /*
 function onClickHandler(info, tab) {
-  //TODO: check text
+  // Seems it's not possible to open the popup from a context menu:
+  //   http://stackoverflow.com/questions/17851700/how-to-open-the-default-popup-from-context-menu-in-a-chrome-extension
+  //   http://stackoverflow.com/questions/10479679/how-can-i-open-my-extensions-pop-up-with-javascript
+  // If this ever gets activated, it also needs the 'contextMenus' permission.
 }
-
 chrome.contextMenus.onClicked.addListener(onClickHandler);
 chrome.runtime.onInstalled.addListener(function() {
-  //TODO: i18n
   chrome.contextMenus.create({"title": "Check selected text", "contexts":["selection"], "id": "contextLT"});
   chrome.contextMenus.create({"title": "Check text field", "contexts":["editable"], "id": "contextLTeditable"});
 });
