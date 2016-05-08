@@ -142,7 +142,7 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
             }
         }
         if (matchesCount == 0) {
-            html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
+            html += chrome.i18n.getMessage("noErrorsFound");
         }
         if (quotedLinesIgnored) {
             html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";

@@ -28,6 +28,9 @@
 </head>
 <body>
 
+<!-- just setting 'body' width in CSS leads to a strange bug of misplaced <select>s when clicked, work around that: -->
+<div style="width:500px"></div>
+
 <div id="serverText"></div>
 <input autofocus id="apiServerUrl" type="text" />
 <div class="error" id="status"></div>
