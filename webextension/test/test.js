@@ -33,6 +33,32 @@ describe('Tools', function () {
         assert.equal(e("foo\"bar"), "foo&quot;bar");
         assert.equal(e("'foo\"bar'"), "&apos;foo&quot;bar&apos;");
     });
+    it('check lowercase first char', function () {
+        let e = Tools.startWithLowercase;
+        assert.equal(e("a"), true);
+        assert.equal(e("ä"), true);
+        assert.equal(e("äXX"), true);
+        assert.equal(e(""), false);
+        assert.equal(e("A"), false);
+        assert.equal(e("Ä"), false);
+    });
+    it('check uppercase first char', function () {
+        let e = Tools.startWithUppercase;
+        assert.equal(e("a"), false);
+        assert.equal(e("ä"), false);
+        assert.equal(e("äXX"), false);
+        assert.equal(e(""), false);
+        assert.equal(e("A"), true);
+        assert.equal(e("Ä"), true);
+    });
+    it('lowercase first char', function () {
+        let e = Tools.lowerCaseFirstChar;
+        assert.equal(e(""), "");
+        assert.equal(e("abc"), "abc");
+        assert.equal(e("A"), "a");
+        assert.equal(e("A"), "a");
+        assert.equal(e("ÄXX"), "äXX");
+    });
 });
 
 describe('Markup', function () {

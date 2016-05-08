@@ -31,6 +31,21 @@ class Tools {
                 .replace(/'/g, '&apos;');
     }
 
+    static startWithLowercase(str) {
+        let firstCh = str.charAt(0);
+        return firstCh == firstCh.toLowerCase() && firstCh != firstCh.toUpperCase();
+    }
+
+    static startWithUppercase(str) {
+        let firstCh = str.charAt(0);
+        return firstCh == firstCh.toUpperCase() && firstCh != firstCh.toLowerCase();
+    }
+
+    static lowerCaseFirstChar(str) {
+        let firstCh = str.charAt(0);
+        return firstCh.toLowerCase() + str.substr(1);
+    }
+
 }
 
 if (typeof module !== 'undefined') {

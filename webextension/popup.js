@@ -114,8 +114,16 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
                 let word = context.substr(errStart, errLen);
                 let ruleId = m.getAttribute("ruleId");
                 let isSpellingError = ruleId.indexOf("MORFOLOGIK") != -1 || ruleId.indexOf("HUNSPELL") != -1 || ruleId.indexOf("SPELLER_RULE") != -1;
-                // TODO: also accept uppercase versions of words in personal dict
-                let ignoreSpellingError = isSpellingError && items.dictionary.indexOf(word) != -1;
+                // Also accept uppercase versions of lowercase words in personal dict:
+                var ignoreSpellingError = false;
+                if (isSpellingError) {
+                    let knowToDict = items.dictionary.indexOf(word) != -1;
+                    if (knowToDict) {
+                        ignoreSpellingError = true;
+                    }  else if (!knowToDict && Tools.startWithUppercase(word)) {
+                        ignoreSpellingError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(word)) != -1;
+                    }
+                }
                 if (!ignoreSpellingError && (errStart != prevErrStart || errLen != prevErrLen)) {
                     html += Tools.escapeHtml(m.getAttribute("msg"));
                     html += renderContext(m.getAttribute("context"), errStart, errLen);
