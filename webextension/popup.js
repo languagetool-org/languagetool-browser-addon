@@ -182,7 +182,10 @@ function getLanguageSelector(languageCode) {
         if (!translatedLang) {
             translatedLang = chrome.i18n.getMessage(langCodeForTrans.replace(/_.*/, ""));
         }
-        html += "<option " + selected + " value='" + langCode + "'>" + (translatedLang ? translatedLang : langCode) + "</option>";
+        if (!translatedLang) {
+            translatedLang = Tools.getLangName(langCode);
+        }
+        html += "<option " + selected + " value='" + langCode + "'>" + translatedLang + "</option>";
     }
     html += "</select>";
     return html;
