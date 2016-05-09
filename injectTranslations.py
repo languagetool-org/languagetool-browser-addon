@@ -40,7 +40,8 @@ newFile = englishFile
 for k in translatedJson:
     translation = translatedJson[k]['message'].replace("\n", "\\\\n").replace("\"", "\\\"")
     backup = newFile
-    searchStr = '("' + k + '": {\\s*"message":\\s*".*?")'
+    quoteRegex = '"[^"\\\]*(?:\\\.[^"\\\]*)*"'    # see http://stackoverflow.com/questions/430759/
+    searchStr = '("' + k + '": {\\s*"message":\\s*' + quoteRegex + ')'
     newFile = re.sub(searchStr, '"' + k + '": {\n    "message": "' + translation + '"', newFile, flags=re.MULTILINE|re.DOTALL)
     if backup == newFile:
         sys.stderr.write("WARN: Could not add translation '" + translation + "' for key '" + k + "', searched for: '" + searchStr + "'\n")
