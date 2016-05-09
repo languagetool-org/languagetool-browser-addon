@@ -1,4 +1,18 @@
 {
+  "addToDictionary": {
+    "description": "Link shown in the popup to accept a word to the internal dictionary",
+    "message": "προσθήκη στο λεξικό"
+  },
+  "addToDictionaryTitle": {
+    "description": "Title hover shown in the popup to accept a word to the internal dictionary",
+    "message": "προσθήκη της λέξης \"$word$\" στο λεξικό χρήστη",
+    "placeholders": {
+      "word": {
+        "content": "$1",
+        "example": "foobar"
+      }
+    }
+  },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
     "message": "Γραμματικός έλεγχος για Chrome"
@@ -9,7 +23,7 @@
   },
   "appStoreWarning": {
     "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
-    "message": "*** Προσοχή: *** η έκδοση αυτή δεν είναι τελική, παρακαλείσθε να αναφέρετε τυχόν σφάλματα εδώ ή στο https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Μπορείτε να αναφέρετε πιθανά σφάλματα εδώ ή στην διεύθυνση https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -149,7 +163,7 @@
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
-    "message": "Ignore lines starting with $char$ (typically quoted text)",
+    "message": "Παράλειψη γραμμών που ξεκινάνε με τον χαρακτήρα $char$ (κείμενο σε εισαγωγικά)",
     "placeholders": {
       "char": {
         "content": "<span id='quoteChar'>&gt;</span>",
@@ -175,7 +189,7 @@
   },
   "language": {
     "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
-    "message": "Language:"
+    "message": "Γλώσσα:"
   },
   "lt": {
     "description": "automatically added by injectTranslation.py",
@@ -187,11 +201,11 @@
   },
   "motherTongueDesc": {
     "description": "Options dialog: text next to the 'mother tongue' selection",
-    "message": "Mother tongue:"
+    "message": "Μητρική γλώσσα:"
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
-    "message": "Set mother tongue if you want to be warned about false friends when checking texts not written in your mother tongue."
+    "message": "Μπορείτε να θέσετε την μητρική σας γλώσσα όταν θέλετε να γίνεται έλεγχος για ψευδόφιλες λέξεις σε κείμενα με γλώσσα διαφορετική από την μητρική σας."
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",
@@ -307,7 +321,7 @@
   },
   "quotedLinesIgnored": {
     "description": "Text shown in the popup to let the user know when parts of the text have been ignored",
-    "message": "Quoted lines starting with $char$ have been ignored",
+    "message": "Δεν πραγματοποιήθηκε έλεγχος στις γραμμές που ξεκινάνε με τον χαρακτήρα $char$",
     "placeholders": {
       "char": {
         "content": "<span class='quoteChar'>&gt;</span>",
@@ -395,15 +409,15 @@
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for German:"
+    "message": "Προκαθορισμένη παραλλαγή Γερμανικών:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for English:"
+    "message": "Προκαθορισμένη παραλλαγή Αγγλικών:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for Portuguese:"
+    "message": "Προκαθορισμένη παραλλαγή Πορτογαλικών:"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",

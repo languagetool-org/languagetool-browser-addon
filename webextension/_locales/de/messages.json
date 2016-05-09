@@ -1,4 +1,18 @@
 {
+  "addToDictionary": {
+    "description": "Link shown in the popup to accept a word to the internal dictionary",
+    "message": "zum Wörterbuch hinzufügen"
+  },
+  "addToDictionaryTitle": {
+    "description": "Title hover shown in the popup to accept a word to the internal dictionary",
+    "message": "\"$word$\" zum Wörterbuch hinzufügen",
+    "placeholders": {
+      "word": {
+        "content": "$1",
+        "example": "foobar"
+      }
+    }
+  },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
     "message": "Textprüfung für Grammatik, Stil und Rechtschreibung"
@@ -9,7 +23,7 @@
   },
   "appStoreWarning": {
     "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
-    "message": "*** HINWEIS: *** Dies ist noch eine der ersten Versionen dieser Erweiterung - wir wünschen uns Feedback dazu hier oder auf https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Fehlerberichte bitte unter https://github.com/languagetool-org/languagetool-browser-addon/issues anlegen"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
