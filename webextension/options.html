@@ -8,6 +8,9 @@
         select {
             width: 105%;
         }
+        textarea {
+            width: 105%;
+        }
         #apiServerUrl { width: 250px; margin-top: 5px; margin-bottom: 5px; }
         #save { margin-top: 10px; }
         #quoteChar {
@@ -109,6 +112,12 @@
                 <option value="pt-PT">Português (Portugal)</option>
                 <option value="pt-BR">Português (Brasil)</option>
             </select>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top"><span id="dictionaryDesc"></span></td>
+        <td>
+            <textarea id="dictionary" rows="5"></textarea>
         </td>
     </tr>
 </table>
