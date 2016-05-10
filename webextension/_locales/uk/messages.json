@@ -1,11 +1,11 @@
 {
   "addToDictionary": {
     "description": "Link shown in the popup to accept a word to the internal dictionary",
-    "message": "add to dictionary"
+    "message": "додати до словника"
   },
   "addToDictionaryTitle": {
     "description": "Title hover shown in the popup to accept a word to the internal dictionary",
-    "message": "add \"$word$\" to personal dictionary",
+    "message": "додати \"$word$\" до персонального словника",
     "placeholders": {
       "word": {
         "content": "$1",
@@ -23,7 +23,7 @@
   },
   "appStoreWarning": {
     "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
-    "message": "Please report bugs here or at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Надсилайте звіти про вади на сторінці https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -205,7 +205,7 @@
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
-    "message": "Set mother tongue if you want to be warned about false friends when checking texts not written in your mother tongue."
+    "message": "Встановіть рідну мову, якщо хочете отримувати попередження про фальшивих друзів коли перевіряєте тексти не рідною мовою."
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",
@@ -409,15 +409,15 @@
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for German:"
+    "message": "Типовий варіант для німецької:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for English:"
+    "message": "Типовий варіант для англійської:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for Portuguese:"
+    "message": "Типовий варіант для португальської:"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",
