@@ -24,6 +24,15 @@
         max-width: 600px;
         margin: 5px;
       }
+      #closeLink {
+          background-image: url(images/close.png);
+          float: right;
+          width: 16px;
+          height: 16px;
+      }
+      #closeLink:hover {
+          background-image: url(images/close-hover.png);
+      }
       .errorArea {
           margin-top: 3px;
           color: #777777;
@@ -87,6 +96,7 @@
     <script src="tests.js"></script>
   </head>
   <body>
+    <a id="closeLink" href="#"></a>
     <div id="status"></div>
   </body>
 </html>

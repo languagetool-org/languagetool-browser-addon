@@ -244,6 +244,10 @@ function addLinkListeners(response, tabs) {
         manuallySelectedLanguage = document.getElementById("language").value;
         doCheck(tabs);
     });
+    let closeLink = document.getElementById("closeLink");
+    closeLink.addEventListener("click", function() {
+        self.close();
+    });
     let links = document.getElementsByTagName("a");
     for (var i = 0; i < links.length; i++) {
         let link = links[i];
