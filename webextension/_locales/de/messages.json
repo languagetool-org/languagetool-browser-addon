@@ -105,6 +105,10 @@
       }
     }
   },
+  "dictionaryDesc": {
+    "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking",
+    "message": "Persönliches Wörterbuch (ein Wort pro Zeile):"
+  },
   "el": {
     "description": "automatically added by injectTranslation.py",
     "message": "Griechisch"
@@ -409,15 +413,15 @@
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Diese Variante des Deutschen benutzen:"
+    "message": "Diese Varietät des Deutschen benutzen:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Diese Variante des Englischen benutzen:"
+    "message": "Diese Varietät des Englischen benutzen:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Diese Variante des Portugiesischen benutzen:"
+    "message": "Diese Varietät des Portugiesischen benutzen:"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",

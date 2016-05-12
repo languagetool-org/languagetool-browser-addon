@@ -105,6 +105,10 @@
       }
     }
   },
+  "dictionaryDesc": {
+    "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking",
+    "message": "Personal dictionary words (one word per line):"
+  },
   "el": {
     "description": "automatically added by injectTranslation.py",
     "message": "griego"

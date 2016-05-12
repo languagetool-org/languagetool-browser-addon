@@ -105,6 +105,10 @@
       }
     }
   },
+  "dictionaryDesc": {
+    "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking",
+    "message": "Персональный словарь (одно слово в строке):"
+  },
   "el": {
     "description": "automatically added by injectTranslation.py",
     "message": "Греческий"
