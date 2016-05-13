@@ -95,7 +95,8 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
     if (!translatedLanguage) {
         translatedLanguage = language;
     }
-    var html = getLanguageSelector(languageCode);
+    var html = '<a id="closeLink" href="#"></a>';
+    html += getLanguageSelector(languageCode);
     let matches = dom.getElementsByTagName("error");
     var prevErrStart = -1;
     var prevErrLen = -1;
