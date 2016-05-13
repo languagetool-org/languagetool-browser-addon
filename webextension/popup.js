@@ -220,7 +220,7 @@ function renderReplacements(context, m, createLinks) {
                 break;
             }
             if (i++ > 0) {
-                html += " | ";
+                html += "&nbsp; ";
             }
             if (createLinks) {
                 html += "<a class='replacement' href='#' " +
