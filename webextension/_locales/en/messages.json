@@ -236,15 +236,15 @@
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does"
   },
   "variantEnDesc": {
-    "message": "Assume this variant for English:",
+    "message": "Assume this variety of English:",
     "description": "Options dialog: set the language variant"
   },
   "variantDeDesc": {
-    "message": "Assume this variant for German:",
+    "message": "Assume this variety of German:",
     "description": "Options dialog: set the language variant"
   },
   "variantPtDesc": {
-    "message": "Assume this variant for Portuguese:",
+    "message": "Assume this variety of Portuguese:",
     "description": "Options dialog: set the language variant"
   },
   "dictionaryDesc": {
