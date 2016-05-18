@@ -14,7 +14,7 @@ if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
   chrome.contextMenus.onClicked.addListener(onClickHandler);
   chrome.runtime.onInstalled.addListener(function() {
     chrome.contextMenus.create({"title": chrome.i18n.getMessage("contextMenuItem"), "contexts":["selection", "editable"], "id": "contextLT"});
-    // With an entry only for 'editbale' we could have a better name, but then Chrome will
+    // With an entry only for 'editable' we could have a better name, but then Chrome will
     // move both entries into a sub menu, which is very bad for usability, so 'editable' is covered
     // by the entry above instead:
     //chrome.contextMenus.create({"title": "Check text field", "contexts":["editable"], "id": "contextLTeditable"});
