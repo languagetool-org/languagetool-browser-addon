@@ -48,13 +48,14 @@ function checkText(callback) {
     lastUseDate = new Date().getTime();
     let selection = window.getSelection();
     if (selection && selection.toString() !== "") {
+        // TODO: because of this, a selection in a textarea will not offer clickable suggestions:
         callback({markupList: [{text: selection.toString()}], isEditableText: false});
     } else {
         try {
             let markupList = getMarkupListOfActiveElement(document.activeElement);
             callback({markupList: markupList, isEditableText: true});
         } catch(e) {
-            // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simple doesn't
+            // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simply doesn't
             // seem to work if focus is inside the iframe.
             let iframes = document.getElementsByTagName("iframe");
             var found = false;
