@@ -20,3 +20,36 @@ if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
     //chrome.contextMenus.create({"title": "Check text field", "contexts":["editable"], "id": "contextLTeditable"});
   });
 }
+
+// Flash the icon as a reminder if the user hasn't used this extension for a long time.
+/*function checkUsage() {
+  var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+  storage.get({
+    lastCheck: null
+  }, function(items) {
+    let now = new Date().getTime();
+    let diffSeconds = (now - items.lastCheck) / 1000;
+    let diffHours = diffSeconds / 60 / 60;
+    //console.log("lastCheck:" + items.lastCheck + ", diffSeconds: " + diffSeconds + ", diffHours: " + diffHours);
+    if (diffHours > 7*24) {  // TODO: make sure to not repeat the warning for n hours & only show if user is typing
+      flashIcon(3);
+    }
+    setTimeout(function() {checkUsage()}, 10000);
+  });
+}
+
+function flashIcon(times) {
+  if (times <= 0) {
+    return;
+  }
+  setTimeout(function() {
+    chrome.browserAction.setIcon({path: "images/icon48-highlight.png"});
+    setTimeout(function () {
+      chrome.browserAction.setIcon({path: "images/icon48.png"});
+      flashIcon(times - 1);
+    }, 500);
+  }, 500);
+}
+
+checkUsage();
+*/

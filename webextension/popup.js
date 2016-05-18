@@ -359,6 +359,10 @@ function doCheck(tabs) {
         } else {
             handleCheckResult(response, tabs);
         }
+        let storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+        storage.set({
+            lastCheck: new Date().getTime()
+        }, function() {});
     });
 }
 
