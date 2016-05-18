@@ -1,17 +1,25 @@
 
-/*
 function onClickHandler(info, tab) {
-  // Seems it's not possible to open the popup from a context menu:
-  //   http://stackoverflow.com/questions/17851700/how-to-open-the-default-popup-from-context-menu-in-a-chrome-extension
-  //   http://stackoverflow.com/questions/10479679/how-can-i-open-my-extensions-pop-up-with-javascript
-  // If this ever gets activated, it also needs the 'contextMenus' permission.
+  if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
+    // 'openPopup' is not documented at https://developer.chrome.com/extensions/browserAction,
+    // and it's not in Chrome 50 (but in Chromium 49) so we are careful and don't call it if it's not there.
+    // Also see https://bugs.chromium.org/p/chromium/issues/detail?id=436489
+    chrome.browserAction.openPopup(
+        function(popupView) {}
+    );
+  }
 }
-chrome.contextMenus.onClicked.addListener(onClickHandler);
-chrome.runtime.onInstalled.addListener(function() {
-  chrome.contextMenus.create({"title": "Check selected text", "contexts":["selection"], "id": "contextLT"});
-  chrome.contextMenus.create({"title": "Check text field", "contexts":["editable"], "id": "contextLTeditable"});
-});
-*/
+
+if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
+  chrome.contextMenus.onClicked.addListener(onClickHandler);
+  chrome.runtime.onInstalled.addListener(function() {
+    chrome.contextMenus.create({"title": chrome.i18n.getMessage("contextMenuItem"), "contexts":["selection", "editable"], "id": "contextLT"});
+    // With an entry only for 'editbale' we could have a better name, but then Chrome will
+    // move both entries into a sub menu, which is very bad for usability, so 'editable' is covered
+    // by the entry above instead:
+    //chrome.contextMenus.create({"title": "Check text field", "contexts":["editable"], "id": "contextLTeditable"});
+  });
+}
 
 function toggleToolbar() {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {

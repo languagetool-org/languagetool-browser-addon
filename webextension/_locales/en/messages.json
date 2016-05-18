@@ -11,6 +11,10 @@
     "message": "Style and grammar checking for Chrome",
     "description": "The description of the application, displayed in the web store."
   },
+  "contextMenuItem": {
+    "message": "Check text with LanguageTool",
+    "description": "Text shown in the context menu, if available."
+  },
   "tooltip": {
     "message": "Check the current selection\nor text field with LanguageTool",
     "description": "Tooltip shown when hovering over the extension icon."

@@ -21,7 +21,8 @@
   "permissions": [
     "activeTab",
     "https://languagetool.org:8081/",
-    "storage"
+    "storage",
+    "contextMenus"
   ],
   "background": {
     "scripts": ["background.js"]
