@@ -53,7 +53,7 @@ function getCheckResult(markupList, callback, errorCallback) {
     };
     let text = Markup.markupList2text(markupList);
     if (ignoreQuotedLines) {
-        var textOrig = text;
+        let textOrig = text;
         // A hack so the following replacements don't happen on messed up character positions.
         // See https://github.com/languagetool-org/languagetool-browser-addon/issues/25:
         text = text.replace(/^>.*?\n/gm, function(match) {
@@ -101,8 +101,7 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
     var prevErrStart = -1;
     var prevErrLen = -1;
     html += "<br><br>";
-    let storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
-    storage.get({
+    getStorage().get({
         dictionary: []
     }, function(items) {
         var matchesCount = 0;
@@ -254,11 +253,11 @@ function addLinkListeners(response, tabs) {
         let link = links[i];
         link.addEventListener("click", function() {
             if (link.getAttribute('data-addtodict')) {
-                var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+                let storage = getStorage();
                 storage.get({
                     dictionary: []
                 }, function(items) {
-                    var dictionary = items.dictionary;
+                    let dictionary = items.dictionary;
                     dictionary.push(link.getAttribute('data-addtodict'));
                     storage.set({'dictionary': dictionary}, function() {
                         chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
@@ -306,8 +305,7 @@ function handleCheckResult(response, tabs, callback) {
 }
 
 function startCheckMaybeWithWarning(tabs) {
-    var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
-    storage.get({
+    getStorage().get({
             apiServerUrl: serverUrl,
             ignoreQuotedLines: ignoreQuotedLines,
             motherTongue: motherTongue,
@@ -359,8 +357,7 @@ function doCheck(tabs) {
         } else {
             handleCheckResult(response, tabs);
         }
-        let storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
-        storage.set({
+        getStorage().set({
             lastCheck: new Date().getTime()
         }, function() {});
     });
@@ -378,3 +375,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function getStorage() {
+    return chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+}

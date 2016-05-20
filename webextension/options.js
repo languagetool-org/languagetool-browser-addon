@@ -27,8 +27,7 @@ function saveOptions() {
         status.textContent = 'This URL is not valid.';
     } else {
         status.textContent = '';
-        var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
-        storage.set({
+        getStorage().set({
             apiServerUrl: url,
             ignoreQuotedLines: document.getElementById('ignoreQuotedLines').checked,
             motherTongue: document.getElementById('motherTongue').value,
@@ -53,8 +52,7 @@ function restoreOptions() {
     document.getElementById('variant-de-desc').textContent = chrome.i18n.getMessage("variantDeDesc");
     document.getElementById('variant-pt-desc').textContent = chrome.i18n.getMessage("variantPtDesc");
     document.getElementById('dictionaryDesc').textContent = chrome.i18n.getMessage("dictionaryDesc");
-    var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
-    storage.get({
+    getStorage().get({
         apiServerUrl: defaultServerUrl,
         ignoreQuotedLines: true,
         motherTongue: "",
@@ -84,3 +82,7 @@ function useDefaultServer() {
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('save').addEventListener('click', saveOptions);
 document.getElementById('defaultServerLink').addEventListener('click', useDefaultServer);
+
+function getStorage() {
+    return chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+}
