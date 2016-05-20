@@ -313,40 +313,40 @@ function startCheckMaybeWithWarning(tabs) {
             deVariant: "de-DE",
             ptVariant: "pt-PT"
         }, function(items) {
-        serverUrl = items.apiServerUrl;
-        ignoreQuotedLines = items.ignoreQuotedLines;
-        motherTongue = items.motherTongue;
-        if (items.enVariant) {
-            preferredVariants.push(items.enVariant);
-        }
-        if (items.deVariant) {
-            preferredVariants.push(items.deVariant);
-        }
-        if (items.ptVariant) {
-            preferredVariants.push(items.ptVariant);
-        }
-        if (localStorage.allowRemoteCheck === "true") {
-            doCheck(tabs);
-        } else {
-            var message = "<p>";
-            if (serverUrl === defaultServerUrl) {
-                message += chrome.i18n.getMessage("privacyNoteForDefaultServer", ["https://languagetool.org", "https://languagetool.org/privacy/"]);
-            } else {
-                message += chrome.i18n.getMessage("privacyNoteForOtherServer", serverUrl);
+            serverUrl = items.apiServerUrl;
+            ignoreQuotedLines = items.ignoreQuotedLines;
+            motherTongue = items.motherTongue;
+            if (items.enVariant) {
+                preferredVariants.push(items.enVariant);
             }
-            message += '</p>';
-            message += '<ul>' +
-                       '  <li><a class="privacyLink" id="confirmCheck" href="#">' + chrome.i18n.getMessage("continue") + '</a></li>' +
-                       '  <li><a class="privacyLink" id="cancelCheck" href="#">' + chrome.i18n.getMessage("cancel") + '</a></li>' +
-                       '</ul>';
-            renderStatus(message);
-            document.getElementById("confirmCheck").addEventListener("click", function() {
-                localStorage.allowRemoteCheck = "true";
+            if (items.deVariant) {
+                preferredVariants.push(items.deVariant);
+            }
+            if (items.ptVariant) {
+                preferredVariants.push(items.ptVariant);
+            }
+            if (localStorage.allowRemoteCheck === "true") {
                 doCheck(tabs);
-            });
-            document.getElementById("cancelCheck").addEventListener("click", function() { self.close(); });
-        }
-    });
+            } else {
+                var message = "<p>";
+                if (serverUrl === defaultServerUrl) {
+                    message += chrome.i18n.getMessage("privacyNoteForDefaultServer", ["https://languagetool.org", "https://languagetool.org/privacy/"]);
+                } else {
+                    message += chrome.i18n.getMessage("privacyNoteForOtherServer", serverUrl);
+                }
+                message += '</p>';
+                message += '<ul>' +
+                           '  <li><a class="privacyLink" id="confirmCheck" href="#">' + chrome.i18n.getMessage("continue") + '</a></li>' +
+                           '  <li><a class="privacyLink" id="cancelCheck" href="#">' + chrome.i18n.getMessage("cancel") + '</a></li>' +
+                           '</ul>';
+                renderStatus(message);
+                document.getElementById("confirmCheck").addEventListener("click", function() {
+                    localStorage.allowRemoteCheck = "true";
+                    doCheck(tabs);
+                });
+                document.getElementById("cancelCheck").addEventListener("click", function() { self.close(); });
+            }
+        });
 }
 
 function doCheck(tabs) {
