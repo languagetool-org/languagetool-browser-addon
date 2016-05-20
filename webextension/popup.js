@@ -311,7 +311,8 @@ function startCheckMaybeWithWarning(tabs) {
             motherTongue: motherTongue,
             enVariant: "en-US",
             deVariant: "de-DE",
-            ptVariant: "pt-PT"
+            ptVariant: "pt-PT",
+            allowRemoteCheck: false
         }, function(items) {
             serverUrl = items.apiServerUrl;
             ignoreQuotedLines = items.ignoreQuotedLines;
@@ -325,7 +326,7 @@ function startCheckMaybeWithWarning(tabs) {
             if (items.ptVariant) {
                 preferredVariants.push(items.ptVariant);
             }
-            if (localStorage.allowRemoteCheck === "true") {
+            if (items.allowRemoteCheck === true) {
                 doCheck(tabs);
             } else {
                 var message = "<p>";
@@ -341,8 +342,11 @@ function startCheckMaybeWithWarning(tabs) {
                            '</ul>';
                 renderStatus(message);
                 document.getElementById("confirmCheck").addEventListener("click", function() {
-                    localStorage.allowRemoteCheck = "true";
-                    doCheck(tabs);
+                    getStorage().set({
+                        allowRemoteCheck: true
+                    }, function () {
+                        doCheck(tabs);
+                    });
                 });
                 document.getElementById("cancelCheck").addEventListener("click", function() { self.close(); });
             }
