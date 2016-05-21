@@ -10,6 +10,14 @@ function onClickHandler(info, tab) {
   }
 }
 
+/*
+This almost works for Firefox, but browser.browserAction.openPopup is missing:
+ - https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/BrowserAction/openPopup
+ - https://github.com/languagetool-org/languagetool-browser-addon/issues/45
+if (browser && browser.browserAction && browser.browserAction.openPopup) {
+  browser.contextMenus.create({"title": "FIXME", "contexts":["selection", "editable"], "id": "contextLT"});
+}*/
+
 if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
   chrome.contextMenus.onClicked.addListener(onClickHandler);
   chrome.runtime.onInstalled.addListener(function() {
