@@ -13,7 +13,15 @@ function onClickHandler(info, tab) {
 if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
   chrome.contextMenus.onClicked.addListener(onClickHandler);
   chrome.runtime.onInstalled.addListener(function() {
-    chrome.contextMenus.create({"title": chrome.i18n.getMessage("contextMenuItem"), "contexts":["selection", "editable"], "id": "contextLT"});
+    chrome.commands.getAll(function(commands) {
+      var shortcut = "";
+      if (commands && commands.length && commands.length > 0 && commands[0].shortcut) {
+        shortcut = commands[0].shortcut;
+      }
+      // there seems to be no better way to show the shortcut (https://bugs.chromium.org/p/chromium/issues/detail?id=142840):
+      let title = shortcut ? chrome.i18n.getMessage("contextMenuItemWithShortcut", shortcut) : chrome.i18n.getMessage("contextMenuItem");
+      chrome.contextMenus.create({"title": title, "contexts":["selection", "editable"], "id": "contextLT"});
+    });
     // With an entry only for 'editable' we could have a better name, but then Chrome will
     // move both entries into a sub menu, which is very bad for usability, so 'editable' is covered
     // by the entry above instead:

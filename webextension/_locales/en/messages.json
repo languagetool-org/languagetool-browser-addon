@@ -15,6 +15,16 @@
     "message": "Check text with LanguageTool",
     "description": "Text shown in the context menu, if available."
   },
+  "contextMenuItemWithShortcut": {
+    "message": "Check text with LanguageTool [$shortcut$]",
+    "description": "Text shown in the context menu, if available. The parenthesis show the shortcut.",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shift+Space"
+      }
+    }
+  },
   "tooltip": {
     "message": "Check the current selection\nor text field with LanguageTool",
     "description": "Tooltip shown when hovering over the extension icon."
