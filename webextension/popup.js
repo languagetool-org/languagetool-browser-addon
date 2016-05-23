@@ -278,11 +278,7 @@ function addLinkListeners(response, tabs) {
                     let idx = ignoredRules.indexOf(link.getAttribute('data-ruleIdOn'));
                     if (idx > -1) {
                         ignoredRules.splice(idx, 1);
-                        storage.set({'ignoredRules': ignoredRules}, function() {
-                            chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
-                                doCheck(tabs);   // re-check
-                            });
-                        });
+                        storage.set({'ignoredRules': ignoredRules}, function() { reCheck(tabs) });
                     }
                 });
                 
@@ -292,11 +288,7 @@ function addLinkListeners(response, tabs) {
                 }, function(items) {
                     let ignoredRules = items.ignoredRules;
                     ignoredRules.push(link.getAttribute('data-ruleIdOff'));
-                    storage.set({'ignoredRules': ignoredRules}, function() {
-                        chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
-                            doCheck(tabs);   // re-check
-                        });
-                    });
+                    storage.set({'ignoredRules': ignoredRules}, function() { reCheck(tabs) });
                 });
 
             } else if (link.getAttribute('data-addtodict')) {
@@ -305,11 +297,7 @@ function addLinkListeners(response, tabs) {
                 }, function(items) {
                     let dictionary = items.dictionary;
                     dictionary.push(link.getAttribute('data-addtodict'));
-                    storage.set({'dictionary': dictionary}, function() {
-                        chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
-                            doCheck(tabs);   // re-check
-                        });
-                    });
+                    storage.set({'dictionary': dictionary}, function() { reCheck(tabs) });
                 });
 
             } else if (link.getAttribute('data-errortext')) {
@@ -330,6 +318,12 @@ function addLinkListeners(response, tabs) {
     }
 }
 
+function reCheck(tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function (response) {
+        doCheck(tabs);
+    });
+}
+    
 function handleCheckResult(response, tabs, callback) {
     if (!response) {
         // not sure *why* this happens...
