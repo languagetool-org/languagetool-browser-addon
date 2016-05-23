@@ -171,6 +171,14 @@
       }
     }
   },
+  "turnOffRule": {
+    "message": "Turn off rule",
+    "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)"
+  },
+  "ignoredRules": {
+    "message": "These rules have been turned off, click a rule to turn it on again:",
+    "description": "Text shown at the bottom of the popup to turn on turned off rules again"
+  },
   "freshInstallReload": {
     "message": "If you have just installed or (re-)activated this extension, please reload the tab first in which you want to check a text.",
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet"

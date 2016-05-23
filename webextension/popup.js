@@ -102,7 +102,8 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
     var prevErrLen = -1;
     html += "<br><br>";
     getStorage().get({
-        dictionary: []
+        dictionary: [],
+        ignoredRules: []
     }, function(items) {
         var matchesCount = 0;
         for (let match in matches) {
@@ -114,17 +115,19 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
                 let word = context.substr(errStart, errLen);
                 let ruleId = m.getAttribute("ruleId");
                 let isSpellingError = ruleId.indexOf("MORFOLOGIK") != -1 || ruleId.indexOf("HUNSPELL") != -1 || ruleId.indexOf("SPELLER_RULE") != -1;
-                // Also accept uppercase versions of lowercase words in personal dict:
-                var ignoreSpellingError = false;
+                var ignoreError = false;
                 if (isSpellingError) {
+                    // Also accept uppercase versions of lowercase words in personal dict:
                     let knowToDict = items.dictionary.indexOf(word) != -1;
                     if (knowToDict) {
-                        ignoreSpellingError = true;
-                    }  else if (!knowToDict && Tools.startWithUppercase(word)) {
-                        ignoreSpellingError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(word)) != -1;
+                        ignoreError = true;
+                    } else if (!knowToDict && Tools.startWithUppercase(word)) {
+                        ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(word)) != -1;
                     }
+                } else {
+                    ignoreError = items.ignoredRules.indexOf(ruleId) != -1;
                 }
-                if (!ignoreSpellingError && (errStart != prevErrStart || errLen != prevErrLen)) {
+                if (!ignoreError && (errStart != prevErrStart || errLen != prevErrLen)) {
                     html += Tools.escapeHtml(m.getAttribute("msg"));
                     html += renderContext(m.getAttribute("context"), errStart, errLen);
                     html += renderReplacements(context, m, createLinks);
@@ -133,6 +136,10 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
                         html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
                                 "title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord) + "'" +
                                 "href='' class='addToDictLink'>" + chrome.i18n.getMessage("addToDictionary") + "</a></div>";
+                    } else {
+                        // Not turned on yet, see https://github.com/languagetool-org/languagetool-browser-addon/issues/9
+                        //html += "<div class='turnOffRule'><a class='turnOffRuleLink' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
+                        //        "' href='#'>" + chrome.i18n.getMessage("turnOffRule") + "</a></div>";
                     }
                     html += "<hr>";
                     matchesCount++;
@@ -146,6 +153,16 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
         }
         if (quotedLinesIgnored) {
             html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
+        }
+        if (items.ignoredRules && items.ignoredRules.length > 0) {
+            html += "<span class='ignoredRulesIntro'>" + chrome.i18n.getMessage("ignoredRules") + "</span> ";
+            let ruleItems = [];
+            for (let key in items.ignoredRules) {
+                // TODO: show rule description instead of ID - requires HTTP API extension:
+                let ruleId = Tools.escapeHtml(items.ignoredRules[key]);
+                ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='" + ruleId + "' href='#'>" + ruleId + "</a></span>");
+            }
+            html += ruleItems.join(" &middot; ");
         }
         if (serverUrl === defaultServerUrl) {
             html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
@@ -252,8 +269,37 @@ function addLinkListeners(response, tabs) {
     for (var i = 0; i < links.length; i++) {
         let link = links[i];
         link.addEventListener("click", function() {
-            if (link.getAttribute('data-addtodict')) {
-                let storage = getStorage();
+            let storage = getStorage();
+            if (link.getAttribute('data-ruleIdOn')) {
+                storage.get({
+                    ignoredRules: []
+                }, function(items) {
+                    let ignoredRules = items.ignoredRules;
+                    let idx = ignoredRules.indexOf(link.getAttribute('data-ruleIdOn'));
+                    if (idx > -1) {
+                        ignoredRules.splice(idx, 1);
+                        storage.set({'ignoredRules': ignoredRules}, function() {
+                            chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
+                                doCheck(tabs);   // re-check
+                            });
+                        });
+                    }
+                });
+                
+            } else if (link.getAttribute('data-ruleIdOff')) {
+                storage.get({
+                    ignoredRules: []
+                }, function(items) {
+                    let ignoredRules = items.ignoredRules;
+                    ignoredRules.push(link.getAttribute('data-ruleIdOff'));
+                    storage.set({'ignoredRules': ignoredRules}, function() {
+                        chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
+                            doCheck(tabs);   // re-check
+                        });
+                    });
+                });
+
+            } else if (link.getAttribute('data-addtodict')) {
                 storage.get({
                     dictionary: []
                 }, function(items) {
