@@ -106,6 +106,29 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
         ignoredRules: []
     }, function(items) {
         var matchesCount = 0;
+        
+        // remove overlapping rules in reverse the order so we match the results like they shown on web-pages
+        if( matches ) {
+            let nonOverlappingMatches = [];
+            let prevErrStart_ = -1;
+            let prevErrLen_ = -1;
+            for (let i=matches.length-1; i>=0; i--) {
+                let m = matches[i];
+                if (m.getAttribute) {
+                    let errStart = parseInt(m.getAttribute("contextoffset"));
+                    let errLen = parseInt(m.getAttribute("errorlength"));
+                    if( errStart != prevErrStart_ || errLen != prevErrLen_ ) {
+                        nonOverlappingMatches.push(m);
+
+                        prevErrStart_ = errStart;
+                        prevErrLen_ = errLen;
+                    }
+                }
+            }
+            nonOverlappingMatches.reverse();
+            matches = nonOverlappingMatches;
+        }
+
         for (let match in matches) {
             let m = matches[match];
             if (m.getAttribute) {
