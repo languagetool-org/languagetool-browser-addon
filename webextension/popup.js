@@ -108,19 +108,18 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     }, function(items) {
         var matchesCount = 0;
         // remove overlapping rules in reverse the order so we match the results like they shown on web-pages
-        if( matches ) {
+        if (matches) {
             let nonOverlappingMatches = [];
-            let prevErrStart_ = -1;
-            let prevErrLen_ = -1;
-            for (let i=matches.length-1; i>=0; i--) {
+            let prevErrStart = -1;
+            let prevErrLen = -1;
+            for (let i = matches.length-1; i >= 0; i--) {
                 let m = matches[i];
                 let errStart = m.offset;
                 let errLen = m.length;
-                if( errStart != prevErrStart_ || errLen != prevErrLen_ ) {
+                if (errStart != prevErrStart || errLen != prevErrLen) {
                     nonOverlappingMatches.push(m);
-
-                    prevErrStart_ = errStart;
-                    prevErrLen_ = errLen;
+                    prevErrStart = errStart;
+                    prevErrLen = errLen;
                 }
             }
             nonOverlappingMatches.reverse();
