@@ -18,7 +18,7 @@
  */
 "use strict";
 
-let defaultServerUrl = 'https://languagetool.org:8081/';   // keep in sync with defaultServerUrl in options.js
+let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in options.js
 let unsupportedSitesRegex = /^(https?:\/\/(docs|chrome).google.com.*)|(file:.*)/;
 
 var testMode = false;
@@ -32,7 +32,8 @@ var manuallySelectedLanguage = "";
 function getCheckResult(markupList, callback, errorCallback) {
     let req = new XMLHttpRequest();
     req.timeout = 60 * 1000; // milliseconds
-    req.open('POST', serverUrl);
+    let url = serverUrl + (serverUrl.endsWith("/") ? "check" : "/check");
+    req.open('POST', url);
     req.onload = function() {
         let response = req.response;
         if (!response) {
@@ -61,7 +62,7 @@ function getCheckResult(markupList, callback, errorCallback) {
         });
         quotedLinesIgnored = text != textOrig;
     }
-    var params = 'disabled=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
+    var params = 'disabledRules=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
                  '&useragent=chrome-extension&text=' + encodeURIComponent(text);
     if (motherTongue) {
         params += "&motherTongue=" + motherTongue;
@@ -70,9 +71,9 @@ function getCheckResult(markupList, callback, errorCallback) {
         params += "&language=" + manuallySelectedLanguage;
         manuallySelectedLanguage = "";
     } else {
-        params += "&autodetect=1";
+        params += "&language=auto";
         if (preferredVariants.length > 0) {
-            params += "&preferredvariants=" + preferredVariants;
+            params += "&preferredVariants=" + preferredVariants;
         }
     }
     req.send(params);
@@ -82,11 +83,11 @@ function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
 }
 
-function renderMatchesToHtml(resultXml, response, tabs, callback) {
+function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let createLinks = response.isEditableText;
-    let dom = (new window.DOMParser()).parseFromString(resultXml, "text/xml");
-    let language = dom.getElementsByTagName("language")[0].getAttribute("name");
-    let languageCode = dom.getElementsByTagName("language")[0].getAttribute("shortname");
+    let data = JSON.parse(resultJson);
+    let language = data.language.name;
+    let languageCode = data.language.code;
     var translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
     if (!translatedLanguage) {
         let shortCode = languageCode.replace(/-.*/, "");
@@ -97,7 +98,7 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
     }
     var html = '<a id="closeLink" href="#"></a>';
     html += getLanguageSelector(languageCode);
-    let matches = dom.getElementsByTagName("error");
+    let matches = data.matches;
     var prevErrStart = -1;
     var prevErrLen = -1;
     html += "<br><br>";
@@ -106,7 +107,6 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
         ignoredRules: []
     }, function(items) {
         var matchesCount = 0;
-        
         // remove overlapping rules in reverse the order so we match the results like they shown on web-pages
         if( matches ) {
             let nonOverlappingMatches = [];
@@ -114,15 +114,13 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
             let prevErrLen_ = -1;
             for (let i=matches.length-1; i>=0; i--) {
                 let m = matches[i];
-                if (m.getAttribute) {
-                    let errStart = parseInt(m.getAttribute("contextoffset"));
-                    let errLen = parseInt(m.getAttribute("errorlength"));
-                    if( errStart != prevErrStart_ || errLen != prevErrLen_ ) {
-                        nonOverlappingMatches.push(m);
+                let errStart = m.offset;
+                let errLen = m.length;
+                if( errStart != prevErrStart_ || errLen != prevErrLen_ ) {
+                    nonOverlappingMatches.push(m);
 
-                        prevErrStart_ = errStart;
-                        prevErrLen_ = errLen;
-                    }
+                    prevErrStart_ = errStart;
+                    prevErrLen_ = errLen;
                 }
             }
             nonOverlappingMatches.reverse();
@@ -131,45 +129,43 @@ function renderMatchesToHtml(resultXml, response, tabs, callback) {
 
         for (let match in matches) {
             let m = matches[match];
-            if (m.getAttribute) {
-                let context = m.getAttribute("context");
-                let errStart = parseInt(m.getAttribute("contextoffset"));
-                let errLen = parseInt(m.getAttribute("errorlength"));
-                let word = context.substr(errStart, errLen);
-                let ruleId = m.getAttribute("ruleId");
-                let isSpellingError = ruleId.indexOf("MORFOLOGIK") != -1 || ruleId.indexOf("HUNSPELL") != -1 || ruleId.indexOf("SPELLER_RULE") != -1;
-                var ignoreError = false;
-                if (isSpellingError) {
-                    // Also accept uppercase versions of lowercase words in personal dict:
-                    let knowToDict = items.dictionary.indexOf(word) != -1;
-                    if (knowToDict) {
-                        ignoreError = true;
-                    } else if (!knowToDict && Tools.startWithUppercase(word)) {
-                        ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(word)) != -1;
-                    }
-                } else {
-                    ignoreError = items.ignoredRules.indexOf(ruleId) != -1;
+            let context = m.context.text;
+            let errStart = m.context.offset;
+            let errLen = m.length;
+            let word = context.substr(errStart, errLen);
+            let ruleId = m.rule.id;
+            let isSpellingError = ruleId.indexOf("MORFOLOGIK") != -1 || ruleId.indexOf("HUNSPELL") != -1 || ruleId.indexOf("SPELLER_RULE") != -1;
+            var ignoreError = false;
+            if (isSpellingError) {
+                // Also accept uppercase versions of lowercase words in personal dict:
+                let knowToDict = items.dictionary.indexOf(word) != -1;
+                if (knowToDict) {
+                    ignoreError = true;
+                } else if (!knowToDict && Tools.startWithUppercase(word)) {
+                    ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(word)) != -1;
                 }
-                if (!ignoreError && (errStart != prevErrStart || errLen != prevErrLen)) {
-                    html += Tools.escapeHtml(m.getAttribute("msg"));
-                    html += renderContext(m.getAttribute("context"), errStart, errLen);
-                    html += renderReplacements(context, m, createLinks);
-                    if (isSpellingError) {
-                        let escapedWord = Tools.escapeHtml(word);
-                        html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
-                                "title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord) + "'" +
-                                "href='' class='addToDictLink'>" + chrome.i18n.getMessage("addToDictionary") + "</a></div>";
-                    } else {
-                        // Not turned on yet, see https://github.com/languagetool-org/languagetool-browser-addon/issues/9
-                        //html += "<div class='turnOffRule'><a class='turnOffRuleLink' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
-                        //        "' href='#'>" + chrome.i18n.getMessage("turnOffRule") + "</a></div>";
-                    }
-                    html += "<hr>";
-                    matchesCount++;
-                }
-                prevErrStart = errStart;
-                prevErrLen = errLen;
+            } else {
+                ignoreError = items.ignoredRules.indexOf(ruleId) != -1;
             }
+            if (!ignoreError && (errStart != prevErrStart || errLen != prevErrLen)) {
+                html += Tools.escapeHtml(m.message);
+                html += renderContext(m.context.text, errStart, errLen);
+                html += renderReplacements(context, m, createLinks);
+                if (isSpellingError) {
+                    let escapedWord = Tools.escapeHtml(word);
+                    html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
+                            "title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord) + "'" +
+                            "href='' class='addToDictLink'>" + chrome.i18n.getMessage("addToDictionary") + "</a></div>";
+                } else {
+                    // Not turned on yet, see https://github.com/languagetool-org/languagetool-browser-addon/issues/9
+                    //html += "<div class='turnOffRule'><a class='turnOffRuleLink' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
+                    //        "' href='#'>" + chrome.i18n.getMessage("turnOffRule") + "</a></div>";
+                }
+                html += "<hr>";
+                matchesCount++;
+            }
+            prevErrStart = errStart;
+            prevErrLen = errLen;
         }
         if (matchesCount == 0) {
             html += chrome.i18n.getMessage("noErrorsFound");
@@ -240,42 +236,39 @@ function renderContext(context, errStart, errLen) {
 }
 
 function renderReplacements(context, m, createLinks) {
-    let ruleId = m.getAttribute("ruleId");
-    let replacementsStr = m.getAttribute("replacements");
-    let contextOffset = parseInt(m.getAttribute('contextoffset'));
-    let errLen = parseInt(m.getAttribute("errorlength"));
-    let errOffset = parseInt(m.getAttribute("offset"));
+    let ruleId = m.rule.id;
+    let replacements = m.replacements.map(k => k.value);
+    let contextOffset = m.context.offset;
+    let errLen = m.length;
+    let errOffset = m.offset;
     let contextLeft = context.substr(0, contextOffset).replace(/^\.\.\./, "");
     let contextRight = context.substr(contextOffset + errLen).replace(/\.\.\.$/, "");
     let errorText = context.substr(contextOffset, errLen);
     var html = "<div class='replacements'>";
-    if (replacementsStr) {
-        let replacements = replacementsStr.split("#");
-        var i = 0;
-        for (let idx in replacements) {
-            let replacement = replacements[idx];
-            if (i >= 7) {
-                // showing more suggestions usually doesn't make sense
-                break;
-            }
-            if (i++ > 0) {
-                html += "&nbsp; ";
-            }
-            if (createLinks) {
-                html += "<a class='replacement' href='#' " +
-                    "data-ruleid='" + ruleId + "'" +
-                    "data-erroroffset='" + errOffset + "'" +
-                    "data-contextleft='" + Tools.escapeHtml(contextLeft) + "'" +
-                    "data-contextright='" + Tools.escapeHtml(contextRight) + "'" +
-                    "data-errortext='" + Tools.escapeHtml(errorText) + "'" +
-                    "data-replacement='" + Tools.escapeHtml(replacement) + "'" +
-                    "'>&nbsp;" + Tools.escapeHtml(replacement) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
-            } else {
-                html += "<b>" + Tools.escapeHtml(replacement) + "</b>";
-            }
+    var i = 0;
+    for (let idx in replacements) {
+        let replacement = replacements[idx];
+        if (i >= 7) {
+            // showing more suggestions usually doesn't make sense
+            break;
         }
-        html += "</div>";
+        if (i++ > 0) {
+            html += "&nbsp; ";
+        }
+        if (createLinks) {
+            html += "<a class='replacement' href='#' " +
+                "data-ruleid='" + ruleId + "'" +
+                "data-erroroffset='" + errOffset + "'" +
+                "data-contextleft='" + Tools.escapeHtml(contextLeft) + "'" +
+                "data-contextright='" + Tools.escapeHtml(contextRight) + "'" +
+                "data-errortext='" + Tools.escapeHtml(errorText) + "'" +
+                "data-replacement='" + Tools.escapeHtml(replacement) + "'" +
+                "'>&nbsp;" + Tools.escapeHtml(replacement) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
+        } else {
+            html += "<b>" + Tools.escapeHtml(replacement) + "</b>";
+        }
     }
+    html += "</div>";
     return html;
 }
 
@@ -378,6 +371,13 @@ function startCheckMaybeWithWarning(tabs) {
             allowRemoteCheck: false
         }, function(items) {
             serverUrl = items.apiServerUrl;
+            if (serverUrl === 'https://languagetool.org:8081/') {
+                // This is migration code - users of the old version might have
+                // the old URL of the v1 API in their settings, force them to use
+                // the v2 JSON API, as this is what this extension supports now:
+                console.log("Replacing old serverUrl " + serverUrl + " with " + defaultServerUrl);
+                serverUrl = defaultServerUrl;
+            }
             ignoreQuotedLines = items.ignoreQuotedLines;
             motherTongue = items.motherTongue;
             if (items.enVariant) {

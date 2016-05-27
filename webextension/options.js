@@ -18,7 +18,7 @@
  */
 "use strict";
 
-let defaultServerUrl = 'https://languagetool.org:8081/';   // keep in sync with defaultServerUrl in popup.js
+let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in popup.js
 
 function saveOptions() {
     let url = document.getElementById('apiServerUrl').value;
