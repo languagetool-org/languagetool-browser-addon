@@ -23,7 +23,7 @@
   },
   "appStoreWarning": {
     "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
-    "message": "Please report bugs here or at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -52,6 +52,20 @@
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Comprobando..."
+  },
+  "contextMenuItem": {
+    "description": "Text shown in the context menu, if available.",
+    "message": "Check text with LanguageTool"
+  },
+  "contextMenuItemWithShortcut": {
+    "description": "Text shown in the context menu, if available. The parenthesis show the shortcut.",
+    "message": "Check text with LanguageTool [$shortcut$]",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shift+Space"
+      }
+    }
   },
   "continue": {
     "description": "Link shown below the privacy note on first use",
@@ -174,6 +188,10 @@
         "example": "(do not translate)"
       }
     }
+  },
+  "ignoredRules": {
+    "description": "Text shown at the bottom of the popup to turn on turned off rules again",
+    "message": "These rules have been turned off, click a rule to turn it on again:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -407,21 +425,25 @@
     "description": "Tooltip shown when hovering over the extension icon.",
     "message": "Comprobar la selsccón de texto actual o la casilla de texto con LanguageTool"
   },
+  "turnOffRule": {
+    "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
+    "message": "Turn off rule"
+  },
   "uk": {
     "description": "automatically added by injectTranslation.py",
     "message": "ucraniano"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for German:"
+    "message": "Assume this variety of German:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for English:"
+    "message": "Assume this variety of English:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variant for Portuguese:"
+    "message": "Assume this variety of Portuguese:"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",

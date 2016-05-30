@@ -23,7 +23,7 @@
   },
   "appStoreWarning": {
     "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
-    "message": "Por favor reporte erros aqui ou em https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Favor relatar erros em https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -52,6 +52,20 @@
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Verificando..."
+  },
+  "contextMenuItem": {
+    "description": "Text shown in the context menu, if available.",
+    "message": "Verificar o texto com o LanguageTool"
+  },
+  "contextMenuItemWithShortcut": {
+    "description": "Text shown in the context menu, if available. The parenthesis show the shortcut.",
+    "message": "Verificar o texto com o LanguageTool [$shortcut$]",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shift+Space"
+      }
+    }
   },
   "continue": {
     "description": "Link shown below the privacy note on first use",
@@ -174,6 +188,10 @@
         "example": "(do not translate)"
       }
     }
+  },
+  "ignoredRules": {
+    "description": "Text shown at the bottom of the popup to turn on turned off rules again",
+    "message": "Essas regras foram desligadas, clique numa regra para ligá-la novamente:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -406,6 +424,10 @@
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
     "message": "Verificar a seleção atual\nou campo de texto com o LanguageTool"
+  },
+  "turnOffRule": {
+    "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
+    "message": "Desligar regra"
   },
   "uk": {
     "description": "automatically added by injectTranslation.py",

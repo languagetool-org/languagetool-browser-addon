@@ -23,7 +23,7 @@
   },
   "appStoreWarning": {
     "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
-    "message": "Надсилайте звіти про вади на сторінці https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Надсилайте повідомлення про помилки сюди https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -52,6 +52,20 @@
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Перевіряється..."
+  },
+  "contextMenuItem": {
+    "description": "Text shown in the context menu, if available.",
+    "message": "Перевірити у LanguageTool"
+  },
+  "contextMenuItemWithShortcut": {
+    "description": "Text shown in the context menu, if available. The parenthesis show the shortcut.",
+    "message": "Перевірити у LanguageTool [$shortcut$]",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shift+Space"
+      }
+    }
   },
   "continue": {
     "description": "Link shown below the privacy note on first use",
@@ -174,6 +188,10 @@
         "example": "(do not translate)"
       }
     }
+  },
+  "ignoredRules": {
+    "description": "Text shown at the bottom of the popup to turn on turned off rules again",
+    "message": "These rules have been turned off, click a rule to turn it on again:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -407,21 +425,25 @@
     "description": "Tooltip shown when hovering over the extension icon.",
     "message": "Перевірити поточний вибір\nабо текстове поле в LanguageTool"
   },
+  "turnOffRule": {
+    "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
+    "message": "Turn off rule"
+  },
   "uk": {
     "description": "automatically added by injectTranslation.py",
     "message": "Українська"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Типовий варіант для німецької:"
+    "message": "Вважати для німецької типовим варіант:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Типовий варіант для англійської:"
+    "message": "Вважати для англійської типовим варіант:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Типовий варіант для португальської:"
+    "message": "Вважати для португальської типовим варіант:"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",

@@ -53,6 +53,20 @@
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Text wird geprüft..."
   },
+  "contextMenuItem": {
+    "description": "Text shown in the context menu, if available.",
+    "message": "Text mit LanguageTool prüfen"
+  },
+  "contextMenuItemWithShortcut": {
+    "description": "Text shown in the context menu, if available. The parenthesis show the shortcut.",
+    "message": "Text mit LanguageTool prüfen [$shortcut$]",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shift+Space"
+      }
+    }
+  },
   "continue": {
     "description": "Link shown below the privacy note on first use",
     "message": "Weitermachen und nicht wieder nachfragen"
@@ -174,6 +188,10 @@
         "example": "(do not translate)"
       }
     }
+  },
+  "ignoredRules": {
+    "description": "Text shown at the bottom of the popup to turn on turned off rules again",
+    "message": "Diese Regeln wurden deaktiviert und können durch Klick wieder aktiviert werden:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -406,6 +424,10 @@
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
     "message": "Aktuelle Textauswahl oder\nTextfeld mit LanguageTool prüfen"
+  },
+  "turnOffRule": {
+    "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
+    "message": "Regel deaktivieren"
   },
   "uk": {
     "description": "automatically added by injectTranslation.py",
