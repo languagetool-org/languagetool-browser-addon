@@ -83,6 +83,10 @@ function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
 }
 
+function getShortCode(languageCode) {
+    return languageCode.replace(/-.*/, "");
+}
+
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let createLinks = response.isEditableText;
     let data = JSON.parse(resultJson);
@@ -90,7 +94,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let languageCode = data.language.code;
     var translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
     if (!translatedLanguage) {
-        let shortCode = languageCode.replace(/-.*/, "");
+        let shortCode = getShortCode(languageCode);
         translatedLanguage = chrome.i18n.getMessage(shortCode);  // needed for e.g. "ru-RU"
     }
     if (!translatedLanguage) {
@@ -144,7 +148,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                     ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(word)) != -1;
                 }
             } else {
-                ignoreError = items.ignoredRules.indexOf(ruleId) != -1;
+                ignoreError = items.ignoredRules.find(k => k.id === ruleId);
             }
             if (!ignoreError && (errStart != prevErrStart || errLen != prevErrLen)) {
                 html += Tools.escapeHtml(m.message);
@@ -157,8 +161,9 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                             "href='' class='addToDictLink'>" + chrome.i18n.getMessage("addToDictionary") + "</a></div>";
                 } else {
                     // Not turned on yet, see https://github.com/languagetool-org/languagetool-browser-addon/issues/9
-                    //html += "<div class='turnOffRule'><a class='turnOffRuleLink' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
-                    //        "' href='#'>" + chrome.i18n.getMessage("turnOffRule") + "</a></div>";
+                    html += "<div class='turnOffRule'><a class='turnOffRuleLink' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
+                            "' data-ruleDescription='" + Tools.escapeHtml(m.rule.description) + "'" +
+                            " href='#'>" + chrome.i18n.getMessage("turnOffRule") + "</a></div>";
                 }
                 html += "<hr>";
                 matchesCount++;
@@ -173,14 +178,20 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
         }
         if (items.ignoredRules && items.ignoredRules.length > 0) {
-            html += "<span class='ignoredRulesIntro'>" + chrome.i18n.getMessage("ignoredRules") + "</span> ";
             let ruleItems = [];
+            let currentLang = getShortCode(languageCode);
             for (let key in items.ignoredRules) {
-                // TODO: show rule description instead of ID - requires HTTP API extension:
-                let ruleId = Tools.escapeHtml(items.ignoredRules[key]);
-                ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='" + ruleId + "' href='#'>" + ruleId + "</a></span>");
+                let ignoredRule = items.ignoredRules[key];
+                if (currentLang === ignoredRule.language) {
+                    let ruleId = Tools.escapeHtml(ignoredRule.id);
+                    let ruleDescription = Tools.escapeHtml(ignoredRule.description);
+                    ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='" + ruleId + "' href='#'>" + ruleDescription + "</a></span>");
+                }
             }
-            html += ruleItems.join(" &middot; ");
+            if (ruleItems.length > 0) {
+                html += "<span class='ignoredRulesIntro'>" + chrome.i18n.getMessage("ignoredRules") + "</span> ";
+                html += ruleItems.join(" &middot; ");
+            }
         }
         if (serverUrl === defaultServerUrl) {
             html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
@@ -289,11 +300,14 @@ function addLinkListeners(response, tabs) {
                 storage.get({
                     ignoredRules: []
                 }, function(items) {
-                    let ignoredRules = items.ignoredRules;
-                    let idx = ignoredRules.indexOf(link.getAttribute('data-ruleIdOn'));
-                    if (idx > -1) {
-                        ignoredRules.splice(idx, 1);
-                        storage.set({'ignoredRules': ignoredRules}, function() { reCheck(tabs) });
+                    let idx = 0;
+                    for (var rule of items.ignoredRules) {
+                        if (rule.id == link.getAttribute('data-ruleIdOn')) {
+                            items.ignoredRules.splice(idx, 1);
+                            storage.set({'ignoredRules': items.ignoredRules}, function() { reCheck(tabs) });
+                            break;
+                        }
+                        idx++;
                     }
                 });
                 
@@ -302,7 +316,11 @@ function addLinkListeners(response, tabs) {
                     ignoredRules: []
                 }, function(items) {
                     let ignoredRules = items.ignoredRules;
-                    ignoredRules.push(link.getAttribute('data-ruleIdOff'));
+                    ignoredRules.push({
+                        id: link.getAttribute('data-ruleIdOff'),
+                        description: link.getAttribute('data-ruleDescription'),
+                        language: getShortCode(document.getElementById("language").value)
+                    });
                     storage.set({'ignoredRules': ignoredRules}, function() { reCheck(tabs) });
                 });
 
