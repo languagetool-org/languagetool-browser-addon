@@ -103,17 +103,15 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     var html = '<a id="closeLink" href="#"></a>';
     html += getLanguageSelector(languageCode);
     let matches = data.matches;
-    var prevErrStart = -1;
-    var prevErrLen = -1;
     html += "<br><br>";
     getStorage().get({
         dictionary: [],
         ignoredRules: []
     }, function(items) {
         var matchesCount = 0;
-        // remove overlapping rules in reverse the order so we match the results like they shown on web-pages
+        // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
         if (matches) {
-            let nonOverlappingMatches = [];
+            let uniquePositionMatches = [];
             let prevErrStart = -1;
             let prevErrLen = -1;
             for (let i = matches.length-1; i >= 0; i--) {
@@ -121,13 +119,13 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 let errStart = m.offset;
                 let errLen = m.length;
                 if (errStart != prevErrStart || errLen != prevErrLen) {
-                    nonOverlappingMatches.push(m);
+                    uniquePositionMatches.push(m);
                     prevErrStart = errStart;
                     prevErrLen = errLen;
                 }
             }
-            nonOverlappingMatches.reverse();
-            matches = nonOverlappingMatches;
+            uniquePositionMatches.reverse();
+            matches = uniquePositionMatches;
         }
 
         for (let match in matches) {
@@ -150,7 +148,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             } else {
                 ignoreError = items.ignoredRules.find(k => k.id === ruleId);
             }
-            if (!ignoreError && (errStart != prevErrStart || errLen != prevErrLen)) {
+            if (!ignoreError) {
                 html += Tools.escapeHtml(m.message);
                 html += renderContext(m.context.text, errStart, errLen);
                 html += renderReplacements(context, m, createLinks);
@@ -168,8 +166,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 html += "<hr>";
                 matchesCount++;
             }
-            prevErrStart = errStart;
-            prevErrLen = errLen;
         }
         if (matchesCount == 0) {
             html += chrome.i18n.getMessage("noErrorsFound");
