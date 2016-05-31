@@ -71,17 +71,29 @@ function restoreOptions() {
         //document.getElementById('variant-ca-desc').value = items.caVariant;
         let dict = items.dictionary.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         document.getElementById('dictionary').value = dict.join("\n") + "\n";
+        showPrivacyLink();
     });
 }
 
 function useDefaultServer() {
     document.getElementById('apiServerUrl').value = defaultServerUrl;
     document.getElementById('status').textContent = "";
+    showPrivacyLink();
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('save').addEventListener('click', saveOptions);
 document.getElementById('defaultServerLink').addEventListener('click', useDefaultServer);
+document.getElementById('apiServerUrl').addEventListener('change', showPrivacyLink);
+document.getElementById('apiServerUrl').addEventListener('keyup', showPrivacyLink);
+
+function showPrivacyLink() {
+    if (document.getElementById('apiServerUrl').value == defaultServerUrl) {
+        document.getElementById('privacyPolicy').innerHTML = "<a href='https://languagetool.org/privacy/'>Privacy Policy</a>";
+    } else {
+        document.getElementById('privacyPolicy').innerHTML = "";
+    }
+}
 
 function getStorage() {
     return chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
