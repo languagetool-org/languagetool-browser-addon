@@ -8,7 +8,7 @@
     "description": "Description in Google Chrome Web Store (does not appear in the extension itself)"
   },
   "appDesc": {
-    "message": "Style and grammar checking for Chrome",
+    "message": "Check your texts for style and grammar problems everywhere on the web",
     "description": "The description of the application, displayed in the web store."
   },
   "contextMenuItem": {

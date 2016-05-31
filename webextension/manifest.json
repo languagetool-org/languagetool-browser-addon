@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "LanguageTool",
+  "name": "LanguageTool - Grammar and Style Checker",
   "short_name": "LanguageTool",
   "version": "0.9.4",
   "description": "__MSG_appDesc__",
