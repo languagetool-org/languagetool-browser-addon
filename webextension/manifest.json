@@ -10,7 +10,7 @@
              "48": "images/icon48.png",
              "128": "images/icon128.png" },
   "author": "Daniel Naber",
-  "homepage_url": "https://languagetool.org/",
+  "homepage_url": "https://languagetool.org/chrome/",
   "offline_enabled": false,
 
   "browser_action": {
