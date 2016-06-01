@@ -208,7 +208,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
 function getLanguageSelector(languageCode) {
     // It might be better to get the languages from the API (but not for every check call):
     let languages = [
-        "ast-ES", "be-BY", "br-FR", "ca-ES", /* translation missing: "ca-ES-valencia"*/ "zh-CN", "da-DK", "nl",
+        "ast-ES", "be-BY", "br-FR", "ca-ES", "ca-ES-valencia", "zh-CN", "da-DK", "nl",
         "en-US", "en-GB", "en-AU", "en-CA", "en-NZ", "en-ZA", "eo", "fr", "gl-ES",
         "de-DE", "de-AT", "de-CH", "el-GR", "is-IS", "it", "ja-JP", "km-KH", "lt-LT", "ml-IN",
         "fa", "pl-PL", "pt-PT", "pt-BR", "ro-RO", "ru-RU", "sk-SK",
@@ -218,7 +218,7 @@ function getLanguageSelector(languageCode) {
     html += "&nbsp;<select id='language'>";
     for (var l in languages) {
         let langCode = languages[l];
-        let langCodeForTrans = languages[l].replace("-", "_");
+        let langCodeForTrans = languages[l].replace(/-/g, "_");
         let selected = languageCode == langCode ? "selected" : "";
         var translatedLang = chrome.i18n.getMessage(langCodeForTrans);
         if (!translatedLang) {
@@ -381,6 +381,7 @@ function startCheckMaybeWithWarning(tabs) {
             enVariant: "en-US",
             deVariant: "de-DE",
             ptVariant: "pt-PT",
+            caVariant: "ca-ES",
             allowRemoteCheck: false
         }, function(items) {
             serverUrl = items.apiServerUrl;
@@ -401,6 +402,9 @@ function startCheckMaybeWithWarning(tabs) {
             }
             if (items.ptVariant) {
                 preferredVariants.push(items.ptVariant);
+            }
+            if (items.caVariant) {
+                preferredVariants.push(items.caVariant);
             }
             if (items.allowRemoteCheck === true) {
                 doCheck(tabs);

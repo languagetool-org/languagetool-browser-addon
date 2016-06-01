@@ -15,7 +15,7 @@ def loadLanguageDict(filename):
     codeToLang = collections.OrderedDict()
     file = open(filename)
     for line in file:
-        regex = re.compile("([a-z][a-z]|[a-z][a-z]-[A-Z][A-Z]|[a-z][a-z][a-z])\\s*=\\s*(.*)")  # e.g. "de", "de-DE", "ast"
+        regex = re.compile("([a-z][a-z]|[a-z][a-z]-[A-Z][A-Z]|[a-z][a-z][a-z]|[a-z][a-z]-[A-Z][A-Z]-.*?)\\s*=\\s*(.*)")  # e.g. "de", "de-DE", "ast", "ca-ES-valencia"
         match = regex.match(line)
         if match:
             codeToLang[match.group(1)] = match.group(2)
