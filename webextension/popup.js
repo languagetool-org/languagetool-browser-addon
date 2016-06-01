@@ -92,10 +92,10 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let data = JSON.parse(resultJson);
     let language = data.language.name;
     let languageCode = data.language.code;
+    let shortLanguageCode = getShortCode(languageCode);
     var translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
     if (!translatedLanguage) {
-        let shortCode = getShortCode(languageCode);
-        translatedLanguage = chrome.i18n.getMessage(shortCode);  // needed for e.g. "ru-RU"
+        translatedLanguage = chrome.i18n.getMessage(shortLanguageCode);  // needed for e.g. "ru-RU"
     }
     if (!translatedLanguage) {
         translatedLanguage = language;
@@ -146,7 +146,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                     ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(word)) != -1;
                 }
             } else {
-                ignoreError = items.ignoredRules.find(k => k.id === ruleId);
+                ignoreError = items.ignoredRules.find(k => k.id === ruleId && k.language === shortLanguageCode);
             }
             if (!ignoreError) {
                 html += Tools.escapeHtml(m.message);
