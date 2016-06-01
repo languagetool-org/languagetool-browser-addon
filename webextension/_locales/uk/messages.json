@@ -17,13 +17,33 @@
     "description": "The description of the application, displayed in the web store.",
     "message": "Перевірка граматики та стилю для Chrome"
   },
-  "appStoreDesc": {
-    "description": "Description in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "За допомогою цього розширення ви можете перевіряти текст через перевірку граматики та стилю в LanguageTool. Цей програмний засіб знаходить багато помилок, які проста перевірка орфографії побачити не може, наприклад, написання «будь ласка» через дефіс, використання неправильного відмінка, повторення слів тощо. LanguageTool підтримує більше 25 мов, зокрема, українську, англійську, іспанську, французьку, німецьку та польську.\n\nВикористання: виберіть текст, який ви хочете перевірити, або клацніть в текстовому полі. Потім клацніть на іконці LT, в правому верхньому куті вашого браузера. Також можна використати скорочення Ctrl+Shift+Space.\n\nТипово розширення перевіряє текст відсилаючи його до https://languagetool.org шифрованим з'єднанням. Текст збережено не буде. Докладніше можна прочитати на сторінці https://languagetool.org/privacy/."
+  "appStoreDesc10": {
+    "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian."
   },
-  "appStoreWarning": {
-    "description": "First part of the Google Chrome Web Store description (does not appear in the extension itself)",
-    "message": "Надсилайте повідомлення про помилки сюди https://github.com/languagetool-org/languagetool-browser-addon/issues"
+  "appStoreDesc20": {
+    "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail."
+  },
+  "appStoreDesc30": {
+    "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "With LanguageTool our aim is to give users a fully-featured grammar checker and proofreader that will enable them to have control and confidence over their content. While LanguageTool is a vital extension for non-native speakers, it’s also smart enough to recognize mistakes that native speakers commonly make and it will improve your writing overall. This grammar and spelling correction works across all variations of common language; distinguishing between U.S. and British English, for instance. LanguageTool also features a personal dictionary for exceptions or words that you might commonly use but that are not found in a conventional dictionary. LanguageTool will recognize these words in future grammar checking and proofreading."
+  },
+  "appStoreDesc40": {
+    "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "Usage: Select the text that you want to check, or click in a text field if you want to check its contents. Then click on the LT icon, which is displayed in the upper right corner of your browser. Alternatively, use Ctrl+Shift+Space as a shortcut."
+  },
+  "appStoreDesc60": {
+    "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and is 100% free and offers many of the same features."
+  },
+  "appStoreDesc70": {
+    "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store the texts you check. In fact, we don't even store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+  },
+  "appStoreDesc80": {
+    "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
+    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -44,6 +64,10 @@
   "ca": {
     "description": "automatically added by injectTranslation.py",
     "message": "Каталонська"
+  },
+  "ca_ES_valencia": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Каталанський (Валенсія)"
   },
   "cancel": {
     "description": "Link shown below the privacy note on first use",
@@ -104,6 +128,10 @@
   "de_DE": {
     "description": "automatically added by injectTranslation.py",
     "message": "Німецька (Німеччина)"
+  },
+  "de_DE_x_simple_language": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Німецька (спрощена)"
   },
   "defaultServerLink": {
     "description": "Options dialog: Link to reset the URL of the API server to the default value",
@@ -191,7 +219,7 @@
   },
   "ignoredRules": {
     "description": "Text shown at the bottom of the popup to turn on turned off rules again",
-    "message": "These rules have been turned off, click a rule to turn it on again:"
+    "message": "Ці правило вимкнені, клацніть на правилі, щоб його увімкнути:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -341,6 +369,14 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Португальська (Португалія)"
   },
+  "pt_PT_post_reform": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Португальська (Португалія, після реформи)"
+  },
+  "pt_PT_pre_reform": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Португальська (Португалія, дореформений)"
+  },
   "quotedLinesIgnored": {
     "description": "Text shown in the popup to let the user know when parts of the text have been ignored",
     "message": "Залапковані рядки, що починаються з $char$ було проігноровано",
@@ -427,11 +463,15 @@
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
-    "message": "Turn off rule"
+    "message": "Вимкнути правило"
   },
   "uk": {
     "description": "automatically added by injectTranslation.py",
     "message": "Українська"
+  },
+  "variantCaDesc": {
+    "description": "Options dialog: set the language variant",
+    "message": "Assume this variety of Catalan:"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
