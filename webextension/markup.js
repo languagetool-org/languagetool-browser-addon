@@ -23,17 +23,22 @@ class Markup {
     static html2markupList(html, doc) {
         var result = [];
         var inMarkup = false;
+        var attributeStartChar = null;
         var buffer = "";
         for (var i = 0; i < html.length; i++) {
             let ch = html[i];
             var skip = false;
-            if (ch === '<') {
+            if (ch === '<' && !attributeStartChar) {  // innerHTML seems to give us an unescaped result, so we need to deal with '<'
                 if (buffer) {
                     result.push({text: Markup._resolveEntities(buffer, doc)});
                     buffer = "";
                 }
                 inMarkup = true;
-            } else if (inMarkup && ch === '>') {
+            } else if (inMarkup && !attributeStartChar && (ch == '"' || ch == "'")) {
+                attributeStartChar = ch;
+            } else if (inMarkup && attributeStartChar && ch == attributeStartChar) {
+                attributeStartChar = null;
+            } else if (inMarkup && ch === '>' && !attributeStartChar) {
                 if (buffer) {
                     Markup._handleMarkupItem(buffer, result);
                     skip = true;

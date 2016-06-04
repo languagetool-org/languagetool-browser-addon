@@ -107,6 +107,15 @@ describe('Markup', function () {
             {markup: '</x>'},
             {text: ' end'}
         ]);
+        assert.deepEqual(f("<p>start <span class=\"c\" onkeypress=\"foo <br/> bar\">span text</span> end</p>", doc), [
+            {markup: '<p>', text: '\n\n'},
+            {text: 'start '},
+            {markup: '<span class=\"c\" onkeypress=\"foo <br/> bar\">'},
+            {text: 'span text'},
+            {markup: '</span>'},
+            {text: ' end'},
+            {markup: '</p>'}
+        ]);
     });
     
     it('markupList2html and markupList2text', function () {
