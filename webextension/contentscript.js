@@ -93,13 +93,13 @@ function getMarkupListOfActiveElement(elem) {
         if (activeElem.textContent) {
             return [{ text: activeElem.textContent.toString() }];
         } else {
-            throw chrome.i18n.getMessage("placeCursor1")
+            throw chrome.i18n.getMessage("placeCursor1");
         }
     } else {
         if (elem) {
-            throw chrome.i18n.getMessage("placeCursor2", elem.tagName)
+            throw chrome.i18n.getMessage("placeCursor2", elem.tagName);
         } else {
-            throw chrome.i18n.getMessage("placeCursor3")
+            throw chrome.i18n.getMessage("placeCursor3");
         }
     }
 }

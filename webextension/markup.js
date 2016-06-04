@@ -82,7 +82,7 @@ class Markup {
             } else if (elem.text) {
                 result += elem.text;
             } else {
-                throw "Neither text nor markup at position " + idx + " in list: " + markupList
+                throw "Neither text nor markup at position " + idx + " in list: " + markupList;
             }
         }
         return result;
@@ -136,7 +136,7 @@ class Markup {
         }
         if (!found) {
             // see test case for when this might happen
-            throw chrome.i18n.getMessage("noReplacementPossible2")
+            throw chrome.i18n.getMessage("noReplacementPossible2");
         }
         return result;
     }
