@@ -15,35 +15,35 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Textprüfung für Grammatik, Stil und Rechtschreibung"
+    "message": "Texte auf Grammatikfehler prüfen - überall im Web!"
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian."
+    "message": "Mit dieser Erweiterung können Sie Text mit der freien Stil- und Grammatikprüfung LanguageTool prüfen. LanguageTool findet viele Fehler, die eine normale Rechtschreibprüfung nicht finden kann, z.B. Probleme mit der Groß- und Kleinschreibung oder Wortverwechselungen wie Mine/Miene. Neben Deutsch unterstützt es auch Englisch, Spanisch, Französisch und mehr als 25 weitere Sprachen."
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail."
+    "message": "LanguageTool ist einfach zu benutzen: Einfach auf den Button klicken oder das frei konfigurierbare Tastenkürzel aufrufen und LanguageTool sucht im aktuellen Textfeld oder im markierten Text nach Grammatik- und Rechtschreibfehlern. Diese Erweiterung funktioniert fast überall im Netz: bei Twitter und Facebook genauso wie auf Gmail."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With LanguageTool our aim is to give users a fully-featured grammar checker and proofreader that will enable them to have control and confidence over their content. While LanguageTool is a vital extension for non-native speakers, it’s also smart enough to recognize mistakes that native speakers commonly make and it will improve your writing overall. This grammar and spelling correction works across all variations of common language; distinguishing between U.S. and British English, for instance. LanguageTool also features a personal dictionary for exceptions or words that you might commonly use but that are not found in a conventional dictionary. LanguageTool will recognize these words in future grammar checking and proofreading."
+    "message": "Diese Erweiterung unterstützt die verschiedenen Varianten von Sprachen, wie z. B. österreichisches Deutsch und amerikanisches und britisches Englisch. In ein eingebautes persönliches Wörterbuch können Sie Wörter aufnehmen, die LanguageTool selber nicht kennt."
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Usage: Select the text that you want to check, or click in a text field if you want to check its contents. Then click on the LT icon, which is displayed in the upper right corner of your browser. Alternatively, use Ctrl+Shift+Space as a shortcut."
+    "message": "Benutzung: Markieren Sie den zu prüfenden Text oder klicken Sie in ein Textfeld. Dann klicken Sie auf das Icon dieser Erweiterung, das rechts oben im Browser angezeigt wird. Sie können alternativ auch Strg+Shift+Leertaste drücken."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and is 100% free and offers many of the same features."
+    "message": "Anders als Erweiterungen wie Grammarly und Ginger unterstützt LanguageTool mehrere Sprachen und ist völlig kostenlos."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store the texts you check. In fact, we don't even store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+    "message": "Standardmäßig schickt diese Erweiterung Ihre Texte über eine verschlüsselte Verbindung an https://languagetool.org. Ihre Texte werden nicht gespeichert. Wir speichern auch Ihre IP-Adresse nicht. Sie benötigen keine Registrierung. Einzelheiten finden Sie in unseren Datenschutzrichtlinien unter https://languagetool.org/privacy/."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Fehlerberichte bitte unter https://github.com/languagetool-org/languagetool-browser-addon/issues anlegen"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -471,7 +471,7 @@
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Catalan:"
+    "message": "Diese Varietät des Katalanischen benutzen:"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",

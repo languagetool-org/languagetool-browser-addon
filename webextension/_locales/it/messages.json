@@ -15,7 +15,7 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Controllo di stile e grammatica per Chrome"
+    "message": "Check your texts for style and grammar problems everywhere on the web"
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",

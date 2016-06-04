@@ -15,35 +15,35 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Revisió de gramàtica i estil per a Chrome"
+    "message": "Reviseu la gramàtica i l'estil dels vostres texts arreu d'Internet. "
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian."
+    "message": "Amb aquesta extensió podeu revisar text amb el corrector gramatical i d'estil gratuït LanguageTool. LanguageTool troba molts més errors dels que troba un simple corrector ortogràfic, com ara accents diacrítics, apostrofacions, repeticions de paraules i molts altres. Funciona en més de 25 idiomes, incloent-hi català, anglès, castellà, francès, alemany i polonès."
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail."
+    "message": "LanguageTool s'ha dissenyat perquè l'ús sigui senzill. Amb un botó o amb una drecera de teclat configurable, LanguageTool revisa instantàniament l'ortografia i la gramàtica de qualsevol text seleccionat. LanguageTool és compatible amb tota mena de texts, independentment de la font, incloent-hi xarxes socials com Facebook, Twitter o LinkedIn i serveis de correu com Gmail."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With LanguageTool our aim is to give users a fully-featured grammar checker and proofreader that will enable them to have control and confidence over their content. While LanguageTool is a vital extension for non-native speakers, it’s also smart enough to recognize mistakes that native speakers commonly make and it will improve your writing overall. This grammar and spelling correction works across all variations of common language; distinguishing between U.S. and British English, for instance. LanguageTool also features a personal dictionary for exceptions or words that you might commonly use but that are not found in a conventional dictionary. LanguageTool will recognize these words in future grammar checking and proofreading."
+    "message": "L'objectiu de LanguageTool és oferir als usuaris un verificador complet de gramàtica i estil que els permeti controlar els continguts que generen. La revisió troba tota classe d'errors freqüents; distingeix entre variants de català i català-valencià. LanguageTool també té un diccionari personal per a excepcions o paraules que useu sovint però que no són en els diccionaris convencionals. LanguageTool reconeixerà aquestes paraules les següents revisions. "
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Usage: Select the text that you want to check, or click in a text field if you want to check its contents. Then click on the LT icon, which is displayed in the upper right corner of your browser. Alternatively, use Ctrl+Shift+Space as a shortcut."
+    "message": "Ús: Seleccioneu el text que voleu revisar o feu clic en el camp de text del qual voleu revisar el contingut. Llavors feu clic en la icona de LT, que es mostra a dalt a la dreta del navegador. Si no, useu Ctrl+Maj+Espai com a drecera. "
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and is 100% free and offers many of the same features."
+    "message": "A diferència de Grammarly i Ginger, LanguageTool funciona per a moltes llengües, és 100% gratuït i ofereix moltes de les mateixes característiques."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store the texts you check. In fact, we don't even store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+    "message": "La vostra privacitat és important per a nosaltres. Per defecte, aquesta extensió revisa els texts enviant-los a https://languagetool.org mitjançant una connexió xifrada segura. No cal obrir cap compte per a usar l'extensió. No emmagatzemem els texts que es revisen. De fet, ni tan sols desem la vostra adreça IP. Vegeu la nostra política de privacitat a https://languagetool.org/privacy/."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Informeu d'errors en https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -209,7 +209,7 @@
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
-    "message": "Ignora les línies que comencen amb $char$ (normalment text entre cometes)",
+    "message": "Ignora les línies que comencen amb $char$ (normalment text citat)",
     "placeholders": {
       "char": {
         "content": "<span id='quoteChar'>&gt;</span>",
@@ -379,7 +379,7 @@
   },
   "quotedLinesIgnored": {
     "description": "Text shown in the popup to let the user know when parts of the text have been ignored",
-    "message": "S'han ignorat les línies entre cometes que comencen amb $char$ ",
+    "message": "S'han ignorat les línies citades que comencen amb $char$ ",
     "placeholders": {
       "char": {
         "content": "<span class='quoteChar'>&gt;</span>",
@@ -475,11 +475,11 @@
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assumeix aquesta variant d''alemany:"
+    "message": "Assumeix aquesta variant d'alemany:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assumeix aquesta variant d''anglès:"
+    "message": "Assumeix aquesta variant d'anglès:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
