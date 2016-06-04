@@ -1,4 +1,6 @@
 
+chrome.runtime.setUninstallURL("https://languagetool.org/chrome/uninstall.html");
+
 function onClickHandler(info, tab) {
   if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
     // 'openPopup' is not documented at https://developer.chrome.com/extensions/browserAction,
