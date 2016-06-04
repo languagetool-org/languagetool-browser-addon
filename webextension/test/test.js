@@ -107,14 +107,23 @@ describe('Markup', function () {
             {markup: '</x>'},
             {text: ' end'}
         ]);
-        assert.deepEqual(f("<p>start <span class=\"c\" onkeypress=\"foo <br/> bar\">span text</span> end</p>", doc), [
+        assert.deepEqual(f('<p>start <span class="c" onkeypress="foo <br/> bar">span text</span> end</p>', doc), [
             {markup: '<p>', text: '\n\n'},
             {text: 'start '},
-            {markup: '<span class=\"c\" onkeypress=\"foo <br/> bar\">'},
+            {markup: '<span class="c" onkeypress="foo <br/> bar">'},
             {text: 'span text'},
             {markup: '</span>'},
             {text: ' end'},
             {markup: '</p>'}
+        ]);
+        assert.deepEqual(f("<x>start <span onkeypress='foo \"<br/> bar'>span text</span> end</x>", doc), [
+            {markup: '<x>'},
+            {text: 'start '},
+            {markup: "<span onkeypress='foo \"<br/> bar'>"},
+            {text: 'span text'},
+            {markup: '</span>'},
+            {text: ' end'},
+            {markup: '</x>'}
         ]);
     });
     
