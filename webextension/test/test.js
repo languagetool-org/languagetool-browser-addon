@@ -125,6 +125,20 @@ describe('Markup', function () {
             {text: ' end'},
             {markup: '</x>'}
         ]);
+        assert.deepEqual(f("<x>start<br>end</x>", doc), [
+            {markup: '<x>'},
+            {text: 'start'},
+            {markup: '<br>', text: '\n'},
+            {text: 'end'},
+            {markup: '</x>'}
+        ]);
+        assert.deepEqual(f("<x>start<br/>end</x>", doc), [
+            {markup: '<x>'},
+            {text: 'start'},
+            {markup: '<br/>', text: '\n'},
+            {text: 'end'},
+            {markup: '</x>'}
+        ]);
     });
     
     it('markupList2html and markupList2text', function () {

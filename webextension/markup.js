@@ -73,6 +73,8 @@ class Markup {
             // we need to interpret the HTML a bit so LanguageTool knows at least
             // where the paragraphs are...
             result.push({markup: buffer + '>', text: '\n\n'});
+        } else if (buffer === '<br' || buffer === '<br/') {
+            result.push({markup: buffer + '>', text: '\n'});
         } else {
             result.push({markup: buffer + '>'});
         }
