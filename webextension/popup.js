@@ -128,6 +128,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             matches = uniquePositionMatches;
         }
 
+        var ignoredRuleCounts = {};
         for (let match in matches) {
             let m = matches[match];
             let context = m.context.text;
@@ -148,7 +149,13 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             } else {
                 ignoreError = items.ignoredRules.find(k => k.id === ruleId && k.language === shortLanguageCode);
             }
-            if (!ignoreError) {
+            if (ignoreError) {
+                if (ignoredRuleCounts[ruleId]) {
+                    ignoredRuleCounts[ruleId]++;
+                } else {
+                    ignoredRuleCounts[ruleId] = 1;
+                }
+            } else {
                 html += Tools.escapeHtml(m.message);
                 html += renderContext(m.context.text, errStart, errLen);
                 html += renderReplacements(context, m, createLinks);
@@ -181,7 +188,11 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 if (currentLang === ignoredRule.language) {
                     let ruleId = Tools.escapeHtml(ignoredRule.id);
                     let ruleDescription = Tools.escapeHtml(ignoredRule.description);
-                    ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='" + ruleId + "' href='#'>" + ruleDescription + "</a></span>");
+                    let matchCount = ignoredRuleCounts[ruleId];
+                    if (matchCount) {
+                        ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='"
+                            + ruleId + "' href='#'>" + ruleDescription + " (" + matchCount + ")</a></span>");
+                    }
                 }
             }
             if (ruleItems.length > 0) {
