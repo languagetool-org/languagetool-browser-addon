@@ -168,7 +168,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             }
         }
         if (matchesCount == 0) {
-            html += chrome.i18n.getMessage("noErrorsFound");
+            html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
         }
         if (quotedLinesIgnored) {
             html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
