@@ -90,7 +90,10 @@ function getMarkupListOfActiveElement(elem) {
         return Markup.html2markupList(elem.innerHTML, document);
     } else if (elem.tagName === "IFRAME") {
         let activeElem = elem.contentWindow.document.activeElement;
-        if (activeElem.textContent) {
+        if (activeElem.innerHTML) {
+            return Markup.html2markupList(activeElem.innerHTML, document);
+        } else if (activeElem.textContent) {
+            // not sure if this case ever happens?
             return [{ text: activeElem.textContent.toString() }];
         } else {
             throw chrome.i18n.getMessage("placeCursor1");
@@ -123,7 +126,11 @@ function applyCorrection(request) {
         found = replaceIn(activeElem, "innerHTML", newMarkupList);  // contentEditable=true
     } else if (activeElem.tagName === "IFRAME") {
         let activeElem2 = activeElem.contentWindow.document.activeElement;
-        found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
+        if (activeElem2 && activeElem2.innerHTML) {
+            found = replaceIn(activeElem2, "innerHTML", newMarkupList);  // e.g. on wordpress.com
+        } else {
+            found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
+        }
     }
     if (!found) {
         alert(chrome.i18n.getMessage("noReplacementPossible"));
