@@ -1,8 +1,9 @@
 # LanguageTool WebExtension Change Log
 
-### 0.9.x (to be released)
+### 0.9.7 (2016-06-11 for Firefox only)
   * disabled rules now show a number indicating how many more matches there will be when the rule gets activated again
   * fix: applying suggestions on e.g. wordpress.com removed line breaks
+  * cleanups for Firefox (requires Firefox 48 or later)
 
 ### 0.9.5 (2016-06-06)
   * fix handling of hard return (shift+return) in at least Gmail
