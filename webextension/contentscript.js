@@ -55,18 +55,22 @@ function checkText(callback) {
             let markupList = getMarkupListOfActiveElement(document.activeElement);
             callback({markupList: markupList, isEditableText: true});
         } catch(e) {
+            console.log("LanguageTool extension got error (document.activeElement: " + document.activeElement + "), will try iframes:");
+            console.log(e);
             // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simply doesn't
             // seem to work if focus is inside the iframe.
             let iframes = document.getElementsByTagName("iframe");
             var found = false;
             for (var i = 0; i < iframes.length; i++) {
                 try {
-                    found = true;
                     let markupList = getMarkupListOfActiveElement(iframes[i].contentWindow.document.activeElement);
+                    found = true;
                     callback({markupList: markupList, isEditableText: true});
                 } catch(e) {
                     // ignore - what else could we do here? We just iterate the frames until
                     // we find one with text in its activeElement
+                    console.log("LanguageTool extension got error (iframes " + i + "):");
+                    console.log(e);
                 }
             }
             if (!found) {
@@ -138,9 +142,10 @@ function applyCorrection(request) {
 }
 
 function isSimpleInput(elem) {
+    //console.log("elem.tagName: " + elem.tagName + ", elem.type: " + elem.type);
     if (elem.tagName === "TEXTAREA") {
         return true;
-    } else if (elem.tagName === "INPUT" && elem.type === "text") {
+    } else if (elem.tagName === "INPUT" && (elem.type === "text" || elem.type == "search")) {
         return true;
     }
     return false;
