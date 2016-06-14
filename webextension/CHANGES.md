@@ -1,7 +1,7 @@
 # LanguageTool WebExtension Change Log
 
 ### 0.9.8 (to be released)
-  * fix to work with <input type="search">, e.g. on bing.com
+  * fix to work with `<input type="search">`, e.g. on bing.com
   
 ### 0.9.7 (2016-06-11 for Firefox only)
   * disabled rules now show a number indicating how many more matches there will be when the rule gets activated again
