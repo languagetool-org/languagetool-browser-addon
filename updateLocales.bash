@@ -1,4 +1,5 @@
 #!/bin/bash
+# script to fetch translated JSON files for Chrome/WebExtension from Transifex
 
 source .lgn
 
@@ -7,16 +8,13 @@ if [[ -z "$U" || -z "$P" ]]; then
 	exit
 fi
 
-rm -rI firefox/locale~
-mv firefox/locale firefox/locale~
-mkdir firefox/locale
-cp firefox/locale~/en-US.properties firefox/locale/en-US.properties
-
-for lang in `ls firefox/locale~ | sed "s/\.properties\|\-DE\|en\-US//g"`; do
-	curl --user $U:$P http://www.transifex.net/api/2/project/languagetool/resource/firefox-extension/translation/$lang/?file > firefox/locale/$lang.properties
+for lang in `ls webextension/_locales | sed "s/en//g"`; do
+	echo "Getting $lang..."
+	LTLANG=$lang
+	if [ $lang = "el" ]; then
+		LTLANG="el_GR"
+	fi
+	curl --user $U:$P http://www.transifex.net/api/2/project/languagetool/resource/chrome-extension/translation/$LTLANG/?file > webextension/_locales/$lang/messages.json && \
+  	  ./injectTranslations.py $lang webextension/_locales/en/messages.json webextension/_locales/$lang/messages.json > webextension/_locales/$lang/messages.json.tmp && \
+	  mv webextension/_locales/$lang/messages.json.tmp webextension/_locales/$lang/messages.json
 done
-
-mv firefox/locale/de.properties firefox/locale/de-DE.properties
-
-wc -l firefox/locale/*
-grep "# " firefox/locale/*
