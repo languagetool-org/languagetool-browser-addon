@@ -15,35 +15,35 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Check your texts for style and grammar problems everywhere on the web"
+    "message": "Перевіряйте граматику та стиль текстів будь-де у вебі"
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian."
+    "message": "Цим розширенням ви можете перевіряти тексти за допомогою вільної програми перевірки граматики та стилю LanguageTool. Програма LanguageTool знаходить багато помилок, які проста перевірка орфографії не може визначити, напр. вживання неправильного відмінка після прийменника, повтор слів, невластиві мові сполуки тощо. LanguageTool підтрмує понад 25 мов, зокрема англійську, іспанську, французьку, німецьку, польську і українську."
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail."
+    "message": "LanguageTool спроектовано з думкою про простоту. Натиснувши кнопку або налаштовне скорочення клавіатури, LanguageTool миттєво перевірить орфографію та граматику вибраного тексту. LanguageTool є сумісним з будь-яким текстом з будь-якого джерела, зокрема з соціальних мереж Facebook, Twitter, LinkedIn або онлайнових служб, як наприклад Gmail."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With LanguageTool our aim is to give users a fully-featured grammar checker and proofreader that will enable them to have control and confidence over their content. While LanguageTool is a vital extension for non-native speakers, it’s also smart enough to recognize mistakes that native speakers commonly make and it will improve your writing overall. This grammar and spelling correction works across all variations of common language; distinguishing between U.S. and British English, for instance. LanguageTool also features a personal dictionary for exceptions or words that you might commonly use but that are not found in a conventional dictionary. LanguageTool will recognize these words in future grammar checking and proofreading."
+    "message": "З LanguageTool наша мета — надати користувачам повнофункціональну перевірку граматики та стилю, що допоможе отримати контроль і впевненість щодо їхніх текстів. Хоча LanguageTool є критичним розширенням для тих, хто пише нерідною мовою, він також достатньо розумний, щоб знайти помилки, які часто роблять ті, хто пише рідною і покращить написання загалом. Це граматичне і орфографічне виправляння працює з усіма варіантами загальних мов; розрізняючи наприклад між американською і британською англійською. LanguageTool також підтримує особистий словник для винятків або слів, що ви часто вживаєте, але яких немає у традиційному словнику. LanguageTool впізнає ці слова, коли перевірятиме подальші тексти."
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Usage: Select the text that you want to check, or click in a text field if you want to check its contents. Then click on the LT icon, which is displayed in the upper right corner of your browser. Alternatively, use Ctrl+Shift+Space as a shortcut."
+    "message": "Usage: Select the text that you want to check, or click in an editable field if you want to check its contents. Then click on the LT icon, which is displayed in the upper right corner of your browser. Alternatively, use Ctrl+Shift+Space as a shortcut."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and is 100% free and offers many of the same features."
+    "message": "На відміну від Grammarly та Ginger LanguageTool працює з багатьма мовами, є на 100% вільним і надає багато схожих можливостей."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store the texts you check. In fact, we don't even store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+    "message": "Ваша приватність важлива для нас: типово це розширення перевіряє текст відсилаючи його до https://languagetool.org безпечним з’єднанням. Для цього розширення не вимагається мати жодних облікових записів. Ми не зберігаємо текст, який ви перевіряєте. Насправді, ми навіть не зберігаємо вашу IP-адресу. Повну політику приватності дивіться тут https://languagetool.org/privacy/."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Пишіть про вади за посиланням https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -459,7 +459,7 @@
   },
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
-    "message": "Перевірити поточний вибір\nабо текстове поле в LanguageTool"
+    "message": "Check the current selection\nor editable field with LanguageTool"
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
@@ -471,7 +471,7 @@
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Catalan:"
+    "message": "Типовий варіант каталонської:"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",

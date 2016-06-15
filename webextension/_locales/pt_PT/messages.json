@@ -31,7 +31,7 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Uso: Selecciona o texto que desejas verificar, ou clica num campo de texto se quiseres verificar o seu conteúdo. Em seguida, clica no ícone LT, que é exibido no canto superior direito do teu navegador. Alternativamente, usa Ctrl+Shift+Space como um atalho."
+    "message": "Uso: Selecciona o texto que queres verificar, ou clica num campo editável se quiseres verificar o seu conteúdo. Em seguida, clica no ícone LT que é exibido no canto superior direito do teu navegador. Em alternativa, usa Ctrl+Shift+Space como atalho."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -459,7 +459,7 @@
   },
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
-    "message": "Verifica a selecção actual ou\ncampo de texto com o LanguageTool"
+    "message": "Verifica a selecção actual\nou campo editável com o LanguageTool"
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",

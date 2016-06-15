@@ -31,7 +31,7 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Ús: Seleccioneu el text que voleu revisar o feu clic en el camp de text del qual voleu revisar el contingut. Llavors feu clic en la icona de LT, que es mostra a dalt a la dreta del navegador. Si no, useu Ctrl+Maj+Espai com a drecera. "
+    "message": "Ús: Seleccioneu el text que voleu revisar o cliqueu en el camp editable del qual voleu revisar el contingut. Llavors feu clic en la icona de LT, que es mostra en la part superior dreta del navegador. També podeu usar Ctrl+Maj+Espai com a drecera."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -459,7 +459,7 @@
   },
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
-    "message": "Revisa la selecció actual\no el camp de text amb LanguageTool. "
+    "message": "Revisa la selecció o el camp \neditable actual amb LanguageTool"
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
@@ -471,7 +471,7 @@
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Catalan:"
+    "message": "Assumeix aquesta variant de català:"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",

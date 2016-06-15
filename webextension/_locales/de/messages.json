@@ -31,7 +31,7 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Benutzung: Markieren Sie den zu prüfenden Text oder klicken Sie in ein Textfeld. Dann klicken Sie auf das Icon dieser Erweiterung, das rechts oben im Browser angezeigt wird. Sie können alternativ auch Strg+Shift+Leertaste drücken."
+    "message": "Benutzung: Markieren Sie den zu prüfenden Text oder klicken Sie in ein Textfeld. Dann klicken Sie auf das Icon dieser Erweiterung, das rechts oben im Browser angezeigt wird. Sie können alternativ auch Strg+Shift+Leertaste drücken.\n"
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -459,7 +459,7 @@
   },
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
-    "message": "Aktuelle Textauswahl oder\nTextfeld mit LanguageTool prüfen"
+    "message": "Markierten Text oder Text in Textfeld mit LanguageTool überprüfen"
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
