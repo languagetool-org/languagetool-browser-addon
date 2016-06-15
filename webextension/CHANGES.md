@@ -1,6 +1,6 @@
 # LanguageTool WebExtension Change Log
 
-### 0.9.8 (to be released)
+### 0.9.8 (2016-06-15)
   * fix to work with `<input type="search">`, e.g. on bing.com
   
 ### 0.9.7 (2016-06-11 for Firefox only)
