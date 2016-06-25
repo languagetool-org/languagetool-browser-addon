@@ -156,20 +156,21 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                     ignoredRuleCounts[ruleId] = 1;
                 }
             } else {
-                html += Tools.escapeHtml(m.message);
-                html += renderContext(m.context.text, errStart, errLen);
-                html += renderReplacements(context, m, createLinks);
                 if (isSpellingError) {
                     let escapedWord = Tools.escapeHtml(word);
                     html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
-                            "title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord) + "'" +
-                            "href='' class='addToDictLink'>" + chrome.i18n.getMessage("addToDictionary") + "</a></div>";
+                        "title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'" +
+                        "href='' class='addToDictLink'>" +
+                        "<img class='plusImage' src='images/plus.png'></a></div>";
                 } else {
                     // Not turned on yet, see https://github.com/languagetool-org/languagetool-browser-addon/issues/9
                     html += "<div class='turnOffRule'><a class='turnOffRuleLink' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
-                            "' data-ruleDescription='" + Tools.escapeHtml(m.rule.description) + "'" +
-                            " href='#'>" + chrome.i18n.getMessage("turnOffRule") + "</a></div>";
+                        "' data-ruleDescription='" + Tools.escapeHtml(m.rule.description) + "'" +
+                        " href='#' title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'><img class='bellImage' src='images/bell.png'></a></div>";
                 }
+                html += Tools.escapeHtml(m.message);
+                html += renderContext(m.context.text, errStart, errLen);
+                html += renderReplacements(context, m, createLinks);
                 html += "<hr>";
                 matchesCount++;
             }
@@ -210,10 +211,23 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         renderStatus(html);
         addLinkListeners(response, tabs);
+        setImageListener("plusImage", "mouseover", "images/plus_highlight.png");
+        setImageListener("plusImage", "mouseout", "images/plus.png");
+        setImageListener("bellImage", "mouseover", "images/bell_highlight.png");
+        setImageListener("bellImage", "mouseout", "images/bell.png");
         if (callback) {
             callback(response.markupList);
         }
     });
+}
+
+function setImageListener(className, eventName, newImage) {
+    let images = document.getElementsByClassName(className);
+    for (var i = 0; i < images.length; i++) {
+        images[i].addEventListener(eventName, function(event) {
+            event.target.src = newImage;
+        });
+    }
 }
 
 function getLanguageSelector(languageCode) {
