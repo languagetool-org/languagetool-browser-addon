@@ -102,8 +102,8 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     }
     var html = '<a id="closeLink" href="#"></a>';
     html += getLanguageSelector(languageCode);
+    html += "<hr>";
     let matches = data.matches;
-    html += "<br><br>";
     getStorage().get({
         dictionary: [],
         ignoredRules: []
@@ -239,7 +239,8 @@ function getLanguageSelector(languageCode) {
         "fa", "pl-PL", "pt-PT", "pt-BR", "ro-RO", "ru-RU", "sk-SK",
         "sl-SI", "es", "sv", "tl-PH", "ta-IN", "uk-UA"
     ];
-    var html = chrome.i18n.getMessage("language");
+    var html = "<div id='top'>";
+    html += chrome.i18n.getMessage("language");
     html += "&nbsp;<select id='language'>";
     for (var l in languages) {
         let langCode = languages[l];
@@ -255,6 +256,7 @@ function getLanguageSelector(languageCode) {
         html += "<option " + selected + " value='" + langCode + "'>" + translatedLang + "</option>";
     }
     html += "</select>";
+    html += "</div>";
     return html;
 }
 
