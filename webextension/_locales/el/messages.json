@@ -15,35 +15,35 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Check your texts for style and grammar problems everywhere on the web"
+    "message": "Ελέγξτε το κείμενο σας για γραμματικά λάθη στο διαδίκτυο."
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian."
+    "message": "Με αυτή την επέκταση μπορείτε να ελέγξετε το κείμενοι σας με το ελεύθερο εργαλείο γραμματικού ελέγχου LanguageTool. Το εργαλείο LanguageTool μπορεί να βρει πολλά λάθη τα οποία δεν ανιχνεύονται από έναν απλό ορθογραφικό διορθωτή. Υποστηρίζει περισσότερες από 25 γλώσσες, όπως αγγλικά, ισπανικά, γαλλικά, γερμανικά και ελληνικά."
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail."
+    "message": "Το LanguageTool έχει σχεδιαστεί ώστε να είναι απλό. Με το πάτημα ενός κουμπιού ή με μία προσαρμόσιμη συντόμευση πληκτρολογίου, το LanguageTool πραγματοποιεί άμεσα ορθογραφικό και γραμματικό έλεγχο οποιουδήποτε κειμένου έχει επιλεγεί. Το LanguageTool είναι συμβατό με όλα τα κείμενα, ανεξάρτητα από την πηγή, συμπεριλαμβανομένων των κοινωνικών δικτύων όπως το Facebook, το Twitter ή το LinkedIn και online υπηρεσίες e-mail, όπως το Gmail."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With LanguageTool our aim is to give users a fully-featured grammar checker and proofreader that will enable them to have control and confidence over their content. While LanguageTool is a vital extension for non-native speakers, it’s also smart enough to recognize mistakes that native speakers commonly make and it will improve your writing overall. This grammar and spelling correction works across all variations of common language; distinguishing between U.S. and British English, for instance. LanguageTool also features a personal dictionary for exceptions or words that you might commonly use but that are not found in a conventional dictionary. LanguageTool will recognize these words in future grammar checking and proofreading."
+    "message": "Με το LanguageTool στόχος μας είναι να προσφέρουμε στους χρήστες έναν γραμματικό διορθωτή που θα τους επιτρέψει να έχουν τον έλεγχο και την εμπιστοσύνη για το περιεχόμενό τους. Παρόλο που το LanguageTool είναι μία ζωτικής σημασίας επέκταση για τους μη φυσικούς ομιλητές, είναι επίσης αρκετά έξυπνος για να αναγνωρίσουν τα λάθη που φυσικούς ομιλητές συνήθως κάνουν και θα βελτιώσει το γράψιμό σας συνολικά. Αυτή η γραμματική και ορθογραφική διόρθωση λειτουργεί σε όλες τις παραλλαγές μίας γλώσσας, για παράδειγμα, διακρίνει μεταξύ των αγγλικών ΗΠΑ και των αγγλικών Βρετανίας. Επίσης, Το LanguageTool υποστηρίζει προσωπικό λεξικό με εξαιρέσεις ή λέξεις που μπορεί να χρησιμοποιείτε συνήθως και οι οποίες δεν βρίσκονται σε ένα συμβατικό λεξικό."
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Usage: Select the text that you want to check, or click in an editable field if you want to check its contents. Then click on the LT icon, which is displayed in the upper right corner of your browser. Alternatively, use Ctrl+Shift+Space as a shortcut."
+    "message": "Χρήση: Επιλέξτε το κείμενο που θέλετε να ελέγξετε, ή κάντε κλικ σε ένα επεξεργάσιμο πεδίο για να ελέγξετε τα περιεχόμενά του. Στη συνέχεια, κάντε κλικ στο εικονίδιο LT, το οποίο εμφανίζεται στην πάνω δεξιά γωνία του προγράμματος περιήγησης. Εναλλακτικά, χρησιμοποιήστε τα πλήκτρα Ctrl + Shift + Space ως συντόμευση."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and is 100% free and offers many of the same features."
+    "message": "Σε αντίθεση με το Grammarly και το Ginger, το LanguageTool υποστηρίζει πολλές γλώσσες, είναι 100% δωρεάν και προσφέρει σχεδόν τις ίδιες δυνατότητες."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store the texts you check. In fact, we don't even store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+    "message": "Το απόρρητο είναι σημαντικό για εμάς: Από προεπιλογή, αυτή η επέκταση θα ελέγξει το κείμενο σας στέλνοντας το στην διεύθυνση https://languagetool.org μέσω μίας κρυπτογραφημένης σύνδεσης. Δεν χρειάζεται λογαριασμός για να χρησιμοποιήσετε αυτή την επέκταση. Δεν αποθηκεύουμε τα κείμενα σας. Στην πραγματικότητα, δεν αποθηκεύουμε ούτε καν την IP διεύθυνσή σας. Δείτε στον σύνδεσμο https://languagetool.org/privacy/ την πολιτική απορρήτου μας."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Μπορείτε να αναφέρετε προγραμματιστικά λάθη στην διεύθυνση https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -459,7 +459,7 @@
   },
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
-    "message": "Check the current selection\nor editable field with LanguageTool"
+    "message": "Έλεγχος του επιλεγμένου κειμένου\nή πεδίου με το LanguageTool"
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
@@ -471,7 +471,7 @@
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Catalan:"
+    "message": "Προκαθορισμένη παραλλαγή Καταλανικών:"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
