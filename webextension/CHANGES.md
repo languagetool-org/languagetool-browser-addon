@@ -1,6 +1,8 @@
 # LanguageTool WebExtension Change Log
 
-### 0.9.9 (to be released)
+### 1.0.0 (to be released)
+  * show a hint about the keyboard shortcut (Chrome only)
+### 0.9.9 (2016-06-28)
   * improved design of popup dialog
 
 ### 0.9.8 (2016-06-15)
