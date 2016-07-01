@@ -5,6 +5,10 @@ body {
 	overflow-x: hidden;
 }
 
+.versionWarning {
+	background-color: yellow;
+}
+
 div {
 	font-size: 10px;
 }

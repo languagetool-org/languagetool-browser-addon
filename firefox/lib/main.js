@@ -149,8 +149,11 @@ function createReport(response, selectedTextProcessed) {
 	if(!ignoredPhrases) ignoredPhrases = "";
 
 	response=response.split("<error ");
+	
+	var migrateText = "<p class='versionWarning'><b>Please uninstall this add-on and use <a href='https://addons.mozilla.org/de/firefox/addon/languagetool/'>the new version instead</a>." +
+		              "The version of the add-on you are using will stop working in the future.</b></p>";
 
-	var noProblemsFoundText=returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>"
+	var noProblemsFoundText=migrateText+returnLanguage+"<div class=\"status\">"+_("noProblemsFound")+"</div>"
 		               +"<div id=\"clickAnywhereToClose\" class=\"status\">("+_("clickAnywhereToClose")+")</div>";
 
 	if(response.length<2) {
@@ -220,7 +223,7 @@ function createReport(response, selectedTextProcessed) {
 	}
 
 	// permissionNote at the end since we don't know whether there is any active text field (TODO must be possible to determine it)
-	var returnText=returnLanguage+returnTextGrammar+returnTextSpelling+permissionNote;
+	var returnText=migrateText+returnLanguage+returnTextGrammar+returnTextSpelling+permissionNote;
 
 	console.log("returnText: "+returnText);
 	return returnText;
