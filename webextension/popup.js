@@ -102,6 +102,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     }
     var html = '<a id="closeLink" href="#"></a>';
     html += getLanguageSelector(languageCode);
+    html += '<div id="outerShortcutHint"></div>';
     html += "<hr>";
     let matches = data.matches;
     getStorage().get({
@@ -210,6 +211,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             html += "*** running in test mode ***";
         }
         renderStatus(html);
+        setHintListener();
         addLinkListeners(response, tabs);
         setImageListener("plusImage", "mouseover", "images/plus_highlight.png");
         setImageListener("plusImage", "mouseout", "images/plus.png");
@@ -219,6 +221,39 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             callback(response.markupList);
         }
     });
+}
+
+function setHintListener() {
+    if (navigator.userAgent.indexOf("Chrome/") !== -1 || navigator.userAgent.indexOf("Chromium/") !== -1) {
+        // triggering the popup with a shortcut doesn't work yet in Firefox
+        chrome.commands.getAll(function(commands) {
+            getStorage().get({
+                showShortcutHint: true
+            }, function(items) {
+                if (items.showShortcutHint) {
+                    showShortcutHint(commands);
+                }
+            });
+        });
+    }
+}
+
+function showShortcutHint(commands) {
+    if (commands && commands.length && commands.length > 0 && commands[0].shortcut) {
+        let shortcut = commands[0].shortcut;
+        document.getElementById("outerShortcutHint").innerHTML =
+            "<div id='shortcutHint'>" +
+            chrome.i18n.getMessage("shortcutHint", ["<tt>" + shortcut + "</tt>"]) +
+            "&nbsp;<a id='closeShortcutHint' href='#'>" + chrome.i18n.getMessage("shortcutHintDismiss", [shortcut]) + "</a>" +
+            "</div>";
+        document.getElementById("closeShortcutHint").addEventListener("click", function() {
+            getStorage().set({
+                showShortcutHint: false
+            }, function () {
+                document.getElementById("outerShortcutHint").style.display = "none";
+            });
+        });
+    }
 }
 
 function setImageListener(className, eventName, newImage) {

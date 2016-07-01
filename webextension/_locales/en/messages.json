@@ -130,6 +130,20 @@
       }
     }
   },
+  "shortcutHint": {
+    "message": "You can trigger the text check with this shortcut: $shortcut$",
+    "description": "Text shown in the popup to let the user know about the shortcut key combination",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shit+Space"
+      }
+    }
+  },
+  "shortcutHintDismiss": {
+    "message": "Okay, got it",
+    "description": "Link to let the user hide the hint about the shortcut"
+  },
   "language": {
     "message": "Language:",
     "description": "Text shown in the popup to indicate the automatically detected language of the text checked"
