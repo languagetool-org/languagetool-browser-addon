@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "O LanguageTool é desenvolvido buscando simplicidade. Clicando em um botão ou usando atalhos de teclado customizáveis, ele instantaneamente verifica a ortografia e gramática de qualquer texto selecionado. É compatível com todos os textos, independentemente da fonte, incluindo redes sociais como Facebook, Twitter ou LinkedIn e serviços de e-mail online como o Gmail."
+    "message": "O LanguageTool é desenvolvido visando a simplicidade. Ele verifica instantaneamente a ortografia e gramática de qualquer texto selecionado clicando num botão ou atalho de teclado customizado. Ele é compatível com qualquer texto, independentemente da fonte, incluindo redes sociais como Facebook, Twitter ou LinkedIn e serviços de e-mail online como o Gmail (docs.google.com não é suportado atualmente)."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -402,6 +402,20 @@
   "serverText": {
     "description": "Options dialog: description of the text field for the API server URL",
     "message": "URL do servidor da API do LanguageTool:"
+  },
+  "shortcutHint": {
+    "description": "Text shown in the popup to let the user know about the shortcut key combination",
+    "message": "Você pode ativar a verificação de texto através desse atalho: $shortcut$",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shit+Space"
+      }
+    }
+  },
+  "shortcutHintDismiss": {
+    "description": "Link to let the user hide the hint about the shortcut",
+    "message": "OK, entendi"
   },
   "siteNotSupported": {
     "description": "Some sites like Google Docs are too complex, so we show this error",

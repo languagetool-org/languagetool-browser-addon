@@ -1,11 +1,11 @@
 {
   "addToDictionary": {
     "description": "Link shown in the popup to accept a word to the internal dictionary",
-    "message": "add to dictionary"
+    "message": "dodaj v slovar"
   },
   "addToDictionaryTitle": {
     "description": "Title hover shown in the popup to accept a word to the internal dictionary",
-    "message": "add \"$word$\" to personal dictionary",
+    "message": "dodaj »$word$« v osebni slovar",
     "placeholders": {
       "word": {
         "content": "$1",
@@ -19,11 +19,11 @@
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian."
+    "message": "S to razširitvijo lahko preverite besedilo z uporabo brezplačnega slovničnega in slogovnega preverjalnika LanguageTool. Slednji najde številne napake, ki jih navadno preverjanje črkovanja ne zazna, kot je napačna raba predlogov, postavljanje vejic, podvajanje besed itn. Podpira več kot 25 jezikov, med njimi slovenščino, angleščino, španščino, francoščino in nemščino."
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail."
+    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail (docs.google.com currently isn't supported)."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -43,7 +43,7 @@
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "O napakah poročajte na naslovu https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -79,11 +79,11 @@
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
-    "message": "Check text with LanguageTool"
+    "message": "Preveri besedilo z LanguageTool"
   },
   "contextMenuItemWithShortcut": {
     "description": "Text shown in the context menu, if available. The parenthesis show the shortcut.",
-    "message": "Check text with LanguageTool [$shortcut$]",
+    "message": "Preveri besedilo z LanguageTool [$shortcut$]",
     "placeholders": {
       "shortcut": {
         "content": "$1",
@@ -149,7 +149,7 @@
   },
   "dictionaryDesc": {
     "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking",
-    "message": "Personal dictionary words (one word per line):"
+    "message": "Besede osebnega slovarja (ena na vrstico):"
   },
   "el": {
     "description": "automatically added by injectTranslation.py",
@@ -209,7 +209,7 @@
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
-    "message": "Ignore lines starting with $char$ (typically quoted text)",
+    "message": "Prezri vrstice, ki se začenjajo s $char$ (običajno navedke)",
     "placeholders": {
       "char": {
         "content": "<span id='quoteChar'>&gt;</span>",
@@ -219,7 +219,7 @@
   },
   "ignoredRules": {
     "description": "Text shown at the bottom of the popup to turn on turned off rules again",
-    "message": "These rules have been turned off, click a rule to turn it on again:"
+    "message": "Naslednja pravila so izključena, s klikom jih znova vključite:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -239,7 +239,7 @@
   },
   "language": {
     "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
-    "message": "Language:"
+    "message": "Jezik:"
   },
   "lt": {
     "description": "automatically added by injectTranslation.py",
@@ -251,7 +251,7 @@
   },
   "motherTongueDesc": {
     "description": "Options dialog: text next to the 'mother tongue' selection",
-    "message": "Mother tongue:"
+    "message": "Materni jezik:"
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
@@ -403,6 +403,20 @@
     "description": "Options dialog: description of the text field for the API server URL",
     "message": "URL strežnika API LanguageTool:"
   },
+  "shortcutHint": {
+    "description": "Text shown in the popup to let the user know about the shortcut key combination",
+    "message": "You can trigger the text check with this shortcut: $shortcut$",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shit+Space"
+      }
+    }
+  },
+  "shortcutHintDismiss": {
+    "description": "Link to let the user hide the hint about the shortcut",
+    "message": "Prav, razumem"
+  },
   "siteNotSupported": {
     "description": "Some sites like Google Docs are too complex, so we show this error",
     "message": "Žal razširitev ne podpira tega spletnega mesta."
@@ -463,7 +477,7 @@
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
-    "message": "Turn off rule"
+    "message": "Izključi pravilo"
   },
   "uk": {
     "description": "automatically added by injectTranslation.py",
