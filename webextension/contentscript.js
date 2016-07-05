@@ -124,23 +124,16 @@ function applyCorrection(request) {
     let activeElem = document.activeElement;
     // Note: this duplicates the logic from getTextOfActiveElement():
     var found = false;
-    var selectionData = {};
-    if (request.replacement === '___none___') {
-        selectionData = {
-            offset: request.errorOffset,
-            length: request.errorText.length
-        };
-    }
     if (isSimpleInput(activeElem)) {
-        found = replaceIn(activeElem, "value", newMarkupList, selectionData);
+        found = replaceIn(activeElem, "value", newMarkupList);
     } else if (activeElem.hasAttribute("contenteditable")) {
-        found = replaceIn(activeElem, "innerHTML", newMarkupList, selectionData);  // contentEditable=true
+        found = replaceIn(activeElem, "innerHTML", newMarkupList);  // contentEditable=true
     } else if (activeElem.tagName === "IFRAME") {
         let activeElem2 = activeElem.contentWindow.document.activeElement;
         if (activeElem2 && activeElem2.innerHTML) {
-            found = replaceIn(activeElem2, "innerHTML", newMarkupList, selectionData);  // e.g. on wordpress.com
+            found = replaceIn(activeElem2, "innerHTML", newMarkupList);  // e.g. on wordpress.com
         } else {
-            found = replaceIn(activeElem2, "textContent", newMarkupList, selectionData);  // tinyMCE as used on languagetool.org
+            found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
         }
     }
     if (!found) {
@@ -158,19 +151,10 @@ function isSimpleInput(elem) {
     return false;
 }
     
-function replaceIn(elem, elemValue, markupList, replacementData) {
+function replaceIn(elem, elemValue, markupList) {
     if (elem && elem[elemValue]) {
-        if (replacementData.offset && replacementData.length) {
-            // select the incorrect text:
-            elem.selectionStart = replacementData.offset;
-            elem.selectionEnd = replacementData.offset + replacementData.length;
-            elem.focus();
-            // TODO: also scroll there if currently not visible
-            return true;
-        } else {
-            elem[elemValue] = Markup.markupList2html(markupList);
-            return true;
-        }
+        elem[elemValue] = Markup.markupList2html(markupList);
+        return true;
     }
     return false;
 }

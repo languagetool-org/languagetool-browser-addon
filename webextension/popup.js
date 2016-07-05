@@ -20,7 +20,6 @@
 
 let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in options.js
 let unsupportedSitesRegex = /^(https?:\/\/(docs|chrome).google.com.*)|(file:.*)/;
-let noReplacement = '___none___';
 
 var testMode = false;
 var serverUrl = defaultServerUrl;
@@ -323,27 +322,18 @@ function renderReplacements(context, m, createLinks) {
             html += "&nbsp; ";
         }
         if (createLinks) {
-            html += getReplacementLink(replacement, replacement, ruleId, errOffset, errorText);
+            html += "<a class='replacement' href='#' " +
+                "data-ruleid='" + ruleId + "'" +
+                "data-erroroffset='" + errOffset + "'" +
+                "data-errortext='" + Tools.escapeHtml(errorText) + "'" +
+                "data-replacement='" + Tools.escapeHtml(replacement) + "'" +
+                "'>&nbsp;" + Tools.escapeHtml(replacement) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
         } else {
             html += "<b>" + Tools.escapeHtml(replacement) + "</b>";
         }
     }
-    if (i++ > 0) {
-        html += "&nbsp; ";
-    }
-    // See https://github.com/languagetool-org/languagetool-browser-addon/issues/62:
-    html += getReplacementLink(">>", noReplacement, ruleId, errOffset, errorText);
     html += "</div>";
     return html;
-}
-
-function getReplacementLink(linkText, replacement, ruleId, errOffset, errorText) {
-    return "<a class='replacement' href='#' " +
-           "data-ruleid='" + ruleId + "'" +
-           "data-erroroffset='" + errOffset + "'" +
-           "data-errortext='" + Tools.escapeHtml(errorText) + "'" +
-           "data-replacement='" + Tools.escapeHtml(replacement) +
-           "'>&nbsp;" + Tools.escapeHtml(linkText) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
 }
 
 function addLinkListeners(response, tabs) {
@@ -405,15 +395,9 @@ function addLinkListeners(response, tabs) {
                     replacement: link.getAttribute('data-replacement'),
                     markupList: response.markupList
                 };
-                if (data.replacement === noReplacement) {
-                    chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
-                        self.close();
-                    });
-                } else {
-                    chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
-                        doCheck(tabs);   // re-check, as applying changes might change context also for other errors
-                    });
-                }
+                chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
+                    doCheck(tabs);   // re-check, as applying changes might change context also for other errors
+                });
             }
         });
     }

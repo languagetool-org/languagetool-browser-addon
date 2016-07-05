@@ -1,7 +1,6 @@
 # LanguageTool WebExtension Change Log
 
 ### 1.0.0 (to be released)
-  * new link that lets the user jump to the error, closing the popup
   * show a hint about the keyboard shortcut (Chrome only)
   
 ### 0.9.9 (2016-06-28)
