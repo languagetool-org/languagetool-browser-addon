@@ -310,8 +310,6 @@ function renderReplacements(context, m, createLinks) {
     let contextOffset = m.context.offset;
     let errLen = m.length;
     let errOffset = m.offset;
-    let contextLeft = context.substr(0, contextOffset).replace(/^\.\.\./, "");
-    let contextRight = context.substr(contextOffset + errLen).replace(/\.\.\.$/, "");
     let errorText = context.substr(contextOffset, errLen);
     var html = "<div class='replacements'>";
     var i = 0;
@@ -325,7 +323,7 @@ function renderReplacements(context, m, createLinks) {
             html += "&nbsp; ";
         }
         if (createLinks) {
-            html += getReplacementLink(replacement, replacement, ruleId, errOffset, contextLeft, contextRight, errorText);
+            html += getReplacementLink(replacement, replacement, ruleId, errOffset, errorText);
         } else {
             html += "<b>" + Tools.escapeHtml(replacement) + "</b>";
         }
@@ -334,17 +332,15 @@ function renderReplacements(context, m, createLinks) {
         html += "&nbsp; ";
     }
     // See https://github.com/languagetool-org/languagetool-browser-addon/issues/62:
-    html += getReplacementLink(">>", noReplacement, ruleId, errOffset, contextLeft, contextRight, errorText);
+    html += getReplacementLink(">>", noReplacement, ruleId, errOffset, errorText);
     html += "</div>";
     return html;
 }
 
-function getReplacementLink(linkText, replacement, ruleId, errOffset, contextLeft, contextRight, errorText) {
+function getReplacementLink(linkText, replacement, ruleId, errOffset, errorText) {
     return "<a class='replacement' href='#' " +
            "data-ruleid='" + ruleId + "'" +
            "data-erroroffset='" + errOffset + "'" +
-           "data-contextleft='" + Tools.escapeHtml(contextLeft) + "'" +
-           "data-contextright='" + Tools.escapeHtml(contextRight) + "'" +
            "data-errortext='" + Tools.escapeHtml(errorText) + "'" +
            "data-replacement='" + Tools.escapeHtml(replacement) +
            "'>&nbsp;" + Tools.escapeHtml(linkText) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
@@ -405,8 +401,6 @@ function addLinkListeners(response, tabs) {
                 let data = {
                     action: 'applyCorrection',
                     errorOffset: parseInt(link.getAttribute('data-erroroffset')),
-                    contextLeft: link.getAttribute('data-contextleft'),
-                    contextRight: link.getAttribute('data-contextright'),
                     errorText: link.getAttribute('data-errortext'),
                     replacement: link.getAttribute('data-replacement'),
                     markupList: response.markupList
