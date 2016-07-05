@@ -160,10 +160,23 @@ function isSimpleInput(elem) {
     
 function replaceIn(elem, elemValue, markupList, replacementData) {
     if (elem && elem[elemValue]) {
+        console.log("#1");
         if (replacementData.offset && replacementData.length) {
             // select the incorrect text:
-            elem.selectionStart = replacementData.offset;
-            elem.selectionEnd = replacementData.offset + replacementData.length;
+            /*console.log("elem: " + elem);
+            console.log(elem);
+            document.getSelection().anchorOffset = 2;
+            console.log(document.getSelection());
+            console.log("elem.selectionStart/end: " + elem.selectionStart + "/" + elem.selectionEnd);
+            console.log("elem.selectionStart/end: " + elem.selectionStart + "/" + elem.selectionEnd);
+            */
+            console.log("elem.contenteditable: " + elem.hasAttribute("contenteditable"));
+            if (elem.hasAttribute("contenteditable")) {
+                setSelectionRange(elem, replacementData.offset, replacementData.offset + replacementData.length);
+            } else {
+                elem.selectionStart = replacementData.offset;
+                elem.selectionEnd = replacementData.offset + replacementData.length;
+            }
             elem.focus();
             // TODO: also scroll there if currently not visible
             return true;
@@ -173,4 +186,58 @@ function replaceIn(elem, elemValue, markupList, replacementData) {
         }
     }
     return false;
+}
+
+// from http://stackoverflow.com/a/6242538/1582948:
+function getTextNodesIn(node) {
+    var textNodes = [];
+    if (node.nodeType == 3) {
+        textNodes.push(node);
+    } else {
+        var children = node.childNodes;
+        for (var i = 0, len = children.length; i < len; ++i) {
+            textNodes.push.apply(textNodes, getTextNodesIn(children[i]));
+        }
+    }
+    return textNodes;
+}
+
+// from http://stackoverflow.com/a/6242538/1582948:
+function setSelectionRange(el, start, end) {
+    console.log("2");
+    if (document.createRange && window.getSelection) {
+        console.log("2a");
+        let range = document.createRange();
+        range.selectNodeContents(el);
+        let textNodes = getTextNodesIn(el);
+        var foundStart = false;
+        var charCount = 0, endCharCount;
+        for (var i = 0, textNode; textNode = textNodes[i++]; ) {
+            endCharCount = charCount + textNode.length;
+            if (!foundStart && start >= charCount
+                && (start < endCharCount ||
+                (start == endCharCount && i <= textNodes.length))) {
+                range.setStart(textNode, start - charCount);
+                console.log("START: " + (start - charCount));
+                foundStart = true;
+            }
+            if (foundStart && end <= endCharCount) {
+                range.setEnd(textNode, end - charCount+1);
+                console.log("END: " + (end - charCount));
+                break;
+            }
+            charCount = endCharCount;
+        }
+        let sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    } else if (document.selection && document.body.createTextRange) {
+        console.log("2b");
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(el);
+        textRange.collapse(true);
+        textRange.moveEnd("character", end);
+        textRange.moveStart("character", start);
+        textRange.select();
+    }
 }
