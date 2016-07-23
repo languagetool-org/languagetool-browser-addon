@@ -46,6 +46,17 @@ function handleRequest(request, sender, callback) {
 
 function checkText(callback) {
     lastUseDate = new Date().getTime();
+    if (document.activeElement.tagName === "IFRAME") {
+        // this case happens e.g. in roundcube when selecting text in an email one is reading:
+        if (document.activeElement
+            && document.activeElement.contentWindow
+            && document.activeElement.contentWindow.document.getSelection()
+            && document.activeElement.contentWindow.document.getSelection().toString() !== "") {
+            // TODO: actually the text might be editable, e.g. on wordpress.com:
+            callback({markupList: [{text: document.activeElement.contentWindow.document.getSelection().toString()}], isEditableText: false});
+            return;
+        }
+    }
     let selection = window.getSelection();
     if (selection && selection.toString() !== "") {
         // TODO: because of this, a selection in a textarea will not offer clickable suggestions:

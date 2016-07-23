@@ -1,6 +1,10 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.0 (to be released)
+### 1.0.1 (to be released)
+  * fix: selection was ignored in iframes, i.e. the whole text was checked
+    instead (issue #59)
+
+### 1.0.0 (2016-07-11 for Firefox only)
   * show a hint about the keyboard shortcut (Chrome only)
   
 ### 0.9.9 (2016-06-28)
@@ -10,7 +14,8 @@
   * fix to work with `<input type="search">`, e.g. on bing.com
   
 ### 0.9.7 (2016-06-11 for Firefox only)
-  * disabled rules now show a number indicating how many more matches there will be when the rule gets activated again
+  * disabled rules now show a number indicating how many more matches there
+    will be when the rule gets activated again
   * fix: applying suggestions on e.g. wordpress.com removed line breaks
   * cleanups for Firefox (requires Firefox 48 or later)
 
