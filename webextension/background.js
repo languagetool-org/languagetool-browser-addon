@@ -1,5 +1,5 @@
 
-chrome.runtime.setUninstallURL("https://languagetool.org/chrome/uninstall.php");
+chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
 
 function onClickHandler(info, tab) {
   if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
