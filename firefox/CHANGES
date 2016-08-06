@@ -1,7 +1,6 @@
-0.8 (xx/xx/201x, LT x.x)
-- support for xx has been added to LanguageTool [update prefs]
-- new translations for xx
-- updated translations for xx
+0.7.2 (06/08/2016)
+- show a migration hint to https://addons.mozilla.org/de/firefox/addon/languagetool
+  as this add-on will stop working when the old HTTP API gets shut off
 
 0.7 (12/03/2015, LT 2.9)
 - support for Persian and Tamil has been added to LanguageTool
