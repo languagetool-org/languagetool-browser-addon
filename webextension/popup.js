@@ -63,7 +63,7 @@ function getCheckResult(markupList, callback, errorCallback) {
         quotedLinesIgnored = text != textOrig;
     }
     var params = 'disabledRules=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
-                 '&useragent=chrome-extension&text=' + encodeURIComponent(text);
+                 '&useragent=webextension&text=' + encodeURIComponent(text);
     if (motherTongue) {
         params += "&motherTongue=" + motherTongue;
     }
