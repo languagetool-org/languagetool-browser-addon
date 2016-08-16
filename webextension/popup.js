@@ -62,8 +62,16 @@ function getCheckResult(markupList, callback, errorCallback) {
         });
         quotedLinesIgnored = text != textOrig;
     }
+    var userAgent = "webextension";
+    if (Tools.isFirefox()) {
+        userAgent += "-firefox";
+    } else if (Tools.isChrome()) {
+        userAgent += "-chrome";
+    } else {
+        userAgent += "-unknown";
+    }
     var params = 'disabledRules=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
-                 '&useragent=webextension&text=' + encodeURIComponent(text);
+                 '&useragent=' + userAgent + '&text=' + encodeURIComponent(text);
     if (motherTongue) {
         params += "&motherTongue=" + motherTongue;
     }
