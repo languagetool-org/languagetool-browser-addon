@@ -1,8 +1,7 @@
 ## LanguageTool for Chrome
 
-A [LanguageTool](https://languagetool.org) extension for Chrome. Get it from:
-
-https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji
+A [LanguageTool](https://languagetool.org) extension [for Firefox](https://addons.mozilla.org/de/firefox/addon/languagetool/)
+and [for Chrome](https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji).
 
 ### Unit tests
 
@@ -20,11 +19,12 @@ are very incomplete yet).
 
 ### Testing in Firefox
 
-Go to `about:debugging`, enable add-on debugging and add a file from the extension directory.
-See https://blog.mozilla.org/addons/2016/04/14/developing-extensions-with-web-ext-1-0/ for details.
+You need an [unbranded build](https://wiki.mozilla.org/Add-ons/Extension_Signing#Unbranded_Builds) 
+of Firefox. Go to `about:debugging`, enable add-on debugging and load `manifest.json` from the
+extension directory. See https://blog.mozilla.org/addons/2016/04/14/developing-extensions-with-web-ext-1-0/
+for details.
 
 
 ### License
 
 Lesser General Public License 2.1 or later, see file `COPYING`
-
