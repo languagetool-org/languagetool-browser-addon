@@ -224,7 +224,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
 }
 
 function setHintListener() {
-    if (navigator.userAgent.indexOf("Chrome/") !== -1 || navigator.userAgent.indexOf("Chromium/") !== -1) {
+    if (Tools.isChrome()) {
         // triggering the popup with a shortcut doesn't work yet in Firefox
         chrome.commands.getAll(function(commands) {
             getStorage().get({

@@ -23,6 +23,14 @@ class Tools {
     constructor() {
     }
 
+    static isFirefox() {
+        return navigator.userAgent.indexOf("Firefox/") !== -1;
+    }
+
+    static isChrome() {
+        return navigator.userAgent.indexOf("Chrome/") !== -1 || navigator.userAgent.indexOf("Chromium/") !== -1;
+    }    
+
     static escapeHtml(s) {
         return s.replace(/&/g, '&amp;')
                 .replace(/>/g, '&gt;')
