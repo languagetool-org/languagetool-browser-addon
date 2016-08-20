@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.2 (to be released)
+  * some internal errors that cause a text check to fail are now sent to the
+    server for better analysis
+
 ### 1.0.1 (2016-08-16)
   * fix: selection was ignored in iframes, i.e. the whole text was checked
     instead (issue #59)

@@ -22,6 +22,22 @@ class Tools {
 
     constructor() {
     }
+    
+    static logOnServer(message, serverUrl) {
+        if (serverUrl.indexOf("https://languagetool.org") == -1) {
+            // these logging messages are only useful for the LT dev team
+            // to improve the add-on, so don't send anywhere else:
+            return;
+        }
+        let req = new XMLHttpRequest();
+        req.timeout = 60 * 1000; // milliseconds
+        let url = serverUrl + (serverUrl.endsWith("/") ? "log" : "/log");
+        req.open('POST', url);
+        req.onload = function() {
+            // do nothing (also ignore timeout and errors)
+        };
+        req.send("message=" + encodeURIComponent(message));
+    }
 
     static isFirefox() {
         return navigator.userAgent.indexOf("Firefox/") !== -1;

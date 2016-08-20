@@ -421,6 +421,7 @@ function handleCheckResult(response, tabs, callback) {
     if (!response) {
         // not sure *why* this happens...
         renderStatus(chrome.i18n.getMessage("freshInstallReload"));
+        Tools.logOnServer("freshInstallReload on " + tabs[0].url, serverUrl);
         return;
     }
     if (response.message) {
@@ -431,6 +432,7 @@ function handleCheckResult(response, tabs, callback) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage) {
         renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(errorMessage)));
+        Tools.logOnServer("couldNotCheckText on " + tabs[0].url, serverUrl);
         if (callback) {
             callback(response.markupList, errorMessage);
         }
@@ -503,6 +505,7 @@ function doCheck(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
         if (tabs[0].url.match(unsupportedSitesRegex)) {
             renderStatus(chrome.i18n.getMessage("siteNotSupported"));
+            Tools.logOnServer("siteNotSupported on " + tabs[0].url, serverUrl);
         } else {
             handleCheckResult(response, tabs);
         }
