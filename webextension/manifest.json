@@ -31,7 +31,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["contentscript.js", "markup.js"]
+      "js": ["contentscript.js", "markup.js", "tools.js"]
     },
     {
       "matches": ["https://languagetool.org/*", "https://www.languagetool.org/*"],

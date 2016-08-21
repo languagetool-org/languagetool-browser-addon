@@ -27,7 +27,7 @@ let unusedMinutesShowReminder = 0.5;
     
 function handleRequest(request, sender, callback) {
     if (request.action === 'checkText') {
-        checkText(callback);
+        checkText(callback, request);
     } else if (request.action === 'getCurrentText') {
         callback(getCurrentText());
     } else if (request.action === 'applyCorrection') {
@@ -44,7 +44,7 @@ function handleRequest(request, sender, callback) {
     }
 }
 
-function checkText(callback) {
+function checkText(callback, request) {
     lastUseDate = new Date().getTime();
     if (document.activeElement.tagName === "IFRAME") {
         // this case happens e.g. in roundcube when selecting text in an email one is reading:
@@ -86,6 +86,7 @@ function checkText(callback) {
             }
             if (!found) {
                 callback({message: e.toString()});
+                Tools.logOnServer("Exception and failing fallback in checkText: " + e.toString() + " on " + request.pageUrl, request.serverUrl);
             }
         }
     }
@@ -129,6 +130,7 @@ function applyCorrection(request) {
     } catch (e) {
         // e.g. when replacement fails because of complicated HTML
         alert(e.toString());
+        Tools.logOnServer("Exception in applyCorrection: " + e.toString() + " on " + request.pageUrl, request.serverUrl);
         return;
     }
     // TODO: active element might have changed in between?!
@@ -149,6 +151,7 @@ function applyCorrection(request) {
     }
     if (!found) {
         alert(chrome.i18n.getMessage("noReplacementPossible"));
+        Tools.logOnServer("Problem in applyCorrection: noReplacementPossible on " + request.pageUrl, request.serverUrl);
     }
 }
 

@@ -401,7 +401,9 @@ function addLinkListeners(response, tabs) {
                     errorOffset: parseInt(link.getAttribute('data-erroroffset')),
                     errorText: link.getAttribute('data-errortext'),
                     replacement: link.getAttribute('data-replacement'),
-                    markupList: response.markupList
+                    markupList: response.markupList,
+                    serverUrl: serverUrl,
+                    pageUrl: tabs[0].url
                 };
                 chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
                     doCheck(tabs);   // re-check, as applying changes might change context also for other errors
@@ -412,7 +414,7 @@ function addLinkListeners(response, tabs) {
 }
 
 function reCheck(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function (response) {
+    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function (response) {
         doCheck(tabs);
     });
 }
@@ -502,7 +504,7 @@ function startCheckMaybeWithWarning(tabs) {
 
 function doCheck(tabs) {
     renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
-    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText'}, function(response) {
+    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function(response) {
         if (tabs[0].url.match(unsupportedSitesRegex)) {
             renderStatus(chrome.i18n.getMessage("siteNotSupported"));
             Tools.logOnServer("siteNotSupported on " + tabs[0].url, serverUrl);
