@@ -1,6 +1,6 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.2 (to be released)
+### 1.0.2 (2016-08-21)
   * some internal errors that cause a text check to fail are now sent to the
     server for better analysis
 
