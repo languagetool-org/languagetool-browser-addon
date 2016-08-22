@@ -1,6 +1,6 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.3 (to be released)
+### 1.0.3 (2016-08-22)
   * more data (usage counter and add-on version) get transferred when users
     uninstall the add-on
 
