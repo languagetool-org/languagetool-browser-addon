@@ -1,7 +1,8 @@
 # LanguageTool WebExtension Change Log
 
 ### 1.0.3 (to be released)
-  * ...
+  * more data (usage counter and add-on version) get transferred when users
+    uninstall the add-on
 
 ### 1.0.2 (2016-08-21)
   * some internal errors that cause a text check to fail are now sent to the
