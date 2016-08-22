@@ -450,7 +450,8 @@ function startCheckMaybeWithWarning(tabs) {
             deVariant: "de-DE",
             ptVariant: "pt-PT",
             caVariant: "ca-ES",
-            allowRemoteCheck: false
+            allowRemoteCheck: false,
+            usageCounter: 0
         }, function(items) {
             serverUrl = items.apiServerUrl;
             if (serverUrl === 'https://languagetool.org:8081/') {
@@ -477,6 +478,7 @@ function startCheckMaybeWithWarning(tabs) {
             }
             if (items.allowRemoteCheck === true) {
                 doCheck(tabs);
+                getStorage().set({'usageCounter': items.usageCounter + 1}, function() {});
             } else {
                 var message = "<p>";
                 if (serverUrl === defaultServerUrl) {
