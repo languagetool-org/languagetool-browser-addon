@@ -478,7 +478,9 @@ function startCheckMaybeWithWarning(tabs) {
             }
             if (items.allowRemoteCheck === true) {
                 doCheck(tabs);
-                getStorage().set({'usageCounter': items.usageCounter + 1}, function() {});
+                let newCounter = items.usageCounter + 1;
+                getStorage().set({'usageCounter': newCounter}, function() {});
+                chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php?usageCounter=" + newCounter);
             } else {
                 var message = "<p>";
                 if (serverUrl === defaultServerUrl) {
