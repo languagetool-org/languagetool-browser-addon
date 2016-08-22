@@ -24,3 +24,18 @@
 var isInstalledNode = document.createElement('div');
 isInstalledNode.id = 'extension-is-installed';
 document.body.appendChild(isInstalledNode);
+
+/* transfer usage count on uninstall - doesn't work as this page
+   will only be called when the add-on has just been uninstalled...
+if (window.location.href && window.location.href == 'https://languagetool.org/webextension/uninstall.php') {
+    var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+    storage.get({
+        usageCounter: 0
+    }, function(items) {
+        let usageCounterDiv = document.getElementById('usageCounter');
+        if (usageCounterDiv) {
+            usageCounterDiv.value = items.usageCounter;
+        }
+    });
+}
+*/
