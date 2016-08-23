@@ -37,20 +37,20 @@ function getCheckResult(markupList, callback, errorCallback) {
     req.onload = function() {
         let response = req.response;
         if (!response) {
-            errorCallback(chrome.i18n.getMessage("noResponseFromServer", serverUrl));
+            errorCallback(chrome.i18n.getMessage("noResponseFromServer", serverUrl), "noResponseFromServer");
             return;
         }
         if (req.status !== 200) {
-            errorCallback(chrome.i18n.getMessage("noValidResponseFromServer", [serverUrl, req.response, req.status]));
+            errorCallback(chrome.i18n.getMessage("noValidResponseFromServer", [serverUrl, req.response, req.status]), "noValidResponseFromServer");
             return;
         }
         callback(response);
     };
     req.onerror = function() {
-        errorCallback(chrome.i18n.getMessage("networkError", serverUrl));
+        errorCallback(chrome.i18n.getMessage("networkError", serverUrl), "networkError");
     };
     req.ontimeout = function() {
-        errorCallback(chrome.i18n.getMessage("timeoutError", serverUrl));
+        errorCallback(chrome.i18n.getMessage("timeoutError", serverUrl), "timeoutError");
     };
     let text = Markup.markupList2text(markupList);
     if (ignoreQuotedLines) {
@@ -432,9 +432,9 @@ function handleCheckResult(response, tabs, callback) {
     }
     getCheckResult(response.markupList, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
-    }, function(errorMessage) {
+    }, function(errorMessage, errorMessageCode) {
         renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(errorMessage)));
-        Tools.logOnServer("couldNotCheckText on " + tabs[0].url, serverUrl);
+        Tools.logOnServer("couldNotCheckText on " + tabs[0].url  + ": " + errorMessageCode, serverUrl);
         if (callback) {
             callback(response.markupList, errorMessage);
         }
