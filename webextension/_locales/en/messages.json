@@ -80,6 +80,10 @@
     "message": "Sorry, this site is not supported by this extension.",
     "description": "Some sites like Google Docs are too complex, so we show this error"
   },
+  "webstoreSiteNotSupported": {
+    "message": "Sorry, Google Chrome prevents extensions to access the Chrome Web Store. Strange, isn't it?",
+    "description": "Error shown when Chrome extension is used on https://chrome.google.com/webstore, which doesn't work for technical reasons"
+  },
 
 
   "noResponseFromServer": {

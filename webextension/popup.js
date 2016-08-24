@@ -515,7 +515,10 @@ function startCheckMaybeWithWarning(tabs) {
 function doCheck(tabs) {
     renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
     chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function(response) {
-        if (tabs[0].url.match(unsupportedSitesRegex)) {
+        if (Tools.isChrome() && tabs[0].url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
+            renderStatus(chrome.i18n.getMessage("webstoreSiteNotSupported"));
+            Tools.logOnServer("siteNotSupported on " + tabs[0].url, serverUrl);
+        } else if (tabs[0].url.match(unsupportedSitesRegex)) {
             renderStatus(chrome.i18n.getMessage("siteNotSupported"));
             Tools.logOnServer("siteNotSupported on " + tabs[0].url, serverUrl);
         } else {
