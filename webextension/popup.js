@@ -515,12 +515,13 @@ function startCheckMaybeWithWarning(tabs) {
 function doCheck(tabs) {
     renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
     chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function(response) {
-        if (Tools.isChrome() && tabs[0].url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
+        let url = tabs[0].url ? tabs[0].url : "";
+        if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
             renderStatus(chrome.i18n.getMessage("webstoreSiteNotSupported"));
-            Tools.logOnServer("siteNotSupported on " + tabs[0].url, serverUrl);
-        } else if (tabs[0].url.match(unsupportedSitesRegex)) {
+            Tools.logOnServer("siteNotSupported on " + url, serverUrl);
+        } else if (url.match(unsupportedSitesRegex)) {
             renderStatus(chrome.i18n.getMessage("siteNotSupported"));
-            Tools.logOnServer("siteNotSupported on " + tabs[0].url, serverUrl);
+            Tools.logOnServer("siteNotSupported on " + url.replace(/file:.*/, "file:[...]"), serverUrl);  // don't log paths, may contain personal information
         } else {
             handleCheckResult(response, tabs);
         }

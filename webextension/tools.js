@@ -36,6 +36,7 @@ class Tools {
         req.onload = function() {
             // do nothing (also ignore timeout and errors)
         };
+        //console.log("Posting to " + url + ": " + message);
         req.send("message=" + encodeURIComponent(message));
     }
 
