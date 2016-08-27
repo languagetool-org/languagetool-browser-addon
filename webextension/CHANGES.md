@@ -1,6 +1,7 @@
 # LanguageTool WebExtension Change Log
 
 ### 1.0.4 (to be released)
+  * now also works for files loaded from the local disk ("file:///" URLs)
   * further improved for error logging
 
 ### 1.0.3 (2016-08-22)
