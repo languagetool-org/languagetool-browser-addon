@@ -53,18 +53,19 @@ function checkText(callback, request) {
             && document.activeElement.contentWindow.document.getSelection()
             && document.activeElement.contentWindow.document.getSelection().toString() !== "") {
             // TODO: actually the text might be editable, e.g. on wordpress.com:
-            callback({markupList: [{text: document.activeElement.contentWindow.document.getSelection().toString()}], isEditableText: false});
+            let text = document.activeElement.contentWindow.document.getSelection().toString();
+            callback({markupList: [{text: text}], isEditableText: false, url: request.pageUrl});
             return;
         }
     }
     let selection = window.getSelection();
     if (selection && selection.toString() !== "") {
         // TODO: because of this, a selection in a textarea will not offer clickable suggestions:
-        callback({markupList: [{text: selection.toString()}], isEditableText: false});
+        callback({markupList: [{text: selection.toString()}], isEditableText: false, url: request.pageUrl});
     } else {
         try {
             let markupList = getMarkupListOfActiveElement(document.activeElement);
-            callback({markupList: markupList, isEditableText: true});
+            callback({markupList: markupList, isEditableText: true, url: request.pageUrl});
         } catch(e) {
             //console.log("LanguageTool extension got error (document.activeElement: " + document.activeElement + "), will try iframes:");
             //console.log(e);
@@ -76,7 +77,7 @@ function checkText(callback, request) {
                 try {
                     let markupList = getMarkupListOfActiveElement(iframes[i].contentWindow.document.activeElement);
                     found = true;
-                    callback({markupList: markupList, isEditableText: true});
+                    callback({markupList: markupList, isEditableText: true, url: request.pageUrl});
                 } catch(e) {
                     // ignore - what else could we do here? We just iterate the frames until
                     // we find one with text in its activeElement

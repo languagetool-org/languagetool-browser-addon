@@ -5,6 +5,8 @@
   * further improvements for error logging
   * fix some cases of replacements not working, e.g. in the message view
     on upwork.com (#71)
+  * applying corrections on facebook.com has been disabled, as it makes
+    further edits of the text impossible (#70)
 
 ### 1.0.3 (2016-08-22)
   * more data (usage counter and add-on version) get transferred when users

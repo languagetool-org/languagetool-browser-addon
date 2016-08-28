@@ -24,6 +24,9 @@ let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with
 // docs.google.com: Google Docs has a too complicated DOM (but its own add-on framework)
 let unsupportedSitesRegex = /^(https?:\/\/(docs|chrome).google.com.*)/;
 
+// see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
+let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?facebook.com.*/;
+
 var testMode = false;
 var serverUrl = defaultServerUrl;
 var ignoreQuotedLines = true;
@@ -99,7 +102,7 @@ function getShortCode(languageCode) {
 }
 
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
-    let createLinks = response.isEditableText;
+    let createLinks = response.isEditableText && !response.url.match(unsupportedReplacementSitesRegex);
     let data = JSON.parse(resultJson);
     let language = data.language.name;
     let languageCode = data.language.code;
