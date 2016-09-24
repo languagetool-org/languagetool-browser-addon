@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.5 (2016-09-24)
+  * small visual improvement for Firefox 49: popup background is white again
+
 ### 1.0.4 (2016-08-28)
   * now also works for files loaded from the local disk ("file:///" URLs)
   * further improvements for error logging
