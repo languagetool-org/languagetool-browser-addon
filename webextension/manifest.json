@@ -21,7 +21,6 @@
   },
   "permissions": [
     "activeTab",
-    "https://languagetool.org:8081/",
     "storage",
     "contextMenus"
   ],
