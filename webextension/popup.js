@@ -171,6 +171,17 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                     ignoredRuleCounts[ruleId] = 1;
                 }
             } else {
+                // using a table here to avoid scrollbar problems (https://github.com/languagetool-org/languagetool-browser-addon/issues/72):
+                html += "<table width='100%'>";
+                html += "<tr>";
+                
+                html += "<td>";
+                html += Tools.escapeHtml(m.message);
+                html += renderContext(m.context.text, errStart, errLen);
+                html += renderReplacements(context, m, createLinks);
+                html += "</td>";
+                
+                html += "<td style='vertical-align: top'>";
                 if (isSpellingError) {
                     let escapedWord = Tools.escapeHtml(word);
                     html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
@@ -183,9 +194,10 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                         "' data-ruleDescription='" + Tools.escapeHtml(m.rule.description) + "'" +
                         " href='#' title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'><img class='bellImage' src='images/bell.png'></a></div>";
                 }
-                html += Tools.escapeHtml(m.message);
-                html += renderContext(m.context.text, errStart, errLen);
-                html += renderReplacements(context, m, createLinks);
+                html += "</td>";
+                
+                html += "</tr>";
+                html += "</table>";
                 html += "<hr>";
                 matchesCount++;
             }
