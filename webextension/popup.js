@@ -25,7 +25,7 @@ let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with
 let unsupportedSitesRegex = /^(https?:\/\/(docs|chrome).google.com.*)/;
 
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
-let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?facebook.com.*/;
+let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
 
 var testMode = false;
 var serverUrl = defaultServerUrl;
