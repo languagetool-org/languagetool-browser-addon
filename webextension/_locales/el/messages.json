@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Το LanguageTool έχει σχεδιαστεί ώστε να είναι απλό. Με το πάτημα ενός κουμπιού ή με μία προσαρμόσιμη συντόμευση πληκτρολογίου, το LanguageTool πραγματοποιεί άμεσα ορθογραφικό και γραμματικό έλεγχο οποιουδήποτε κειμένου έχει επιλεγεί. Το LanguageTool είναι συμβατό με όλα τα κείμενα, ανεξάρτητα από την πηγή, συμπεριλαμβανομένων των κοινωνικών δικτύων όπως το Facebook, το Twitter ή το LinkedIn και online υπηρεσίες e-mail, όπως το Gmail."
+    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -403,6 +403,20 @@
     "description": "Options dialog: description of the text field for the API server URL",
     "message": "LanguageTool API server URL:"
   },
+  "shortcutHint": {
+    "description": "Text shown in the popup to let the user know about the shortcut key combination",
+    "message": "You can trigger the text check with this shortcut: $shortcut$",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shit+Space"
+      }
+    }
+  },
+  "shortcutHintDismiss": {
+    "description": "Link to let the user hide the hint about the shortcut",
+    "message": "Okay, got it"
+  },
   "siteNotSupported": {
     "description": "Some sites like Google Docs are too complex, so we show this error",
     "message": "Αυτός ο ιστότοπος δεν υποστηρίζεται από την επέκταση."
@@ -484,6 +498,10 @@
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
     "message": "Προκαθορισμένη τοπική ρύθμιση Πορτογαλικών:"
+  },
+  "webstoreSiteNotSupported": {
+    "description": "Error shown when Chrome extension is used on https://chrome.google.com/webstore, which doesn't work for technical reasons",
+    "message": "Sorry, Google Chrome prevents extensions to access the Chrome Web Store. Strange, isn't it?"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",

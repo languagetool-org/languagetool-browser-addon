@@ -15,31 +15,31 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Проверка грамматики и стиля для текстов на любом сайте Интернета."
+    "message": "Проверка грамматики и стиля для текста любого сайта Интернета."
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "С помощью этого расширения вы можете проверить текст, используя свободную программу для проверки грамматики и стиля LanguageTool. LanguageTool находит много ошибок, которые не удаётся обнаружить при проверке орфографии, например повтор слов,  использование слов «одеть» или «надеть» и он может обнаружить некоторые проблемы в грамматике и стиле. Он поддерживает более чем 25 языков, включая английский, испанский, французский, немецкий, польский и русский."
+    "message": "С помощью этого расширения вы можете проверить текст, используя свободную программу для проверки грамматики и стиля LanguageTool. LanguageTool находит много ошибок, которые не удаётся обнаружить при обычной проверке орфографии, например повтор слов,  использование слов «одеть» или «надеть», и он может обнаружить некоторые проблемы в грамматике и стиле. Он поддерживает более чем 25 языков, включая английский, испанский, французский, немецкий, польский и русский."
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool создан быть простым в использовании. При нажатии значка или настраиваемого сочетания клавиш LanguageTool мгновенно проверяет на орфографию и грамматику любой выбранный текст. LanguageTool совместим с любым текстом и любым сайтом, включая социальные сети, такие как Facebook, Twitter или LinkedIn и сервисы электронной почты, такие как Gmail (docs.google.com пока не поддерживается)."
+    "message": "LanguageTool создан с расчётом на простоту использования. При нажатии значка или настраиваемого сочетания клавиш LanguageTool немедленно проверяет орфографию и грамматику в любом выбранном тексте. LanguageTool совместим с любым текстом и любым сайтом, включая социальные сети, такие как Facebook, Twitter или LinkedIn и сервисы электронной почты, такие как Gmail. Очень незначительное количество сайтов (docs.google.com и chrome.google.com)  пока не поддерживается."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool предоставляет пользователям полноценный корректор грамматики и орфографии, что позволит им иметь контроль за их текстами.  LanguageTool является важным расширением, который поможет иностранцам, а также достаточно умён, чтобы найти ошибки, которые носители языка часто делают, и это улучшит ваши письма в целом. Проверка грамматики и правописания работает для всех вариантов одного языка; и может находить различия например между американским и британским английским. В LanguageTool есть пользовательский словарь. В него можно добавить слова, которые вы могли часто использовать, но отсутствующие в обычном словаре. LanguageTool учтёт эти слова в будущем при проверке грамматики и орфографии."
+    "message": "LanguageTool предоставляет пользователям полноценный сервис проверки грамматики и орфографии.  LanguageTool является полезным расширением, которое поможет иностранцам. А так же LT достаточно умён, чтобы найти ошибки, которые часто делают даже носители языка, и это улучшит ваше письмо в целом. Проверка грамматики и правописания работает для всех вариантов одного языка; и может находить различия например между американским и британским английским. В LanguageTool есть пользовательский словарь. В него можно добавить слова, которые вы могли часто использовать, но отсутствующие в обычном словаре. LanguageTool учтёт эти слова в будущем при проверке грамматики и орфографии."
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Использование: Выделите текст, который необходимо проверить, или нажмите кнопку в редактируемом поле, если вы хотите проверить его содержимое. Затем щёлкните на значке LT, который отображается в верхнем правом углу вашего браузера. Можно также использовать сочетание клавиш Ctrl + Shift + Space."
+    "message": "Использование: Выделите текст, который необходимо проверить, или щёлкните мышкой по редактируемому полю, если необходимо проверить его содержимое. Затем щёлкните на значке LT, который отображается в верхнем правом углу вашего браузера. Можно также использовать сочетание клавиш Ctrl + Shift + Space."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "В отличие от Grammarly и Ginger, LanguageTool работает с текстами на нескольких языках, но при этом является свободным программным обеспечением и работает не хуже своих аналогов."
+    "message": "В отличие от Grammarly и Ginger, LanguageTool обрабатывает тексты на нескольких языках, но при этом является свободным программным обеспечением и работает не хуже своих аналогов."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Ваша приватность важна для нас: по умолчанию, это расширение будет проверять ваш текст, отправив его на https://languagetool.org через безопасное зашифрованное соединение. Учетная запись не требуется для использования этого расширения. Мы не храним тексты, которые вы проверяете. На самом деле мы даже не запоминаем ваш IP-адрес. Смотрите https://languagetool.org/privacy/ с описанием нашей политики конфиденциальности."
+    "message": "Ваша приватность важна для нас: по умолчанию это расширение будет проверять ваш текст, отправив его на https://languagetool.org через безопасное зашифрованное соединение. Учётная запись не требуется для использования этого расширения. Мы не храним тексты, которые вы проверяете. На самом деле мы даже не запоминаем ваш IP-адрес. Смотрите https://languagetool.org/privacy/ с описанием нашей политики конфиденциальности."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -201,7 +201,7 @@
   },
   "freshInstallReload": {
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
-    "message": "Если расширение было только что установлено или активировано, то необходимо перезагрузить вкладку, в которой необходимо проверить текст."
+    "message": "Если расширение было только что установлено или активировано, то необходимо перезагрузить вкладку, в которой требуется проверить текст."
   },
   "gl": {
     "description": "automatically added by injectTranslation.py",
@@ -219,7 +219,7 @@
   },
   "ignoredRules": {
     "description": "Text shown at the bottom of the popup to turn on turned off rules again",
-    "message": "Эти правила были отключены, щелкните здесь, чтобы включить их снова:"
+    "message": "Эти правила были отключены. Щелкните здесь, чтобы включить их снова:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -255,7 +255,7 @@
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
-    "message": "Выберите ваш родной язык для того, чтобы быть предупреждённым о наличии  межъязыковых омонимов в тексте, который был переведён на другой язык."
+    "message": "Выберите ваш родной язык для того, чтобы быть предупреждённым о наличии  межъязыковых омонимов в тексте, который был изначально создан не на вашем родном языке."
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",
@@ -317,7 +317,7 @@
   },
   "placeCursor1": {
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
-    "message": "Пожалуйста, установите курсор в редактируемое поле или выделите текст (во фрейме найден неактивный элемент)."
+    "message": "Пожалуйста, установите курсор в редактируемое поле или выделите текст (во фрейме не найден активный элемент)."
   },
   "placeCursor2": {
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
@@ -419,7 +419,7 @@
   },
   "siteNotSupported": {
     "description": "Some sites like Google Docs are too complex, so we show this error",
-    "message": "К сожалению этот сайт не поддерживается этим расширением."
+    "message": "Этот сайт не поддерживается этим расширением."
   },
   "sk": {
     "description": "automatically added by injectTranslation.py",
@@ -439,7 +439,7 @@
   },
   "textCheckedBy": {
     "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text",
-    "message": "Текст проверен через $serverUrl$",
+    "message": "Текст проверен с помощью $serverUrl$",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -459,7 +459,7 @@
   },
   "timeoutError": {
     "description": "Error message shown if API server doesn't respond timely",
-    "message": "Тайм-аут сервера - попробуйте позже ($serverUrl$)",
+    "message": "Тайм-аут сервера – попробуйте позже ($serverUrl$)",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -473,7 +473,7 @@
   },
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
-    "message": "Проверить с LanguageTool текущее выделение\nили редактируемое поле"
+    "message": "Проверить выделенный текст\nили поле ввода с помощью LanguageTool"
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
@@ -498,6 +498,10 @@
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
     "message": "Использовать этот вариант португальского:"
+  },
+  "webstoreSiteNotSupported": {
+    "description": "Error shown when Chrome extension is used on https://chrome.google.com/webstore, which doesn't work for technical reasons",
+    "message": "Google Chrome, к сожалению, предотвращает доступ расширений к Интернет-магазину Chrome. Странно, не так ли?"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",
