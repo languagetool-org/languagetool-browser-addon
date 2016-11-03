@@ -1,0 +1,324 @@
+{
+  "appDesc": {
+    "message": "Check your texts for style and grammar problems everywhere on the web",
+    "description": "Lihat deskripsi dari aplikasi, telah di tampilkan di web store."
+  },
+  "appStoreDesc10": {
+    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian.",
+    "description": "Deskripsi paragraf 1 di Google Chrome Web Store (Tidak muncul di ekstensi itu sendiri)"
+  },
+  "appStoreDesc20": {
+    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported.",
+    "description": "Deskripsi paragraf 2 di Google Chrome Web Store (Tidak muncul di ekstensi itu sendiri)"
+  },
+  "appStoreDesc30": {
+    "message": "With LanguageTool our aim is to give users a fully-featured grammar checker and proofreader that will enable them to have control and confidence over their content. While LanguageTool is a vital extension for non-native speakers, it’s also smart enough to recognize mistakes that native speakers commonly make and it will improve your writing overall. This grammar and spelling correction works across all variations of common language; distinguishing between U.S. and British English, for instance. LanguageTool also features a personal dictionary for exceptions or words that you might commonly use but that are not found in a conventional dictionary. LanguageTool will recognize these words in future grammar checking and proofreading.",
+    "description": "Deskripsi paragraf 3 di Google Chrome Web Store (Tidak muncul di ekstensi itu sendiri)"
+  },
+  "appStoreDesc40": {
+    "message": "Usage: Select the text that you want to check, or click in an editable field if you want to check its contents. Then click on the LT icon, which is displayed in the upper right corner of your browser. Alternatively, use Ctrl+Shift+Space as a shortcut.",
+    "description": "Deskripsi paragraf 4 di Google Chrome Web Store (Tidak muncul di ekstensi itu sendiri)"
+  },
+  "appStoreDesc60": {
+    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and is 100% free and offers many of the same features.",
+    "description": "Deskripsi paragraf 5 di Google Chrome Web Store (Tidak muncul di ekstensi itu sendiri)"
+  },
+  "appStoreDesc70": {
+    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store the texts you check. In fact, we don't even store your IP address. See https://languagetool.org/privacy/ for our privacy policy.",
+    "description": "Deskripsi paragraf 6 di Google Chrome Web Store (Tidak muncul di ekstensi itu sendiri)"
+  },
+  "appStoreDesc80": {
+    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues",
+    "description": "Deskripsi paragraf 7 di Google Chrome Web Store (Tidak muncul di ekstensi itu sendiri)"
+  },
+
+  "contextMenuItem": {
+    "message": "Check text with LanguageTool",
+    "description": "Teks muncul di menu konteks, jika tersedia."
+  },
+  "contextMenuItemWithShortcut": {
+    "message": "Check text with LanguageTool [$shortcut$]",
+    "description": "Teks muncul di menu konteks, jika tersedia. Dalam kurung menunjukkan jalan pintas.",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shift+Space"
+      }
+    }
+  },
+  "tooltip": {
+    "message": "Check the current selection\nor editable field with LanguageTool",
+    "description": "Tooltip muncul ketika meletakkan pointer di atas ekstensi ikon."
+  },
+  "placeCursor1": {
+    "message": "Please place the cursor in an editable field or select text (no active element in iframe found).",
+    "description": "Pesan kesalahan muncul ketika ekstensi tombol di klik tapi kursor tidak di bidang tidak bisa di edit dan disana tidak ada pilihan baik."
+  },
+  "placeCursor2": {
+    "message": "Please place the cursor in an editable field or select text (active element: $elem$).",
+    "description": "Pesan kesalahan muncul ketika ekstensi tombol di klik tapi kursor tidak di bidang tidak bisa di edit dan disana tidak ada pilihan baik.",
+    "placeholders": {
+      "elem": {
+        "content": "$1",
+        "example": "BODY"
+      }
+    }
+  },
+  "placeCursor3": {
+    "message": "Please place the cursor in an editable field or select text (no active element found).",
+    "description": "Pesan kesalahan muncul ketika ekstensi tombol di klik tapi kursor tidak di bidang tidak bisa di edit dan disana tidak ada pilihan baik."
+  },
+  "noReplacementPossible": {
+    "message": "Sorry, LanguageTool extension could not find error context in text",
+    "description": " Pesan galat muncul ketika ekstensi tidak bisa menerapkan saran dipilih oleh pengguna.
+    Error message shown when the extension could not apply the suggestion selected by the user. Mungkin terjadi dalam kondisi tertentu saat mengedit HTML."
+  },
+  "noReplacementPossible2": {
+    "message": "Sorry, could not replace error with suggestion. This can happen when editing HTML.",
+    "description": "Pesan kesalahan ditampilkan saat mencoba mengganti kesalahan dengan saran dalam HTML tertentu yang belum didukung"
+  },
+  "siteNotSupported": {
+    "message": "Sorry, this site is not supported by this extension.",
+    "description": "Beberapa situs seperti Google Docs itu terlalu rumit, jadi kami menunjukkan ini adalah kesalahan"
+  },
+  "webstoreSiteNotSupported": {
+    "message": "Sorry, Google Chrome prevents extensions to access the Chrome Web Store. Strange, isn't it?",
+    "description": "Kesalahan muncul ketika ekstensi Chrome digunakan pada https://chrome.google.com/webstore, dimana tidak bekerja karena alasan teknis"
+  },
+
+
+  "noResponseFromServer": {
+    "message": "No response from $serverUrl$",
+    "description": "pesan kesalahan ketika API server tidak merespon",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "noValidResponseFromServer": {
+    "message": "No valid response from $serverUrl$: $response$, code $status$",
+    "description": "pesan kesalahan ketika API server tidak merespon",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      },
+      "response": {
+        "content": "$2",
+        "example": "Page not found"
+      },
+      "status": {
+        "content": "$3",
+        "example": "404"
+      }
+    }
+  },
+  "networkError": {
+    "message": "Network error ($serverUrl$)",
+    "description": "Pesan kesalahan muncul ketika server API tidak dapat terhubung karena masalah jaringan",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "timeoutError": {
+    "message": "Timeout from server - please try again later ($serverUrl$)",
+    "description": "Pesan kesalahan ditampilkan ketika API server tidak merespon tepat waktu",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org:8081/"
+      }
+    }
+  },
+  "shortcutHint": {
+    "message": "You can trigger the text check with this shortcut: $shortcut$",
+    "description": "Teks yang ditampilkan dalam popup supaya pengguna mengetahui tentang kombinasi tombol jalan pintas",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Ctrl+Shit+Space"
+      }
+    }
+  },
+  "shortcutHintDismiss": {
+    "message": "Okay, got it",
+    "description": "Link untuk membiarkan pengguna menyembunyikan petunjuk tentang cara jalan pintas"
+  },
+  "language": {
+    "message": "Language:",
+    "description": "Teks yang ditampilkan dalam popup untuk menunjukkan mendeteksi bahasa otomatis dari teks yang telah diperiksa"
+  },
+  "detectedLanguage": {
+    "message": "Detected language: $language$",
+    "description": "Teks yang ditampilkan dalam popup untuk menunjukkan mendeteksi bahasa otomatis dari teks yang telah diperiksa",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English"
+      }
+    }
+  },
+  "noErrorsFound": {
+    "message": "No errors found",
+    "description": "Teks yang ditampilkan dalam popup ketika server tidak menemukan potensi kesalahan dalam teks untuk diperiksa"
+  },
+  "textCheckedRemotely": {
+    "message": "Text checked remotely by <a target='_blank' href='$url$'>languagetool.org</a>",
+    "description": "Teks yang ditampilkan dalam popup untuk membuat pengguna menyadari layanan remote yang digunakan untuk memeriksa teks mereka",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      }
+    }
+  },
+  "textCheckedBy": {
+    "message": "Text checked by $serverUrl$",
+    "description": "Teks yang ditampilkan dalam popup untuk membuat pengguna menyadari layanan remote yang digunakan untuk memeriksa teks mereka",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "quotedLinesIgnored": {
+    "message": "Quoted lines starting with $char$ have been ignored",
+    "description": "Teks yang ditampilkan dalam popup untuk membiarkan pengguna mengetahui ketika bagian dari teks telah diabaikan",
+    "placeholders": {
+      "char": {
+        "content": "<span class='quoteChar'>&gt;</span>",
+        "example": "(do not translate)"
+      }
+    }
+  },
+  "addToDictionary": {
+    "message": "add to dictionary",
+    "description": "Link ditampilkan dalam popup untuk menerima kata ke kamus internal"
+  },
+  "addToDictionaryTitle": {
+    "message": "add \"$word$\" to personal dictionary",
+    "description": "Judul melayang-layang ditampilkan dalam popup untuk menerima kata ke kamus internal",
+    "placeholders": {
+      "word": {
+        "content": "$1",
+        "example": "foobar"
+      }
+    }
+  },
+  "turnOffRule": {
+    "message": "Turn off rule",
+    "description": "Link ditampilkan di popup untuk mematikan, yaitu mengabaikan, sebuah aturan (aturan - bukan hanya pencocokan ini)"
+  },
+  "ignoredRules": {
+    "message": "These rules have been turned off, click a rule to turn it on again:",
+    "description": "Teks yang ditampilkan di bagian bawah popup untuk menghidupkan yang dimatikan aturan lagi"
+  },
+  "freshInstallReload": {
+    "message": "If you have just installed or (re-)activated this extension, please reload the tab first in which you want to check a text.",
+    "description": "Kesalahan ditampilkan ketika pengguna telah menginstal ekstensi Dan menyebutnya pada tab Yang Sudah Terbuka tetapi belum dimuat ulang"
+  },
+  "couldNotCheckText": {
+    "message": "Could not check text: $detail$",
+    "description": "Kesalahan ditampilkan di popup untuk menunjukkan kesalahan",
+    "placeholders": {
+      "detail": {
+        "content": "$1",
+        "example": "Network error (https://languagetool.org:8081/)"
+      }
+    }
+  },
+  "checkingProgress": {
+    "message": "Checking...",
+    "description": "Teks yang ditampilkan dalam popup disamping ikon berputar, menunjukkan bahwa cek tersebut sedang berlangsung"
+  },
+  "privacyNoteForDefaultServer": {
+    "message": "This extension will check your text by sending it to <a href='$serverUrl$' target='_blank'>$serverUrl$</a> over an encrypted connection. Your text will not be stored. For details, see <a href='$privacyUrl$' target='_blank'>our privacy policy</a>.",
+    "description": "ditampilkan pada pertama mulai ekstensi untuk membuat pengguna menyadari masalah privasi ketika menggunakan server dasara pada languagetool.org",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "https://languagetool.org"
+      },
+      "privacyUrl": {
+        "content": "$2",
+        "example": "https://languagetool.org/privacy/"
+      }
+    }
+  },
+  "privacyNoteForOtherServer": {
+    "message": "This extension will check your text by sending it to $serverUrl$. To switch back to the default server, please visit the extension's options page.",
+    "description": "ditampilkan pada start pertama ekstensi untuk membuat pengguna menyadari masalah privasi saat menggunakan beberapa selain server default",
+    "placeholders": {
+      "serverUrl": {
+        "content": "$1",
+        "example": "http://localhost:8081/"
+      }
+    }
+  },
+  "continue": {
+    "message": "Continue and don't ask again",
+    "description": "Link di bawah adalah catatan privasi pada penggunaan pertama"
+  },
+  "cancel": {
+    "message": "Cancel",
+    "description": "Link di bawah adalah catatan privasi pada penggunaan pertama"
+  },
+
+
+  "serverText": {
+    "message": "LanguageTool API server URL:",
+    "description": "Pilihan dialog: deskripsi dari bidang teks untuk URL server API"
+  },
+  "defaultServerLink": {
+    "message": "Use default",
+    "description": "Pilihan dialog: Link ke atur ulang URL dari API server untuk nilai dasar"
+  },
+  "ignoreQuotedLines": {
+    "message": "Ignore lines starting with $char$ (typically quoted text)",
+    "description": "Pilihan dialog: kotak centang untuk mengecualikan teks yang dikutip dari periksaaan",
+    "placeholders": {
+      "char": {
+        "content": "<span id='quoteChar'>&gt;</span>",
+        "example": "(do not translate)"
+      }
+    }
+  },
+  "motherTongueDesc": {
+    "message": "Mother tongue:",
+    "description": "Pilihan dialog: teks disebelah 'bahasa ibu' pilihan"
+  },
+  "motherTongueExpl": {
+    "message": "Set mother tongue if you want to be warned about false friends when checking texts not written in your mother tongue.",
+    "description": "Pilihan dialog: teks lebih deskriptif menjelaskan apakah pilihan bahasa ibu"
+  },
+  "variantEnDesc": {
+    "message": "Assume this variety of English:",
+    "description": "Pilihan dialog: mengatur varian bahasa"
+  },
+  "variantDeDesc": {
+    "message": "Assume this variety of German:",
+    "description": "Pilihan dialog: mengatur varian bahasa"
+  },
+  "variantPtDesc": {
+    "message": "Assume this variety of Portuguese:",
+    "description": "Pilihan dialog: mengatur varian bahasa"
+  },
+  "variantCaDesc": {
+    "message": "Assume this variety of Catalan:",
+    "description": "Pilihan dialog: mengatur varian bahasa"
+  },
+  "dictionaryDesc": {
+    "message": "Personal dictionary words (one word per line):",
+    "description": "Pilihan dialog: teks untuk textarea dengan kata-kata pengguna akan diabaikan untuk pemeriksaan ejaan"
+  },
+  "save": {
+    "message": "Save",
+    "description": "Pilihan dialog: tombol save"
+  }
+}
