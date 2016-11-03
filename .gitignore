@@ -2,5 +2,4 @@
 *.kate-swp
 .lgn
 locale~
-*.xpi
 updateLocales_dnaber.bash
