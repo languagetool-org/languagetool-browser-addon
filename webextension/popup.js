@@ -101,6 +101,30 @@ function getShortCode(languageCode) {
     return languageCode.replace(/-.*/, "");
 }
 
+function suggestionClass(match) {
+    if(isSpellingError(match)) {
+        return 'hiddenSpellError';
+    } else if (isSuggestion(match)) {
+        return 'hiddenSuggestion';
+    } else {
+        return 'hiddenGrammarError';
+    }
+}
+
+function isSpellingError(match) {
+    let ruleId = match.rule.id;
+    return ruleId.indexOf("SPELLER_RULE") >= 0 ||
+           ruleId.indexOf("MORFOLOGIK_RULE") >= 0 ||
+           ruleId.indexOf("HUNSPELL") >= 0
+}
+
+function isSuggestion(match) {
+    let issueType = match.rule.issueType;
+    return issueType === 'style' ||
+           issueType === 'locale-violation' ||
+           issueType === 'register'
+}
+
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let createLinks = response.isEditableText && !response.url.match(unsupportedReplacementSitesRegex);
     let data = JSON.parse(resultJson);
@@ -151,9 +175,10 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             let errLen = m.length;
             let word = context.substr(errStart, errLen);
             let ruleId = m.rule.id;
-            let isSpellingError = ruleId.indexOf("MORFOLOGIK") != -1 || ruleId.indexOf("HUNSPELL") != -1 || ruleId.indexOf("SPELLER_RULE") != -1;
             var ignoreError = false;
-            if (isSpellingError) {
+
+            html += "<div class=\"suggestionRow " + suggestionClass(m) + "\">\n"
+            if (isSpellingError(m)) {
                 // Also accept uppercase versions of lowercase words in personal dict:
                 let knowToDict = items.dictionary.indexOf(word) != -1;
                 if (knowToDict) {
@@ -171,7 +196,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                     ignoredRuleCounts[ruleId] = 1;
                 }
             } else {
-                if (isSpellingError) {
+                if (isSpellingError(m)) {
                     let escapedWord = Tools.escapeHtml(word);
                     html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
                         "title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'" +
@@ -186,6 +211,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 html += Tools.escapeHtml(m.message);
                 html += renderContext(m.context.text, errStart, errLen);
                 html += renderReplacements(context, m, createLinks);
+                html += "</div>\n"
                 html += "<hr>";
                 matchesCount++;
             }
