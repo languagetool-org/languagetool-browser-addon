@@ -2,3 +2,4 @@
 *.kate-swp
 .lgn
 locale~
+dist/*
