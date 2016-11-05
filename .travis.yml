@@ -1,10 +1,8 @@
-
 language: python
-
 python:
-  - '2.7'
-
-before_script:
+  - "2.7"
+install:
   - pip install pylint
-
-script: 'python pylint --rcfile=./pylintrc --errors-only *.py'
+  - pip install -r requirements.txt
+script:
+- pylint -E **/*.py
