@@ -14,13 +14,14 @@ import collections
 
 def loadLanguageDict(filename):
     codeToLang = collections.OrderedDict()
-    with open(filename) as File:
-        for line in File:
-            regex = re.compile("([a-z][a-z]|[a-z][a-z]-[A-Z][A-Z]|[a-z][a-z][a-z]|[a-z][a-z]-[A-Z][A-Z]-.*?)\\s*=\\s*(.*)")  # e.g. "de", "de-DE", "ast", "ca-ES-valencia"
-            match = regex.match(line)
-            if match:
-                codeToLang[match.group(1)] = match.group(2)
-        return codeToLang
+    with open(filename) as handle:
+        lines = handle.readlines()
+    for line in lines:
+        regex = re.compile("([a-z][a-z]|[a-z][a-z]-[A-Z][A-Z]|[a-z][a-z][a-z]|[a-z][a-z]-[A-Z][A-Z]-.*?)\\s*=\\s*(.*)")  # e.g. "de", "de-DE", "ast", "ca-ES-valencia"
+        match = regex.match(line)
+        if match:
+            codeToLang[match.group(1)] = match.group(2)
+    return codeToLang
 
 if len(sys.argv) != 4:
     sys.stderr.write("Usage: {} <translationLangCode> <englishFile> <translatedFile>\n".format(sys.argv[0]))
@@ -29,9 +30,8 @@ if len(sys.argv) != 4:
 translationLangCode = sys.argv[1]
 translationLangCodeShort = re.sub('_.*', '', translationLangCode)
 if translationLangCodeShort == "el":
-    coreDictFile = "../languagetool/languagetool-language-modules/{}/src/main/resources/org/languagetool/MessagesBundle_el_GR.properties".format(translationLangCodeShort)
-else:
-    coreDictFile = "../languagetool/languagetool-language-modules/{0}/src/main/resources/org/languagetool/MessagesBundle_{1}.properties".format(translationLangCodeShort, translationLangCode)
+    translationLangCode = "el_GR"
+coreDictFile = "../languagetool/languagetool-language-modules/{0}/src/main/resources/org/languagetool/MessagesBundle_{1}.properties".format(translationLangCodeShort, translationLangCode)
 codeToLang = loadLanguageDict(coreDictFile)
 englishFile = open(sys.argv[2]).read()
 newFile = englishFile
