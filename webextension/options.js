@@ -30,6 +30,7 @@ function saveOptions() {
         getStorage().set({
             apiServerUrl: url,
             ignoreQuotedLines: document.getElementById('ignoreQuotedLines').checked,
+            ignoreEmailSignature: document.getElementById('ignoreEmailSignature').checked,
             motherTongue: document.getElementById('motherTongue').value,
             enVariant: document.getElementById('variant-en').value,
             deVariant: document.getElementById('variant-de').value,
@@ -47,6 +48,7 @@ function restoreOptions() {
     document.getElementById('defaultServerLink').textContent = chrome.i18n.getMessage("defaultServerLink");
     document.getElementById('save').textContent = chrome.i18n.getMessage("save");
     document.getElementById('ignoreQuotedLinesDesc').innerHTML = chrome.i18n.getMessage("ignoreQuotedLines");
+    document.getElementById('ignoreEmailSignatureDesc').innerHTML = chrome.i18n.getMessage("ignoreEmailSignature");
     document.getElementById('motherTongueDesc').textContent = chrome.i18n.getMessage("motherTongueDesc");
     document.getElementById('motherTongueExpl').textContent = chrome.i18n.getMessage("motherTongueExpl");
     document.getElementById('variant-en-desc').textContent = chrome.i18n.getMessage("variantEnDesc");
@@ -57,6 +59,7 @@ function restoreOptions() {
     getStorage().get({
         apiServerUrl: defaultServerUrl,
         ignoreQuotedLines: true,
+        ignoreEmailSignature: true,
         motherTongue: "",
         enVariant: "en-US",
         deVariant: "de-DE",
@@ -66,6 +69,7 @@ function restoreOptions() {
     }, function(items) {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;
         document.getElementById('ignoreQuotedLines').checked = items.ignoreQuotedLines;
+        document.getElementById('ignoreEmailSignature').checked = items.ignoreEmailSignature;
         document.getElementById('motherTongue').value = items.motherTongue;
         document.getElementById('variant-en').value = items.enVariant;
         document.getElementById('variant-de').value = items.deVariant;

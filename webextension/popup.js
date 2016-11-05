@@ -31,6 +31,7 @@ var testMode = false;
 var serverUrl = defaultServerUrl;
 var ignoreQuotedLines = true;
 var quotedLinesIgnored = false;
+var ignoreEmailSignature = true;
 var motherTongue = "";
 var preferredVariants = [];
 var manuallySelectedLanguage = "";
@@ -67,6 +68,9 @@ function getCheckResult(markupList, callback, errorCallback) {
             return " ".repeat(match.length - 1) + "\n";
         });
         quotedLinesIgnored = text != textOrig;
+    }
+    if (ignoreEmailSignature) {
+        text = text.slice(0, text.indexOf("\n-- \n"));
     }
     var userAgent = "webextension";
     if (Tools.isFirefox()) {
@@ -451,6 +455,7 @@ function startCheckMaybeWithWarning(tabs) {
     getStorage().get({
             apiServerUrl: serverUrl,
             ignoreQuotedLines: ignoreQuotedLines,
+            ignoreEmailSignature: ignoreEmailSignature,
             motherTongue: motherTongue,
             enVariant: "en-US",
             deVariant: "de-DE",
@@ -469,6 +474,7 @@ function startCheckMaybeWithWarning(tabs) {
                 serverUrl = defaultServerUrl;
             }
             ignoreQuotedLines = items.ignoreQuotedLines;
+            ignoreEmailSignature = items.ignoreEmailSignature;
             motherTongue = items.motherTongue;
             if (items.enVariant) {
                 preferredVariants.push(items.enVariant);
