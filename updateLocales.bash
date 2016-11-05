@@ -14,7 +14,7 @@ for lang in `ls webextension/_locales | sed "s/en//g"`; do
 	if [ $lang = "el" ]; then
 		LTLANG="el_GR"
 	fi
-	curl --user $U:$P https://www.transifex.net/api/2/project/languagetool/resource/chrome-extension/translation/$LTLANG/?file > webextension/_locales/$lang/messages.json && \
+	curl --user $U:$P https://www.transifex.com/api/2/project/languagetool/resource/chrome-extension/translation/$LTLANG/?file > webextension/_locales/$lang/messages.json && \
   	  ./injectTranslations.py $lang webextension/_locales/en/messages.json webextension/_locales/$lang/messages.json > webextension/_locales/$lang/messages.json.tmp && \
 	  mv webextension/_locales/$lang/messages.json.tmp webextension/_locales/$lang/messages.json
 done
