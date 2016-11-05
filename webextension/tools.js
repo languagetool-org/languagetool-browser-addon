@@ -121,6 +121,16 @@ class Tools {
         }
     }
 
+    static hostAndPath(urlString) {
+        let url = new URL(urlString)
+        return url.hostname + url.pathname;
+    }
+
+    static currentTab(callback) {
+        return chrome.tabs.query({currentWindow: true, active: true}, (tab) => {
+            callback.call(this, tab[0]);
+        });
+    }
 }
 
 if (typeof module !== 'undefined') {

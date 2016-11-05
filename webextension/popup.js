@@ -95,6 +95,7 @@ function getCheckResult(markupList, callback, errorCallback) {
 
 function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
+    Callback.run('afterStatusRender');
 }
 
 function getShortCode(languageCode) {
@@ -550,3 +551,42 @@ document.addEventListener('DOMContentLoaded', function() {
 function getStorage() {
     return chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
 }
+
+function languageSelection() {
+    return document.getElementById('language');
+}
+
+function saveLanguageSelectionToStorage() {
+    let storage = getStorage();
+    if (languageSelection()) {
+        languageSelection().addEventListener('change', (event) => {
+            storage.get('siteLanguage', (result) => {
+                // getting current hostname and path
+                Tools.currentTab((tab) => {
+                    let listOfLanguages = result.siteLanguage || {};
+                    listOfLanguages[Tools.hostAndPath(tab.url)] = event.target.value;
+                    storage.set({
+                        siteLanguage: listOfLanguages
+                    });
+                });
+            });
+        });
+    }
+}
+
+function setLanguageSelectionValue() {
+    let languageElm = languageSelection();
+    if (languageElm) {
+        let storage = getStorage();
+        storage.get('siteLanguage', (result) => {
+            Tools.currentTab((tab) => {
+                let language = result.siteLanguage[Tools.hostAndPath(tab.url)];
+                if (language) {
+                    languageElm.value = language;
+                }
+            })
+        });
+    }
+}
+Callback.add('afterStatusRender', setLanguageSelectionValue);
+Callback.add('afterStatusRender', saveLanguageSelectionToStorage);
