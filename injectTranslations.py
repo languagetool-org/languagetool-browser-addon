@@ -11,6 +11,14 @@ import re
 import sys
 import collections
 
+if len(sys.argv) != 4:
+    sys.stderr.write("Usage: {} <translationLangCode> <englishFile> <translatedFile>\n".format(sys.argv[0]))
+    sys.exit()
+
+translationLangCode = sys.argv[1]
+englishFile = open(sys.argv[2]).read()
+translatedFile = open(sys.argv[3])
+
 
 def loadLanguageDict(filename):
     codeToLang = collections.OrderedDict()
@@ -23,19 +31,12 @@ def loadLanguageDict(filename):
             codeToLang[match.group(1)] = match.group(2)
     return codeToLang
 
-if len(sys.argv) != 4:
-    sys.stderr.write("Usage: {} <translationLangCode> <englishFile> <translatedFile>\n".format(sys.argv[0]))
-    sys.exit()
-
-translationLangCode = sys.argv[1]
 translationLangCodeShort = re.sub('_.*', '', translationLangCode)
 if translationLangCodeShort == "el":
     translationLangCode = "el_GR"
 coreDictFile = "../languagetool/languagetool-language-modules/{0}/src/main/resources/org/languagetool/MessagesBundle_{1}.properties".format(translationLangCodeShort, translationLangCode)
 codeToLang = loadLanguageDict(coreDictFile)
-englishFile = open(sys.argv[2]).read()
 newFile = englishFile
-translatedFile = open(sys.argv[3])
 translatedJson = json.loads(translatedFile.read(),
                             object_pairs_hook=collections.OrderedDict)
 
