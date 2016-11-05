@@ -44,7 +44,7 @@ for k in translatedJson:
     translation = translatedJson[k]['message'].replace("\n", "\\\\n").replace("\"", "\\\"")
     backup = newFile
     quoteRegex = '"[^"\\\]*(?:\\\.[^"\\\]*)*"'    # see http://stackoverflow.com/questions/430759/
-    searchStr = '(" {0} ": {{\\s*"message":\\s* {1} )'.format(k, quoteRegex)
+    searchStr = '("{0}": {{\\s*"message":\\s*{1})'.format(k, quoteRegex)
     newFile = re.sub(searchStr,
                      '"{0}": {{\n    "message": "{1}"'.format(k, translation),
                      newFile,
