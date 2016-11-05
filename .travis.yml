@@ -5,8 +5,6 @@ python:
   - '2.7'
 
 before_script:
-  - wget http://googleappengine.googlecode.com/files/google_appengine_1.8.0.zip -nv
-  - unzip -q google_appengine_1.8.0.zip
   - pip install webtest pylint
 
 script: 'python pylint --rcfile=./pylintrc --errors-only *.py'
