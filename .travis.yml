@@ -1,12 +1,7 @@
-language: python
-
-sudo: false
-
-python:
-  - "2.7"
-
-install:
-  - "pip install pylint"
-
-script:
-- pylint injectTranslations.py
+node_js:
+  - "0.10"
+before_install:
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - npm install
+  - bower install
