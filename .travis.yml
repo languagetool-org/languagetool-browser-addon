@@ -1,12 +1,11 @@
 language: python
-
-python:
-  - "2.7"
-  - "3.4"
+python: "2.7"
+sudo: false
 
 install:
-  - "pip install -r requirements.txt"
-  - "pip install pylint"
+  - pip install -q -r requirements.txt
+  - pip install -q -r test-requirements.txt
 
-script:
-- pylint *.py
+before_script: "flake8 --ignore=E402 --max-line-length=100 --show-source --count ."
+
+script: "python *.py test"
