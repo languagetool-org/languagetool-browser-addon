@@ -1,7 +1,11 @@
-node_js:
-  - "0.10"
-before_install:
-  - npm install -g grunt-cli
-  - npm install -g bower
-  - npm install
-  - bower install
+language: python
+
+python:
+  - "2.7"
+  - "3.4"
+
+install:
+  - "pip install pylint"
+
+script:
+- pylint *.py
