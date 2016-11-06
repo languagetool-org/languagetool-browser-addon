@@ -97,6 +97,11 @@ function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
 }
 
+function renderError(errorHtml) {
+    var html = "<div class='errorStyle'>" +  errorHtml + "</div>";
+    document.getElementById('status').innerHTML = html;
+}
+
 function getShortCode(languageCode) {
     return languageCode.replace(/-.*/, "");
 }
@@ -428,21 +433,21 @@ function reCheck(tabs) {
 function handleCheckResult(response, tabs, callback) {
     if (!response) {
         // not sure *why* this happens...
-        renderStatus("<div class='errorStyle'>" + chrome.i18n.getMessage("freshInstallReload") + "</div>");
+        renderError(chrome.i18n.getMessage("freshInstallReload"));
         Tools.logOnServer("freshInstallReload on " + tabs[0].url, serverUrl);
         return;
     }
     if (response.message) {
-        renderStatus("<div class='errorStyle'>" + Tools.escapeHtml(response.message) + "</div>");
+        renderError(Tools.escapeHtml(response.message));
         // renderStatus(Tools.escapeHtml(response.message));
         return;
     }
     getCheckResult(response.markupList, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
-        var messageStyle = "<div class='errorStyle'>" +
-            "<img src='images/404.jpg' class='imgBackgroundError'>" + chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(errorMessageCode)) +"</div>";
-        renderStatus(messageStyle);
+        var messageStyle =
+            "<img src='images/404.jpg' class='imgBackgroundError'>" + chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(errorMessageCode));
+        renderError(messageStyle);
         Tools.logOnServer("couldNotCheckText on " + tabs[0].url  + ": " + errorMessageCode, serverUrl);
         if (callback) {
             callback(response.markupList, errorMessage);
@@ -523,10 +528,10 @@ function doCheck(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function(response) {
         let url = tabs[0].url ? tabs[0].url : "";
         if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
-            renderStatus("<div class='errorStyle'>" + chrome.i18n.getMessage("webstoreSiteNotSupported") +"</div>");
+            renderError(chrome.i18n.getMessage("webstoreSiteNotSupported"));
             Tools.logOnServer("siteNotSupported on " + url, serverUrl);
         } else if (url.match(unsupportedSitesRegex)) {
-            renderStatus("<div class='errorStyle'>" + chrome.i18n.getMessage("siteNotSupported") + "</div>");
+            renderError(chrome.i18n.getMessage("siteNotSupported"));
             Tools.logOnServer("siteNotSupported on " + url.replace(/file:.*/, "file:[...]"), serverUrl);  // don't log paths, may contain personal information
         } else {
             handleCheckResult(response, tabs);
