@@ -1,11 +1,12 @@
-## LanguageTool for Chrome
+## LanguageTool for Firefox and Chrome
 
 A [LanguageTool](https://languagetool.org) extension [for Firefox](https://addons.mozilla.org/de/firefox/addon/languagetool/)
 and [for Chrome](https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji).
 
 ### Unit tests
 
-Run `mocha`. To run tests continuously during development, run `mocha -w`
+Install mocha [as documented on their homepage](https://mochajs.org/). Then run `mocha`.
+To run tests continuously during development, run `mocha -w`
 (this will automatically run the tests as soon as the source files change).
 Tests should work with Node.js v4.2.1 or later. You can switch between different
 Node.js versions using e.g. `nvm use v4.2.1`.
