@@ -24,6 +24,8 @@ let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with
 // docs.google.com: Google Docs has a too complicated DOM (but its own add-on framework)
 let unsupportedSitesRegex = /^(https?:\/\/(docs|chrome).google.com.*)/;
 
+let googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm";
+
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
 let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
 
@@ -549,8 +551,13 @@ function doCheck(tabs) {
             renderStatus(chrome.i18n.getMessage("webstoreSiteNotSupported"));
             Tools.logOnServer("siteNotSupported on " + url, serverUrl);
         } else if (url.match(unsupportedSitesRegex)) {
-            renderStatus(chrome.i18n.getMessage("siteNotSupported"));
-            Tools.logOnServer("siteNotSupported on " + url.replace(/file:.*/, "file:[...]"), serverUrl);  // don't log paths, may contain personal information
+            if (url.match(/docs\.google\.com/)) {
+                renderStatus(chrome.i18n.getMessage("googleDocsNotSupported", googleDocsExtension));
+                Tools.logOnServer("link to google docs extension");
+            } else {
+                renderStatus(chrome.i18n.getMessage("siteNotSupported"));
+                Tools.logOnServer("siteNotSupported on " + url.replace(/file:.*/, "file:[...]"), serverUrl);  // don't log paths, may contain personal information
+            }
         } else {
             handleCheckResult(response, tabs);
         }
