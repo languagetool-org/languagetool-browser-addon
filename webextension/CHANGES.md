@@ -1,5 +1,10 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.6 (2016-..-..)
+  * small visual improvement for popup: show red/yellow/blue for error
+    type (red: spelling, yellow: grammar/semantics, blue: style), thanks
+    to Yana Agun Siswanto
+
 ### 1.0.5 (2016-09-24)
   * small visual improvement for Firefox 49: popup background is white again
 
