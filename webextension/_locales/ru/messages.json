@@ -207,6 +207,16 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Галисийский"
   },
+  "googleDocsNotSupported": {
+    "description": "Google Docs is too complex to be supported, so we show this error",
+    "message": "Cайт Google Docs не поддерживается этим расширением. Пожалуйста, установите <a target='_blank' href='$url$'>это расширение</a>, которое оптимизировано для Google Docs.",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm"
+      }
+    }
+  },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
     "message": "Игнорировать строки, начинающиеся с $char$ (обычно это цитаты)",
@@ -361,14 +371,6 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Португальский"
   },
-  "pt_BR": {
-    "description": "automatically added by injectTranslation.py",
-    "message": "Португальский (Бразилия)"
-  },
-  "pt_PT": {
-    "description": "automatically added by injectTranslation.py",
-    "message": "Португальский (Португалия)"
-  },
   "pt_PT_post_reform": {
     "description": "automatically added by injectTranslation.py",
     "message": "Португальский (Португалия, после реформы)"
@@ -418,7 +420,7 @@
     "message": "Ок, получить!"
   },
   "siteNotSupported": {
-    "description": "Some sites like Google Docs are too complex, so we show this error",
+    "description": "Some sites are too complex, so we show this error",
     "message": "Этот сайт не поддерживается этим расширением."
   },
   "sk": {
