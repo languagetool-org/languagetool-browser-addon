@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "LanguageTool - Grammar and Style Checker",
   "short_name": "LanguageTool",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
   
