@@ -514,10 +514,8 @@ function startCheckMaybeWithWarning(tabs) {
                 doCheck(tabs);
                 let newCounter = items.usageCounter + 1;
                 getStorage().set({'usageCounter': newCounter}, function() {});
-                let version = chrome.app ? chrome.app.getDetails().version : "unknown";  // chrome.app is unknown in FF 48
                 chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php?" +
-                    "usageCounter=" + newCounter +
-                    "&version=" + version);
+                    "usageCounter=" + newCounter);
             } else {
                 var message = "<p>";
                 if (serverUrl === defaultServerUrl) {
