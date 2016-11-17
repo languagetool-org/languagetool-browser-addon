@@ -104,7 +104,7 @@ function getShortCode(languageCode) {
 }
 
 function suggestionClass(match) {
-    if(isSpellingError(match)) {
+    if (isSpellingError(match)) {
         return 'hiddenSpellError';
     } else if (isSuggestion(match)) {
         return 'hiddenSuggestion';
@@ -179,7 +179,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             let ruleId = m.rule.id;
             var ignoreError = false;
 
-            html += "<div class=\"suggestionRow " + suggestionClass(m) + "\">\n"
             if (isSpellingError(m)) {
                 // Also accept uppercase versions of lowercase words in personal dict:
                 let knowToDict = items.dictionary.indexOf(word) != -1;
@@ -198,6 +197,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                     ignoredRuleCounts[ruleId] = 1;
                 }
             } else {
+                html += "<div class=\"suggestionRow " + suggestionClass(m) + "\">\n";
                 if (isSpellingError(m)) {
                     let escapedWord = Tools.escapeHtml(word);
                     html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
@@ -213,7 +213,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 html += Tools.escapeHtml(m.message);
                 html += renderContext(m.context.text, errStart, errLen);
                 html += renderReplacements(context, m, createLinks);
-                html += "</div>\n"
+                html += "</div>\n";
                 html += "<hr>";
                 matchesCount++;
             }

@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.7 (2016-11-17)
+  * bugfix for visual improvements introduced in previous version
+
 ### 1.0.6 (2016-11-14)
   * small visual improvement for popup: show red/yellow/blue for error
     type (red: spelling, yellow: grammar/semantics, blue: style), thanks
