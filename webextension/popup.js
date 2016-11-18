@@ -514,8 +514,7 @@ function startCheckMaybeWithWarning(tabs) {
                 doCheck(tabs);
                 let newCounter = items.usageCounter + 1;
                 getStorage().set({'usageCounter': newCounter}, function() {});
-                chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php?" +
-                    "usageCounter=" + newCounter);
+                chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
             } else {
                 var message = "<p>";
                 if (serverUrl === defaultServerUrl) {
