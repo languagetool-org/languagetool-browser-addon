@@ -205,7 +205,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                         "href='' class='addToDictLink'>" +
                         "<img class='plusImage' src='images/plus.png'></a></div>";
                 } else {
-                    // Not turned on yet, see https://github.com/languagetool-org/languagetool-browser-addon/issues/9
                     html += "<div class='turnOffRule'><a class='turnOffRuleLink' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
                         "' data-ruleDescription='" + Tools.escapeHtml(m.rule.description) + "'" +
                         " href='#' title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'><img class='bellImage' src='images/bell.png'></a></div>";
