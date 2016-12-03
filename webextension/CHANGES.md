@@ -1,6 +1,6 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.8 (2016-12-03)
+### 1.0.9 (2016-12-03)
   * bugfix for Firefox 50: hovering over the rule/spelling icons
     made the content of the popup suddenly scroll up
 
