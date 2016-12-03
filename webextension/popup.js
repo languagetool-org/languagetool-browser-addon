@@ -200,14 +200,12 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 html += "<div class=\"suggestionRow " + suggestionClass(m) + "\">\n";
                 if (isSpellingError(m)) {
                     let escapedWord = Tools.escapeHtml(word);
-                    html += "<div class='addToDict'><a data-addtodict='" + escapedWord + "' " +
-                        "title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'" +
-                        "href='' class='addToDictLink'>" +
-                        "<img class='plusImage' src='images/plus.png'></a></div>";
+                    html += "<div class='addToDict' data-addtodict='" + escapedWord + "'" +
+                        " title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'></div>";
                 } else {
-                    html += "<div class='turnOffRule'><a class='turnOffRuleLink' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
+                    html += "<div class='turnOffRule' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
                         "' data-ruleDescription='" + Tools.escapeHtml(m.rule.description) + "'" +
-                        " href='#' title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'><img class='bellImage' src='images/bell.png'></a></div>";
+                        " title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'></div>";
                 }
                 html += Tools.escapeHtml(m.message);
                 html += renderContext(m.context.text, errStart, errLen);
@@ -254,10 +252,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         renderStatus(html);
         setHintListener();
         addLinkListeners(response, tabs);
-        setImageListener("plusImage", "mouseover", "images/plus_highlight.png");
-        setImageListener("plusImage", "mouseout", "images/plus.png");
-        setImageListener("bellImage", "mouseover", "images/bell_highlight.png");
-        setImageListener("bellImage", "mouseout", "images/bell.png");
         if (callback) {
             callback(response.markupList);
         }
@@ -293,15 +287,6 @@ function showShortcutHint(commands) {
             }, function () {
                 document.getElementById("outerShortcutHint").style.display = "none";
             });
-        });
-    }
-}
-
-function setImageListener(className, eventName, newImage) {
-    let images = document.getElementsByClassName(className);
-    for (var i = 0; i < images.length; i++) {
-        images[i].addEventListener(eventName, function(event) {
-            event.target.src = newImage;
         });
     }
 }
@@ -386,9 +371,20 @@ function addLinkListeners(response, tabs) {
     closeLink.addEventListener("click", function() {
         self.close();
     });
-    let links = document.getElementsByTagName("a");
-    for (var i = 0; i < links.length; i++) {
-        let link = links[i];
+    addListenerActions(document.getElementsByTagName("a"), tabs, response);
+    addListenerActions(document.getElementsByTagName("div"), tabs, response);
+}
+
+function addListenerActions(elements, tabs, response) {
+    for (var i = 0; i < elements.length; i++) {
+        let link = elements[i];
+        let isRelevant = link.getAttribute("data-ruleIdOn")
+                      || link.getAttribute("data-ruleIdOff")
+                      || link.getAttribute('data-addtodict')
+                      || link.getAttribute('data-errortext');
+        if (!isRelevant) {
+            continue;
+        }
         link.addEventListener("click", function() {
             let storage = getStorage();
             if (link.getAttribute('data-ruleIdOn')) {

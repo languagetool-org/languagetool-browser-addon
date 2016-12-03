@@ -111,9 +111,16 @@
       }
       .addToDict {
           float: right;
+          background: url(images/plus.png) no-repeat;
+          width: 18px;
+          height: 18px;
           margin-top: 5px;
           margin-left: 10px;
           margin-bottom: 10px;
+      }
+      .addToDict:hover {
+          background: url(images/plus_highlight.png) no-repeat;
+          cursor: pointer;
       }
       .addToDictLink {
           padding-left: 4px;
@@ -121,9 +128,18 @@
       }
       .turnOffRule {
           float: right;
+          background: url(images/bell.png) no-repeat;
+          width: 18px;
+          height: 20px;
           margin-top: 5px;
           margin-left: 10px;
           margin-bottom: 10px;
+      }
+      .turnOffRule:hover {
+          background: url(images/bell_highlight.png) no-repeat;
+          width: 18px;
+          height: 20px;
+          cursor: pointer;
       }
       .turnOffRuleLink {
           padding-left: 4px;
@@ -146,17 +162,14 @@
       .hiddenSpellError {
           border-left-color: rgba(255,0,0, 0.2);
           border-left-style: solid;
-          cursor: pointer;
       }
       .hiddenGrammarError {
           border-left-color: #fee481;
           border-left-style: solid;
-          cursor: pointer;
       }
       .hiddenSuggestion {
           border-left-color: rgb(201,205,255);
           border-left-style: solid;
-          cursor: pointer;
       }
       .suggestionRow {
           padding: 8px;
