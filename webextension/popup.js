@@ -201,11 +201,11 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 if (isSpellingError(m)) {
                     let escapedWord = Tools.escapeHtml(word);
                     html += "<div class='addToDict' data-addtodict='" + escapedWord + "'" +
-                        " title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'></div>";
+                            " title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'></div>";
                 } else {
-                    html += "<div class='turnOffRule' data-ruleIdOff='" + Tools.escapeHtml(ruleId) +
-                        "' data-ruleDescription='" + Tools.escapeHtml(m.rule.description) + "'" +
-                        " title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'></div>";
+                    html += "<div class='turnOffRule' data-ruleIdOff='" + Tools.escapeHtml(ruleId) + "'" +
+                            " data-ruleDescription='" + Tools.escapeHtml(m.rule.description) + "'" +
+                            " title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'></div>";
                 }
                 html += Tools.escapeHtml(m.message);
                 html += renderContext(m.context.text, errStart, errLen);
@@ -348,12 +348,12 @@ function renderReplacements(context, m, createLinks) {
             html += "&nbsp; ";
         }
         if (createLinks) {
-            html += "<a class='replacement' href='#' " +
-                "data-ruleid='" + ruleId + "'" +
-                "data-erroroffset='" + errOffset + "'" +
-                "data-errortext='" + Tools.escapeHtml(errorText) + "'" +
-                "data-replacement='" + Tools.escapeHtml(replacement) + "'" +
-                "'>&nbsp;" + Tools.escapeHtml(replacement) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
+            html += "<a class='replacement' href='#'" +
+                    " data-ruleid='" + ruleId + "'" +
+                    " data-erroroffset='" + errOffset + "'" +
+                    " data-errortext='" + Tools.escapeHtml(errorText) + "'" +
+                    " data-replacement='" + Tools.escapeHtml(replacement) + "'" +
+                    "'>&nbsp;" + Tools.escapeHtml(replacement) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
         } else {
             html += "<b>" + Tools.escapeHtml(replacement) + "</b>";
         }
