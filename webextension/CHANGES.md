@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.10 (2017-01-28)
+  * make it work with Firefox 52 and later
+    (https://github.com/languagetool-org/languagetool-browser-addon/issues/97)
+
 ### 1.0.9 (2016-12-03)
   * bugfix for Firefox 50: hovering over the rule/spelling icons
     made the content of the popup suddenly scroll up
