@@ -298,6 +298,16 @@
       }
     }
   },
+  "ignoreEmailSignature": {
+    "message": "Ignore text below $char$ (typically email signature)",
+    "description": "Options dialog: checkbox to exclude text below -- from checking",
+    "placeholders": {
+      "char": {
+        "content": "<span id='quoteChar'>--</span>",
+        "example": "(do not translate)"
+      }
+    }
+  },
   "motherTongueDesc": {
     "message": "Mother tongue:",
     "description": "Options dialog: text next to the 'mother tongue' selection"
