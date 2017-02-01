@@ -371,9 +371,21 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Португальский"
   },
+  "pt_AO": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Португальский (Ангола, до реформы)"
+  },
   "pt_BR": {
     "description": "automatically added by injectTranslation.py",
     "message": "Португальский (Бразилия, после реформы)"
+  },
+  "pt_CV": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Португальский (Кабо-Верде)"
+  },
+  "pt_MZ": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Португальский (Мозамбик, до реформы)"
   },
   "pt_PT": {
     "description": "automatically added by injectTranslation.py",
@@ -394,6 +406,16 @@
       "char": {
         "content": "<span class='quoteChar'>&gt;</span>",
         "example": "(do not translate)"
+      }
+    }
+  },
+  "reviewRequest": {
+    "description": "Shown at the bottom of the popup dialog (for some users only)",
+    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji"
       }
     }
   },

@@ -371,6 +371,26 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Πορτογαλικά"
   },
+  "pt_AO": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Πορτογαλικά (Αγκόλας preAO)"
+  },
+  "pt_BR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Πορτογαλικά (Βραζιλίας posAO)"
+  },
+  "pt_CV": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Πορτογαλικά (Κάπε Βέρντε)"
+  },
+  "pt_MZ": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Πορτογαλικά (Μοζαμβίκης preAO)"
+  },
+  "pt_PT": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Πορτογαλικά (Πορτογαλίας posAO)"
+  },
   "pt_PT_post_reform": {
     "description": "automatically added by injectTranslation.py",
     "message": "Πορτογαλικά (Πορτογαλίας, post-reform)"
@@ -386,6 +406,16 @@
       "char": {
         "content": "<span class='quoteChar'>&gt;</span>",
         "example": "(do not translate)"
+      }
+    }
+  },
+  "reviewRequest": {
+    "description": "Shown at the bottom of the popup dialog (for some users only)",
+    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji"
       }
     }
   },

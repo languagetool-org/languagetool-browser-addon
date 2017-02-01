@@ -51,7 +51,7 @@
   },
   "atd": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Detectar automaticamente o idioma"
+    "message": "Detetar automaticamente o idioma"
   },
   "be": {
     "description": "automatically added by injectTranslation.py",
@@ -131,7 +131,7 @@
   },
   "de_DE_x_simple_language": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Alemão (Alemão fácil)"
+    "message": "Alemão (Alemão simples)"
   },
   "defaultServerLink": {
     "description": "Options dialog: Link to reset the URL of the API server to the default value",
@@ -257,7 +257,7 @@
   },
   "ml": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Malaiala"
+    "message": "Malaio"
   },
   "motherTongueDesc": {
     "description": "Options dialog: text next to the 'mother tongue' selection",
@@ -373,23 +373,23 @@
   },
   "pt_AO": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Português (Angola preAO)"
+    "message": "Português (Angola pré-AO)"
   },
   "pt_BR": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Português (Brasil posAO)"
+    "message": "Português (Brasil pós-AO)"
   },
   "pt_CV": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Português (Cabo Verde)"
+    "message": "Português (Cabo Verde pós-AO)"
   },
   "pt_MZ": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Português (Moçambique preAO)"
+    "message": "Português (Moçambique pré-AO)"
   },
   "pt_PT": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Português (Portugal posAO)"
+    "message": "Português (Portugal pós-AO)"
   },
   "pt_PT_post_reform": {
     "description": "automatically added by injectTranslation.py",
@@ -406,6 +406,16 @@
       "char": {
         "content": "<span class='quoteChar'>&gt;</span>",
         "example": "(do not translate)"
+      }
+    }
+  },
+  "reviewRequest": {
+    "description": "Shown at the bottom of the popup dialog (for some users only)",
+    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji"
       }
     }
   },
