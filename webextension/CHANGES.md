@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.11 (2017-02-01)
+  * ask users for a review in the popup if they have used
+    the extension at least 30 times (Chrome only) 
+
 ### 1.0.10 (2017-01-28)
   * make it work with Firefox 52 and later
     (https://github.com/languagetool-org/languagetool-browser-addon/issues/97)

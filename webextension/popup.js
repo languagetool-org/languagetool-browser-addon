@@ -24,10 +24,15 @@ let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with
 // docs.google.com: Google Docs has a too complicated DOM (but its own add-on framework)
 let unsupportedSitesRegex = /^(https?:\/\/(docs|chrome).google.com.*)/;
 
+let thisExtensionUrl = "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji";
+
 let googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm";
 
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
 let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
+
+// ask the user for a review in the store if they have used this add-on at least this many times:
+let minUsageForReviewRequest = 30;
 
 var testMode = false;
 var serverUrl = defaultServerUrl;
@@ -241,6 +246,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 html += ruleItems.join(" &middot; ");
             }
         }
+        html += "<p id='reviewRequest'></p>";
         if (serverUrl === defaultServerUrl) {
             html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
         } else {
@@ -251,6 +257,9 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         renderStatus(html);
         setHintListener();
+        if (matchesCount > 0) {
+            fillReviewRequest(matchesCount);
+        }
         addLinkListeners(response, tabs);
         if (callback) {
             callback(response.markupList);
@@ -271,6 +280,29 @@ function setHintListener() {
             });
         });
     }
+}
+
+function fillReviewRequest() {
+    let storage = getStorage();
+    storage.get({
+        usageCounter: 0,
+        reviewRequestLinkClicked: false
+    }, function(items) {
+        //console.log("usageCounter: " + items.usageCounter + ", reviewRequestLinkClicked: " + items.reviewRequestLinkClicked);
+        if (! items.reviewRequestLinkClicked && items.usageCounter >= minUsageForReviewRequest) {
+            if (Tools.isChrome()) {
+                var reviewRequestId = document.getElementById("reviewRequest");
+                reviewRequestId.innerHTML = chrome.i18n.getMessage("reviewRequest", thisExtensionUrl + "/reviews");
+                reviewRequestId.addEventListener("click", function() {
+                    storage.set({
+                        reviewRequestLinkClicked: true
+                    }, function () {});
+                });
+            } else if (Tools.isFirefox()) {
+                // TODO: activate
+            }
+        }
+    });
 }
 
 function showShortcutHint(commands) {

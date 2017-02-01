@@ -298,6 +298,16 @@
       }
     }
   },
+  "reviewRequest": {
+    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "description": "Shown at the bottom of the popup dialog (for some users only)",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji"
+      }
+    }
+  },
   "motherTongueDesc": {
     "message": "Mother tongue:",
     "description": "Options dialog: text next to the 'mother tongue' selection"
