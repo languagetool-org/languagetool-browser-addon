@@ -1,11 +1,11 @@
 {
   "addToDictionary": {
     "description": "Link shown in the popup to accept a word to the internal dictionary",
-    "message": "add to dictionary"
+    "message": "aggiungi al dizionario"
   },
   "addToDictionaryTitle": {
     "description": "Title hover shown in the popup to accept a word to the internal dictionary",
-    "message": "add \"$word$\" to personal dictionary",
+    "message": "aggiungi \"$word$\" al dizionario personale",
     "placeholders": {
       "word": {
         "content": "$1",
@@ -15,35 +15,35 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Check your texts for style and grammar problems everywhere on the web"
+    "message": "Correggi il tuo testo per stile e grammatica ovunque sul web"
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian."
+    "message": "Con questa estensione puoi controllare il testo con il correttore gratis di stile e grammatica LanguageTool. LanguageTool trova molti errori che un semplice correttore automatico non può identificare, perché non si limita alla ortografia ma controlla anche la grammatica. Supporta più di 25 lingue, incluse Inglese, Spagnolo, Francese, Tedesco, Polacco e Russo."
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported - use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm for Google Docs instead."
+    "message": "LanguageTool è progettato per essere semplice. Basta la pressione di un bottone o l'utilizzo di uno shortcut impostato dall'utente per controllare un testo selezionato. LanguageTool è compatibile con quasi tutti i siti, compresi quelli di social network come Facebook, Twitter o LinkedIn oppure con siti di posta elettronica on-line come Gmail. Solo alcuni siti come docs.google.com e chrome.google.com non sono attualmente supportati. Per Google Docs è possibile usare https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm . "
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With LanguageTool our aim is to give users a fully-featured grammar checker and proofreader that will enable them to have control and confidence over their content. While LanguageTool is a vital extension for non-native speakers, it’s also smart enough to recognize mistakes that native speakers commonly make and it will improve your writing overall. This grammar and spelling correction works across all variations of common language; distinguishing between U.S. and British English, for instance. LanguageTool also features a personal dictionary for exceptions or words that you might commonly use but that are not found in a conventional dictionary. LanguageTool will recognize these words in future grammar checking and proofreading."
+    "message": "Con languageTool ci siamo posti l'obiettivo di fornire un correttore grammaticale e ortografico completo che possa aiutare gli utenti a avere confidenza circa i propri elaborati. Se, da un lato, LanguageTool rappresenta una estensione fondamentale per gli scrittori non madre lingua, dall'altro risulta abbastanza intelligente per riconoscere alcuni errori comuni e aiuta a migliorare il tuo stile di scrittura. Questo tipo di correzione funziona in molte variazioni del linguaggio comune: distinguendo, ad esempio tra inglese U.S. e Britannico. LanguageTool fornisce anche un dizionario personale nel quale includere delle parole che si non sono presenti in un dizionario convenzionale. LanguageTool potrà riconoscere e utilizzare quelle parole in futuri controlli."
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Usage: Select the text that you want to check, or click in an editable field if you want to check its contents. Then click on the LT icon, which is displayed in the upper right corner of your browser. Alternatively, use Ctrl+Shift+Space as a shortcut."
+    "message": "Utilizzo: selezione il testo che vuoi controllare, o fai click in un campo editabile se vuoi controllare il suo testo. Poi fai click sulla icona LT che è visualizzata sull'angolo in alto a destra del tuo browser. In alternativa puoi usare Ctrl+Shift+Spazio come shortcut."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and is 100% free and offers many of the same features."
+    "message": "A differenza di altri correttori come Grammarly e Ginger, LanguageTool funziona su molti linguaggi è 100% gratis e offre molte delle stesse funzionalità."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store the texts you check. In fact, we don't even store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+    "message": "La tua privacy è importante per no: per default, questa estensione controlla il tuo testo inviandolo a https://languagetool.org tramite connessione sicura e cifrata. Non è necessario alcun account per usare l'estensione. Noi non memorizziamo il testo che ci invii e neanche il tuo indirizzo IP. Fai riferimento a https://languagetool.org/privacy/ per la nostra politica in materia di privacy."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Per favore segnalate problemi a https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -79,11 +79,11 @@
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
-    "message": "Check text with LanguageTool"
+    "message": "Controlla il testo con LanguageTool"
   },
   "contextMenuItemWithShortcut": {
     "description": "Text shown in the context menu, if available. The parenthesis show the shortcut.",
-    "message": "Check text with LanguageTool [$shortcut$]",
+    "message": "Controlla il testo con LanguageTool [$shortcut$]",
     "placeholders": {
       "shortcut": {
         "content": "$1",
@@ -149,7 +149,7 @@
   },
   "dictionaryDesc": {
     "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking",
-    "message": "Personal dictionary words (one word per line):"
+    "message": "Parole del dizionario personale (una per linea):"
   },
   "el": {
     "description": "automatically added by injectTranslation.py",
@@ -229,7 +229,7 @@
   },
   "ignoredRules": {
     "description": "Text shown at the bottom of the popup to turn on turned off rules again",
-    "message": "These rules have been turned off, click a rule to turn it on again:"
+    "message": "Queste regole sono state disattivate, fai click su una regola per riattivarla:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -265,7 +265,7 @@
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
-    "message": "Set mother tongue if you want to be warned about false friends when checking texts not written in your mother tongue."
+    "message": "Imposta la tua lingua madre se vuoi essere avvisato di errori quando controlli testi non scritti nella tua lingua madre"
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",
@@ -425,7 +425,7 @@
   },
   "shortcutHint": {
     "description": "Text shown in the popup to let the user know about the shortcut key combination",
-    "message": "You can trigger the text check with this shortcut: $shortcut$",
+    "message": "Puoi attivare il controllo con questo shortcut: $shortcut$",
     "placeholders": {
       "shortcut": {
         "content": "$1",
@@ -435,7 +435,7 @@
   },
   "shortcutHintDismiss": {
     "description": "Link to let the user hide the hint about the shortcut",
-    "message": "Okay, got it"
+    "message": "Va bene, capito"
   },
   "siteNotSupported": {
     "description": "Some sites are too complex, so we show this error",
@@ -493,11 +493,11 @@
   },
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
-    "message": "Check the current selection\nor editable field with LanguageTool"
+    "message": "Controlla la selezione corrente\no il campo editable con LanguageTool"
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
-    "message": "Turn off rule"
+    "message": "Disattiva questa regola"
   },
   "uk": {
     "description": "automatically added by injectTranslation.py",
@@ -505,23 +505,23 @@
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Catalan:"
+    "message": "Prendi in considerazione questa varietà di Catalano:"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of German:"
+    "message": "Prendi in considerazione questa varietà di Tedesco:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of English:"
+    "message": "Prendi in considerazione questa varietà di Inglese:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Portuguese:"
+    "message": "Prendi in considerazione questa varietà di Portoghese:"
   },
   "webstoreSiteNotSupported": {
     "description": "Error shown when Chrome extension is used on https://chrome.google.com/webstore, which doesn't work for technical reasons",
-    "message": "Sorry, Google Chrome prevents extensions to access the Chrome Web Store. Strange, isn't it?"
+    "message": "Spiacenti, Google Chrome blocca l'accesso delle estensioni al Chrome Web Store. Strano, no?"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",
