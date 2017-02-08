@@ -98,6 +98,9 @@ function showPrivacyLink() {
     }
 }
 
+// NOTE: duplicated from popup.js:
 function getStorage() {
-    return chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
+    // special case for Firefox as long as chrome.storage.sync is defined, but
+    // not yet activated by default: https://github.com/languagetool-org/languagetool-browser-addon/issues/97
+    return chrome.storage.sync && !Tools.isFirefox() ? chrome.storage.sync : chrome.storage.local;
 }
