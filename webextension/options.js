@@ -27,7 +27,7 @@ function saveOptions() {
         status.textContent = 'This URL is not valid.';
     } else {
         status.textContent = '';
-        getStorage().set({
+        Tools.getStorage().set({
             apiServerUrl: url,
             ignoreQuotedLines: document.getElementById('ignoreQuotedLines').checked,
             motherTongue: document.getElementById('motherTongue').value,
@@ -54,7 +54,7 @@ function restoreOptions() {
     document.getElementById('variant-pt-desc').textContent = chrome.i18n.getMessage("variantPtDesc");
     document.getElementById('variant-ca-desc').textContent = chrome.i18n.getMessage("variantCaDesc");
     document.getElementById('dictionaryDesc').textContent = chrome.i18n.getMessage("dictionaryDesc");
-    getStorage().get({
+    Tools.getStorage().get({
         apiServerUrl: defaultServerUrl,
         ignoreQuotedLines: true,
         motherTongue: "",
@@ -96,11 +96,4 @@ function showPrivacyLink() {
     } else {
         document.getElementById('privacyPolicy').innerHTML = "";
     }
-}
-
-// NOTE: duplicated from popup.js:
-function getStorage() {
-    // special case for Firefox as long as chrome.storage.sync is defined, but
-    // not yet activated by default: https://github.com/languagetool-org/languagetool-browser-addon/issues/97
-    return chrome.storage.sync && !Tools.isFirefox() ? chrome.storage.sync : chrome.storage.local;
 }

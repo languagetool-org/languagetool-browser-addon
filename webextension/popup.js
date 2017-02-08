@@ -150,7 +150,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     html += '<div id="outerShortcutHint"></div>';
     html += "<hr>";
     let matches = data.matches;
-    getStorage().get({
+    Tools.getStorage().get({
         dictionary: [],
         ignoredRules: []
     }, function(items) {
@@ -271,7 +271,7 @@ function setHintListener() {
     if (Tools.isChrome()) {
         // triggering the popup with a shortcut doesn't work yet in Firefox
         chrome.commands.getAll(function(commands) {
-            getStorage().get({
+            Tools.getStorage().get({
                 showShortcutHint: true
             }, function(items) {
                 if (items.showShortcutHint) {
@@ -283,7 +283,7 @@ function setHintListener() {
 }
 
 function fillReviewRequest() {
-    let storage = getStorage();
+    let storage = Tools.getStorage();
     storage.get({
         usageCounter: 0,
         reviewRequestLinkClicked: false
@@ -314,7 +314,7 @@ function showShortcutHint(commands) {
             "&nbsp;<a id='closeShortcutHint' href='#'>" + chrome.i18n.getMessage("shortcutHintDismiss", [shortcut]) + "</a>" +
             "</div>";
         document.getElementById("closeShortcutHint").addEventListener("click", function() {
-            getStorage().set({
+            Tools.getStorage().set({
                 showShortcutHint: false
             }, function () {
                 document.getElementById("outerShortcutHint").style.display = "none";
@@ -418,7 +418,7 @@ function addListenerActions(elements, tabs, response) {
             continue;
         }
         link.addEventListener("click", function() {
-            let storage = getStorage();
+            let storage = Tools.getStorage();
             if (link.getAttribute('data-ruleIdOn')) {
                 storage.get({
                     ignoredRules: []
@@ -503,7 +503,7 @@ function handleCheckResult(response, tabs, callback) {
 }
 
 function startCheckMaybeWithWarning(tabs) {
-    getStorage().get({
+    Tools.getStorage().get({
             apiServerUrl: serverUrl,
             ignoreQuotedLines: ignoreQuotedLines,
             motherTongue: motherTongue,
@@ -540,7 +540,7 @@ function startCheckMaybeWithWarning(tabs) {
             if (items.allowRemoteCheck === true) {
                 doCheck(tabs);
                 let newCounter = items.usageCounter + 1;
-                getStorage().set({'usageCounter': newCounter}, function() {});
+                Tools.getStorage().set({'usageCounter': newCounter}, function() {});
                 chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
             } else {
                 var message = "<p>";
@@ -556,7 +556,7 @@ function startCheckMaybeWithWarning(tabs) {
                            '</ul>';
                 renderStatus(message);
                 document.getElementById("confirmCheck").addEventListener("click", function() {
-                    getStorage().set({
+                    Tools.getStorage().set({
                         allowRemoteCheck: true
                     }, function () {
                         doCheck(tabs);
@@ -585,7 +585,7 @@ function doCheck(tabs) {
         } else {
             handleCheckResult(response, tabs);
         }
-        getStorage().set({
+        Tools.getStorage().set({
             lastCheck: new Date().getTime()
         }, function() {});
     });
@@ -603,9 +603,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-function getStorage() {
-    // special case for Firefox as long as chrome.storage.sync is defined, but
-    // not yet activated by default: https://github.com/languagetool-org/languagetool-browser-addon/issues/97
-    return chrome.storage.sync && !Tools.isFirefox() ? chrome.storage.sync : chrome.storage.local;
-}
