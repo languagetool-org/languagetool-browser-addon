@@ -27,7 +27,7 @@ class Tools {
         // special case for Firefox as long as chrome.storage.sync is defined, but
         // not yet activated by default: https://github.com/languagetool-org/languagetool-browser-addon/issues/97
         return chrome.storage.sync && !Tools.isFirefox() ? chrome.storage.sync : chrome.storage.local;
-}
+    }
 
     static logOnServer(message, serverUrl) {
         if (serverUrl.indexOf("https://languagetool.org") == -1) {
