@@ -2,7 +2,8 @@
 
 ### 1.0.12 (2017-xx-xx)
   * make saving options work with Firefox 52 and later 
-
+  * show a proper error message when used on addons.mozilla.org (it's blocked there)
+ 
 ### 1.0.11 (2017-02-01)
   * ask users for a review in the popup if they have used
     the extension at least 30 times (Chrome only) 

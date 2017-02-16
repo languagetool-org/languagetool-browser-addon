@@ -22,7 +22,8 @@ let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with
 
 // chrome.google.com: see http://stackoverflow.com/questions/11613371/
 // docs.google.com: Google Docs has a too complicated DOM (but its own add-on framework)
-let unsupportedSitesRegex = /^(https?:\/\/(docs|chrome).google.com.*)/;
+// addons.mozilla.org: see http://stackoverflow.com/questions/42147966/
+let unsupportedSitesRegex = /^https?:\/\/(docs.google.com|chrome.google.com|addons.mozilla.org).*/;
 
 let thisExtensionUrl = "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji";
 
@@ -569,22 +570,24 @@ function startCheckMaybeWithWarning(tabs) {
 
 function doCheck(tabs) {
     renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
-    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function(response) {
-        let url = tabs[0].url ? tabs[0].url : "";
-        if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
-            renderStatus(chrome.i18n.getMessage("webstoreSiteNotSupported"));
-            Tools.logOnServer("siteNotSupported on " + url, serverUrl);
-        } else if (url.match(unsupportedSitesRegex)) {
-            if (url.match(/docs\.google\.com/)) {
-                renderStatus(chrome.i18n.getMessage("googleDocsNotSupported", googleDocsExtension));
-                Tools.logOnServer("link to google docs extension");
-            } else {
-                renderStatus(chrome.i18n.getMessage("siteNotSupported"));
-                Tools.logOnServer("siteNotSupported on " + url.replace(/file:.*/, "file:[...]"), serverUrl);  // don't log paths, may contain personal information
-            }
+    let url = tabs[0].url ? tabs[0].url : "";
+    if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
+        renderStatus(chrome.i18n.getMessage("webstoreSiteNotSupported"));
+        Tools.logOnServer("siteNotSupported on " + url, serverUrl);
+        return;
+    } else if (url.match(unsupportedSitesRegex)) {
+        if (url.match(/docs\.google\.com/)) {
+            renderStatus(chrome.i18n.getMessage("googleDocsNotSupported", googleDocsExtension));
+            Tools.logOnServer("link to google docs extension");
+            return;
         } else {
-            handleCheckResult(response, tabs);
+            renderStatus(chrome.i18n.getMessage("siteNotSupported"));
+            Tools.logOnServer("siteNotSupported on " + url.replace(/file:.*/, "file:[...]"), serverUrl);  // don't log paths, may contain personal information
+            return;
         }
+    }
+    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function(response) {
+        handleCheckResult(response, tabs);
         Tools.getStorage().set({
             lastCheck: new Date().getTime()
         }, function() {});
