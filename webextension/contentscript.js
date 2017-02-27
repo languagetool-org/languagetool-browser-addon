@@ -170,6 +170,9 @@ function isSimpleInput(elem) {
     
 function replaceIn(elem, elemValue, markupList) {
     if (elem && elem[elemValue]) {
+        // Note for reviewer: elemValue can be 'innerHTML', but markupList always comes from
+        // Markup.replace() (see applyCorrection()), which makes sure the replacement coming
+        // from the server is sanitized:
         elem[elemValue] = Markup.markupList2html(markupList);
         return true;
     }

@@ -101,6 +101,7 @@ function getCheckResult(markupList, callback, errorCallback) {
     req.send(params);
 }
 
+// to be called only with sanitized content (DOMPurify.sanitize()):
 function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
 }
@@ -147,7 +148,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         translatedLanguage = language;
     }
     var html = '<a id="closeLink" href="#"></a>';
-    html += getLanguageSelector(languageCode);
+    html += DOMPurify.sanitize(getLanguageSelector(languageCode));
     html += '<div id="outerShortcutHint"></div>';
     html += "<hr>";
     let matches = data.matches;
@@ -178,11 +179,19 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         var ignoredRuleCounts = {};
         for (let match in matches) {
             let m = matches[match];
-            let context = m.context.text;
-            let errStart = m.context.offset;
-            let errLen = m.length;
+
+            // these values come from the server, make sure they are ints:
+            let errStart = parseInt(m.context.offset);
+            let errLen = parseInt(m.length);
+
+            // these string values come from the server and need to be sanitized
+            // as they will be inserted with innerHTML:
+            let context = DOMPurify.sanitize(m.context.text);
+            let ruleId = DOMPurify.sanitize(m.rule.id);
+            let message = DOMPurify.sanitize(m.message);
+            let description = DOMPurify.sanitize(m.rule.description);
+
             let word = context.substr(errStart, errLen);
-            let ruleId = m.rule.id;
             var ignoreError = false;
 
             if (isSpellingError(m)) {
@@ -210,11 +219,11 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                             " title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'></div>";
                 } else {
                     html += "<div class='turnOffRule' data-ruleIdOff='" + Tools.escapeHtml(ruleId) + "'" +
-                            " data-ruleDescription='" + Tools.escapeHtml(m.rule.description) + "'" +
+                            " data-ruleDescription='" + Tools.escapeHtml(description) + "'" +
                             " title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'></div>";
                 }
-                html += Tools.escapeHtml(m.message);
-                html += renderContext(m.context.text, errStart, errLen);
+                html += Tools.escapeHtml(message);
+                html += renderContext(context, errStart, errLen);
                 html += renderReplacements(context, m, createLinks);
                 html += "</div>\n";
                 html += "<hr>";
@@ -251,7 +260,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         if (serverUrl === defaultServerUrl) {
             html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
         } else {
-            html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedBy", serverUrl) + "</p>";
+            html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedBy", DOMPurify.sanitize(serverUrl)) + "</p>";
         }
         if (testMode) {
             html += "*** running in test mode ***";
