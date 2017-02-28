@@ -391,7 +391,7 @@
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
-    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "message": "Če vam je razširitev všeč, zakaj ne <a target='_blank' href='$url$'>napišete ocene</a>?",
     "placeholders": {
       "url": {
         "content": "$1",

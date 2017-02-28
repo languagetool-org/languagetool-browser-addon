@@ -411,7 +411,7 @@
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
-    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "message": "Si us agrada aquesta extensió, per què no <a target='_blank' href='$url$'>n'escriviu una ressenya</a>?",
     "placeholders": {
       "url": {
         "content": "$1",
