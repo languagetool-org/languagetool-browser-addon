@@ -137,8 +137,8 @@ function isSuggestion(match) {
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let createLinks = response.isEditableText && !response.url.match(unsupportedReplacementSitesRegex);
     let data = JSON.parse(resultJson);
-    let language = data.language.name;
-    let languageCode = data.language.code;
+    let language = DOMPurify.sanitize(data.language.name);
+    let languageCode = DOMPurify.sanitize(data.language.code);
     let shortLanguageCode = getShortCode(languageCode);
     var translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
     if (!translatedLanguage) {
@@ -164,8 +164,8 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             let prevErrLen = -1;
             for (let i = matches.length-1; i >= 0; i--) {
                 let m = matches[i];
-                let errStart = m.offset;
-                let errLen = m.length;
+                let errStart = parseInt(m.offset);
+                let errLen = parseInt(m.length);
                 if (errStart != prevErrStart || errLen != prevErrLen) {
                     uniquePositionMatches.push(m);
                     prevErrStart = errStart;
@@ -186,45 +186,45 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
 
             // these string values come from the server and need to be sanitized
             // as they will be inserted with innerHTML:
-            let context = DOMPurify.sanitize(m.context.text);
-            let ruleId = DOMPurify.sanitize(m.rule.id);
-            let message = DOMPurify.sanitize(m.message);
-            let description = DOMPurify.sanitize(m.rule.description);
+            let contextSanitized = DOMPurify.sanitize(m.context.text);
+            let ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
+            let messageSanitized = DOMPurify.sanitize(m.message);
+            let descriptionSanitized = DOMPurify.sanitize(m.rule.description);
 
-            let word = context.substr(errStart, errLen);
+            let wordSanitized = contextSanitized.substr(errStart, errLen);
             var ignoreError = false;
 
             if (isSpellingError(m)) {
                 // Also accept uppercase versions of lowercase words in personal dict:
-                let knowToDict = items.dictionary.indexOf(word) != -1;
+                let knowToDict = items.dictionary.indexOf(wordSanitized) != -1;
                 if (knowToDict) {
                     ignoreError = true;
-                } else if (!knowToDict && Tools.startWithUppercase(word)) {
-                    ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(word)) != -1;
+                } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
+                    ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) != -1;
                 }
             } else {
-                ignoreError = items.ignoredRules.find(k => k.id === ruleId && k.language === shortLanguageCode);
+                ignoreError = items.ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
             }
             if (ignoreError) {
-                if (ignoredRuleCounts[ruleId]) {
-                    ignoredRuleCounts[ruleId]++;
+                if (ignoredRuleCounts[ruleIdSanitized]) {
+                    ignoredRuleCounts[ruleIdSanitized]++;
                 } else {
-                    ignoredRuleCounts[ruleId] = 1;
+                    ignoredRuleCounts[ruleIdSanitized] = 1;
                 }
             } else {
                 html += "<div class=\"suggestionRow " + suggestionClass(m) + "\">\n";
                 if (isSpellingError(m)) {
-                    let escapedWord = Tools.escapeHtml(word);
+                    let escapedWord = Tools.escapeHtml(wordSanitized);
                     html += "<div class='addToDict' data-addtodict='" + escapedWord + "'" +
                             " title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'></div>";
                 } else {
-                    html += "<div class='turnOffRule' data-ruleIdOff='" + Tools.escapeHtml(ruleId) + "'" +
-                            " data-ruleDescription='" + Tools.escapeHtml(description) + "'" +
+                    html += "<div class='turnOffRule' data-ruleIdOff='" + Tools.escapeHtml(ruleIdSanitized) + "'" +
+                            " data-ruleDescription='" + Tools.escapeHtml(descriptionSanitized) + "'" +
                             " title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'></div>";
                 }
-                html += Tools.escapeHtml(message);
-                html += renderContext(context, errStart, errLen);
-                html += renderReplacements(context, m, createLinks);
+                html += Tools.escapeHtml(messageSanitized);
+                html += renderContext(contextSanitized, errStart, errLen);
+                html += renderReplacements(contextSanitized, m, createLinks);
                 html += "</div>\n";
                 html += "<hr>";
                 matchesCount++;
@@ -363,25 +363,27 @@ function getLanguageSelector(languageCode) {
     return html;
 }
 
-function renderContext(context, errStart, errLen) {
+// call only with sanitized context
+function renderContext(contextSanitized, errStart, errLen) {
     return "<div class='errorArea'>"
-          + Tools.escapeHtml(context.substr(0, errStart))
-          + "<span class='error'>" + Tools.escapeHtml(context.substr(errStart, errLen)) + "</span>" 
-          + Tools.escapeHtml(context.substr(errStart + errLen))
+          + Tools.escapeHtml(contextSanitized.substr(0, errStart))
+          + "<span class='error'>" + Tools.escapeHtml(contextSanitized.substr(errStart, errLen)) + "</span>" 
+          + Tools.escapeHtml(contextSanitized.substr(errStart + errLen))
           + "</div>";
 }
 
-function renderReplacements(context, m, createLinks) {
-    let ruleId = m.rule.id;
+// call only with sanitized context
+function renderReplacements(contextSanitized, m, createLinks) {
+    let ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
     let replacements = m.replacements.map(k => k.value);
-    let contextOffset = m.context.offset;
-    let errLen = m.length;
-    let errOffset = m.offset;
-    let errorText = context.substr(contextOffset, errLen);
+    let contextOffset = parseInt(m.context.offset);
+    let errLen = parseInt(m.length);
+    let errOffset = parseInt(m.offset);
+    let errorTextSanitized = contextSanitized.substr(contextOffset, errLen);
     var html = "<div class='replacements'>";
     var i = 0;
     for (let idx in replacements) {
-        let replacement = replacements[idx];
+        let replacementSanitized = DOMPurify.sanitize(replacements[idx]);
         if (i >= 7) {
             // showing more suggestions usually doesn't make sense
             break;
@@ -391,13 +393,13 @@ function renderReplacements(context, m, createLinks) {
         }
         if (createLinks) {
             html += "<a class='replacement' href='#'" +
-                    " data-ruleid='" + ruleId + "'" +
+                    " data-ruleid='" + ruleIdSanitized + "'" +
                     " data-erroroffset='" + errOffset + "'" +
-                    " data-errortext='" + Tools.escapeHtml(errorText) + "'" +
-                    " data-replacement='" + Tools.escapeHtml(replacement) + "'" +
-                    "'>&nbsp;" + Tools.escapeHtml(replacement) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
+                    " data-errortext='" + Tools.escapeHtml(errorTextSanitized) + "'" +
+                    " data-replacement='" + Tools.escapeHtml(replacementSanitized) + "'" +
+                    "'>&nbsp;" + Tools.escapeHtml(replacementSanitized) + "&nbsp;</a>";  // add &nbsp; to make small links better clickable by making them wider
         } else {
-            html += "<b>" + Tools.escapeHtml(replacement) + "</b>";
+            html += "<b>" + Tools.escapeHtml(replacementSanitized) + "</b>";
         }
     }
     html += "</div>";
