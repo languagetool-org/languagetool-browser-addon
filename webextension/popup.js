@@ -500,13 +500,13 @@ function handleCheckResult(response, tabs, callback) {
         return;
     }
     if (response.message) {
-        renderStatus(Tools.escapeHtml(response.message));
+        renderStatus(Tools.escapeHtml(DOMPurify.sanitize(response.message)));
         return;
     }
     getCheckResult(response.markupList, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
-        renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(errorMessage)));
+        renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));
         Tools.logOnServer("couldNotCheckText on " + tabs[0].url  + ": " + errorMessageCode, serverUrl);
         if (callback) {
             callback(response.markupList, errorMessage);
