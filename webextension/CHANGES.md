@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.14 (2017-07-19)
+  * add some tracking via Piwik - your IP address still isn't logged and you can
+    opt-out at https://languagetool.org/privacy/ (active for Chrome only for now)
+  
 ### 1.0.13 (2017-02-28)
   * make saving options work with Firefox 52 and later
   * show a proper error message when used on addons.mozilla.org (it's blocked there)
