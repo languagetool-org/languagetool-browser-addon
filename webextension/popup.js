@@ -608,22 +608,19 @@ function doCheck(tabs) {
 
 function track(pageUrl) {
     try {
-        // for now, only track in Chrome until we have updated the privacy policy for Firefox:
-        if (Tools.isChrome()) {
-            let shortenedUrl = pageUrl.replace(/\?.*/, "<replaced>");  // for privacy reasons, don't log URL parameters
-            let url = encodeURIComponent(shortenedUrl);
-            let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php?idsite=12&rec=1&url=" +
-                url + "&action_name=check_text&rand=" + Date.now() + "&apiv=1";
-            let trackReq = new XMLHttpRequest();
-            trackReq.open('POST', trackingUrl);
-            trackReq.onerror = function() {
-                console.log("LT add-on tracking failed");
-            };
-            trackReq.ontimeout = function() {
-                console.log("LT add-on tracking failed with timeout");
-            };
-            trackReq.send();
-        }
+        let shortenedUrl = pageUrl.replace(/\?.*/, "<replaced>");  // for privacy reasons, don't log URL parameters
+        let url = encodeURIComponent(shortenedUrl);
+        let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php?idsite=12&rec=1&url=" +
+            url + "&action_name=check_text&rand=" + Date.now() + "&apiv=1";
+        let trackReq = new XMLHttpRequest();
+        trackReq.open('POST', trackingUrl);
+        trackReq.onerror = function() {
+            console.log("LT add-on tracking failed");
+        };
+        trackReq.ontimeout = function() {
+            console.log("LT add-on tracking failed with timeout");
+        };
+        trackReq.send();
     } catch(e) {
         console.log("LT add-on tracking failed: ", e);
     }
