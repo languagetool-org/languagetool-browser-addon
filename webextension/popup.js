@@ -503,7 +503,7 @@ function handleCheckResult(response, tabs, callback) {
         renderStatus(Tools.escapeHtml(DOMPurify.sanitize(response.message)));
         return;
     }
-    track(response.url);
+    track(response.url, "check_text");
     getCheckResult(response.markupList, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
@@ -606,20 +606,20 @@ function doCheck(tabs) {
     });
 }
 
-function track(pageUrl) {
+function track(pageUrl, actionName) {
     if (!Tools.isChrome()) {
         // version with tracking not deployed yet for Firefox, so make it explicit that tracking on FF won't work:
         return;
     }
     try {
-        let shortenedUrl = pageUrl.replace(/\?.*/, "<replaced>");  // for privacy reasons, don't log URL parameters
+        let shortenedUrl = pageUrl.replace(/^.*?:\/\/(.+)[?\/].*/, "$1");  // for privacy reasons, only log host
         let url = encodeURIComponent(shortenedUrl);
         let id = location.host.substr(0, 16);  // needed to tell visits from  unique visitors, shortened for Piwik
         let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
             "?idsite=12" +
             "&rec=1" +
             "&url=" + url +
-            "&action_name=check_text" +
+            "&action_name=" + encodeURIComponent(actionName) +
             "&rand=" + Date.now() + "&apiv=1" +
             "&_id=" + id;
         let trackReq = new XMLHttpRequest();
