@@ -1,9 +1,6 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.16 (2017-07-30)
-  * Tracking fix
-
-### 1.0.15 (2017-07-30)
+### 1.0.15, 1.0.16, 1.0.17 (2017-07-30)
   * Track unique users and actions like 'apply suggestion' - your IP address still
     isn't logged and we cannot identify you.
     Anyway, you can opt-out at https://languagetool.org/privacy/

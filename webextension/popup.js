@@ -612,29 +612,52 @@ function track(pageUrl, actionName) {
         return;
     }
     try {
-        let shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+)[?\/].*/, "$1");  // for privacy reasons, only log host
-        let url = encodeURIComponent(shortenedUrl);
-        let id = location.host.substr(0, 16);  // needed to tell visits from  unique visitors, shortened for Piwik
-        let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
-            "?idsite=12" +
-            "&rec=1" +
-            "&url=" + url +
-            "&action_name=" + encodeURIComponent(actionName) +
-            "&rand=" + Date.now() + "&apiv=1" +
-            "&_id=" + id;
-        //console.log("trackingUrl: " + trackingUrl);
-        let trackReq = new XMLHttpRequest();
-        trackReq.open('POST', trackingUrl);
-        trackReq.onerror = function() {
-            console.log("LT add-on tracking failed");
-        };
-        trackReq.ontimeout = function() {
-            console.log("LT add-on tracking failed with timeout");
-        };
-        trackReq.send();
+        let storage = Tools.getStorage();
+        storage.get({
+            uid: null
+        }, function(items) {
+            // needed to tell visits from  unique visitors:
+            let uid;
+            if (items.uid) {
+                uid = items.uid;
+            } else {
+                uid = getRandomToken();
+                storage.set({uid: uid}, function() {});
+            }
+            let shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+)[?\/].*/, "$1");  // for privacy reasons, only log host
+            let url = encodeURIComponent(shortenedUrl);
+            let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
+                "?idsite=12" +
+                "&rec=1" +
+                "&url=" + url +
+                "&action_name=" + encodeURIComponent(actionName) +
+                "&rand=" + Date.now() +
+                "&apiv=1" +
+                "&_id=" + uid;
+            //console.log("trackingUrl: " + trackingUrl);
+            let trackReq = new XMLHttpRequest();
+            trackReq.open('POST', trackingUrl);
+            trackReq.onerror = function() {
+                console.log("LT add-on tracking failed");
+            };
+            trackReq.ontimeout = function() {
+                console.log("LT add-on tracking failed with timeout");
+            };
+            trackReq.send();
+        });
     } catch(e) {
         console.log("LT add-on tracking failed: ", e);
     }
+}
+
+function getRandomToken() {
+    let randomPool = new Uint8Array(8);
+    crypto.getRandomValues(randomPool);
+    var hex = '';
+    for (var i = 0; i < randomPool.length; ++i) {
+        hex += randomPool[i].toString(16);
+    }
+    return hex;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
