@@ -612,7 +612,7 @@ function track(pageUrl, actionName) {
         return;
     }
     try {
-        let shortenedUrl = pageUrl.replace(/^.*?:\/\/(.+)[?\/].*/, "$1");  // for privacy reasons, only log host
+        let shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+)[?\/].*/, "$1");  // for privacy reasons, only log host
         let url = encodeURIComponent(shortenedUrl);
         let id = location.host.substr(0, 16);  // needed to tell visits from  unique visitors, shortened for Piwik
         let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
