@@ -1,8 +1,9 @@
 # LanguageTool WebExtension Change Log
 
 ### 1.0.15 (2017-07-30)
-  * Track unique users - your IP address still isn't logged and we cannot identify you.
-    Still, you can opt-out at https://languagetool.org/privacy/
+  * Track unique users and actions like 'apply suggestion' - your IP address still
+    isn't logged and we cannot identify you.
+    Anyway, you can opt-out at https://languagetool.org/privacy/
   
 ### 1.0.14 (2017-07-19)
   * add some tracking via Piwik - your IP address still isn't logged and you can

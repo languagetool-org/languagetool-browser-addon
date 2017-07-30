@@ -409,7 +409,7 @@ function renderReplacements(contextSanitized, m, createLinks) {
 function addLinkListeners(response, tabs) {
     document.getElementById("language").addEventListener("change", function() {
         manuallySelectedLanguage = document.getElementById("language").value;
-        doCheck(tabs);
+        doCheck(tabs, "switch_language");
     });
     let closeLink = document.getElementById("closeLink");
     closeLink.addEventListener("click", function() {
@@ -439,7 +439,7 @@ function addListenerActions(elements, tabs, response) {
                     for (var rule of items.ignoredRules) {
                         if (rule.id == link.getAttribute('data-ruleIdOn')) {
                             items.ignoredRules.splice(idx, 1);
-                            storage.set({'ignoredRules': items.ignoredRules}, function() { reCheck(tabs) });
+                            storage.set({'ignoredRules': items.ignoredRules}, function() { reCheck(tabs, "turn_on_rule") });
                             break;
                         }
                         idx++;
@@ -456,7 +456,7 @@ function addListenerActions(elements, tabs, response) {
                         description: link.getAttribute('data-ruleDescription'),
                         language: getShortCode(document.getElementById("language").value)
                     });
-                    storage.set({'ignoredRules': ignoredRules}, function() { reCheck(tabs) });
+                    storage.set({'ignoredRules': ignoredRules}, function() { reCheck(tabs, "turn_off_rule") });
                 });
 
             } else if (link.getAttribute('data-addtodict')) {
@@ -465,7 +465,7 @@ function addListenerActions(elements, tabs, response) {
                 }, function(items) {
                     let dictionary = items.dictionary;
                     dictionary.push(link.getAttribute('data-addtodict'));
-                    storage.set({'dictionary': dictionary}, function() { reCheck(tabs) });
+                    storage.set({'dictionary': dictionary}, function() { reCheck(tabs, "add_to_dict") });
                 });
 
             } else if (link.getAttribute('data-errortext')) {
@@ -479,16 +479,16 @@ function addListenerActions(elements, tabs, response) {
                     pageUrl: tabs[0].url
                 };
                 chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
-                    doCheck(tabs);   // re-check, as applying changes might change context also for other errors
+                    doCheck(tabs, "apply_suggestion");   // re-check, as applying changes might change context also for other errors
                 });
             }
         });
     }
 }
 
-function reCheck(tabs) {
+function reCheck(tabs, causeOfCheck) {
     chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function (response) {
-        doCheck(tabs);
+        doCheck(tabs, causeOfCheck);
     });
 }
     
@@ -503,7 +503,6 @@ function handleCheckResult(response, tabs, callback) {
         renderStatus(Tools.escapeHtml(DOMPurify.sanitize(response.message)));
         return;
     }
-    track(response.url, "check_text");
     getCheckResult(response.markupList, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
@@ -551,7 +550,7 @@ function startCheckMaybeWithWarning(tabs) {
                 preferredVariants.push(items.caVariant);
             }
             if (items.allowRemoteCheck === true) {
-                doCheck(tabs);
+                doCheck(tabs, "manually_triggered");
                 let newCounter = items.usageCounter + 1;
                 Tools.getStorage().set({'usageCounter': newCounter}, function() {});
                 chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
@@ -572,7 +571,7 @@ function startCheckMaybeWithWarning(tabs) {
                     Tools.getStorage().set({
                         allowRemoteCheck: true
                     }, function () {
-                        doCheck(tabs);
+                        doCheck(tabs, "manually_triggered");
                     });
                 });
                 document.getElementById("cancelCheck").addEventListener("click", function() { self.close(); });
@@ -580,7 +579,7 @@ function startCheckMaybeWithWarning(tabs) {
         });
 }
 
-function doCheck(tabs) {
+function doCheck(tabs, causeOfCheck) {
     renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
     let url = tabs[0].url ? tabs[0].url : "";
     if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
@@ -598,6 +597,7 @@ function doCheck(tabs) {
             return;
         }
     }
+    track(tabs[0].url, "check_trigger:" + causeOfCheck);
     chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function(response) {
         handleCheckResult(response, tabs);
         Tools.getStorage().set({
@@ -622,6 +622,7 @@ function track(pageUrl, actionName) {
             "&action_name=" + encodeURIComponent(actionName) +
             "&rand=" + Date.now() + "&apiv=1" +
             "&_id=" + id;
+        //console.log("trackingUrl: " + trackingUrl);
         let trackReq = new XMLHttpRequest();
         trackReq.open('POST', trackingUrl);
         trackReq.onerror = function() {
