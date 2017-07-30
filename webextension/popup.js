@@ -607,11 +607,21 @@ function doCheck(tabs) {
 }
 
 function track(pageUrl) {
+    if (!Tools.isChrome()) {
+        // version with tracking not deployed yet for Firefox, so make it explicit that tracking on FF won't work:
+        return;
+    }
     try {
         let shortenedUrl = pageUrl.replace(/\?.*/, "<replaced>");  // for privacy reasons, don't log URL parameters
         let url = encodeURIComponent(shortenedUrl);
-        let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php?idsite=12&rec=1&url=" +
-            url + "&action_name=check_text&rand=" + Date.now() + "&apiv=1";
+        let id = location.host.substr(0, 16);  // needed to tell visits from  unique visitors, shortened for Piwik
+        let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
+            "?idsite=12" +
+            "&rec=1" +
+            "&url=" + url +
+            "&action_name=check_text" +
+            "&rand=" + Date.now() + "&apiv=1" +
+            "&_id=" + id;
         let trackReq = new XMLHttpRequest();
         trackReq.open('POST', trackingUrl);
         trackReq.onerror = function() {
