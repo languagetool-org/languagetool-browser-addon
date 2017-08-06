@@ -43,7 +43,7 @@ var motherTongue = "";
 var preferredVariants = [];
 var manuallySelectedLanguage = "";
 
-function getCheckResult(markupList, callback, errorCallback) {
+function getCheckResult(markupList, metaData, callback, errorCallback) {
     let req = new XMLHttpRequest();
     req.timeout = 60 * 1000; // milliseconds
     let url = serverUrl + (serverUrl.endsWith("/") ? "check" : "/check");
@@ -85,7 +85,13 @@ function getCheckResult(markupList, callback, errorCallback) {
         userAgent += "-unknown";
     }
     var params = 'disabledRules=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
-                 '&useragent=' + userAgent + '&text=' + encodeURIComponent(text);
+                 '&useragent=' + userAgent;
+    if (true) {  // TODO: activate 'data' mode when server supports it
+        params += '&text=' + encodeURIComponent(text);
+    } else {
+        let json = {text: text, metaData: metaData};
+        params += '&data=' + encodeURIComponent(JSON.stringify(json));
+    }
     if (motherTongue) {
         params += "&motherTongue=" + motherTongue;
     }
@@ -503,7 +509,7 @@ function handleCheckResult(response, tabs, callback) {
         renderStatus(Tools.escapeHtml(DOMPurify.sanitize(response.message)));
         return;
     }
-    getCheckResult(response.markupList, function(resultText) {
+    getCheckResult(response.markupList, response.metaData, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
         renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));

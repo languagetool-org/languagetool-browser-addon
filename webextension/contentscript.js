@@ -1,5 +1,5 @@
 /* LanguageTool for Chrome 
- * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2015-2017 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -46,6 +46,11 @@ function handleRequest(request, sender, callback) {
 
 function checkText(callback, request) {
     lastUseDate = new Date().getTime();
+    let toAddress;
+    let metaData = {};
+    if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube
+        metaData['EmailToAddress'] = document.getElementById("_to").value;
+    }
     if (document.activeElement.tagName === "IFRAME") {
         // this case happens e.g. in roundcube when selecting text in an email one is reading:
         if (document.activeElement
@@ -54,18 +59,18 @@ function checkText(callback, request) {
             && document.activeElement.contentWindow.document.getSelection().toString() !== "") {
             // TODO: actually the text might be editable, e.g. on wordpress.com:
             let text = document.activeElement.contentWindow.document.getSelection().toString();
-            callback({markupList: [{text: text}], isEditableText: false, url: request.pageUrl});
+            callback({markupList: [{text: text}], metaData: metaData, isEditableText: false, url: request.pageUrl});
             return;
         }
     }
     let selection = window.getSelection();
     if (selection && selection.toString() !== "") {
         // TODO: because of this, a selection in a textarea will not offer clickable suggestions:
-        callback({markupList: [{text: selection.toString()}], isEditableText: false, url: request.pageUrl});
+        callback({markupList: [{text: selection.toString()}], metaData: metaData, isEditableText: false, url: request.pageUrl});
     } else {
         try {
             let markupList = getMarkupListOfActiveElement(document.activeElement);
-            callback({markupList: markupList, isEditableText: true, url: request.pageUrl});
+            callback({markupList: markupList, metaData: metaData, isEditableText: true, url: request.pageUrl});
         } catch(e) {
             //console.log("LanguageTool extension got error (document.activeElement: " + document.activeElement + "), will try iframes:");
             //console.log(e);
@@ -77,7 +82,7 @@ function checkText(callback, request) {
                 try {
                     let markupList = getMarkupListOfActiveElement(iframes[i].contentWindow.document.activeElement);
                     found = true;
-                    callback({markupList: markupList, isEditableText: true, url: request.pageUrl});
+                    callback({markupList: markupList, metaData: metaData, isEditableText: true, url: request.pageUrl});
                 } catch(e) {
                     // ignore - what else could we do here? We just iterate the frames until
                     // we find one with text in its activeElement
