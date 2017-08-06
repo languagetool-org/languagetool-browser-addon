@@ -51,6 +51,15 @@ function checkText(callback, request) {
     if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube
         metaData['EmailToAddress'] = document.getElementById("_to").value;
     }
+    if (request.pageUrl.indexOf("://mail.google.com")) {  // GMail
+        let elems = document.getElementsByName("to");
+        for (let obj of elems) {
+            if (obj.nodeName === 'INPUT') {
+                metaData['EmailToAddress'] = obj.value;
+            }
+        }
+    }
+    
     if (document.activeElement.tagName === "IFRAME") {
         // this case happens e.g. in roundcube when selecting text in an email one is reading:
         if (document.activeElement
