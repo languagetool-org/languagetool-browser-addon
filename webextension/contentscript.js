@@ -46,20 +46,7 @@ function handleRequest(request, sender, callback) {
 
 function checkText(callback, request) {
     lastUseDate = new Date().getTime();
-    let toAddress;
-    let metaData = {};
-    if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube
-        metaData['EmailToAddress'] = document.getElementById("_to").value;
-    }
-    if (request.pageUrl.indexOf("://mail.google.com")) {  // GMail
-        let elems = document.getElementsByName("to");
-        for (let obj of elems) {
-            if (obj.nodeName === 'INPUT') {
-                metaData['EmailToAddress'] = obj.value;
-            }
-        }
-    }
-    
+    let metaData = getMetaData(request);
     if (document.activeElement.tagName === "IFRAME") {
         // this case happens e.g. in roundcube when selecting text in an email one is reading:
         if (document.activeElement
@@ -105,6 +92,22 @@ function checkText(callback, request) {
             }
         }
     }
+}
+
+function getMetaData(request) {
+    let metaData = {};
+    if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube
+        metaData['EmailToAddress'] = document.getElementById("_to").value;
+    }
+    if (request.pageUrl.indexOf("://mail.google.com")) {  // GMail
+        let elems = document.getElementsByName("to");
+        for (let obj of elems) {
+            if (obj.nodeName === 'INPUT') {
+                metaData['EmailToAddress'] = obj.value;
+            }
+        }
+    }
+    return metaData;
 }
 
 function getCurrentText() {
