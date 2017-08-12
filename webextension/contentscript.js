@@ -96,7 +96,7 @@ function checkText(callback, request) {
 
 function getMetaData(request) {
     let metaData = {};
-    if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube
+    if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube (tested only with 1.0.1)
         metaData['EmailToAddress'] = document.getElementById("_to").value;
     }
     if (request.pageUrl.indexOf("://mail.google.com")) {  // GMail
