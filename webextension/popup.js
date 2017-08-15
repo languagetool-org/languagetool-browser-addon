@@ -284,18 +284,15 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
 }
 
 function setHintListener() {
-    if (Tools.isChrome()) {
-        // triggering the popup with a shortcut doesn't work yet in Firefox
-        chrome.commands.getAll(function(commands) {
-            Tools.getStorage().get({
-                showShortcutHint: true
-            }, function(items) {
-                if (items.showShortcutHint) {
-                    showShortcutHint(commands);
-                }
-            });
+    chrome.commands.getAll(function(commands) {
+        Tools.getStorage().get({
+            showShortcutHint: true
+        }, function(items) {
+            if (items.showShortcutHint) {
+                showShortcutHint(commands);
+            }
         });
-    }
+    });
 }
 
 function fillReviewRequest() {
