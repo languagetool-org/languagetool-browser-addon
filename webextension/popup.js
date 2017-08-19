@@ -76,7 +76,7 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
         });
         quotedLinesIgnored = text != textOrig;
     }
-    var userAgent = "webextension";
+    let userAgent = "webextension";
     if (Tools.isFirefox()) {
         userAgent += "-firefox";
     } else if (Tools.isChrome()) {
@@ -84,8 +84,8 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
     } else {
         userAgent += "-unknown";
     }
-    var params = 'disabledRules=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
-                 '&useragent=' + userAgent;
+    let params = 'disabledRules=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
+        '&useragent=' + userAgent;
     if (true) {  // TODO: activate 'data' mode when server supports it
         params += '&text=' + encodeURIComponent(text);
     } else {
@@ -146,14 +146,14 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let language = DOMPurify.sanitize(data.language.name);
     let languageCode = DOMPurify.sanitize(data.language.code);
     let shortLanguageCode = getShortCode(languageCode);
-    var translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
+    let translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
     if (!translatedLanguage) {
         translatedLanguage = chrome.i18n.getMessage(shortLanguageCode);  // needed for e.g. "ru-RU"
     }
     if (!translatedLanguage) {
         translatedLanguage = language;
     }
-    var html = '<a id="closeLink" href="#"></a>';
+    let html = '<a id="closeLink" href="#"></a>';
     html += DOMPurify.sanitize(getLanguageSelector(languageCode));
     html += '<div id="outerShortcutHint"></div>';
     html += "<hr>";
@@ -162,7 +162,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         dictionary: [],
         ignoredRules: []
     }, function(items) {
-        var matchesCount = 0;
+        let matchesCount = 0;
         // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
         if (matches) {
             let uniquePositionMatches = [];
@@ -182,7 +182,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             matches = uniquePositionMatches;
         }
 
-        var ignoredRuleCounts = {};
+        let ignoredRuleCounts = {};
         for (let match in matches) {
             let m = matches[match];
 
@@ -198,7 +198,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             let descriptionSanitized = DOMPurify.sanitize(m.rule.description);
 
             let wordSanitized = contextSanitized.substr(errStart, errLen);
-            var ignoreError = false;
+            let ignoreError = false;
 
             if (isSpellingError(m)) {
                 // Also accept uppercase versions of lowercase words in personal dict:
@@ -304,7 +304,7 @@ function fillReviewRequest() {
         //console.log("usageCounter: " + items.usageCounter + ", reviewRequestLinkClicked: " + items.reviewRequestLinkClicked);
         if (! items.reviewRequestLinkClicked && items.usageCounter >= minUsageForReviewRequest) {
             if (Tools.isChrome()) {
-                var reviewRequestId = document.getElementById("reviewRequest");
+                let reviewRequestId = document.getElementById("reviewRequest");
                 reviewRequestId.innerHTML = chrome.i18n.getMessage("reviewRequest", thisExtensionUrl + "/reviews");
                 reviewRequestId.addEventListener("click", function() {
                     storage.set({
@@ -345,14 +345,14 @@ function getLanguageSelector(languageCode) {
         "fa", "pl-PL", "pt-PT", "pt-BR", "ro-RO", "ru-RU", "sk-SK",
         "sl-SI", "es", "sv", "tl-PH", "ta-IN", "uk-UA"
     ];
-    var html = "<div id='top'>";
+    let html = "<div id='top'>";
     html += chrome.i18n.getMessage("language");
     html += "&nbsp;<select id='language'>";
-    for (var l in languages) {
+    for (let l in languages) {
         let langCode = languages[l];
         let langCodeForTrans = languages[l].replace(/-/g, "_");
         let selected = languageCode == langCode ? "selected" : "";
-        var translatedLang = chrome.i18n.getMessage(langCodeForTrans);
+        let translatedLang = chrome.i18n.getMessage(langCodeForTrans);
         if (!translatedLang) {
             translatedLang = chrome.i18n.getMessage(langCodeForTrans.replace(/_.*/, ""));
         }
@@ -383,8 +383,8 @@ function renderReplacements(contextSanitized, m, createLinks) {
     let errLen = parseInt(m.length);
     let errOffset = parseInt(m.offset);
     let errorTextSanitized = contextSanitized.substr(contextOffset, errLen);
-    var html = "<div class='replacements'>";
-    var i = 0;
+    let html = "<div class='replacements'>";
+    let i = 0;
     for (let idx in replacements) {
         let replacementSanitized = DOMPurify.sanitize(replacements[idx]);
         if (i >= 7) {
@@ -423,7 +423,7 @@ function addLinkListeners(response, tabs) {
 }
 
 function addListenerActions(elements, tabs, response) {
-    for (var i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
         let link = elements[i];
         let isRelevant = link.getAttribute("data-ruleIdOn")
                       || link.getAttribute("data-ruleIdOff")
@@ -439,7 +439,7 @@ function addListenerActions(elements, tabs, response) {
                     ignoredRules: []
                 }, function(items) {
                     let idx = 0;
-                    for (var rule of items.ignoredRules) {
+                    for (let rule of items.ignoredRules) {
                         if (rule.id == link.getAttribute('data-ruleIdOn')) {
                             items.ignoredRules.splice(idx, 1);
                             storage.set({'ignoredRules': items.ignoredRules}, function() { reCheck(tabs, "turn_on_rule") });
@@ -558,7 +558,7 @@ function startCheckMaybeWithWarning(tabs) {
                 Tools.getStorage().set({'usageCounter': newCounter}, function() {});
                 chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
             } else {
-                var message = "<p>";
+                let message = "<p>";
                 if (serverUrl === defaultServerUrl) {
                     message += chrome.i18n.getMessage("privacyNoteForDefaultServer", ["https://languagetool.org", "https://languagetool.org/privacy/"]);
                 } else {
@@ -612,8 +612,8 @@ function doCheck(tabs, causeOfCheck) {
 function getRandomToken() {
     let randomPool = new Uint8Array(8);
     crypto.getRandomValues(randomPool);
-    var hex = '';
-    for (var i = 0; i < randomPool.length; ++i) {
+    let hex = '';
+    for (let i = 0; i < randomPool.length; ++i) {
         hex += randomPool[i].toString(16);
     }
     return hex;
