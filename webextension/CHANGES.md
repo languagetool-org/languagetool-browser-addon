@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.18 (2017-08-19)
+  * Tracking: we now also track opening the options dialog to understand
+    how many users change their settings
+  
 ### 1.0.15, 1.0.16, 1.0.17 (2017-07-30)
   * Track unique users and actions like 'apply suggestion' - your IP address still
     isn't logged and we cannot identify you.
