@@ -23,6 +23,50 @@ class Tools {
     constructor() {
     }
 
+    static track(pageUrl, actionName) {
+        if (!Tools.isChrome()) {
+            // version with tracking not deployed yet for Firefox, so make it explicit that tracking on FF won't work:
+            return;
+        }
+        try {
+            let storage = Tools.getStorage();
+            storage.get({
+                uid: null
+            }, function(items) {
+                // needed to tell visits from  unique visitors:
+                let uid;
+                if (items.uid) {
+                    uid = items.uid;
+                } else {
+                    uid = getRandomToken();
+                    storage.set({uid: uid}, function() {});
+                }
+                let shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+)[?\/].*/, "$1");  // for privacy reasons, only log host
+                let url = encodeURIComponent(shortenedUrl);
+                let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
+                    "?idsite=12" +
+                    "&rec=1" +
+                    "&url=" + url +
+                    "&action_name=" + encodeURIComponent(actionName) +
+                    "&rand=" + Date.now() +
+                    "&apiv=1" +
+                    "&_id=" + uid;
+                //console.log("trackingUrl: " + trackingUrl);
+                let trackReq = new XMLHttpRequest();
+                trackReq.open('POST', trackingUrl);
+                trackReq.onerror = function() {
+                    console.log("LT add-on tracking failed");
+                };
+                trackReq.ontimeout = function() {
+                    console.log("LT add-on tracking failed with timeout");
+                };
+                trackReq.send();
+            });
+        } catch(e) {
+            console.log("LT add-on tracking failed: ", e);
+        }
+    }
+
     static getStorage() {
         // special case for Firefox as long as chrome.storage.sync is defined, but
         // not yet activated by default: https://github.com/languagetool-org/languagetool-browser-addon/issues/97
