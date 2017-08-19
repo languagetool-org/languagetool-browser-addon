@@ -41,7 +41,7 @@ class Tools {
                     uid = getRandomToken();
                     storage.set({uid: uid}, function() {});
                 }
-                let shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+)[?\/].*/, "$1");  // for privacy reasons, only log host
+                let shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1");  // for privacy reasons, only log host
                 let url = encodeURIComponent(shortenedUrl);
                 let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
                     "?idsite=12" +
