@@ -18,10 +18,12 @@
  */
 "use strict";
 
-console.log("binding events for popup");
+console.log("binding keys events for popup");
 
 const SELECT_ROW_ACTIVE = "suggestionActiveRow";
+const REPLACEMENT_ACTIVE = "replacementActive";
 const SUGGESTION_ROW = "suggestionRow";
+const REPLACEMENT_ROW = "replacement";
 const UP_KEY = "ArrowUp";
 const DOWN_KEY = "ArrowDown";
 const LEFT_KEY = "ArrowLeft";
@@ -30,6 +32,7 @@ const ENTER_KEY = "Enter";
 const DETECT_KEYS = [UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ENTER_KEY];
 
 let activeSelectRow = -1;
+let activeReplacement = -1;
 
 document.addEventListener(
   "keydown",
@@ -40,10 +43,12 @@ document.addEventListener(
         case UP_KEY:
           {
             if (activeSelectRow >= 0) {
-              activeSuggestionRow(activeSelectRow, false);
+              toggleSelectRow(activeSelectRow, false);
               activeSelectRow -= 1;
-              activeSuggestionRow(activeSelectRow);
-              scrollToActiveRow(activeSelectRow);
+              toggleSelectRow(activeSelectRow);
+              activeReplacement = -1;
+              selectFirstReplacement();
+              scrollToActiveRow();
             }
           }
           break;
@@ -52,19 +57,38 @@ document.addEventListener(
             const rows = document.getElementsByClassName(SUGGESTION_ROW);
             const MAX_ROWS = rows.length || 0;
             if (activeSelectRow < MAX_ROWS - 1) {
-              activeSuggestionRow(activeSelectRow, false);
+              toggleSelectRow(activeSelectRow, false);
               activeSelectRow += 1;
-              activeSuggestionRow(activeSelectRow);
-              scrollToActiveRow(activeSelectRow);
+              toggleSelectRow(activeSelectRow);
+              activeReplacement = -1;
+              selectFirstReplacement();
+              scrollToActiveRow();
             }
           }
           break;
         case LEFT_KEY:
           {
+            const row = selectedRow();
+            if (row && activeReplacement > 0) {
+              const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
+              toggleSelectReplacement(replacements, activeReplacement, false);
+              activeReplacement -= 1;
+              toggleSelectReplacement(replacements, activeReplacement);
+            }
           }
           break;
         case RIGHT_KEY:
           {
+            const row = selectedRow();
+            if (row) {
+              const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
+              const MAX_REPLACEMENTS = replacements.length || 0;
+              if (activeReplacement < MAX_REPLACEMENTS - 1) {
+                toggleSelectReplacement(replacements, activeReplacement, false);
+                activeReplacement += 1;
+                toggleSelectReplacement(replacements, activeReplacement);
+              }
+            }
           }
           break;
         case ENTER_KEY:
@@ -77,12 +101,25 @@ document.addEventListener(
   false
 );
 
-function activeSuggestionRow(rowIndex, isInsert = true) {
+function selectFirstReplacement() {
+  const row = selectedRow();
+  if (row) {
+    const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
+    const MAX_REPLACEMENTS = replacements.length || 0;
+    if (activeReplacement < MAX_REPLACEMENTS - 1) {
+      toggleSelectReplacement(replacements, activeReplacement, false);
+      activeReplacement += 1;
+      toggleSelectReplacement(replacements, activeReplacement);
+    }
+  }
+}
+
+function toggleSelectRow(rowIndex, isSelect = true) {
   const rows = document.getElementsByClassName(SUGGESTION_ROW);
   const selectedRow = rows[rowIndex];
   if (!!selectedRow) {
     const className = selectedRow.className;
-    if (isInsert) {
+    if (isSelect) {
       if (className.indexOf(SELECT_ROW_ACTIVE) === -1) {
         selectedRow.className = `${className} ${SELECT_ROW_ACTIVE}`;
       }
@@ -90,14 +127,44 @@ function activeSuggestionRow(rowIndex, isInsert = true) {
       if (className.indexOf(SELECT_ROW_ACTIVE) !== -1) {
         selectedRow.className = className.replace(` ${SELECT_ROW_ACTIVE}`, "");
       }
+      const replacements = selectedRow.getElementsByClassName(REPLACEMENT_ROW);
+      toggleSelectReplacement(replacements, activeReplacement, false);
     }
   }
 }
 
-function scrollToActiveRow(selectedRow) {
-  const activeElements = document.getElementsByClassName(SELECT_ROW_ACTIVE);
-  if (activeElements && activeElements.length) {
-    const element = activeElements[0];
+function toggleSelectReplacement(replacements, index, isSelect = true) {
+  if (replacements && replacements.length) {
+    const selectedReplacement = replacements[index];
+    if (!!selectedReplacement) {
+      const className = selectedReplacement.className;
+      if (isSelect) {
+        if (className.indexOf(REPLACEMENT_ACTIVE) === -1) {
+          selectedReplacement.className = `${className} ${REPLACEMENT_ACTIVE}`;
+        }
+      } else {
+        if (className.indexOf(REPLACEMENT_ACTIVE) !== -1) {
+          selectedReplacement.className = className.replace(
+            ` ${REPLACEMENT_ACTIVE}`,
+            ""
+          );
+        }
+      }
+    }
+  }
+}
+
+function scrollToActiveRow() {
+  const element = selectedRow();
+  if (element) {
     document.body.scrollTop = element.offsetTop - element.offsetHeight / 2;
   }
+}
+
+function selectedRow() {
+  const activeElements = document.getElementsByClassName(SELECT_ROW_ACTIVE);
+  if (activeElements && activeElements.length) {
+    return activeElements[0];
+  }
+  return null;
 }
