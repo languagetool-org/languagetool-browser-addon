@@ -1,190 +1,230 @@
 <!doctype html>
 <html>
-  <head>
+
+<head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>LanguageTool WebExtension</title>
     <style>
-      body {
-          font-family: sans-serif;
-          font-size: 100%;
-          padding-right: 8px;  /* needed for FF to look better */
-          background-color: white;
-          max-width: 450px;
-      }
-      li {
-          margin-bottom: 6px;
-      }
-      hr {
-          height: 1px;
-          color: #dddddd;
-          background: #dddddd;
-          font-size: 0;
-          border: 0;
-          margin-top: 1px;
-          margin-bottom: 10px;
-      }
-      #status {
-          min-width: 400px;
-          min-height: 300px;
-          max-width: 600px;
-          margin: 5px;
-      }
-      #outerShortcutHint {
-      }
-      #shortcutHint {
-          padding: 8px;
-          background-color: #dddddd;
-          border-radius: 7px;
-          margin-bottom: 8px;
-      }
-      #shortcutHint a {
-          text-decoration: none;
-      }
-      #shortcutHint tt {
-          background-color: #eeeeee;
-          padding: 2px;
-      }
-      #closeLink {
-          background-image: url(images/close.png);
-          margin-right: 5px;
-          float: right;
-          width: 16px;
-          height: 16px;
-      }
-      #closeLink:hover {
-          background-image: url(images/close-hover.png);
-      }
-      #language {
-          height: 30px;
-          overflow: hidden;
-          background-color: #ffffff;
-          border: 1px solid #cccccc;
-          margin-bottom: 8px;
-      }
-      .errorArea {
-          margin-top: 10px;
-          color: #777777;
-          margin-bottom: 3px;
-      }
-      .error {
-          color: #042dda;
-          padding-left: 2px;
-          padding-right: 2px;
-          padding-bottom: 2px;
-          background-image: url("images/squiggle.png");
-          background-repeat: repeat-x;
-          background-position: left bottom;
-      }
-      .poweredBy {
-          font-size: small;
-          color: #777777;  
-      }
-      #reviewRequest {
-          font-size: small;
-          color: #777777;
-      }
-      .quotedLinesIgnored {
-          font-size: small;
-          color: #777777;  
-      }
-      .privacyLink {
-          font-weight: bold;
-          font-size: large;
-      }
-      .replacements {
-          margin-top: 12px;
-          line-height: 1.5;
-      }
-      .replacement:hover {
-          background-color: #ffe790;
-      }
-      .replacement {
-          font-weight: bold;
-          margin-bottom: 8px;
-          display: inline-block;
-          height: 150%;
-          color: black;
-          background-color: #fff3c7;
-          text-decoration: none;
-      }
-      .quoteChar {
-          padding-left: 2px;
-          padding-right: 2px;
-          font-family: monospace;
-          background-color: #dddddd;
-      }
-      .addToDict {
-          float: right;
-          background: url(images/plus.png) no-repeat;
-          width: 18px;
-          height: 18px;
-          margin-top: 5px;
-          margin-left: 10px;
-          margin-bottom: 10px;
-      }
-      .addToDict:hover {
-          background: url(images/plus_highlight.png) no-repeat;
-          cursor: pointer;
-      }
-      .addToDictLink {
-          padding-left: 4px;
-          padding-right: 4px;
-      }
-      .turnOffRule {
-          float: right;
-          background: url(images/bell.png) no-repeat;
-          width: 18px;
-          height: 20px;
-          margin-top: 5px;
-          margin-left: 10px;
-          margin-bottom: 10px;
-      }
-      .turnOffRule:hover {
-          background: url(images/bell_highlight.png) no-repeat;
-          cursor: pointer;
-      }
-      .turnOffRuleLink {
-          padding-left: 4px;
-          padding-right: 4px;
-      }
-      .ignoredRulesIntro {
-          font-size: small;
-          color: #777777;
-      }
-      .turnOnRuleLink:hover {
-          color: #222222;
-      }
-      .turnOnRuleLink {
-          font-size: small;
-          color: #777777;
-          text-decoration: none;
-      }
+        body {
+            font-family: sans-serif;
+            font-size: 100%;
+            padding-right: 8px;
+            /* needed for FF to look better */
+            background-color: white;
+            max-width: 450px;
+        }
 
-      /* Suggestion Row Styling */
-      .hiddenSpellError {
-          border-left-color: rgba(255,0,0, 0.2);
-          border-left-style: solid;
-      }
-      .hiddenGrammarError {
-          border-left-color: #fee481;
-          border-left-style: solid;
-      }
-      .hiddenSuggestion {
-          border-left-color: rgb(201,205,255);
-          border-left-style: solid;
-      }
-      .suggestionRow {
-          padding: 8px;
-          margin-bottom: 8px;
-      }
+        li {
+            margin-bottom: 6px;
+        }
+
+        hr {
+            height: 1px;
+            color: #dddddd;
+            background: #dddddd;
+            font-size: 0;
+            border: 0;
+            margin-top: 1px;
+            margin-bottom: 10px;
+        }
+
+        #status {
+            min-width: 400px;
+            min-height: 300px;
+            max-width: 600px;
+            margin: 5px;
+        }
+
+        #outerShortcutHint {}
+
+        #shortcutHint {
+            padding: 8px;
+            background-color: #dddddd;
+            border-radius: 7px;
+            margin-bottom: 8px;
+        }
+
+        #shortcutHint a {
+            text-decoration: none;
+        }
+
+        #shortcutHint tt {
+            background-color: #eeeeee;
+            padding: 2px;
+        }
+
+        #closeLink {
+            background-image: url(images/close.png);
+            margin-right: 5px;
+            float: right;
+            width: 16px;
+            height: 16px;
+        }
+
+        #closeLink:hover {
+            background-image: url(images/close-hover.png);
+        }
+
+        #language {
+            height: 30px;
+            overflow: hidden;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            margin-bottom: 8px;
+        }
+
+        .errorArea {
+            margin-top: 10px;
+            color: #777777;
+            margin-bottom: 3px;
+        }
+
+        .error {
+            color: #042dda;
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-bottom: 2px;
+            background-image: url("images/squiggle.png");
+            background-repeat: repeat-x;
+            background-position: left bottom;
+        }
+
+        .poweredBy {
+            font-size: small;
+            color: #777777;
+        }
+
+        #reviewRequest {
+            font-size: small;
+            color: #777777;
+        }
+
+        .quotedLinesIgnored {
+            font-size: small;
+            color: #777777;
+        }
+
+        .privacyLink {
+            font-weight: bold;
+            font-size: large;
+        }
+
+        .replacements {
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .replacement:hover {
+            background-color: #ffe790;
+        }
+
+        .replacement {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: inline-block;
+            height: 150%;
+            color: black;
+            background-color: #fff3c7;
+            text-decoration: none;
+        }
+
+        .quoteChar {
+            padding-left: 2px;
+            padding-right: 2px;
+            font-family: monospace;
+            background-color: #dddddd;
+        }
+
+        .addToDict {
+            float: right;
+            background: url(images/plus.png) no-repeat;
+            width: 18px;
+            height: 18px;
+            margin-top: 5px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        .addToDict:hover {
+            background: url(images/plus_highlight.png) no-repeat;
+            cursor: pointer;
+        }
+
+        .addToDictLink {
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+
+        .turnOffRule {
+            float: right;
+            background: url(images/bell.png) no-repeat;
+            width: 18px;
+            height: 20px;
+            margin-top: 5px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        .turnOffRule:hover {
+            background: url(images/bell_highlight.png) no-repeat;
+            cursor: pointer;
+        }
+
+        .turnOffRuleLink {
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+
+        .ignoredRulesIntro {
+            font-size: small;
+            color: #777777;
+        }
+
+        .turnOnRuleLink:hover {
+            color: #222222;
+        }
+
+        .turnOnRuleLink {
+            font-size: small;
+            color: #777777;
+            text-decoration: none;
+        }
+        /* Suggestion Row Styling */
+
+        .hiddenSpellError {
+            border-left-color: rgba(255, 0, 0, 0.2);
+            border-left-style: solid;
+        }
+
+        .hiddenGrammarError {
+            border-left-color: #fee481;
+            border-left-style: solid;
+        }
+
+        .hiddenSuggestion {
+            border-left-color: rgb(201, 205, 255);
+            border-left-style: solid;
+        }
+
+        .suggestionRow {
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+
+        .suggestionActiveRow {
+            border: 2px solid #042dda;
+        }
     </style>
     <script src="popup.js"></script>
+    <script src="popup-events.js"></script>
     <script src="tools.js"></script>
     <script src="markup.js"></script>
     <script src="purify.min.js"></script>
     <script src="tests.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="status"></div>
-  </body>
+</body>
+
 </html>
