@@ -18,8 +18,6 @@
  */
 "use strict";
 
-console.log("binding keys events for popup");
-
 const SELECT_ROW_ACTIVE = "suggestionActiveRow";
 const REPLACEMENT_ACTIVE = "replacementActive";
 const SUGGESTION_ROW = "suggestionRow";
@@ -93,6 +91,18 @@ document.addEventListener(
           break;
         case ENTER_KEY:
           {
+            const row = selectedRow();
+            if (row) {
+              const replacements = row.getElementsByClassName(
+                REPLACEMENT_ACTIVE
+              );
+              if (replacements && replacements.length) {
+                const selectedReplacement = replacements[0];
+                if (selectedReplacement) {
+                  selectedReplacement.click();
+                }
+              }
+            }
           }
           break;
       }
