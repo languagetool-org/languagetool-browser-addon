@@ -38,6 +38,23 @@ let activeReplacement = -1;
 let activeTurnOffRule = false;
 let activeAddToDict = false;
 
+/* workaround for FF */
+if (Tools.isFirefox()) {
+  /* option 1 */
+  document.addEventListener(
+    "DOMContentLoaded",
+    event => {
+      console.log("DOM has loaded");
+      document.querySelector("body").focus();
+    },
+    false
+  );
+  /* option 2 */
+  setTimeout(() => {
+    document.querySelector("body").focus();
+  }, 100);
+}
+
 document.addEventListener(
   "keydown",
   event => {
