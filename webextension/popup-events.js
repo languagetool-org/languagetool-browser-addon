@@ -38,7 +38,9 @@ let activeReplacement = -1;
 let activeTurnOffRule = false;
 let activeAddToDict = false;
 
-/* workaround for FF */
+/* workaround for FF - attempt to work around lack of focus (https://bugzilla.mozilla.org/show_bug.cgi?id=1324255)
+   but doesn't really seem to work
+*/
 if (Tools.isFirefox()) {
   /* option 1 */
   document.addEventListener(
