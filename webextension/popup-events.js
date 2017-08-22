@@ -167,7 +167,9 @@ function toggleSelectReplacement(replacements, index, isSelect = true) {
 function scrollToActiveRow() {
   const element = selectedRow();
   if (element) {
-    document.body.scrollTop = element.offsetTop - element.offsetHeight / 2;
+    $.scrollTo(element, {
+      duration: 300
+    });
   }
 }
 
