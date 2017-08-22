@@ -80,6 +80,7 @@ document.addEventListener(
           {
             const row = selectedRow();
             activeTurnOffRule = false;
+            activeAddToDict = false;
             resetTurnOffRuleAndAddToDict();
             if (row && activeReplacement > 0) {
               const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
