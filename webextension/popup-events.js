@@ -48,6 +48,7 @@ document.addEventListener(
           {
             activeTurnOffRule = false;
             activeAddToDict = false;
+            resetTurnOffRuleAndAddToDict();
             if (activeSelectRow >= 0) {
               toggleSelectRow(activeSelectRow, false);
               activeSelectRow -= 1;
@@ -56,7 +57,6 @@ document.addEventListener(
               selectFirstReplacement();
               scrollToActiveRow();
             }
-            resetTurnOffRuleAndAddToDict();
           }
           break;
         case DOWN_KEY:
@@ -65,6 +65,7 @@ document.addEventListener(
             const MAX_ROWS = rows.length || 0;
             activeTurnOffRule = false;
             activeAddToDict = false;
+            resetTurnOffRuleAndAddToDict();
             if (activeSelectRow < MAX_ROWS - 1) {
               toggleSelectRow(activeSelectRow, false);
               activeSelectRow += 1;
@@ -73,20 +74,20 @@ document.addEventListener(
               selectFirstReplacement();
               scrollToActiveRow();
             }
-            resetTurnOffRuleAndAddToDict();
           }
           break;
         case LEFT_KEY:
           {
             const row = selectedRow();
             activeTurnOffRule = false;
+            resetTurnOffRuleAndAddToDict();
             if (row && activeReplacement > 0) {
               const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
               toggleSelectReplacement(replacements, activeReplacement, false);
               activeReplacement -= 1;
               toggleSelectReplacement(replacements, activeReplacement);
+              Tools.isFirefox() && scrollToActiveRow(600);
             }
-            resetTurnOffRuleAndAddToDict();
           }
           break;
         case RIGHT_KEY:
@@ -136,6 +137,7 @@ document.addEventListener(
                   }
                 }
               }
+              Tools.isFirefox() && scrollToActiveRow(600);
             }
           }
           break;
@@ -236,11 +238,12 @@ function toggleSelectReplacement(replacements, index, isSelect = true) {
   }
 }
 
-function scrollToActiveRow() {
+function scrollToActiveRow(duration = 200) {
   const element = selectedRow();
   if (element) {
     $.scrollTo(element, {
-      duration: 300
+      axis: "y",
+      duration
     });
   }
 }
