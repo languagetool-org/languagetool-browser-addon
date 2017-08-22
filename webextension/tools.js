@@ -50,7 +50,9 @@ class Tools {
                     "&action_name=" + encodeURIComponent(actionName) +
                     "&rand=" + Date.now() +
                     "&apiv=1" +
-                    "&_id=" + uid;
+                    "&_id=" + uid +
+                    "&e_c=Action" +
+                    "&e_a=" + encodeURIComponent(actionName);
                 //console.log("trackingUrl: " + trackingUrl);
                 let trackReq = new XMLHttpRequest();
                 trackReq.open('POST', trackingUrl);
