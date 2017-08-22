@@ -177,6 +177,11 @@ document.addEventListener(
                   }
                 }
               }
+              // reset selection
+              activeSelectRow = -1;
+              activeReplacement = -1;
+              activeTurnOffRule = false;
+              activeAddToDict = false;
             }
           }
           break;
