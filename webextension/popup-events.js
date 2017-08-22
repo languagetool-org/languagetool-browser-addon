@@ -20,6 +20,10 @@
 
 const SELECT_ROW_ACTIVE = "suggestionActiveRow";
 const REPLACEMENT_ACTIVE = "replacementActive";
+const SELECT_TURN_OF_RULE = "turnOffRuleActive";
+const SELECT_ADD_TO_DICT = "addToDictActive";
+const TURN_OF_RULE = "turnOffRule";
+const ADD_TO_DICT = "addToDict";
 const SUGGESTION_ROW = "suggestionRow";
 const REPLACEMENT_ROW = "replacement";
 const UP_KEY = "ArrowUp";
@@ -31,6 +35,8 @@ const DETECT_KEYS = [UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ENTER_KEY];
 
 let activeSelectRow = -1;
 let activeReplacement = -1;
+let activeTurnOffRule = false;
+let activeAddToDict = false;
 
 document.addEventListener(
   "keydown",
@@ -40,6 +46,8 @@ document.addEventListener(
       switch (keyName) {
         case UP_KEY:
           {
+            activeTurnOffRule = false;
+            activeAddToDict = false;
             if (activeSelectRow >= 0) {
               toggleSelectRow(activeSelectRow, false);
               activeSelectRow -= 1;
@@ -48,12 +56,15 @@ document.addEventListener(
               selectFirstReplacement();
               scrollToActiveRow();
             }
+            resetTurnOffRuleAndAddToDict();
           }
           break;
         case DOWN_KEY:
           {
             const rows = document.getElementsByClassName(SUGGESTION_ROW);
             const MAX_ROWS = rows.length || 0;
+            activeTurnOffRule = false;
+            activeAddToDict = false;
             if (activeSelectRow < MAX_ROWS - 1) {
               toggleSelectRow(activeSelectRow, false);
               activeSelectRow += 1;
@@ -62,17 +73,20 @@ document.addEventListener(
               selectFirstReplacement();
               scrollToActiveRow();
             }
+            resetTurnOffRuleAndAddToDict();
           }
           break;
         case LEFT_KEY:
           {
             const row = selectedRow();
+            activeTurnOffRule = false;
             if (row && activeReplacement > 0) {
               const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
               toggleSelectReplacement(replacements, activeReplacement, false);
               activeReplacement -= 1;
               toggleSelectReplacement(replacements, activeReplacement);
             }
+            resetTurnOffRuleAndAddToDict();
           }
           break;
         case RIGHT_KEY:
@@ -84,7 +98,43 @@ document.addEventListener(
               if (activeReplacement < MAX_REPLACEMENTS - 1) {
                 toggleSelectReplacement(replacements, activeReplacement, false);
                 activeReplacement += 1;
+                activeTurnOffRule = false;
                 toggleSelectReplacement(replacements, activeReplacement);
+              } else {
+                const turnOffRule = row.getElementsByClassName(TURN_OF_RULE);
+                const addToDict = row.getElementsByClassName(ADD_TO_DICT);
+                if (turnOffRule && turnOffRule.length && !activeTurnOffRule) {
+                  toggleSelectReplacement(
+                    replacements,
+                    activeReplacement,
+                    false
+                  );
+                  activeReplacement += 1;
+                  activeTurnOffRule = true;
+                  const element = turnOffRule[0];
+                  if (
+                    element &&
+                    element.className.indexOf(SELECT_TURN_OF_RULE) === -1
+                  ) {
+                    element.className += ` ${SELECT_TURN_OF_RULE}`;
+                  }
+                }
+                if (addToDict && addToDict.length && !activeAddToDict) {
+                  toggleSelectReplacement(
+                    replacements,
+                    activeReplacement,
+                    false
+                  );
+                  activeReplacement += 1;
+                  activeAddToDict = true;
+                  const element = addToDict[0];
+                  if (
+                    element &&
+                    element.className.indexOf(SELECT_ADD_TO_DICT) === -1
+                  ) {
+                    element.className += ` ${SELECT_ADD_TO_DICT}`;
+                  }
+                }
               }
             }
           }
@@ -93,13 +143,35 @@ document.addEventListener(
           {
             const row = selectedRow();
             if (row) {
-              const replacements = row.getElementsByClassName(
-                REPLACEMENT_ACTIVE
-              );
-              if (replacements && replacements.length) {
-                const selectedReplacement = replacements[0];
-                if (selectedReplacement) {
-                  selectedReplacement.click();
+              if (activeTurnOffRule) {
+                const turnOffRules = row.getElementsByClassName(
+                  SELECT_TURN_OF_RULE
+                );
+                if (turnOffRules && turnOffRules.length) {
+                  const element = turnOffRules[0];
+                  if (element) {
+                    element.click();
+                  }
+                }
+              } else if (activeAddToDict) {
+                const addToDicts = row.getElementsByClassName(
+                  SELECT_ADD_TO_DICT
+                );
+                if (addToDicts && addToDicts.length) {
+                  const element = addToDicts[0];
+                  if (element) {
+                    element.click();
+                  }
+                }
+              } else {
+                const replacements = row.getElementsByClassName(
+                  REPLACEMENT_ACTIVE
+                );
+                if (replacements && replacements.length) {
+                  const selectedReplacement = replacements[0];
+                  if (selectedReplacement) {
+                    selectedReplacement.click();
+                  }
                 }
               }
             }
@@ -179,4 +251,31 @@ function selectedRow() {
     return activeElements[0];
   }
   return null;
+}
+
+function resetTurnOffRuleAndAddToDict() {
+  const turnOffRules = document.getElementsByClassName(SELECT_TURN_OF_RULE);
+  const addToDicts = document.getElementsByClassName(SELECT_ADD_TO_DICT);
+  if (turnOffRules && turnOffRules.length) {
+    for (let counter = 0; counter < turnOffRules.length; counter += 1) {
+      const element = turnOffRules[counter];
+      if (element && element.className.indexOf(SELECT_TURN_OF_RULE) !== -1) {
+        element.className = element.className.replace(
+          ` ${SELECT_TURN_OF_RULE}`,
+          ""
+        );
+      }
+    }
+  }
+  if (addToDicts && addToDicts.length) {
+    for (let counter = 0; counter < addToDicts.length; counter += 1) {
+      const element = addToDicts[counter];
+      if (element && element.className.indexOf(SELECT_ADD_TO_DICT) !== -1) {
+        element.className = element.className.replace(
+          ` ${SELECT_ADD_TO_DICT}`,
+          ""
+        );
+      }
+    }
+  }
 }
