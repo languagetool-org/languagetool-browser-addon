@@ -1,4 +1,4 @@
-/* LanguageTool for Chrome 
+/* LanguageTool WebExtension 
  * Copyright (C) 2015-2017 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
