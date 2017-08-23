@@ -1,11 +1,11 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.19 (2017-08-xx)
-  * Tracking fixes
+### 1.0.19 (2017-08-23)
   * Chrome only: the add-on can now be used with the keyboard only. Use
     cursor up/down to navigate to an error, use cursor right/left to
     select a suggestion and `Return` to apply a suggestion.
     (https://github.com/languagetool-org/languagetool-browser-addon/issues/109)
+  * Tracking fixes
   
 ### 1.0.18 (2017-08-19)
   * Tracking: we now also track opening the options dialog to understand
