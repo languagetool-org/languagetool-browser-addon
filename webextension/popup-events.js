@@ -20,9 +20,9 @@
 
 const SELECT_ROW_ACTIVE = "suggestionActiveRow";
 const REPLACEMENT_ACTIVE = "replacementActive";
-const SELECT_TURN_OF_RULE = "turnOffRuleActive";
+const SELECT_TURN_OFF_RULE = "turnOffRuleActive";
 const SELECT_ADD_TO_DICT = "addToDictActive";
-const TURN_OF_RULE = "turnOffRule";
+const TURN_OFF_RULE = "turnOffRule";
 const ADD_TO_DICT = "addToDict";
 const SUGGESTION_ROW = "suggestionRow";
 const REPLACEMENT_ROW = "replacement";
@@ -122,7 +122,7 @@ document.addEventListener(
                 activeTurnOffRule = false;
                 toggleSelectReplacement(replacements, activeReplacement);
               } else {
-                const turnOffRule = row.getElementsByClassName(TURN_OF_RULE);
+                const turnOffRule = row.getElementsByClassName(TURN_OFF_RULE);
                 const addToDict = row.getElementsByClassName(ADD_TO_DICT);
                 if (turnOffRule && turnOffRule.length && !activeTurnOffRule) {
                   toggleSelectReplacement(
@@ -135,9 +135,9 @@ document.addEventListener(
                   const element = turnOffRule[0];
                   if (
                     element &&
-                    element.className.indexOf(SELECT_TURN_OF_RULE) === -1
+                    element.className.indexOf(SELECT_TURN_OFF_RULE) === -1
                   ) {
-                    element.className += ` ${SELECT_TURN_OF_RULE}`;
+                    element.className += ` ${SELECT_TURN_OFF_RULE}`;
                   }
                 }
                 if (addToDict && addToDict.length && !activeAddToDict) {
@@ -167,7 +167,7 @@ document.addEventListener(
             if (row) {
               if (activeTurnOffRule) {
                 const turnOffRules = row.getElementsByClassName(
-                  SELECT_TURN_OF_RULE
+                  SELECT_TURN_OFF_RULE
                 );
                 if (turnOffRules && turnOffRules.length) {
                   const element = turnOffRules[0];
@@ -282,14 +282,14 @@ function selectedRow() {
 }
 
 function resetTurnOffRuleAndAddToDict() {
-  const turnOffRules = document.getElementsByClassName(SELECT_TURN_OF_RULE);
+  const turnOffRules = document.getElementsByClassName(SELECT_TURN_OFF_RULE);
   const addToDicts = document.getElementsByClassName(SELECT_ADD_TO_DICT);
   if (turnOffRules && turnOffRules.length) {
     for (let counter = 0; counter < turnOffRules.length; counter += 1) {
       const element = turnOffRules[counter];
-      if (element && element.className.indexOf(SELECT_TURN_OF_RULE) !== -1) {
+      if (element && element.className.indexOf(SELECT_TURN_OFF_RULE) !== -1) {
         element.className = element.className.replace(
-          ` ${SELECT_TURN_OF_RULE}`,
+          ` ${SELECT_TURN_OFF_RULE}`,
           ""
         );
       }
