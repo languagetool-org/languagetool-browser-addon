@@ -1,4 +1,4 @@
-/* LanguageTool for Chrome 
+/* LanguageTool WebExtension 
  * Copyright (C) 2015-2017 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -73,8 +73,8 @@ function checkText(callback, request) {
             // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simply doesn't
             // seem to work if focus is inside the iframe.
             let iframes = document.getElementsByTagName("iframe");
-            var found = false;
-            for (var i = 0; i < iframes.length; i++) {
+            let found = false;
+            for (let i = 0; i < iframes.length; i++) {
                 try {
                     let markupList = getMarkupListOfActiveElement(iframes[i].contentWindow.document.activeElement);
                     found = true;
@@ -142,7 +142,7 @@ function getMarkupListOfActiveElement(elem) {
 }
 
 function applyCorrection(request) {
-    var newMarkupList;
+    let newMarkupList;
     try {
         newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
     } catch (e) {
@@ -154,7 +154,7 @@ function applyCorrection(request) {
     // TODO: active element might have changed in between?!
     let activeElem = document.activeElement;
     // Note: this duplicates the logic from getTextOfActiveElement():
-    var found = false;
+    let found = false;
     if (isSimpleInput(activeElem)) {
         found = replaceIn(activeElem, "value", newMarkupList);
     } else if (activeElem.hasAttribute("contenteditable")) {

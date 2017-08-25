@@ -1,4 +1,4 @@
-/* LanguageTool for Chrome 
+/* LanguageTool WebExtension
  * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -41,8 +41,8 @@ function runTest1(tabs, textareaId, expectedErrorCount) {
 }
 
 function getCorrectionLinks(links) {
-    var result = [];
-    for (var i = 0; i < links.length; i++) {
+    let result = [];
+    for (let i = 0; i < links.length; i++) {
         if (links[i].getAttribute('data-contextleft')) {
             result.push(links[i]);
         }

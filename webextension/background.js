@@ -24,7 +24,7 @@ if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
   chrome.contextMenus.onClicked.addListener(onClickHandler);
   chrome.runtime.onInstalled.addListener(function() {
     chrome.commands.getAll(function(commands) {
-      var shortcut = "";
+      let shortcut = "";
       if (commands && commands.length && commands.length > 0 && commands[0].shortcut) {
         shortcut = commands[0].shortcut;
       }

@@ -1,4 +1,4 @@
-/* LanguageTool for Chrome 
+/* LanguageTool WebExtension 
  * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -21,13 +21,13 @@
 class Markup {
 
     static html2markupList(html, doc) {
-        var result = [];
-        var inMarkup = false;
-        var attributeStartChar = null;
-        var buffer = "";
-        for (var i = 0; i < html.length; i++) {
+        let result = [];
+        let inMarkup = false;
+        let attributeStartChar = null;
+        let buffer = "";
+        for (let i = 0; i < html.length; i++) {
             let ch = html[i];
-            var skip = false;
+            let skip = false;
             if (ch === '<' && !attributeStartChar) {  // innerHTML seems to give us an unescaped result, so we need to deal with '<'
                 if (buffer) {
                     result.push({text: Markup._resolveEntities(buffer, doc)});
@@ -81,7 +81,7 @@ class Markup {
     }
 
     static markupList2html(markupList) {
-        var result = "";
+        let result = "";
         for (let idx in markupList) {
             let elem = markupList[idx];
             if (elem.markup) {
@@ -96,7 +96,7 @@ class Markup {
     }
 
     static markupList2text(markupList) {
-        var result = "";
+        let result = "";
         for (let idx in markupList) {
             let elem = markupList[idx];
             if (elem.text) {
@@ -107,9 +107,9 @@ class Markup {
     }
 
     static replace(markupList, plainTextErrorOffset, errorLen, errorReplacement) {
-        var result = [];
-        var plainTextPos = 0;
-        var found = false;
+        let result = [];
+        let plainTextPos = 0;
+        let found = false;
         for (let idx in markupList) {
             let elem = markupList[idx];
             if (elem.text && elem.markup) {
