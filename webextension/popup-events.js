@@ -62,6 +62,7 @@ document.addEventListener(
   event => {
     const keyName = event.key;
     if (DETECT_KEYS.indexOf(keyName) !== -1) {
+      console.warn("keyName", keyName);
       switch (keyName) {
         case UP_KEY:
           {
@@ -164,12 +165,14 @@ document.addEventListener(
         case ENTER_KEY:
           {
             const row = selectedRow();
+            let hasTrigger = false;
             if (row) {
               if (activeTurnOffRule) {
                 const turnOffRules = row.getElementsByClassName(
                   SELECT_TURN_OFF_RULE
                 );
                 if (turnOffRules && turnOffRules.length) {
+                  hasTrigger = true;
                   const element = turnOffRules[0];
                   if (element) {
                     element.click();
@@ -180,6 +183,7 @@ document.addEventListener(
                   SELECT_ADD_TO_DICT
                 );
                 if (addToDicts && addToDicts.length) {
+                  hasTrigger = true;
                   const element = addToDicts[0];
                   if (element) {
                     element.click();
@@ -189,18 +193,22 @@ document.addEventListener(
                 const replacements = row.getElementsByClassName(
                   REPLACEMENT_ACTIVE
                 );
+                console.warn("replacements", replacements);
                 if (replacements && replacements.length) {
                   const selectedReplacement = replacements[0];
+                  hasTrigger = true;
                   if (selectedReplacement) {
                     selectedReplacement.click();
                   }
                 }
               }
               // reset selection
-              activeSelectRow = -1;
-              activeReplacement = -1;
-              activeTurnOffRule = false;
-              activeAddToDict = false;
+              if (hasTrigger) {
+                activeSelectRow = -1;
+                activeReplacement = -1;
+                activeTurnOffRule = false;
+                activeAddToDict = false;
+              }
             }
           }
           break;
