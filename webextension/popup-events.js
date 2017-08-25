@@ -101,7 +101,36 @@ document.addEventListener(
             activeTurnOffRule = false;
             activeAddToDict = false;
             resetTurnOffRuleAndAddToDict();
-            if (row && activeReplacement > 0) {
+            if (activeReplacement <= 0) {
+              // first line, navigate left to turn off rule or add to dict
+              const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
+              const turnOffRule = row.getElementsByClassName(TURN_OFF_RULE);
+              const addToDict = row.getElementsByClassName(ADD_TO_DICT);
+              if (turnOffRule && turnOffRule.length && !activeTurnOffRule) {
+                toggleSelectReplacement(replacements, activeReplacement, false);
+                activeReplacement = replacements.length;
+                activeTurnOffRule = true;
+                const element = turnOffRule[0];
+                if (
+                  element &&
+                  element.className.indexOf(SELECT_TURN_OFF_RULE) === -1
+                ) {
+                  element.className += ` ${SELECT_TURN_OFF_RULE}`;
+                }
+              }
+              if (addToDict && addToDict.length && !activeAddToDict) {
+                toggleSelectReplacement(replacements, activeReplacement, false);
+                activeReplacement = replacements.length;
+                activeAddToDict = true;
+                const element = addToDict[0];
+                if (
+                  element &&
+                  element.className.indexOf(SELECT_ADD_TO_DICT) === -1
+                ) {
+                  element.className += ` ${SELECT_ADD_TO_DICT}`;
+                }
+              }
+            } else if (row && activeReplacement > 0) {
               const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
               toggleSelectReplacement(replacements, activeReplacement, false);
               activeReplacement -= 1;
@@ -164,12 +193,14 @@ document.addEventListener(
         case ENTER_KEY:
           {
             const row = selectedRow();
+            let hasTrigger = false;
             if (row) {
               if (activeTurnOffRule) {
                 const turnOffRules = row.getElementsByClassName(
                   SELECT_TURN_OFF_RULE
                 );
                 if (turnOffRules && turnOffRules.length) {
+                  hasTrigger = true;
                   const element = turnOffRules[0];
                   if (element) {
                     element.click();
@@ -180,6 +211,7 @@ document.addEventListener(
                   SELECT_ADD_TO_DICT
                 );
                 if (addToDicts && addToDicts.length) {
+                  hasTrigger = true;
                   const element = addToDicts[0];
                   if (element) {
                     element.click();
@@ -191,16 +223,19 @@ document.addEventListener(
                 );
                 if (replacements && replacements.length) {
                   const selectedReplacement = replacements[0];
+                  hasTrigger = true;
                   if (selectedReplacement) {
                     selectedReplacement.click();
                   }
                 }
               }
               // reset selection
-              activeSelectRow = -1;
-              activeReplacement = -1;
-              activeTurnOffRule = false;
-              activeAddToDict = false;
+              if (hasTrigger) {
+                activeSelectRow = -1;
+                activeReplacement = -1;
+                activeTurnOffRule = false;
+                activeAddToDict = false;
+              }
             }
           }
           break;
