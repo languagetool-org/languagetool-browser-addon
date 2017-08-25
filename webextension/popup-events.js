@@ -62,7 +62,6 @@ document.addEventListener(
   event => {
     const keyName = event.key;
     if (DETECT_KEYS.indexOf(keyName) !== -1) {
-      console.warn("keyName", keyName);
       switch (keyName) {
         case UP_KEY:
           {
@@ -102,7 +101,36 @@ document.addEventListener(
             activeTurnOffRule = false;
             activeAddToDict = false;
             resetTurnOffRuleAndAddToDict();
-            if (row && activeReplacement > 0) {
+            if (activeReplacement <= 0) {
+              // first line, navigate left to turn off rule or add to dict
+              const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
+              const turnOffRule = row.getElementsByClassName(TURN_OFF_RULE);
+              const addToDict = row.getElementsByClassName(ADD_TO_DICT);
+              if (turnOffRule && turnOffRule.length && !activeTurnOffRule) {
+                toggleSelectReplacement(replacements, activeReplacement, false);
+                activeReplacement = replacements.length;
+                activeTurnOffRule = true;
+                const element = turnOffRule[0];
+                if (
+                  element &&
+                  element.className.indexOf(SELECT_TURN_OFF_RULE) === -1
+                ) {
+                  element.className += ` ${SELECT_TURN_OFF_RULE}`;
+                }
+              }
+              if (addToDict && addToDict.length && !activeAddToDict) {
+                toggleSelectReplacement(replacements, activeReplacement, false);
+                activeReplacement = replacements.length;
+                activeAddToDict = true;
+                const element = addToDict[0];
+                if (
+                  element &&
+                  element.className.indexOf(SELECT_ADD_TO_DICT) === -1
+                ) {
+                  element.className += ` ${SELECT_ADD_TO_DICT}`;
+                }
+              }
+            } else if (row && activeReplacement > 0) {
               const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
               toggleSelectReplacement(replacements, activeReplacement, false);
               activeReplacement -= 1;
@@ -193,7 +221,6 @@ document.addEventListener(
                 const replacements = row.getElementsByClassName(
                   REPLACEMENT_ACTIVE
                 );
-                console.warn("replacements", replacements);
                 if (replacements && replacements.length) {
                   const selectedReplacement = replacements[0];
                   hasTrigger = true;
