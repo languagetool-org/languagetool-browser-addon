@@ -1,7 +1,8 @@
 #!/bin/bash
 # script to fetch translated JSON files for Chrome/WebExtension from Transifex
 
-source .lgn
+# a bash file that sets variables U (user) and P (password):
+source ~/.transifex_login
 
 if [[ -z "$U" || -z "$P" ]]; then
 	echo "Set \$U and \$P with username and password for transifex"
