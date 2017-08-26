@@ -142,6 +142,7 @@ document.addEventListener(
         case RIGHT_KEY:
           {
             const row = selectedRow();
+            resetTurnOffRuleAndAddToDict();
             if (row) {
               const replacements = row.getElementsByClassName(REPLACEMENT_ROW);
               const MAX_REPLACEMENTS = replacements.length || 0;
@@ -153,7 +154,13 @@ document.addEventListener(
               } else {
                 const turnOffRule = row.getElementsByClassName(TURN_OFF_RULE);
                 const addToDict = row.getElementsByClassName(ADD_TO_DICT);
-                if (turnOffRule && turnOffRule.length && !activeTurnOffRule) {
+                if (turnOffRule && activeTurnOffRule || addToDict && activeAddToDict) {
+                  toggleSelectReplacement(replacements, activeReplacement, false);
+                  activeTurnOffRule = false;
+                  activeAddToDict = false;
+                  activeReplacement = 0;
+                  toggleSelectReplacement(replacements, activeReplacement);
+                } else if (turnOffRule && turnOffRule.length && !activeTurnOffRule) {
                   toggleSelectReplacement(
                     replacements,
                     activeReplacement,
@@ -168,8 +175,7 @@ document.addEventListener(
                   ) {
                     element.className += ` ${SELECT_TURN_OFF_RULE}`;
                   }
-                }
-                if (addToDict && addToDict.length && !activeAddToDict) {
+                } else if (addToDict && addToDict.length && !activeAddToDict) {
                   toggleSelectReplacement(
                     replacements,
                     activeReplacement,
