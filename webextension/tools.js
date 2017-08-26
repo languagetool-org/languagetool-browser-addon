@@ -18,6 +18,9 @@
  */
 "use strict";
 
+const trackingBaseUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php";
+const trackingSiteId = "12";
+
 class Tools {
 
     constructor() {
@@ -43,8 +46,8 @@ class Tools {
                 }
                 const shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1");  // for privacy reasons, only log host
                 const url = encodeURIComponent(shortenedUrl);
-                const trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
-                    "?idsite=12" +
+                const trackingUrl = trackingBaseUrl +
+                    "?idsite=" + trackingSiteId +
                     "&rec=1" +
                     "&url=" + url +
                     "&action_name=" + encodeURIComponent(actionName) +
