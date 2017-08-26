@@ -347,6 +347,7 @@ function getLanguageSelector(languageCode) {
     ];
     let html = "<div id='top'>";
     html += chrome.i18n.getMessage("language");
+    html += "<input type='hidden' id='prevLanguage' name='prevLanguage' value='" + Tools.escapeHtml(languageCode) + "'>";
     html += "&nbsp;<select id='language'>";
     for (let l in languages) {
         const langCode = languages[l];
@@ -412,7 +413,9 @@ function renderReplacements(contextSanitized, m, createLinks) {
 function addLinkListeners(response, tabs) {
     document.getElementById("language").addEventListener("change", function() {
         manuallySelectedLanguage = document.getElementById("language").value;
-        doCheck(tabs, "switch_language");
+        const prevLanguage = document.getElementById("prevLanguage").value;
+        const langSwitch = prevLanguage + " -> " + manuallySelectedLanguage;
+        doCheck(tabs, "switch_language", langSwitch);
     });
     const closeLink = document.getElementById("closeLink");
     closeLink.addEventListener("click", function() {
@@ -582,7 +585,7 @@ function startCheckMaybeWithWarning(tabs) {
         });
 }
 
-function doCheck(tabs, causeOfCheck) {
+function doCheck(tabs, causeOfCheck, optionalTrackDetails) {
     renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
     const url = tabs[0].url ? tabs[0].url : "";
     if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
@@ -600,7 +603,7 @@ function doCheck(tabs, causeOfCheck) {
             return;
         }
     }
-    Tools.track(tabs[0].url, "check_trigger:" + causeOfCheck);
+    Tools.track(tabs[0].url, "check_trigger:" + causeOfCheck, optionalTrackDetails);
     chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function(response) {
         handleCheckResult(response, tabs);
         Tools.getStorage().set({

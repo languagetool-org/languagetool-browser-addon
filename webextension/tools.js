@@ -26,7 +26,7 @@ class Tools {
     constructor() {
     }
 
-    static track(pageUrl, actionName) {
+    static track(pageUrl, actionName, optionalTrackDetails) {
         if (!Tools.isChrome()) {
             // version with tracking not deployed yet for Firefox, so make it explicit that tracking on FF won't work:
             return;
@@ -55,7 +55,8 @@ class Tools {
                     "&apiv=1" +
                     "&_id=" + uid +
                     "&e_c=Action" +
-                    "&e_a=" + encodeURIComponent(actionName);
+                    "&e_a=" + encodeURIComponent(actionName) +
+                    (optionalTrackDetails ? "&e_n=" + encodeURIComponent(optionalTrackDetails) : "");
                 //console.log("trackingUrl: " + trackingUrl);
                 const trackReq = new XMLHttpRequest();
                 trackReq.open('POST', trackingUrl);

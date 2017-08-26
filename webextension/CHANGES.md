@@ -1,5 +1,10 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.20 (2017-xx-xx)
+  * improvements to keyboard-only usage
+  * tracking manual language switching so we can see for which language pairs the
+    automatic detection doesn't work well
+
 ### 1.0.19 (2017-08-23)
   * Chrome only: the add-on can now be used with the keyboard only. Use
     cursor up/down to navigate to an error, use cursor right/left to
