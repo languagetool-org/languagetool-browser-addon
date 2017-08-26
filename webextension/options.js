@@ -18,11 +18,11 @@
  */
 "use strict";
 
-let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in popup.js
+const defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in popup.js
 
 function saveOptions() {
-    let url = document.getElementById('apiServerUrl').value;
-    let status = document.getElementById('status');
+    const url = document.getElementById('apiServerUrl').value;
+    const status = document.getElementById('status');
     if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
         status.textContent = 'This URL is not valid.';
     } else {
@@ -73,7 +73,7 @@ function restoreOptions() {
         document.getElementById('variant-pt').value = items.ptVariant;
         document.getElementById('variant-ca').value = items.caVariant;
         //document.getElementById('variant-ca-desc').value = items.caVariant;
-        let dict = items.dictionary.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+        const dict = items.dictionary.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         document.getElementById('dictionary').value = dict.join("\n") + "\n";
         showPrivacyLink();
     });

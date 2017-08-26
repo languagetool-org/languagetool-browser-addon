@@ -29,7 +29,7 @@ class Tools {
             return;
         }
         try {
-            let storage = Tools.getStorage();
+            const storage = Tools.getStorage();
             storage.get({
                 uid: null
             }, function(items) {
@@ -41,9 +41,9 @@ class Tools {
                     uid = getRandomToken();
                     storage.set({uid: uid}, function() {});
                 }
-                let shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1");  // for privacy reasons, only log host
-                let url = encodeURIComponent(shortenedUrl);
-                let trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
+                const shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1");  // for privacy reasons, only log host
+                const url = encodeURIComponent(shortenedUrl);
+                const trackingUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php" +
                     "?idsite=12" +
                     "&rec=1" +
                     "&url=" + url +
@@ -54,7 +54,7 @@ class Tools {
                     "&e_c=Action" +
                     "&e_a=" + encodeURIComponent(actionName);
                 //console.log("trackingUrl: " + trackingUrl);
-                let trackReq = new XMLHttpRequest();
+                const trackReq = new XMLHttpRequest();
                 trackReq.open('POST', trackingUrl);
                 trackReq.onerror = function() {
                     console.log("LT add-on tracking failed");
@@ -81,9 +81,9 @@ class Tools {
             // to improve the add-on, so don't send anywhere else:
             return;
         }
-        let req = new XMLHttpRequest();
+        const req = new XMLHttpRequest();
         req.timeout = 60 * 1000; // milliseconds
-        let url = serverUrl + (serverUrl.endsWith("/") ? "log" : "/log");
+        const url = serverUrl + (serverUrl.endsWith("/") ? "log" : "/log");
         req.open('POST', url);
         req.onload = function() {
             // do nothing (also ignore timeout and errors)
@@ -109,17 +109,17 @@ class Tools {
     }
 
     static startWithLowercase(str) {
-        let firstCh = str.charAt(0);
+        const firstCh = str.charAt(0);
         return firstCh == firstCh.toLowerCase() && firstCh != firstCh.toUpperCase();
     }
 
     static startWithUppercase(str) {
-        let firstCh = str.charAt(0);
+        const firstCh = str.charAt(0);
         return firstCh == firstCh.toUpperCase() && firstCh != firstCh.toLowerCase();
     }
 
     static lowerCaseFirstChar(str) {
-        let firstCh = str.charAt(0);
+        const firstCh = str.charAt(0);
         return firstCh.toLowerCase() + str.substr(1);
     }
 

@@ -26,7 +26,7 @@ class Markup {
         let attributeStartChar = null;
         let buffer = "";
         for (let i = 0; i < html.length; i++) {
-            let ch = html[i];
+            const ch = html[i];
             let skip = false;
             if (ch === '<' && !attributeStartChar) {  // innerHTML seems to give us an unescaped result, so we need to deal with '<'
                 if (buffer) {
@@ -63,7 +63,7 @@ class Markup {
     // also set a text that has entities resolved, but I hope that never makes a difference.
     static _resolveEntities(str, doc) {
         // Source: http://stackoverflow.com/questions/3700326/decode-amp-back-to-in-javascript/3700369#3700369
-        let elem = doc.createElement('textarea');
+        const elem = doc.createElement('textarea');
         elem.innerHTML = DOMPurify.sanitize(str);
         return elem.value;
     }
@@ -83,7 +83,7 @@ class Markup {
     static markupList2html(markupList) {
         let result = "";
         for (let idx in markupList) {
-            let elem = markupList[idx];
+            const elem = markupList[idx];
             if (elem.markup) {
                 result += elem.markup;
             } else if (elem.text) {
@@ -107,26 +107,26 @@ class Markup {
     }
 
     static replace(markupList, plainTextErrorOffset, errorLen, errorReplacement) {
-        let result = [];
+        const result = [];
         let plainTextPos = 0;
         let found = false;
         for (let idx in markupList) {
-            let elem = markupList[idx];
+            const elem = markupList[idx];
             if (elem.text && elem.markup) {
                 result.push({text: elem.text, markup: elem.markup});
                 plainTextPos += elem.text.length;
             } else if (elem.text) {
-                let fromPos = plainTextPos;
-                let toPos = plainTextPos + elem.text.length;
+                const fromPos = plainTextPos;
+                const toPos = plainTextPos + elem.text.length;
                 if (plainTextErrorOffset >= fromPos && plainTextErrorOffset <= toPos) {
-                    let relErrorOffset = plainTextErrorOffset - fromPos;
+                    const relErrorOffset = plainTextErrorOffset - fromPos;
                     if (relErrorOffset !== elem.text.length) {
                         // this is an ambiguous case, e.g. insert the error at position 3 here:
                         // <div>foo</div>bar
                         // -> but is position 3 after the "foo" or in front of "bar"? We assume it's in front of 'bar',
                         // that seems to be the better choice for our use case
-                        let secureReplacement = DOMPurify.sanitize(errorReplacement);
-                        let newText = elem.text.substr(0, relErrorOffset) + secureReplacement + elem.text.substr(relErrorOffset+errorLen);
+                        const secureReplacement = DOMPurify.sanitize(errorReplacement);
+                        const newText = elem.text.substr(0, relErrorOffset) + secureReplacement + elem.text.substr(relErrorOffset+errorLen);
                         if (newText !== elem.text) {
                             found = true;
                         }

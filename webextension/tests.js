@@ -24,7 +24,7 @@ function runTest1(tabs, textareaId, expectedErrorCount) {
             if (errorMessage) {
                 alert("Got unexpected error message:\n" + errorMessage);
             }
-            let links = getCorrectionLinks(document.getElementsByTagName("a"));
+            const links = getCorrectionLinks(document.getElementsByTagName("a"));
             if (links.length !== expectedErrorCount) {
                 alert("Unexpected number of corrections: got " + links.length + ", expected " + expectedErrorCount + ",\nText:\n" + checkedText);
             }
@@ -41,7 +41,7 @@ function runTest1(tabs, textareaId, expectedErrorCount) {
 }
 
 function getCorrectionLinks(links) {
-    let result = [];
+    const result = [];
     for (let i = 0; i < links.length; i++) {
         if (links[i].getAttribute('data-contextleft')) {
             result.push(links[i]);

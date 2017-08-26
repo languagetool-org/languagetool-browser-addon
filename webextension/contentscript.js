@@ -46,7 +46,7 @@ function handleRequest(request, sender, callback) {
 
 function checkText(callback, request) {
     lastUseDate = new Date().getTime();
-    let metaData = getMetaData(request);
+    const metaData = getMetaData(request);
     if (document.activeElement.tagName === "IFRAME") {
         // this case happens e.g. in roundcube when selecting text in an email one is reading:
         if (document.activeElement
@@ -54,29 +54,29 @@ function checkText(callback, request) {
             && document.activeElement.contentWindow.document.getSelection()
             && document.activeElement.contentWindow.document.getSelection().toString() !== "") {
             // TODO: actually the text might be editable, e.g. on wordpress.com:
-            let text = document.activeElement.contentWindow.document.getSelection().toString();
+            const text = document.activeElement.contentWindow.document.getSelection().toString();
             callback({markupList: [{text: text}], metaData: metaData, isEditableText: false, url: request.pageUrl});
             return;
         }
     }
-    let selection = window.getSelection();
+    const selection = window.getSelection();
     if (selection && selection.toString() !== "") {
         // TODO: because of this, a selection in a textarea will not offer clickable suggestions:
         callback({markupList: [{text: selection.toString()}], metaData: metaData, isEditableText: false, url: request.pageUrl});
     } else {
         try {
-            let markupList = getMarkupListOfActiveElement(document.activeElement);
+            const markupList = getMarkupListOfActiveElement(document.activeElement);
             callback({markupList: markupList, metaData: metaData, isEditableText: true, url: request.pageUrl});
         } catch(e) {
             //console.log("LanguageTool extension got error (document.activeElement: " + document.activeElement + "), will try iframes:");
             //console.log(e);
             // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simply doesn't
             // seem to work if focus is inside the iframe.
-            let iframes = document.getElementsByTagName("iframe");
+            const iframes = document.getElementsByTagName("iframe");
             let found = false;
             for (let i = 0; i < iframes.length; i++) {
                 try {
-                    let markupList = getMarkupListOfActiveElement(iframes[i].contentWindow.document.activeElement);
+                    const markupList = getMarkupListOfActiveElement(iframes[i].contentWindow.document.activeElement);
                     found = true;
                     callback({markupList: markupList, metaData: metaData, isEditableText: true, url: request.pageUrl});
                 } catch(e) {
@@ -95,12 +95,12 @@ function checkText(callback, request) {
 }
 
 function getMetaData(request) {
-    let metaData = {};
+    const metaData = {};
     if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube (tested only with 1.0.1)
         metaData['EmailToAddress'] = document.getElementById("_to").value;
     }
     if (request.pageUrl.indexOf("://mail.google.com")) {  // GMail
-        let elems = document.getElementsByName("to");
+        const elems = document.getElementsByName("to");
         for (let obj of elems) {
             if (obj.nodeName === 'INPUT') {
                 metaData['EmailToAddress'] = obj.value;
@@ -123,7 +123,7 @@ function getMarkupListOfActiveElement(elem) {
     } else if (elem.hasAttribute("contenteditable")) {
         return Markup.html2markupList(elem.innerHTML, document);
     } else if (elem.tagName === "IFRAME") {
-        let activeElem = elem.contentWindow.document.activeElement;
+        const activeElem = elem.contentWindow.document.activeElement;
         if (activeElem.innerHTML) {
             return Markup.html2markupList(activeElem.innerHTML, document);
         } else if (activeElem.textContent) {
@@ -152,7 +152,7 @@ function applyCorrection(request) {
         return;
     }
     // TODO: active element might have changed in between?!
-    let activeElem = document.activeElement;
+    const activeElem = document.activeElement;
     // Note: this duplicates the logic from getTextOfActiveElement():
     let found = false;
     if (isSimpleInput(activeElem)) {
@@ -160,7 +160,7 @@ function applyCorrection(request) {
     } else if (activeElem.hasAttribute("contenteditable")) {
         found = replaceIn(activeElem, "innerHTML", newMarkupList);  // contentEditable=true
     } else if (activeElem.tagName === "IFRAME") {
-        let activeElem2 = activeElem.contentWindow.document.activeElement;
+        const activeElem2 = activeElem.contentWindow.document.activeElement;
         if (activeElem2 && activeElem2.innerHTML) {
             found = replaceIn(activeElem2, "innerHTML", newMarkupList);  // e.g. on wordpress.com
         } else if (isSimpleInput(activeElem2)) {

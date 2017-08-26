@@ -44,9 +44,9 @@ var preferredVariants = [];
 var manuallySelectedLanguage = "";
 
 function getCheckResult(markupList, metaData, callback, errorCallback) {
-    let req = new XMLHttpRequest();
+    const req = new XMLHttpRequest();
     req.timeout = 60 * 1000; // milliseconds
-    let url = serverUrl + (serverUrl.endsWith("/") ? "check" : "/check");
+    const url = serverUrl + (serverUrl.endsWith("/") ? "check" : "/check");
     req.open('POST', url);
     req.onload = function() {
         let response = req.response;
@@ -68,7 +68,7 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
     };
     let text = Markup.markupList2text(markupList);
     if (ignoreQuotedLines) {
-        let textOrig = text;
+        const textOrig = text;
         // A hack so the following replacements don't happen on messed up character positions.
         // See https://github.com/languagetool-org/languagetool-browser-addon/issues/25:
         text = text.replace(/^>.*?\n/gm, function(match) {
@@ -89,7 +89,7 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
     if (true) {  // TODO: activate 'data' mode when server supports it
         params += '&text=' + encodeURIComponent(text);
     } else {
-        let json = {text: text, metaData: metaData};
+        const json = {text: text, metaData: metaData};
         params += '&data=' + encodeURIComponent(JSON.stringify(json));
     }
     if (motherTongue) {
@@ -127,25 +127,25 @@ function suggestionClass(match) {
 }
 
 function isSpellingError(match) {
-    let ruleId = match.rule.id;
+    const ruleId = match.rule.id;
     return ruleId.indexOf("SPELLER_RULE") >= 0 ||
            ruleId.indexOf("MORFOLOGIK_RULE") >= 0 ||
            ruleId.indexOf("HUNSPELL") >= 0
 }
 
 function isSuggestion(match) {
-    let issueType = match.rule.issueType;
+    const issueType = match.rule.issueType;
     return issueType === 'style' ||
            issueType === 'locale-violation' ||
            issueType === 'register'
 }
 
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
-    let createLinks = response.isEditableText && !response.url.match(unsupportedReplacementSitesRegex);
-    let data = JSON.parse(resultJson);
-    let language = DOMPurify.sanitize(data.language.name);
-    let languageCode = DOMPurify.sanitize(data.language.code);
-    let shortLanguageCode = getShortCode(languageCode);
+    const createLinks = response.isEditableText && !response.url.match(unsupportedReplacementSitesRegex);
+    const data = JSON.parse(resultJson);
+    const language = DOMPurify.sanitize(data.language.name);
+    const languageCode = DOMPurify.sanitize(data.language.code);
+    const shortLanguageCode = getShortCode(languageCode);
     let translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
     if (!translatedLanguage) {
         translatedLanguage = chrome.i18n.getMessage(shortLanguageCode);  // needed for e.g. "ru-RU"
@@ -165,13 +165,13 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         let matchesCount = 0;
         // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
         if (matches) {
-            let uniquePositionMatches = [];
+            const uniquePositionMatches = [];
             let prevErrStart = -1;
             let prevErrLen = -1;
             for (let i = matches.length-1; i >= 0; i--) {
-                let m = matches[i];
-                let errStart = parseInt(m.offset);
-                let errLen = parseInt(m.length);
+                const m = matches[i];
+                const errStart = parseInt(m.offset);
+                const errLen = parseInt(m.length);
                 if (errStart != prevErrStart || errLen != prevErrLen) {
                     uniquePositionMatches.push(m);
                     prevErrStart = errStart;
@@ -182,27 +182,27 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             matches = uniquePositionMatches;
         }
 
-        let ignoredRuleCounts = {};
+        const ignoredRuleCounts = {};
         for (let match in matches) {
-            let m = matches[match];
+            const m = matches[match];
 
             // these values come from the server, make sure they are ints:
-            let errStart = parseInt(m.context.offset);
-            let errLen = parseInt(m.length);
+            const errStart = parseInt(m.context.offset);
+            const errLen = parseInt(m.length);
 
             // these string values come from the server and need to be sanitized
             // as they will be inserted with innerHTML:
-            let contextSanitized = DOMPurify.sanitize(m.context.text);
-            let ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
-            let messageSanitized = DOMPurify.sanitize(m.message);
-            let descriptionSanitized = DOMPurify.sanitize(m.rule.description);
+            const contextSanitized = DOMPurify.sanitize(m.context.text);
+            const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
+            const messageSanitized = DOMPurify.sanitize(m.message);
+            const descriptionSanitized = DOMPurify.sanitize(m.rule.description);
 
-            let wordSanitized = contextSanitized.substr(errStart, errLen);
+            const wordSanitized = contextSanitized.substr(errStart, errLen);
             let ignoreError = false;
 
             if (isSpellingError(m)) {
                 // Also accept uppercase versions of lowercase words in personal dict:
-                let knowToDict = items.dictionary.indexOf(wordSanitized) != -1;
+                const knowToDict = items.dictionary.indexOf(wordSanitized) != -1;
                 if (knowToDict) {
                     ignoreError = true;
                 } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
@@ -220,7 +220,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             } else {
                 html += "<div class=\"suggestionRow " + suggestionClass(m) + "\">\n";
                 if (isSpellingError(m)) {
-                    let escapedWord = Tools.escapeHtml(wordSanitized);
+                    const escapedWord = Tools.escapeHtml(wordSanitized);
                     html += "<div class='addToDict' data-addtodict='" + escapedWord + "'" +
                             " title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'></div>";
                 } else {
@@ -243,14 +243,14 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
         }
         if (items.ignoredRules && items.ignoredRules.length > 0) {
-            let ruleItems = [];
-            let currentLang = getShortCode(languageCode);
+            const ruleItems = [];
+            const currentLang = getShortCode(languageCode);
             for (let key in items.ignoredRules) {
-                let ignoredRule = items.ignoredRules[key];
+                const ignoredRule = items.ignoredRules[key];
                 if (currentLang === ignoredRule.language) {
-                    let ruleId = Tools.escapeHtml(ignoredRule.id);
+                    const ruleId = Tools.escapeHtml(ignoredRule.id);
                     let ruleDescription = Tools.escapeHtml(ignoredRule.description);
-                    let matchCount = ignoredRuleCounts[ruleId];
+                    const matchCount = ignoredRuleCounts[ruleId];
                     if (matchCount) {
                         ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='"
                             + ruleId + "' href='#'>" + ruleDescription + " (" + matchCount + ")</a></span>");
@@ -296,7 +296,7 @@ function setHintListener() {
 }
 
 function fillReviewRequest() {
-    let storage = Tools.getStorage();
+    const storage = Tools.getStorage();
     storage.get({
         usageCounter: 0,
         reviewRequestLinkClicked: false
@@ -304,7 +304,7 @@ function fillReviewRequest() {
         //console.log("usageCounter: " + items.usageCounter + ", reviewRequestLinkClicked: " + items.reviewRequestLinkClicked);
         if (! items.reviewRequestLinkClicked && items.usageCounter >= minUsageForReviewRequest) {
             if (Tools.isChrome()) {
-                let reviewRequestId = document.getElementById("reviewRequest");
+                const reviewRequestId = document.getElementById("reviewRequest");
                 reviewRequestId.innerHTML = chrome.i18n.getMessage("reviewRequest", thisExtensionUrl + "/reviews");
                 reviewRequestId.addEventListener("click", function() {
                     storage.set({
@@ -320,7 +320,7 @@ function fillReviewRequest() {
 
 function showShortcutHint(commands) {
     if (commands && commands.length && commands.length > 0 && commands[0].shortcut) {
-        let shortcut = commands[0].shortcut;
+        const shortcut = commands[0].shortcut;
         document.getElementById("outerShortcutHint").innerHTML =
             "<div id='shortcutHint'>" +
             chrome.i18n.getMessage("shortcutHint", ["<tt>" + shortcut + "</tt>"]) +
@@ -338,7 +338,7 @@ function showShortcutHint(commands) {
 
 function getLanguageSelector(languageCode) {
     // It might be better to get the languages from the API (but not for every check call):
-    let languages = [
+    const languages = [
         "ast-ES", "be-BY", "br-FR", "ca-ES", "ca-ES-valencia", "zh-CN", "da-DK", "nl",
         "en-US", "en-GB", "en-AU", "en-CA", "en-NZ", "en-ZA", "eo", "fr", "gl-ES",
         "de-DE", "de-AT", "de-CH", "el-GR", "is-IS", "it", "ja-JP", "km-KH", "lt-LT", "ml-IN",
@@ -349,9 +349,9 @@ function getLanguageSelector(languageCode) {
     html += chrome.i18n.getMessage("language");
     html += "&nbsp;<select id='language'>";
     for (let l in languages) {
-        let langCode = languages[l];
-        let langCodeForTrans = languages[l].replace(/-/g, "_");
-        let selected = languageCode == langCode ? "selected" : "";
+        const langCode = languages[l];
+        const langCodeForTrans = languages[l].replace(/-/g, "_");
+        const selected = languageCode == langCode ? "selected" : "";
         let translatedLang = chrome.i18n.getMessage(langCodeForTrans);
         if (!translatedLang) {
             translatedLang = chrome.i18n.getMessage(langCodeForTrans.replace(/_.*/, ""));
@@ -377,16 +377,16 @@ function renderContext(contextSanitized, errStart, errLen) {
 
 // call only with sanitized context
 function renderReplacements(contextSanitized, m, createLinks) {
-    let ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
-    let replacements = m.replacements.map(k => k.value);
-    let contextOffset = parseInt(m.context.offset);
-    let errLen = parseInt(m.length);
-    let errOffset = parseInt(m.offset);
-    let errorTextSanitized = contextSanitized.substr(contextOffset, errLen);
+    const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
+    const replacements = m.replacements.map(k => k.value);
+    const contextOffset = parseInt(m.context.offset);
+    const errLen = parseInt(m.length);
+    const errOffset = parseInt(m.offset);
+    const errorTextSanitized = contextSanitized.substr(contextOffset, errLen);
     let html = "<div class='replacements'>";
     let i = 0;
     for (let idx in replacements) {
-        let replacementSanitized = DOMPurify.sanitize(replacements[idx]);
+        const replacementSanitized = DOMPurify.sanitize(replacements[idx]);
         if (i >= 7) {
             // showing more suggestions usually doesn't make sense
             break;
@@ -414,7 +414,7 @@ function addLinkListeners(response, tabs) {
         manuallySelectedLanguage = document.getElementById("language").value;
         doCheck(tabs, "switch_language");
     });
-    let closeLink = document.getElementById("closeLink");
+    const closeLink = document.getElementById("closeLink");
     closeLink.addEventListener("click", function() {
         self.close();
     });
@@ -424,8 +424,8 @@ function addLinkListeners(response, tabs) {
 
 function addListenerActions(elements, tabs, response) {
     for (let i = 0; i < elements.length; i++) {
-        let link = elements[i];
-        let isRelevant = link.getAttribute("data-ruleIdOn")
+        const link = elements[i];
+        const isRelevant = link.getAttribute("data-ruleIdOn")
                       || link.getAttribute("data-ruleIdOff")
                       || link.getAttribute('data-addtodict')
                       || link.getAttribute('data-errortext');
@@ -433,7 +433,7 @@ function addListenerActions(elements, tabs, response) {
             continue;
         }
         link.addEventListener("click", function() {
-            let storage = Tools.getStorage();
+            const storage = Tools.getStorage();
             if (link.getAttribute('data-ruleIdOn')) {
                 storage.get({
                     ignoredRules: []
@@ -453,7 +453,7 @@ function addListenerActions(elements, tabs, response) {
                 storage.get({
                     ignoredRules: []
                 }, function(items) {
-                    let ignoredRules = items.ignoredRules;
+                    const ignoredRules = items.ignoredRules;
                     ignoredRules.push({
                         id: link.getAttribute('data-ruleIdOff'),
                         description: link.getAttribute('data-ruleDescription'),
@@ -466,13 +466,13 @@ function addListenerActions(elements, tabs, response) {
                 storage.get({
                     dictionary: []
                 }, function(items) {
-                    let dictionary = items.dictionary;
+                    const dictionary = items.dictionary;
                     dictionary.push(link.getAttribute('data-addtodict'));
                     storage.set({'dictionary': dictionary}, function() { reCheck(tabs, "add_to_dict") });
                 });
 
             } else if (link.getAttribute('data-errortext')) {
-                let data = {
+                const data = {
                     action: 'applyCorrection',
                     errorOffset: parseInt(link.getAttribute('data-erroroffset')),
                     errorText: link.getAttribute('data-errortext'),
@@ -554,7 +554,7 @@ function startCheckMaybeWithWarning(tabs) {
             }
             if (items.allowRemoteCheck === true) {
                 doCheck(tabs, "manually_triggered");
-                let newCounter = items.usageCounter + 1;
+                const newCounter = items.usageCounter + 1;
                 Tools.getStorage().set({'usageCounter': newCounter}, function() {});
                 chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
             } else {
@@ -584,7 +584,7 @@ function startCheckMaybeWithWarning(tabs) {
 
 function doCheck(tabs, causeOfCheck) {
     renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
-    let url = tabs[0].url ? tabs[0].url : "";
+    const url = tabs[0].url ? tabs[0].url : "";
     if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
         renderStatus(chrome.i18n.getMessage("webstoreSiteNotSupported"));
         Tools.logOnServer("siteNotSupported on " + url, serverUrl);
@@ -610,7 +610,7 @@ function doCheck(tabs, causeOfCheck) {
 }
 
 function getRandomToken() {
-    let randomPool = new Uint8Array(8);
+    const randomPool = new Uint8Array(8);
     crypto.getRandomValues(randomPool);
     let hex = '';
     for (let i = 0; i < randomPool.length; ++i) {
