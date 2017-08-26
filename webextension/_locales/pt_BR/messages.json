@@ -209,7 +209,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Desculpe, o site do Google Docs não é suportado por essa extensão. Por favor instale <a target='_blank' href='$url$'>essa extensão</a>, otimizada para o Google Docs.",
+    "message": "Sorry, Google Docs site is not supported by this extension. Please install <a target='_blank' href='$url$'>this extension</a> instead, which is optimized for Google Docs. After installation, use the 'Add-on' menu in Google Docs to access that extension.",
     "placeholders": {
       "url": {
         "content": "$1",

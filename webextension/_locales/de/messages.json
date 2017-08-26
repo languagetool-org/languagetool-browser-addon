@@ -209,7 +209,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Leider unterstützt diese Erweiterung Google Docs nicht. Installieren Sie bitte stattdessen <a target='_blank' href='$url$'>diese Erweiterung</a>, die speziell für Google Docs entwickelt wurde.",
+    "message": "Leider unterstützt diese Erweiterung Google Docs nicht. Installieren Sie bitte stattdessen <a target='_blank' href='$url$'>diese Erweiterung</a>, die speziell für Google Docs entwickelt wurde. Nach der Installation nutzen Sie das 'Add-on'-Menü in Google Docs, um die Erweiterung zu starten.",
     "placeholders": {
       "url": {
         "content": "$1",

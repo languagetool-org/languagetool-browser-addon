@@ -209,7 +209,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Sorry, Google Docs site is not supported by this extension. Please install <a target='_blank' href='$url$'>this extension</a> instead, which is optimized for Google Docs.",
+    "message": "Sorry, Google Docs site is not supported by this extension. Please install <a target='_blank' href='$url$'>this extension</a> instead, which is optimized for Google Docs. After installation, use the 'Add-on' menu in Google Docs to access that extension.",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -371,9 +371,21 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Portoghese"
   },
+  "pt_AO": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Portoghese (Angola preAO)"
+  },
   "pt_BR": {
     "description": "automatically added by injectTranslation.py",
     "message": "Portoghese (Brasile posAO)"
+  },
+  "pt_CV": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Portoghese (Capo Verde)"
+  },
+  "pt_MZ": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Portoghese (Mozambico preAO)"
   },
   "pt_PT": {
     "description": "automatically added by injectTranslation.py",
