@@ -1,5 +1,10 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.21 (2017-xx-xx)
+  * Show "no text found" message if no text could be found, as it also
+    happens in Collabora Office
+    (https://github.com/languagetool-org/languagetool-browser-addon/issues/115)
+
 ### 1.0.20 (2017-08-28)
   * improvements to keyboard-only usage
   * tracking manual language switching so we can see for which language pairs the

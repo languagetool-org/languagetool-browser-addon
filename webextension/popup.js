@@ -509,6 +509,13 @@ function handleCheckResult(response, tabs, callback) {
         renderStatus(Tools.escapeHtml(DOMPurify.sanitize(response.message)));
         return;
     }
+    if (Markup.markupList2text(response.markupList).trim() === "") {
+        let msg = chrome.i18n.getMessage("noTextFound") + "<br>" +
+                  "<span class='errorMessageDetail'>" + chrome.i18n.getMessage("noTextFoundDetails") + "</span>";
+        renderStatus(msg);
+        Tools.track(tabs[0].url, "no_text");
+        return;
+    }
     getCheckResult(response.markupList, response.metaData, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {

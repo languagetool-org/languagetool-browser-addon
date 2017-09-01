@@ -144,6 +144,14 @@
       }
     }
   },
+  "noTextFound": {
+    "message": "No text found",
+    "description": "Error message shown when no text was found"
+  },
+  "noTextFoundDetails": {
+    "message": "You don't seem to be inside a text area. If you're using an online office software, this add-on might not work there. Please check if the online office supports add-ons which provide support for LanguageTool.",
+    "description": "More detailed error message shown when no text was found"
+  },
   "shortcutHint": {
     "message": "You can trigger the text check with this shortcut: $shortcut$",
     "description": "Text shown in the popup to let the user know about the shortcut key combination",
