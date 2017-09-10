@@ -585,9 +585,13 @@ function startCheckMaybeWithWarning(tabs) {
                         allowRemoteCheck: true
                     }, function () {
                         doCheck(tabs, "manually_triggered");
+                        Tools.track(tabs[0].url, "accept_privacy_note");
                     });
                 });
-                document.getElementById("cancelCheck").addEventListener("click", function() { self.close(); });
+                document.getElementById("cancelCheck").addEventListener("click", function() {
+                    Tools.track(tabs[0].url, "cancel_privacy_note");
+                    self.close();
+                });
             }
         });
 }
