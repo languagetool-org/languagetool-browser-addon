@@ -276,7 +276,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         if (matchesCount > 0) {
             fillReviewRequest(matchesCount);
         }
-        addLinkListeners(response, tabs);
+        addLinkListeners(response, tabs, languageCode);
         if (callback) {
             callback(response.markupList);
         }
@@ -410,7 +410,7 @@ function renderReplacements(contextSanitized, m, createLinks) {
     return html;
 }
 
-function addLinkListeners(response, tabs) {
+function addLinkListeners(response, tabs, languageCode) {
     document.getElementById("language").addEventListener("change", function() {
         manuallySelectedLanguage = document.getElementById("language").value;
         const prevLanguage = document.getElementById("prevLanguage").value;
@@ -421,11 +421,11 @@ function addLinkListeners(response, tabs) {
     closeLink.addEventListener("click", function() {
         self.close();
     });
-    addListenerActions(document.getElementsByTagName("a"), tabs, response);
-    addListenerActions(document.getElementsByTagName("div"), tabs, response);
+    addListenerActions(document.getElementsByTagName("a"), tabs, response, languageCode);
+    addListenerActions(document.getElementsByTagName("div"), tabs, response, languageCode);
 }
 
-function addListenerActions(elements, tabs, response) {
+function addListenerActions(elements, tabs, response, languageCode) {
     for (let i = 0; i < elements.length; i++) {
         const link = elements[i];
         const isRelevant = link.getAttribute("data-ruleIdOn")
@@ -445,7 +445,10 @@ function addListenerActions(elements, tabs, response) {
                     for (let rule of items.ignoredRules) {
                         if (rule.id == link.getAttribute('data-ruleIdOn')) {
                             items.ignoredRules.splice(idx, 1);
-                            storage.set({'ignoredRules': items.ignoredRules}, function() { reCheck(tabs, "turn_on_rule") });
+                            storage.set({'ignoredRules': items.ignoredRules}, function() {
+                                reCheck(tabs, "turn_on_rule");
+                                Tools.track(tabs[0].url, "rule_turned_on", languageCode + ":" + rule.id);
+                            });
                             break;
                         }
                         idx++;
@@ -457,12 +460,16 @@ function addListenerActions(elements, tabs, response) {
                     ignoredRules: []
                 }, function(items) {
                     const ignoredRules = items.ignoredRules;
+                    const ruleId = link.getAttribute('data-ruleIdOff');
                     ignoredRules.push({
-                        id: link.getAttribute('data-ruleIdOff'),
+                        id: ruleId,
                         description: link.getAttribute('data-ruleDescription'),
                         language: getShortCode(document.getElementById("language").value)
                     });
-                    storage.set({'ignoredRules': ignoredRules}, function() { reCheck(tabs, "turn_off_rule") });
+                    storage.set({'ignoredRules': ignoredRules}, function() {
+                        reCheck(tabs, "turn_off_rule");
+                        Tools.track(tabs[0].url, "rule_turned_off", languageCode + ":" + ruleId);
+                    });
                 });
 
             } else if (link.getAttribute('data-addtodict')) {
