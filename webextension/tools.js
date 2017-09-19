@@ -41,7 +41,7 @@ class Tools {
                 if (items.uid) {
                     uid = items.uid;
                 } else {
-                    uid = getRandomToken();
+                    uid = Tools.getRandomToken();
                     storage.set({uid: uid}, function() {});
                 }
                 const shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1");  // for privacy reasons, only log host
@@ -77,6 +77,16 @@ class Tools {
         // special case for Firefox as long as chrome.storage.sync is defined, but
         // not yet activated by default: https://github.com/languagetool-org/languagetool-browser-addon/issues/97
         return chrome.storage.sync && !Tools.isFirefox() ? chrome.storage.sync : chrome.storage.local;
+    }
+
+    static getRandomToken() {
+        const randomPool = new Uint8Array(8);
+        crypto.getRandomValues(randomPool);
+        let hex = '';
+        for (let i = 0; i < randomPool.length; ++i) {
+            hex += randomPool[i].toString(16);
+        }
+        return hex;
     }
 
     static logOnServer(message, serverUrl) {

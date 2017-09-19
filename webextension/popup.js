@@ -630,16 +630,6 @@ function doCheck(tabs, causeOfCheck, optionalTrackDetails) {
     });
 }
 
-function getRandomToken() {
-    const randomPool = new Uint8Array(8);
-    crypto.getRandomValues(randomPool);
-    let hex = '';
-    for (let i = 0; i < randomPool.length; ++i) {
-        hex += randomPool[i].toString(16);
-    }
-    return hex;
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         if (tabs[0].url === "http://localhost/languagetool-for-chrome-tests.html") {
