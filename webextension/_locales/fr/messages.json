@@ -5,7 +5,7 @@
   },
   "addToDictionaryTitle": {
     "description": "Title hover shown in the popup to accept a word to the internal dictionary",
-    "message": "Ajouter $word$\" au dictionnaire personnel",
+    "message": "Ajouter \"$word$\" au dictionnaire personnel",
     "placeholders": {
       "word": {
         "content": "$1",
