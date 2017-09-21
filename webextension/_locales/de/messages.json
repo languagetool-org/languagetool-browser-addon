@@ -303,6 +303,14 @@
       }
     }
   },
+  "noTextFound": {
+    "description": "Error message shown when no text was found",
+    "message": "Kein Text gefunden"
+  },
+  "noTextFoundDetails": {
+    "description": "More detailed error message shown when no text was found",
+    "message": "Sie scheinen sich nicht in einem Bereich mit Text zu befinden. Falls Sie eine Online-Office-Software benutzen, kann es sein, dass dieses Add-on damit nicht funktioniert. In dem Fall prüfen Sie bitte, ob die Office-Software über eigene Add-ons verfügt, die die Funktionen von LanguageTool zur Verfügung stellen."
+  },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",
     "message": "Keine gültige Antwort von Server $serverUrl$: $response$, Nummer $status$",

@@ -303,6 +303,14 @@
       }
     }
   },
+  "noTextFound": {
+    "description": "Error message shown when no text was found",
+    "message": "No text found"
+  },
+  "noTextFoundDetails": {
+    "description": "More detailed error message shown when no text was found",
+    "message": "You don't seem to be inside a text area. If you're using an online office software, this add-on might not work there. Please check if the online office supports add-ons which provide support for LanguageTool."
+  },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",
     "message": "Μη έγκυρη απόκριση από $serverUrl$: $response$, κωδικός $status$",

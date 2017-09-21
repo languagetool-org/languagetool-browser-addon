@@ -209,7 +209,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Sorry, Google Docs site is not supported by this extension. Please install <a target='_blank' href='$url$'>this extension</a> instead, which is optimized for Google Docs. After installation, use the 'Add-on' menu in Google Docs to access that extension.",
+    "message": "Desculpe, o site do Google Docs não é suportado por essa extensão. Por favor instale <a target='_blank' href='$url$'>essa extensão</a>, otimizada para o Google Docs. Após a instalação, use o menu \"Extensões\" no Google Docs para acessá-la.",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -302,6 +302,14 @@
         "example": "https://languagetool.org:8081/"
       }
     }
+  },
+  "noTextFound": {
+    "description": "Error message shown when no text was found",
+    "message": "Nenhum texto encontrado"
+  },
+  "noTextFoundDetails": {
+    "description": "More detailed error message shown when no text was found",
+    "message": "Você não aparenta estar numa área de texto. Essa extensão pode não funcionar num programa de escritório on-line. Por favor verifique se esse programa suporta extensões que forneçam suporte ao LanguageTool."
   },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",

@@ -209,7 +209,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Вибачте, це розширення не підтримує сайт Google Docs. Натомість встановіть <a target='_blank' href='$url$'>це розширення</a>, що є оптимізованим для for Google Docs.",
+    "message": "Перепрошуємо, цей додаток не підтримує Google Docs. Натомість встановіть <a target='_blank' href='$url$'>додаток</a>, що оптимізований для Google Docs. Після встановлення, виберіть меню «Доповнення» в Google Docs.",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -302,6 +302,14 @@
         "example": "https://languagetool.org:8081/"
       }
     }
+  },
+  "noTextFound": {
+    "description": "Error message shown when no text was found",
+    "message": "Текст не знайдено"
+  },
+  "noTextFoundDetails": {
+    "description": "More detailed error message shown when no text was found",
+    "message": "Схоже, ми не в текстовому полі. Якщо ви використовуєте онлайнову офісну службу, цей додаток може не спрацювати. Перевірте, чи ця онлайнова офісна програма підтримує додаток для LanguageTool."
   },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",
@@ -411,7 +419,7 @@
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
-    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "message": "Якщо вам подобається цей додаток, чому б не <a target='_blank' href='$url$'>написати огляд</a>?",
     "placeholders": {
       "url": {
         "content": "$1",
