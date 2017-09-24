@@ -32,6 +32,16 @@ let googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetoo
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
 let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
 
+// turn off some rules by default because they are not that useful in a typical web context: 
+const ruleIdsIgnoredByDefault = [
+    // English:
+    {id: 'EN_QUOTES', language: 'en'},
+    {id: 'DASH_RULE', language: 'en'},
+    // German:
+    {id: 'TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN', language: 'de'},
+    {id: 'FALSCHE_VERWENDUNG_DES_BINDESTRICHS', language: 'de'},
+];
+
 // ask the user for a review in the store if they have used this add-on at least this many times:
 let minUsageForReviewRequest = 30;
 
@@ -160,7 +170,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let matches = data.matches;
     Tools.getStorage().get({
         dictionary: [],
-        ignoredRules: []
+        ignoredRules: ruleIdsIgnoredByDefault
     }, function(items) {
         let matchesCount = 0;
         // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
@@ -183,6 +193,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
 
         const ignoredRuleCounts = {};
+        const ruleIdToDesc = {};
         for (let match in matches) {
             const m = matches[match];
 
@@ -196,6 +207,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
             const messageSanitized = DOMPurify.sanitize(m.message);
             const descriptionSanitized = DOMPurify.sanitize(m.rule.description);
+            ruleIdToDesc[ruleIdSanitized] = descriptionSanitized;
 
             const wordSanitized = contextSanitized.substr(errStart, errLen);
             let ignoreError = false;
@@ -249,12 +261,13 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 const ignoredRule = items.ignoredRules[key];
                 if (currentLang === ignoredRule.language) {
                     const ruleId = Tools.escapeHtml(ignoredRule.id);
-                    let ruleDescription = Tools.escapeHtml(ignoredRule.description);
                     const matchCount = ignoredRuleCounts[ruleId];
-                    if (matchCount) {
-                        ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='"
-                            + ruleId + "' href='#'>" + ruleDescription + " (" + matchCount + ")</a></span>");
+                    if (!matchCount) {
+                        continue;
                     }
+                    const ruleDescription = Tools.escapeHtml(ignoredRule.description ? ignoredRule.description : ruleIdToDesc[ruleId]);
+                    ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='"
+                        + ruleId + "' href='#'>" + ruleDescription + " (" + matchCount + ")</a></span>");
                 }
             }
             if (ruleItems.length > 0) {
@@ -439,7 +452,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
             const storage = Tools.getStorage();
             if (link.getAttribute('data-ruleIdOn')) {
                 storage.get({
-                    ignoredRules: []
+                    ignoredRules: ruleIdsIgnoredByDefault
                 }, function(items) {
                     let idx = 0;
                     for (let rule of items.ignoredRules) {
@@ -457,7 +470,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                 
             } else if (link.getAttribute('data-ruleIdOff')) {
                 storage.get({
-                    ignoredRules: []
+                    ignoredRules: ruleIdsIgnoredByDefault
                 }, function(items) {
                     const ignoredRules = items.ignoredRules;
                     const ruleId = link.getAttribute('data-ruleIdOff');

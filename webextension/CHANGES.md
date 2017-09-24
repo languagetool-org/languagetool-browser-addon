@@ -1,5 +1,11 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.22 (2017-xx-xx)
+  * Some typography rules are now turned off by default because they are not useful
+    in a web context for most users (only affects new installations or those that haven't
+    saved any rule turn on/off yet)
+    (https://github.com/languagetool-org/languagetool/issues/798)
+
 ### 1.0.21 (2017-09-11)
   * Show "no text found" message if no text could be found, as it also
     happens in Collabora Office
