@@ -316,12 +316,7 @@ document.addEventListener(
           if (chrome && chrome.tabs) {
             chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
               if (tabs && tabs.length > 0) {
-                sendMessageToTab(
-                  tabs[0].id,
-                  { action: "closePopup" },
-                  response => {
-                  }
-                );
+                sendMessageToTab(tabs[0].id, { action: "closePopup" });
               }
             });
           } else {
@@ -332,18 +327,12 @@ document.addEventListener(
               .then(
                 response => {
                   if (response && response.tabs && response.tabs.length > 0) {
-                    sendMessageToTab(
-                      response.tabs[0].id,
-                      {
-                        action: "closePopup"
-                      },
-                      result => {
-                      }
-                    );
+                    sendMessageToTab(response.tabs[0].id, { action: "closePopup"});
                   }
                 },
                 error => {
                   if (error) {
+                    Tools.logOnServer(`error on getActiveTab: ${error.message}`)
                   }
                 }
               );
@@ -369,6 +358,7 @@ function openPoweredByLink(evt) {
       },
       error => {
         if (error) {
+          Tools.logOnServer(`error on openNewTab: ${error.message}`)
         }
       }
     );

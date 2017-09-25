@@ -700,6 +700,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             function(error) {
               if (error) {
+                Tools.logOnServer(`error on getActiveTab: ${error.message}`)
               }
             }
           );

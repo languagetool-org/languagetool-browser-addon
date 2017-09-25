@@ -66,6 +66,7 @@ function checkText(callback, request) {
                 return;
             }
         } catch (err) {
+            Tools.logOnServer(`error on checkText for iframe: ${err.message}`)
         }
     }
     const selection = window.getSelection();
@@ -86,6 +87,7 @@ function checkText(callback, request) {
             //console.log(e);
             // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simply doesn't
             // seem to work if focus is inside the iframe.
+            Tools.logOnServer(`error on checkText - get selection: ${e.message}`)
             const iframes = document.getElementsByTagName("iframe");
             let found = false;
             for (let i = 0; i < iframes.length; i++) {
