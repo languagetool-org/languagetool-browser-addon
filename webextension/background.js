@@ -71,3 +71,44 @@ function flashIcon(times) {
 
 checkUsage();
 */
+
+/* workaround handle for FF */
+chrome.runtime.onMessage.addListener(handleMessage);
+function handleMessage(request, sender, sendResponse) {
+  switch (request.action) {
+    case "openNewTab": {
+      const { url } = request;
+      chrome.tabs.create({ url });
+      return false;
+    }
+    case "getActiveTab": {
+      chrome.tabs.query(
+        {
+          active: true,
+          currentWindow: true
+        },
+        tabs => {
+          sendResponse({
+            action: request.action,
+            tabs
+          });
+        }
+      );
+      return true;
+    }
+    default: {
+      if (request.tabId) {
+        // proxy msg from cs -> bg -> cs
+        chrome.tabs.sendMessage(request.tabId, request, response => {
+          sendResponse(response);
+        });
+        return true;
+      }
+      // TODO: handle for unknow action
+      sendResponse({
+        action: `unknow ${request.action}`
+      });
+      return false;
+    }
+  }
+}

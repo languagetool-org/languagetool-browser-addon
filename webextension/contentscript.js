@@ -26,7 +26,9 @@ let lastReminderDate = new Date().getTime();  // TODO: should actually be saved 
 let unusedMinutesShowReminder = 0.5;
     
 function handleRequest(request, sender, callback) {
-    if (request.action === 'checkText') {
+    if (request.action === "closePopup") {
+        closePopup();
+    } else if (request.action === 'checkText') {
         checkText(callback, request);
     } else if (request.action === 'getCurrentText') {
         callback(getCurrentText());
@@ -44,19 +46,27 @@ function handleRequest(request, sender, callback) {
     }
 }
 
+function closePopup() {
+  $.featherlight.close();
+}
+
 function checkText(callback, request) {
     lastUseDate = new Date().getTime();
     const metaData = getMetaData(request);
     if (document.activeElement.tagName === "IFRAME") {
         // this case happens e.g. in roundcube when selecting text in an email one is reading:
-        if (document.activeElement
-            && document.activeElement.contentWindow
-            && document.activeElement.contentWindow.document.getSelection()
-            && document.activeElement.contentWindow.document.getSelection().toString() !== "") {
-            // TODO: actually the text might be editable, e.g. on wordpress.com:
-            const text = document.activeElement.contentWindow.document.getSelection().toString();
-            callback({markupList: [{text: text}], metaData: metaData, isEditableText: false, url: request.pageUrl});
-            return;
+        try {
+            if (document.activeElement
+                && document.activeElement.contentWindow
+                && document.activeElement.contentWindow.document.getSelection()
+                && document.activeElement.contentWindow.document.getSelection().toString() !== "") {
+                // TODO: actually the text might be editable, e.g. on wordpress.com:
+                const text = document.activeElement.contentWindow.document.getSelection().toString();
+                callback({markupList: [{text: text}], metaData: metaData, isEditableText: false, url: request.pageUrl});
+                return;
+            }
+        } catch (err) {
+            Tools.logOnServer(`error on checkText for iframe: ${err.message}`)
         }
     }
     const selection = window.getSelection();
@@ -65,13 +75,19 @@ function checkText(callback, request) {
         callback({markupList: [{text: selection.toString()}], metaData: metaData, isEditableText: false, url: request.pageUrl});
     } else {
         try {
-            const markupList = getMarkupListOfActiveElement(document.activeElement);
-            callback({markupList: markupList, metaData: metaData, isEditableText: true, url: request.pageUrl});
+            if (activeElement()) {
+                callback({markupList: getMarkupListOfActiveElement(activeElement()), metaData: metaData, isEditableText: true, url: request.pageUrl});
+            }
+            else {
+                const markupList = getMarkupListOfActiveElement(document.activeElement);
+                callback({markupList: markupList, metaData: metaData, isEditableText: true, url: request.pageUrl});
+            }
         } catch(e) {
             //console.log("LanguageTool extension got error (document.activeElement: " + document.activeElement + "), will try iframes:");
             //console.log(e);
             // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simply doesn't
             // seem to work if focus is inside the iframe.
+            Tools.logOnServer(`error on checkText - get selection: ${e.message}`)
             const iframes = document.getElementsByTagName("iframe");
             let found = false;
             for (let i = 0; i < iframes.length; i++) {
@@ -152,7 +168,7 @@ function applyCorrection(request) {
         return;
     }
     // TODO: active element might have changed in between?!
-    const activeElem = document.activeElement;
+    const activeElem = activeElement();
     // Note: this duplicates the logic from getTextOfActiveElement():
     let found = false;
     if (isSimpleInput(activeElem)) {

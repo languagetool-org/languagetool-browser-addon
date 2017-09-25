@@ -1,0 +1,172 @@
+/**
+ * Featherlight – ultra slim jQuery lightbox
+ * Version 1.7.9 - https://github.com/noelboss/featherlight/
+ *
+ * Copyright 2017, Noël Raoul Bossart (http://www.noelboss.com)
+ * MIT Licensed.
+**/
+@media all {
+  html.with-ltaddon-popup {
+    /* disable global scrolling when featherlights are visible */
+    overflow: hidden;
+  }
+
+  .ltaddon-popup {
+    display: none;
+
+    /* dimensions: spanning the background from edge to edge */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2147483647; /* z-index needs to be >= elements on the site. */
+
+    /* position: centering content */
+    text-align: center;
+
+    /* insures that the ::before pseudo element doesn't force wrap with fixed width content; */
+    white-space: nowrap;
+
+    /* styling */
+    cursor: pointer;
+    background: #333;
+    /* IE8 "hack" for nested featherlights */
+    background: rgba(0, 0, 0, 0);
+  }
+
+  /* support for nested featherlights. Does not work in IE8 (use JS to fix) */
+  .ltaddon-popup:last-of-type {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .ltaddon-popup:before {
+    /* position: trick to center content vertically */
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  .ltaddon-popup .ltaddon-popup-content {
+    /* make content container for positioned elements (close button) */
+    position: relative;
+
+    /* position: centering vertical and horizontal */
+    text-align: left;
+    vertical-align: middle;
+    display: inline-block;
+
+    /* dimensions: cut off images */
+    overflow: auto;
+    padding: 25px 25px 0;
+    border-bottom: 25px solid transparent;
+
+    /* dimensions: handling large content */
+    margin-left: 5%;
+    margin-right: 5%;
+    max-height: 95%;
+
+    /* styling */
+    background: #fff;
+    cursor: auto;
+
+    /* reset white-space wrapping */
+    white-space: normal;
+  }
+
+  /* contains the content */
+  .ltaddon-popup .ltaddon-popup-inner {
+    /* make sure its visible */
+    display: block;
+  }
+
+  /* don't show these though */
+  .ltaddon-popup script.ltaddon-popup-inner,
+  .ltaddon-popup link.ltaddon-popup-inner,
+  .ltaddon-popup style.ltaddon-popup-inner {
+    display: none;
+  }
+
+  .ltaddon-popup .ltaddon-popup-close-icon {
+    /* position: centering vertical and horizontal */
+    position: absolute;
+    z-index: 9999;
+    top: 5px;
+    right: 20px;
+
+    /* dimensions: 16px x 16px */
+    line-height: 16px;
+    width: 16px;
+
+    /* styling */
+    cursor: pointer;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AUMFQMUc7xnzwAAAItJREFUKM/VkjEOwzAIRYnvgQcuiI+ChbgeQ3wPnMGS1bhpqiyVygbiSf9/2Hrv8KQSPKwfA6pqZq8TM1PVj0BKyd1FZLQi4u4pnXa2JaVa677viAgArTVELKXcAZMBgPfta9P3l1kBERlKcs6ttennGjCzqZuZB7PkdgIigoimbmYmooj4YvrvfukA/SxMfH1NU/wAAAAASUVORK5CYII=");
+    color: #838383;
+    border: none;
+    padding: 0;
+  }
+
+  .ltaddon-popup .ltaddon-popup-close-icon:hover {
+    color: #fff;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AUMFDsgRFVFtgAAAUZJREFUKM+dkr2qgzAUx2MUDHQTdHNxVPAJ2r5Gnbq4BILvYweXTs1jWPoEAR0ddKtrCnFJ7nAktKWFe+/ZknN+5/zPh2OMQX8x7/nxeDzatu37fp5nhFAURVmW7Xa7zWZjYxxbQQjBOVdKvaUkhBwOhzzPXwAhxPl8/ibPcZzj8QgMRghJKTnnxpiqqhhjhBCbmzFWVZUxhnMupVyB2+0GSrTWSZJQSgkhhBBKaZIkWmuEkFLqer2uQNd1kLJpmnEc4zimlFJK4ziepqlpGvD2fb8C9/sdvpRSp9MJGIiu69qOAcLwxxY/b8DzViCKItulVWK12RkEQbACWZbBV1mWVonVVpYleNM0XYHtdgtpMMbDMIBu6GcYBowxFN/v9/9Z3MtpXC6XZVneon3fL4ri/TSej6/runmeXdcNwzBN06/H90v7AVW8xe/9VfSWAAAAAElFTkSuQmCC");
+  }
+
+  /* See http://stackoverflow.com/questions/16077341/how-to-reset-all-default-styles-of-the-html5-button-element */
+  .ltaddon-popup .ltaddon-popup-close-icon::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  .ltaddon-popup .ltaddon-popup-image {
+    /* styling */
+    width: 100%;
+  }
+
+  .ltaddon-popup-iframe .ltaddon-popup-content {
+    /* removed the border for image croping since iframe is edge to edge */
+    border-bottom: 0;
+    padding: 0;
+    -webkit-overflow-scrolling: touch;
+    /* overflow-y: scroll; */
+    overflow-y: auto;
+  }
+
+  .ltaddon-popup iframe {
+    /* styling */
+    border: none;
+  }
+
+  .ltaddon-popup * {
+    /* See https://github.com/noelboss/ltaddon-popup/issues/42 */
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+}
+
+/* handling phones and small screens */
+@media only screen and (max-width: 1024px) {
+  .ltaddon-popup .ltaddon-popup-content {
+    /* dimensions: maximize lightbox with for small screens */
+    margin-left: 0;
+    margin-right: 0;
+    max-height: 98%;
+
+    padding: 10px 10px 0;
+    border-bottom: 10px solid transparent;
+  }
+}
+
+/* hide non ltaddon-popup items when printing */
+@media print {
+  @page {
+    size: landscape;
+  }
+
+  html.with-ltaddon-popup > * > :not(.ltaddon-popup) {
+    display: none;
+  }
+}
