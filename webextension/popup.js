@@ -1,6 +1,6 @@
-/* LanguageTool WebExtension 
+/* LanguageTool WebExtension
  * Copyright (C) 2016-2017 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -20,11 +20,6 @@
 
 let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in options.js
 
-// chrome.google.com: see http://stackoverflow.com/questions/11613371/
-// docs.google.com: Google Docs has a too complicated DOM (but its own add-on framework)
-// addons.mozilla.org: see http://stackoverflow.com/questions/42147966/
-let unsupportedSitesRegex = /^https?:\/\/(docs.google.com|chrome.google.com|addons.mozilla.org).*/;
-
 let thisExtensionUrl = "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji";
 
 let googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm";
@@ -32,7 +27,7 @@ let googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetoo
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
 let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
 
-// turn off some rules by default because they are not that useful in a typical web context: 
+// turn off some rules by default because they are not that useful in a typical web context:
 const ruleIdsIgnoredByDefault = [
     // English:
     {id: 'EN_QUOTES', language: 'en'},
@@ -44,6 +39,11 @@ const ruleIdsIgnoredByDefault = [
 
 // ask the user for a review in the store if they have used this add-on at least this many times:
 let minUsageForReviewRequest = 30;
+let pageUrlParam = "";
+const pageUrlPosition = window.location.href.indexOf("?pageUrl=");
+if (pageUrlPosition !== -1) {
+  pageUrlParam = window.location.href.substr(pageUrlPosition + 9);
+}
 
 var testMode = false;
 var serverUrl = defaultServerUrl;
@@ -163,7 +163,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     if (!translatedLanguage) {
         translatedLanguage = language;
     }
-    let html = '<a id="closeLink" href="#"></a>';
+    let html = pageUrlParam.length > 0 ? '<a style="display:none;" id="closeLink" href="#"></a>' : '<a id="closeLink" href="#"></a>';
     html += DOMPurify.sanitize(getLanguageSelector(languageCode));
     html += '<div id="outerShortcutHint"></div>';
     html += "<hr>";
@@ -297,15 +297,17 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
 }
 
 function setHintListener() {
-    chrome.commands.getAll(function(commands) {
-        Tools.getStorage().get({
-            showShortcutHint: true
-        }, function(items) {
-            if (items.showShortcutHint) {
-                showShortcutHint(commands);
-            }
+    if (chrome.commands) {
+        chrome.commands.getAll(function(commands) {
+            Tools.getStorage().get({
+                showShortcutHint: true
+            }, function(items) {
+                if (items.showShortcutHint) {
+                    showShortcutHint(commands);
+                }
+            });
         });
-    });
+    }
 }
 
 function fillReviewRequest() {
@@ -467,7 +469,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                         idx++;
                     }
                 });
-                
+
             } else if (link.getAttribute('data-ruleIdOff')) {
                 storage.get({
                     ignoredRules: ruleIdsIgnoredByDefault
@@ -504,7 +506,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                     serverUrl: serverUrl,
                     pageUrl: tabs[0].url
                 };
-                chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
+                sendMessageToTab(tabs[0].id, data, function(response) {
                     doCheck(tabs, "apply_suggestion");   // re-check, as applying changes might change context also for other errors
                 });
             }
@@ -513,16 +515,16 @@ function addListenerActions(elements, tabs, response, languageCode) {
 }
 
 function reCheck(tabs, causeOfCheck) {
-    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function (response) {
+    sendMessageToTab(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url || pageUrlParam}, function (response) {
         doCheck(tabs, causeOfCheck);
     });
 }
-    
+
 function handleCheckResult(response, tabs, callback) {
     if (!response) {
         // not sure *why* this happens...
         renderStatus(chrome.i18n.getMessage("freshInstallReload"));
-        Tools.logOnServer("freshInstallReload on " + tabs[0].url, serverUrl);
+        Tools.logOnServer("freshInstallReload on " + tabs[0].url || pageUrlParam, serverUrl);
         return;
     }
     if (response.message) {
@@ -533,14 +535,15 @@ function handleCheckResult(response, tabs, callback) {
         let msg = chrome.i18n.getMessage("noTextFound") + "<br>" +
                   "<span class='errorMessageDetail'>" + chrome.i18n.getMessage("noTextFoundDetails") + "</span>";
         renderStatus(msg);
-        Tools.track(tabs[0].url, "no_text");
+        Tools.track(tabs[0].url || pageUrlParam, "no_text");
         return;
     }
     getCheckResult(response.markupList, response.metaData, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
         renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));
-        Tools.logOnServer("couldNotCheckText on " + tabs[0].url  + ": " + errorMessageCode, serverUrl);
+        Tools.logOnServer("couldNotCheckText on " + tabs[0].url || pageUrlParam
+          + ": " + errorMessageCode, serverUrl);
         if (callback) {
             callback(response.markupList, errorMessage);
         }
@@ -583,10 +586,14 @@ function startCheckMaybeWithWarning(tabs) {
                 preferredVariants.push(items.caVariant);
             }
             if (items.allowRemoteCheck === true) {
-                doCheck(tabs, "manually_triggered");
-                const newCounter = items.usageCounter + 1;
-                Tools.getStorage().set({'usageCounter': newCounter}, function() {});
-                chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
+                if (tabs.length > 0) {
+                    doCheck(tabs, "manually_triggered");
+                    const newCounter = items.usageCounter + 1;
+                    Tools.getStorage().set({'usageCounter': newCounter}, function() {});
+                    if (chrome.runtime.setUninstallURL) {
+                        chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
+                    }
+                }
             } else {
                 let message = "<p>";
                 if (serverUrl === defaultServerUrl) {
@@ -605,11 +612,12 @@ function startCheckMaybeWithWarning(tabs) {
                         allowRemoteCheck: true
                     }, function () {
                         doCheck(tabs, "manually_triggered");
-                        Tools.track(tabs[0].url, "accept_privacy_note");
+                        Tools.track(tabs[0].url || pageUrlParam, "accept_privacy_note");
                     });
                 });
                 document.getElementById("cancelCheck").addEventListener("click", function() {
-                    Tools.track(tabs[0].url, "cancel_privacy_note");
+                    Tools.track(tabs[0].url || pageUrlParam, "cancel_privacy_note");
+                    sendMessageToTab(tabs[0].id, { action: "closePopup" }, function(response) {});
                     self.close();
                 });
             }
@@ -618,40 +626,82 @@ function startCheckMaybeWithWarning(tabs) {
 
 function doCheck(tabs, causeOfCheck, optionalTrackDetails) {
     renderStatus('<img src="images/throbber_28.gif"> ' + chrome.i18n.getMessage("checkingProgress"));
-    const url = tabs[0].url ? tabs[0].url : "";
-    if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
-        renderStatus(chrome.i18n.getMessage("webstoreSiteNotSupported"));
-        Tools.logOnServer("siteNotSupported on " + url, serverUrl);
-        return;
-    } else if (url.match(unsupportedSitesRegex)) {
-        if (url.match(/docs\.google\.com/)) {
-            renderStatus(chrome.i18n.getMessage("googleDocsNotSupported", googleDocsExtension));
-            Tools.logOnServer("link to google docs extension");
+    if (tabs && tabs.length) {
+        const url = tabs[0].url ? tabs[0].url : pageUrlParam;
+        if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
+            renderStatus(chrome.i18n.getMessage("webstoreSiteNotSupported"));
+            Tools.logOnServer("siteNotSupported on " + url, serverUrl);
             return;
-        } else {
-            renderStatus(chrome.i18n.getMessage("siteNotSupported"));
-            Tools.logOnServer("siteNotSupported on " + url.replace(/file:.*/, "file:[...]"), serverUrl);  // don't log paths, may contain personal information
-            return;
+        } else if (Tools.doNotSupportOnUrl(url)) {
+            if (url.match(/docs\.google\.com/)) {
+                renderStatus(chrome.i18n.getMessage("googleDocsNotSupported", googleDocsExtension));
+                Tools.logOnServer("link to google docs extension");
+                return;
+            } else {
+                renderStatus(chrome.i18n.getMessage("siteNotSupported"));
+                Tools.logOnServer("siteNotSupported on " + url.replace(/file:.*/, "file:[...]"), serverUrl);  // don't log paths, may contain personal information
+                return;
+            }
         }
+        Tools.track(tabs[0].url || pageUrlParam, "check_trigger:" + causeOfCheck, optionalTrackDetails);
+        sendMessageToTab(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url || pageUrlParam}, function(response) {
+            handleCheckResult(response, tabs);
+            Tools.getStorage().set({
+                lastCheck: new Date().getTime()
+            }, function() {});
+        });
     }
-    Tools.track(tabs[0].url, "check_trigger:" + causeOfCheck, optionalTrackDetails);
-    chrome.tabs.sendMessage(tabs[0].id, {action: 'checkText', serverUrl: serverUrl, pageUrl: tabs[0].url}, function(response) {
-        handleCheckResult(response, tabs);
-        Tools.getStorage().set({
-            lastCheck: new Date().getTime()
-        }, function() {});
-    });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        if (tabs[0].url === "http://localhost/languagetool-for-chrome-tests.html") {
-            testMode = true;
-            runTest1(tabs, "textarea1", 1);
-            // TODO: more tests here
-        } else {
-            testMode = false;
-            startCheckMaybeWithWarning(tabs);
-        }
+function sendMessageToTab(tabId, data, callback) {
+  if (chrome.tabs) {
+    chrome.tabs.sendMessage(tabId, data, function(response) {
+      callback && callback(response);
     });
+  } else {
+    // send to bg for proxy
+    chrome.runtime.sendMessage(Object.assign({}, { tabId }, data), function(
+      response
+    ) {
+      callback && callback(response);
+    });
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (chrome && chrome.tabs) {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            if (tabs[0].url === "http://localhost/languagetool-for-chrome-tests.html") {
+                testMode = true;
+                runTest1(tabs, "textarea1", 1);
+                // TODO: more tests here
+            } else {
+                testMode = false;
+                startCheckMaybeWithWarning(tabs);
+            }
+        });
+    } else {
+        // adhoc fix
+        // due to open url moz-extension://7644b7c6-5fa4-b942-99b5-0f3b0496e8d1/popup.html?pageUrl=http://localhost:5000/languagetool-for-chrome-tests.html
+        // on iframe, chrome.tabs is not defined
+        // below code is running like content script
+        testMode = false;
+        startCheckMaybeWithWarning([]);
+        chrome.runtime
+          .sendMessage({
+            action: "getActiveTab"
+          })
+          .then(
+            function(response) {
+              if (response && response.tabs) {
+                startCheckMaybeWithWarning(response.tabs);
+              }
+            },
+            function(error) {
+              if (error) {
+              }
+            }
+          );
+    }
 });

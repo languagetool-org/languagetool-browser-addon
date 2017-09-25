@@ -19,11 +19,27 @@
 "use strict";
 
 const defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in popup.js
+const urlRegExp = new RegExp(
+  /^(https?:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
+);
+
+function validURL(str) {
+  return urlRegExp.test(str);
+}
+
+function domainName(url) {
+  try {
+    const { hostname } = new URL(url);
+    return hostname;
+  } catch (err) {
+    return url;
+  }
+}
 
 function saveOptions() {
     const url = document.getElementById('apiServerUrl').value;
     const status = document.getElementById('status');
-    if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
+    if (!validURL(url)) {
         status.textContent = 'This URL is not valid.';
     } else {
         status.textContent = '';
@@ -35,9 +51,12 @@ function saveOptions() {
             deVariant: document.getElementById('variant-de').value,
             ptVariant: document.getElementById('variant-pt').value,
             caVariant: document.getElementById('variant-ca').value,
-            dictionary: document.getElementById('dictionary').value.split("\n").filter(a => a.length > 0)
+            dictionary: document.getElementById('dictionary').value.split("\n").filter(a => a.length > 0),
+            disabledDomains: [... new Set(  document.getElementById("domains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item))
+          )
+        ]
         }, function() {
-            close();
+            window.close();
         });
     }
 }
@@ -55,6 +74,7 @@ function restoreOptions() {
     document.getElementById('variant-pt-desc').textContent = chrome.i18n.getMessage("variantPtDesc");
     document.getElementById('variant-ca-desc').textContent = chrome.i18n.getMessage("variantCaDesc");
     document.getElementById('dictionaryDesc').textContent = chrome.i18n.getMessage("dictionaryDesc");
+    document.getElementById('domainsDesc').textContent = chrome.i18n.getMessage("domainsDesc");
     Tools.getStorage().get({
         apiServerUrl: defaultServerUrl,
         ignoreQuotedLines: true,
@@ -63,7 +83,8 @@ function restoreOptions() {
         deVariant: "de-DE",
         ptVariant: "pt-PT",
         caVariant: "ca-ES",
-        dictionary: []
+        dictionary: [],
+        disabledDomains: []
     }, function(items) {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;
         document.getElementById('ignoreQuotedLines').checked = items.ignoreQuotedLines;
@@ -74,7 +95,9 @@ function restoreOptions() {
         document.getElementById('variant-ca').value = items.caVariant;
         //document.getElementById('variant-ca-desc').value = items.caVariant;
         const dict = items.dictionary.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+        const domains = items.disabledDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         document.getElementById('dictionary').value = dict.join("\n") + "\n";
+        document.getElementById('domains').value = domains.join("\n") + "\n";
         showPrivacyLink();
     });
 }

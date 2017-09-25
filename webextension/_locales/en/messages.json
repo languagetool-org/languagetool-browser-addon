@@ -347,5 +347,13 @@
   "save": {
     "message": "Save",
     "description": "Options dialog: save button"
+  },
+  "reminderIconTitle": {
+    "message": "Check Text",
+    "description": "Hover title of the blue reminder icon in the lower right corner of text areas"
+  },
+  "disableForThisDomainTitle": {
+    "message": "Disable for this domain",
+    "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)"
   }
 }

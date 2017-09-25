@@ -20,6 +20,11 @@
 
 const trackingBaseUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php";
 const trackingSiteId = "12";
+// chrome.google.com: see http://stackoverflow.com/questions/11613371/
+// docs.google.com: Google Docs has a too complicated DOM (but its own add-on framework)
+// addons.mozilla.org: see http://stackoverflow.com/questions/42147966/
+const unsupportedSitesRegex = /^https?:\/\/(docs.google.com|chrome.google.com|addons.mozilla.org).*/;
+const notSupportMarkerSitesRegex = /^https?:\/\/(www.facebook.com|docs.google.com|chrome.google.com|addons.mozilla.org).*/;
 
 class Tools {
 
@@ -77,6 +82,14 @@ class Tools {
         // special case for Firefox as long as chrome.storage.sync is defined, but
         // not yet activated by default: https://github.com/languagetool-org/languagetool-browser-addon/issues/97
         return chrome.storage.sync && !Tools.isFirefox() ? chrome.storage.sync : chrome.storage.local;
+    }
+
+    static doNotSupportOnUrl(url) {
+        return url.match(unsupportedSitesRegex);
+    }
+
+    static doNotShowMarkerOnUrl(url) {
+        return url.match(notSupportMarkerSitesRegex);
     }
 
     static getRandomToken() {
