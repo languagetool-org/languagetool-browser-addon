@@ -357,7 +357,7 @@ document.addEventListener(
   false
 );
 
-function openPowerByLink(evt) {
+function openPoweredByLink(evt) {
   evt.preventDefault();
   chrome.runtime
     .sendMessage({
@@ -374,7 +374,7 @@ function openPowerByLink(evt) {
     );
 }
 
-function openPowerByLinkOnNewTab() {
+function openPoweredByLinkOnNewTab() {
   // handle edge case for open poweredBy link from popup
   const poweredByElements = document.getElementsByClassName(POWER_BY_CLASS);
   if (poweredByElements.length) {
@@ -382,7 +382,7 @@ function openPowerByLinkOnNewTab() {
       const element = poweredByElements[counter];
       const anchorTag = element.getElementsByTagName("a");
       if (anchorTag.length) {
-        anchorTag[0].addEventListener("click", openPowerByLink);
+        anchorTag[0].addEventListener("click", openPoweredByLink);
       }
     }
   }
@@ -393,7 +393,7 @@ if (Tools.isFirefox()) {
   // create an observer instance
   const observer = new MutationObserver(mutations => {
     mutations.forEach(() => {
-      openPowerByLinkOnNewTab();
+      openPoweredByLinkOnNewTab();
     });
   });
 
