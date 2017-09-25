@@ -1,7 +1,11 @@
 # LanguageTool WebExtension Change Log
 
 ### 1.0.22 (2017-xx-xx)
-  * Some typography rules are now turned off by default because they are not useful
+  * An icon is now shown in the lower right corner of the text box the user is typing,
+    to remind them the add-on exists. Text is not checked automatically but only when
+    clicking on the icon. There are a few sites where the icon is not shown, e.g. Facebook.
+    (https://github.com/languagetool-org/languagetool-browser-addon/issues/46)
+  * Some typography-related rules are now turned off by default because they are not useful
     in a web context for most users (only affects new installations or those that haven't
     saved any rule turn on/off yet)
     (https://github.com/languagetool-org/languagetool/issues/798)
