@@ -181,7 +181,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             const { hostname } = new URL(response.url);
             disabledOnThisDomain = items.disabledDomains.includes(hostname);
             if (disabledOnThisDomain) {
-                html += '<div id="reactivateIcon"><a href="#">You\'ve turned off the reminder icon for this domain, click here to re-activate it</a></div>';
+                html += `<div id="reactivateIcon"><a href="#">${chrome.i18n.getMessage("reactivateIcon")}</a></div>`;
             }
         }
         // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
@@ -296,6 +296,11 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             html += "*** running in test mode ***";
         }
         renderStatus(html);
+
+        const imgURL = chrome.extension.getURL("images/logo34x34.png");
+        document.getElementById('ltIcon').src = imgURL;
+        document.getElementById('ltLink').href = "https://languagetool.org";
+        document.getElementById('ltLink').target = "_blank";
         setHintListener();
         if (disabledOnThisDomain) {
             setReactivateIconListener(response.url);
@@ -405,6 +410,7 @@ function getLanguageSelector(languageCode) {
         html += "<option " + selected + " value='" + langCode + "'>" + translatedLang + "</option>";
     }
     html += "</select>";
+    html += "<a id='ltLink'><img alt='logo' id='ltIcon' /></a>";
     html += "</div>";
     return html;
 }
