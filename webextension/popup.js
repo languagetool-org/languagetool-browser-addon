@@ -35,6 +35,8 @@ const ruleIdsIgnoredByDefault = [
     // German:
     {id: 'TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN', language: 'de'},
     {id: 'FALSCHE_VERWENDUNG_DES_BINDESTRICHS', language: 'de'},
+    {id: 'BISSTRICH', language: 'de'},
+    {id: 'AUSLASSUNGSPUNKTE', language: 'de'},
 ];
 
 // ask the user for a review in the store if they have used this add-on at least this many times:
@@ -700,6 +702,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             function(error) {
               if (error) {
+                Tools.logOnServer(`error on getActiveTab: ${error.message}`)
               }
             }
           );

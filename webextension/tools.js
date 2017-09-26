@@ -102,7 +102,7 @@ class Tools {
         return hex;
     }
 
-    static logOnServer(message, serverUrl) {
+    static logOnServer(message, serverUrl = 'https://languagetool.org/api/v2') {
         if (serverUrl.indexOf("https://languagetool.org") == -1) {
             // these logging messages are only useful for the LT dev team
             // to improve the add-on, so don't send anywhere else:

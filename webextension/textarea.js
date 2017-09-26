@@ -86,7 +86,7 @@ function offset(el) {
 }
 
 /**
- * Check tectarea or editor is allow spellcheck
+ * Check textarea or editor is allow spellcheck
  * @param {DOMElement} element
  */
 function isAllowSpellcheck(element) {
@@ -113,7 +113,7 @@ function isEditorElement(focusElement) {
   );
 }
 
-/** event hanlders */
+/** event handlers */
 
 function checkErrorMenu(evt) {
   evt.stopPropagation();
@@ -178,15 +178,10 @@ function disableMenu(evt) {
   );
 }
 
-/** DOM manupulate */
-function remindLanguageToolButton(clickHandler, position) {
-  const { top, left, offsetHeight, offsetWidth } = position;
-  const btn = document.createElement("A");
-  btn.onclick = clickHandler;
-  btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
-  btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+/** DOM manipulate */
 
-  // style
+function styleRemindButton(btn, position, num) {
+  const { top, left, offsetHeight, offsetWidth } = position;
   btn.style.position = "absolute";
   if (isGmail()) {
     const tables = document.querySelectorAll("table#undefined");
@@ -208,16 +203,19 @@ function remindLanguageToolButton(clickHandler, position) {
       }
     }
   } else {
-    btn.style.top = `${top +
-      offsetHeight -
-      REMIND_BTN_SIZE -
-      MARGIN_TO_CORNER}px`;
+    btn.style.top = `${top + offsetHeight - REMIND_BTN_SIZE - MARGIN_TO_CORNER}px`;
   }
-  btn.style.left = `${left +
-    offsetWidth -
-    REMIND_BTN_SIZE -
-    MARGIN_TO_CORNER}px`;
+  btn.style.left = `${left + offsetWidth - (REMIND_BTN_SIZE + MARGIN_TO_CORNER)*num}px`;
+}
 
+function remindLanguageToolButton(clickHandler, position) {
+  const btn = document.createElement("A");
+  btn.onclick = clickHandler;
+  btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
+  btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+
+  // style
+  styleRemindButton(btn, position, 1);
   return btn;
 }
 
@@ -231,35 +229,7 @@ function disableLanguageToolButton(clickHandler, position) {
     chrome.i18n.getMessage("disableForThisDomainTitle")
   );
   // style
-  btn.style.position = "absolute";
-  if (isGmail()) {
-    const tables = document.querySelectorAll("table#undefined");
-    const activeTable = Array.prototype.find.call(tables, table =>
-      isDescendant(table, document.activeElement)
-    );
-    // find parent of active table
-    const allTables = document.getElementsByTagName("table");
-    const gmaiComposeToolbarHeight = 155;
-    for (let counter = allTables.length - 1; counter > 0; counter -= 1) {
-      const parentTable = allTables[counter];
-      if (isDescendant(parentTable, activeTable)) {
-        let topPostion = offset(parentTable).top;
-        if (topPostion < gmaiComposeToolbarHeight) {
-          topPostion = gmaiComposeToolbarHeight;
-        }
-        btn.style.top = `${topPostion}px`;
-        break;
-      }
-    }
-  } else {
-    btn.style.top = `${top +
-      offsetHeight -
-      REMIND_BTN_SIZE -
-      MARGIN_TO_CORNER}px`;
-  }
-  btn.style.left = `${left +
-    offsetWidth -
-    (REMIND_BTN_SIZE + MARGIN_TO_CORNER) * 2}px`;
+  styleRemindButton(btn, position, 2);
   return btn;
 }
 
