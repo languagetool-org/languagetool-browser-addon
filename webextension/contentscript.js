@@ -42,7 +42,8 @@ function handleRequest(request, sender, callback) {
             toolbarUI = initToolbar();
         }
     } else {
-        alert("Unknown action: " + request.action);
+        alert(`Unknown action: ${request.action}`);
+        Tools.logOnServer(`Unknown action: ${request.action}`)
     }
 }
 
