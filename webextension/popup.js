@@ -172,9 +172,18 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let matches = data.matches;
     Tools.getStorage().get({
         dictionary: [],
+        disabledDomains: [],
         ignoredRules: ruleIdsIgnoredByDefault
     }, function(items) {
         let matchesCount = 0;
+        let disabledOnThisDomain = false;
+        if (response.url) {
+            const { hostname } = new URL(response.url);
+            disabledOnThisDomain = items.disabledDomains.includes(hostname);
+            if (disabledOnThisDomain) {
+                html += '<div id="reactivateIcon"><a href="#">You\'ve turned off the reminder icon for this domain, click here to re-activate it</a></div>';
+            }
+        }
         // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
         if (matches) {
             const uniquePositionMatches = [];
@@ -288,6 +297,9 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         renderStatus(html);
         setHintListener();
+        if (disabledOnThisDomain) {
+            setReactivateIconListener(response.url);
+        }
         if (matchesCount > 0) {
             fillReviewRequest(matchesCount);
         }
@@ -310,6 +322,19 @@ function setHintListener() {
             });
         });
     }
+}
+
+function setReactivateIconListener(url) {
+    document.getElementById("reactivateIcon").addEventListener("click", function() {
+        Tools.getStorage().get({ disabledDomains: [] }, items => {
+          const { hostname } = new URL(url);
+          Tools.getStorage().set({
+            disabledDomains: items.disabledDomains.filter(item => item !== hostname)
+          });
+          document.getElementById("reactivateIcon").style.display = "none";
+        }
+      );
+    });
 }
 
 function fillReviewRequest() {
