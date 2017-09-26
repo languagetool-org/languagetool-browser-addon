@@ -464,7 +464,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                             items.ignoredRules.splice(idx, 1);
                             storage.set({'ignoredRules': items.ignoredRules}, function() {
                                 reCheck(tabs, "turn_on_rule");
-                                Tools.track(tabs[0].url, "rule_turned_on", languageCode + ":" + rule.id);
+                                Tools.track(tabs[0].url || pageUrlParam, "rule_turned_on", languageCode + ":" + rule.id);
                             });
                             break;
                         }
@@ -485,7 +485,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                     });
                     storage.set({'ignoredRules': ignoredRules}, function() {
                         reCheck(tabs, "turn_off_rule");
-                        Tools.track(tabs[0].url, "rule_turned_off", languageCode + ":" + ruleId);
+                        Tools.track(tabs[0].url || pageUrlParam, "rule_turned_off", languageCode + ":" + ruleId);
                     });
                 });
 
