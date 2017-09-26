@@ -181,7 +181,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             const { hostname } = new URL(response.url);
             disabledOnThisDomain = items.disabledDomains.includes(hostname);
             if (disabledOnThisDomain) {
-                html += '<div id="reactivateIcon"><a href="#">You\'ve turned off the reminder icon for this domain, click here to re-activate it</a></div>';
+                html += `<div id="reactivateIcon"><a href="#">${chrome.i18n.getMessage("reactivateIcon")}</a></div>`;
             }
         }
         // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
