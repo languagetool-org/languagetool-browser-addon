@@ -49,7 +49,7 @@ class Tools {
                     uid = Tools.getRandomToken();
                     storage.set({uid: uid}, function() {});
                 }
-                const shortenedUrl = pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1");  // for privacy reasons, only log host
+                const shortenedUrl = pageUrl ? pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1") : '';  // for privacy reasons, only log host
                 const url = encodeURIComponent(shortenedUrl);
                 const trackingUrl = trackingBaseUrl +
                     "?idsite=" + trackingSiteId +
