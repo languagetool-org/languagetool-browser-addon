@@ -25,3 +25,9 @@ function activeElement() {
 function setActiveElement(el) {
   activeTextarea = el;
 }
+
+/** Automatically handle errors **/
+window.addEventListener('error', function(evt) {
+	const { error } = evt;
+	Tools.logOnServer(`error message: ${error.message}, \n\n stack: ${error.stack}`);
+});

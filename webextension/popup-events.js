@@ -403,15 +403,3 @@ if (Tools.isFirefox()) {
     observer.disconnect();
   });
 }
-
-/** Automatically handle errors **/
-window.onerror = function(msg, file, line, col, error) {
-    // callback is called with an Array[StackFrame]
-    StackTrace.fromError(error).then(stackframes => {
-      var stringifiedStack = stackframes.map(sf => sf.toString()).join('\n');
-      Tools.logOnServer(`error: ${error.message}, stacktrace: ${stringifiedStack}`);
-    }).catch(err => {
-      Tools.logOnServer(`onerror: ${err.message}`);
-    });
-};
-

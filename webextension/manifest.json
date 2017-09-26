@@ -33,7 +33,6 @@
       "js": [
         "vendors/purify.min.js",
         "vendors/jquery.min.js",
-        "vendors/stacktrace.min.js",
         "vendors/ally.min.js",
         "vendors/featherlight/featherlight.js",
         "helpers.js",
