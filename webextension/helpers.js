@@ -26,8 +26,12 @@ function setActiveElement(el) {
   activeTextarea = el;
 }
 
-/** Automatically handle errors **/
+/** Automatically handle errors, only works for popup **/
 window.addEventListener('error', function(evt) {
 	const { error } = evt;
-	Tools.logOnServer(`error message: ${error.message}, \n\n stack: ${error.stack}`);
+	if (error) {
+		Tools.logOnServer(`error message: ${error.message}, \n\n stack: ${error.stack}`);
+	} else {
+		Tools.logOnServer(`unknown error event: ${JSON.stringify(evt)}`);
+	}
 });
