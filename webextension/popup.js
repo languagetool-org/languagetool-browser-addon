@@ -296,6 +296,9 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             html += "*** running in test mode ***";
         }
         renderStatus(html);
+
+        const imgURL = chrome.extension.getURL("images/logo34x34.png");
+        document.getElementById('ltIcon').src = imgURL;
         setHintListener();
         if (disabledOnThisDomain) {
             setReactivateIconListener(response.url);
@@ -405,6 +408,7 @@ function getLanguageSelector(languageCode) {
         html += "<option " + selected + " value='" + langCode + "'>" + translatedLang + "</option>";
     }
     html += "</select>";
+    html += `<img alt="logo" id="ltIcon" />`;
     html += "</div>";
     return html;
 }
