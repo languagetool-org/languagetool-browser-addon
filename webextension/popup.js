@@ -299,6 +299,8 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
 
         const imgURL = chrome.extension.getURL("images/logo34x34.png");
         document.getElementById('ltIcon').src = imgURL;
+        document.getElementById('ltLink').href = "https://languagetool.org";
+        document.getElementById('ltLink').target = "_blank";
         setHintListener();
         if (disabledOnThisDomain) {
             setReactivateIconListener(response.url);
@@ -408,7 +410,7 @@ function getLanguageSelector(languageCode) {
         html += "<option " + selected + " value='" + langCode + "'>" + translatedLang + "</option>";
     }
     html += "</select>";
-    html += `<img alt="logo" id="ltIcon" />`;
+    html += "<a id='ltLink'><img alt='logo' id='ltIcon' /></a>";
     html += "</div>";
     return html;
 }
