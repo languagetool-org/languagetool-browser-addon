@@ -410,7 +410,7 @@ function getLanguageSelector(languageCode) {
         html += "<option " + selected + " value='" + langCode + "'>" + translatedLang + "</option>";
     }
     html += "</select>";
-    html += "<a id='ltLink'><img alt='logo' id='ltIcon' /></a>";
+    html += "<a id='ltLink'><img alt='logo' title='LanguageTool' id='ltIcon' /></a>";
     html += "</div>";
     return html;
 }
