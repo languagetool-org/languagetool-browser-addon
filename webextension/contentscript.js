@@ -24,9 +24,11 @@ let toolbarUI;
 let lastUseDate = new Date().getTime();  // TODO: should actually be saved in prefs
 let lastReminderDate = new Date().getTime();  // TODO: should actually be saved in prefs
 let unusedMinutesShowReminder = 0.5;
-    
+
 function handleRequest(request, sender, callback) {
-    if (request.action === "closePopup") {
+    if(request.action === "reactivateIcon") {
+        disableOnDomain = false;
+    } else if (request.action === "closePopup") {
         closePopup();
     } else if (request.action === 'checkText') {
         checkText(callback, request);
