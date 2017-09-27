@@ -344,6 +344,10 @@
     "message": "Personal dictionary words (one word per line):",
     "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking"
   },
+  "domainsDesc": {
+    "message": "Disable on these domains (one domain per line):",
+    "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled"
+  },
   "save": {
     "message": "Save",
     "description": "Options dialog: save button"
