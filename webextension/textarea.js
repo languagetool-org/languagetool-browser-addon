@@ -27,7 +27,7 @@ const DISABLE_BTN_CLASS = "lt-disable-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
 const CLEAN_TIME_OUT = 200; // 0.2 second
-const BG_CHECK_TIME_OUT = 2000; // 2 seconds
+const BG_CHECK_TIME_OUT = 500; // 2 seconds
 
 let disableOnDomain = false;
 const activeElementHandler = ally.event.activeElement();
@@ -64,12 +64,14 @@ function isShowOnViewPort(el) {
  * @return boolean
  */
 function isDescendant(parent, child) {
-  let node = child.parentNode;
-  while (node !== null) {
-    if (node === parent) {
-      return true;
+  if(child && parent) {
+    let node = child.parentNode;
+    while (node !== null) {
+      if (node === parent) {
+        return true;
+      }
+      node = node.parentNode;
     }
-    node = node.parentNode;
   }
   return false;
 }
@@ -293,7 +295,7 @@ function positionMarkerOnChangeSize() {
 
 function debugTextOnConsole(evt) {
   console.info('debugTextOnConsole',evt);
-  return evt.target.value;
+  return getMarkupListOfActiveElement(evt.target);
 }
 
 function showResultOnConsole(result) {
