@@ -303,7 +303,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         document.getElementById('ltLink').target = "_blank";
         setHintListener();
         if (disabledOnThisDomain) {
-            setReactivateIconListener(response.url);
+            setReactivateIconListener(response.url, tabs);
         }
         if (matchesCount > 0) {
             fillReviewRequest(matchesCount);
@@ -329,7 +329,7 @@ function setHintListener() {
     }
 }
 
-function setReactivateIconListener(url) {
+function setReactivateIconListener(url, tabs) {
     document.getElementById("reactivateIcon").addEventListener("click", function() {
         Tools.getStorage().get({ disabledDomains: [] }, items => {
           const { hostname } = new URL(url);
@@ -337,6 +337,7 @@ function setReactivateIconListener(url) {
             disabledDomains: items.disabledDomains.filter(item => item !== hostname)
           });
           document.getElementById("reactivateIcon").style.display = "none";
+          sendMessageToTab(tabs[0].id, { action: 'reactivateIcon', pageUrl: url }, function(response) {});
         }
       );
     });
@@ -410,7 +411,7 @@ function getLanguageSelector(languageCode) {
         html += "<option " + selected + " value='" + langCode + "'>" + translatedLang + "</option>";
     }
     html += "</select>";
-    html += "<a id='ltLink'><img alt='logo' id='ltIcon' /></a>";
+    html += "<a id='ltLink'><img alt='logo' title='LanguageTool' id='ltIcon' /></a>";
     html += "</div>";
     return html;
 }
