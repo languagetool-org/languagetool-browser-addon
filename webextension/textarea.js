@@ -27,7 +27,7 @@ const DISABLE_BTN_CLASS = "lt-disable-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
 const CLEAN_TIME_OUT = 200; // 0.2 second
-const BG_CHECK_TIME_OUT = 500; // 2 seconds
+const BG_CHECK_TIME_OUT = 500; // 0.5 seconds
 
 let disableOnDomain = false;
 const activeElementHandler = ally.event.activeElement();
@@ -293,23 +293,45 @@ function positionMarkerOnChangeSize() {
   ticking = true;
 }
 
-function debugTextOnConsole(evt) {
-  console.info('debugTextOnConsole',evt);
-  return getMarkupListOfActiveElement(evt.target);
-}
-
 function showResultOnConsole(result) {
   console.warn('showResultOnConsole', result);
 }
 
+function checkTextApi(text) {
+  console.warn('checkTextApi',text);
+  const url = "https://languagetoolplus.com/api/v2/check";
+  const data = `disabledRules=WHITESPACE_RULE&text=${encodeURIComponent(text)}&language=auto`;
+  const request = new Request(url, {
+    method: "POST",
+    headers: new Headers({
+      "Content-Type": "application/x-www-form-urlencoded",
+    }),
+    body: data
+  });
+  return fetch(request).then(response => {
+    if (response.status >= 400) {
+      throw new Error("Bad response from server");
+    }
+    return response.json();
+  });
+}
+
 function observeEditorElement(element) {
   console.warn('observeEditorElement', element, most);
-  /* global most */
-  const { combine, fromEvent } = most;
-  // Logs the current value of the searchInput, only after the
-  // user stops typing for 2 seconds
-  const inputText = fromEvent('input', element).debounce(BG_CHECK_TIME_OUT).map(debugTextOnConsole).startWith(element.value);
-  inputText.observe(showResultOnConsole);
+  /* global most,mostDomEvent */
+  const { fromEvent, fromPromise, merge } = most;
+  // Logs the current value of the searchInput, only after the user stops typing
+  const inputText = fromEvent('input', element).map(evt => evt.target.value).skipRepeats().multicast();
+  // Empty results list if there is no text
+  const emptyResults = inputText.filter(text => text.length === 0).constant([]);
+  const results = inputText.filter(text => text.length > 0)
+    .debounce(BG_CHECK_TIME_OUT)
+    .map(checkTextApi)
+    .map(fromPromise)
+    .switch()
+    .filter(result => result.matches.length > 0)
+    .map(result => result.matches);
+  merge(results, emptyResults).observe(showResultOnConsole);
 }
 
 function bindClickEventOnElement(currentElement) {

@@ -31,9 +31,9 @@
     {
       "matches": ["http://*/*", "https://*/*", "file:///*"],
       "js": [
-        "vendors/purify.min.js",
         "vendors/jquery.min.js",
-        "vendors/ally.min.js",
+        "vendors/purify.js",
+        "vendors/ally.js",
         "vendors/most.js",
         "vendors/featherlight/featherlight.js",
         "helpers.js",
