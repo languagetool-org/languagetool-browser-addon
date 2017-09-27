@@ -26,7 +26,8 @@ const REMIND_BTN_CLASS = "lt-remind-btn";
 const DISABLE_BTN_CLASS = "lt-disable-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
-const CLEAN_TIME_OUT = 200;
+const CLEAN_TIME_OUT = 200; // 0.2 second
+const BG_CHECK_TIME_OUT = 2000; // 2 seconds
 
 let disableOnDomain = false;
 const activeElementHandler = ally.event.activeElement();
@@ -290,9 +291,29 @@ function positionMarkerOnChangeSize() {
   ticking = true;
 }
 
+function debugTextOnConsole(evt) {
+  console.info('debugTextOnConsole',evt);
+  return evt.target.value;
+}
+
+function showResultOnConsole(result) {
+  console.warn('showResultOnConsole', result);
+}
+
+function observeEditorElement(element) {
+  console.warn('observeEditorElement', element, most);
+  /* global most */
+  const { combine, fromEvent } = most;
+  // Logs the current value of the searchInput, only after the
+  // user stops typing for 2 seconds
+  const inputText = fromEvent('input', element).debounce(BG_CHECK_TIME_OUT).map(debugTextOnConsole).startWith(element.value);
+  inputText.observe(showResultOnConsole);
+}
+
 function bindClickEventOnElement(currentElement) {
   if (isEditorElement(currentElement)) {
     if (!currentElement.getAttribute("lt-bind-click")) {
+      observeEditorElement(currentElement);
       currentElement.addEventListener(
         "mouseup",
         () => {

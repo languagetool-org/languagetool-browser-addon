@@ -34,6 +34,7 @@
         "vendors/purify.min.js",
         "vendors/jquery.min.js",
         "vendors/ally.min.js",
+        "vendors/most.js",
         "vendors/featherlight/featherlight.js",
         "helpers.js",
         "tools.js",
