@@ -30,8 +30,8 @@ function setActiveElement(el) {
 window.addEventListener('error', function(evt) {
 	const { error } = evt;
 	if (error) {
-		Tools.logOnServer(`error message: ${error.message}, \n\n stack: ${error.stack}`);
+		Tools.track("unknown", `error message: ${error.message}`, error.stack);
 	} else {
-		Tools.logOnServer(`unknown error event: ${JSON.stringify(evt)}`);
+		Tools.track("unknown", "unknown error event", JSON.stringify(evt));
 	}
 });

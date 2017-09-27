@@ -72,9 +72,10 @@ class Tools {
                     console.log("LT add-on tracking failed with timeout");
                 };
                 trackReq.send();
+                console.log("LanguageTool tracking: ", shortenedUrl, actionName, optionalTrackDetails);
             });
         } catch(e) {
-            console.log("LT add-on tracking failed: ", e);
+            console.log("LanguageTool add-on tracking failed: ", e);
         }
     }
 
@@ -102,6 +103,8 @@ class Tools {
         return hex;
     }
 
+    // NOTE: the number of logs that can be sent is limited by the same limit
+    // that limits the check requests per minute, so prefer Tools.track()
     static logOnServer(message, serverUrl = 'https://languagetool.org/api/v2') {
         if (serverUrl.indexOf("https://languagetool.org") == -1) {
             // these logging messages are only useful for the LT dev team

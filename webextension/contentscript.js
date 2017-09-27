@@ -45,7 +45,7 @@ function handleRequest(request, sender, callback) {
         }
     } else {
         alert(`Unknown action: ${request.action}`);
-        Tools.logOnServer(`Unknown action: ${request.action}`)
+        Tools.track("internal", `Unknown action: ${request.action}`);
     }
 }
 
@@ -69,7 +69,7 @@ function checkText(callback, request) {
                 return;
             }
         } catch (err) {
-            Tools.logOnServer(`error on checkText for iframe: ${err.message}`)
+            Tools.track(request.pageUrl, `error on checkText for iframe: ${err.message}`);
         }
     }
     const selection = window.getSelection();
@@ -90,7 +90,7 @@ function checkText(callback, request) {
             //console.log(e);
             // Fallback e.g. for tinyMCE as used on languagetool.org - document.activeElement simply doesn't
             // seem to work if focus is inside the iframe.
-            Tools.logOnServer(`error on checkText - get selection: ${e.message}`)
+            Tools.track(request.pageUrl, `error on checkText - get selection: ${e.message}`);
             const iframes = document.getElementsByTagName("iframe");
             let found = false;
             for (let i = 0; i < iframes.length; i++) {
@@ -107,7 +107,7 @@ function checkText(callback, request) {
             }
             if (!found) {
                 callback({message: e.toString()});
-                Tools.logOnServer("Exception and failing fallback in checkText: " + e.toString() + " on " + request.pageUrl, request.serverUrl);
+                Tools.track(request.pageUrl, "Exception and failing fallback in checkText: " + e.message);
             }
         }
     }
@@ -167,7 +167,7 @@ function applyCorrection(request) {
     } catch (e) {
         // e.g. when replacement fails because of complicated HTML
         alert(e.toString());
-        Tools.logOnServer("Exception in applyCorrection: " + e.toString() + " on " + request.pageUrl, request.serverUrl);
+        Tools.track(request.pageUrl, "Exception in applyCorrection: " + e.message);
         return;
     }
     // TODO: active element might have changed in between?!
@@ -190,7 +190,7 @@ function applyCorrection(request) {
     }
     if (!found) {
         alert(chrome.i18n.getMessage("noReplacementPossible"));
-        Tools.logOnServer("Problem in applyCorrection: noReplacementPossible on " + request.pageUrl, request.serverUrl);
+        Tools.track(request.pageUrl, "Problem in applyCorrection: noReplacementPossible");
     }
 }
 

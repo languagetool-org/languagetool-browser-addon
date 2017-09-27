@@ -558,7 +558,7 @@ function handleCheckResult(response, tabs, callback) {
     if (!response) {
         // not sure *why* this happens...
         renderStatus(chrome.i18n.getMessage("freshInstallReload"));
-        Tools.logOnServer("freshInstallReload on " + tabs[0].url || pageUrlParam, serverUrl);
+        Tools.track(tabs[0].url || pageUrlParam, "freshInstallReload");
         return;
     }
     if (response.message) {
@@ -576,8 +576,7 @@ function handleCheckResult(response, tabs, callback) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
         renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));
-        Tools.logOnServer("couldNotCheckText on " + tabs[0].url || pageUrlParam
-          + ": " + errorMessageCode, serverUrl);
+        Tools.track(tabs[0].url || pageUrlParam, "couldNotCheckText", errorMessageCode);
         if (callback) {
             callback(response.markupList, errorMessage);
         }
@@ -664,16 +663,16 @@ function doCheck(tabs, causeOfCheck, optionalTrackDetails) {
         const url = tabs[0].url ? tabs[0].url : pageUrlParam;
         if (Tools.isChrome() && url.match(/^(https?:\/\/chrome\.google\.com\/webstore.*)/)) {
             renderStatus(chrome.i18n.getMessage("webstoreSiteNotSupported"));
-            Tools.logOnServer("siteNotSupported on " + url, serverUrl);
+            Tools.track(url, "siteNotSupported");
             return;
         } else if (Tools.doNotSupportOnUrl(url)) {
             if (url.match(/docs\.google\.com/)) {
                 renderStatus(chrome.i18n.getMessage("googleDocsNotSupported", googleDocsExtension));
-                Tools.logOnServer("link to google docs extension");
+                Tools.track(url, "googleDocsNotSupported");
                 return;
             } else {
                 renderStatus(chrome.i18n.getMessage("siteNotSupported"));
-                Tools.logOnServer("siteNotSupported on " + url.replace(/file:.*/, "file:[...]"), serverUrl);  // don't log paths, may contain personal information
+                Tools.track(url.replace(/file:.*/, "file:[...]"), "siteNotSupported");  // don't log paths, may contain personal information
                 return;
             }
         }
@@ -734,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             function(error) {
               if (error) {
-                Tools.logOnServer(`error on getActiveTab: ${error.message}`)
+                Tools.track("internal", `error on getActiveTab: ${error.message}`)
               }
             }
           );

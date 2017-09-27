@@ -334,7 +334,7 @@ document.addEventListener(
                 },
                 error => {
                   if (error) {
-                    Tools.logOnServer(`error on getActiveTab: ${error.message}`)
+                    Tools.track("unknown", "error on getActiveTab", error.message);
                   }
                 }
               );
@@ -360,7 +360,7 @@ function openPoweredByLink(evt) {
       },
       error => {
         if (error) {
-          Tools.logOnServer(`error on openNewTab: ${error.message}`)
+          Tools.track(this.href, "error on openNewTab", error.message);
         }
       }
     );
