@@ -364,6 +364,10 @@
     "message": "Disable for this domain",
     "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)"
   },
+  "autoCheckForThisDomainTitle": {
+    "message": "Auto check text for this domain",
+    "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)"
+  },
   "reactivateIcon": {
     "message": "You've turned off the reminder icon for this domain, click here to re-activate it.",
     "description": "Re-activate icon for disabled domain"

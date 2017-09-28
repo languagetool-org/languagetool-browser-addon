@@ -25,6 +25,7 @@ const BTN_CLASS = "lt-buttons";
 const REMIND_BTN_CLASS = "lt-remind-btn";
 const ERROR_BTN_CLASS = "lt-error-btn";
 const DISABLE_BTN_CLASS = "lt-disable-btn";
+const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
 const CLEAN_TIME_OUT = 200; // 0.2 second
@@ -192,6 +193,25 @@ function disableMenu(evt) {
   );
 }
 
+function autoCheckMenu(evt) {
+  evt.preventDefault();
+  autoCheckOnDomain = true;
+  document.querySelector('a.lt-auto-check-btn').style.display = "none";
+  Tools.getStorage().get(
+    {
+      autoCheckOnDomains: []
+    },
+    items => {
+      const currentUrl = window.location.href;
+      const { hostname } = new URL(currentUrl);
+      items.autoCheckOnDomains.push(hostname);
+      Tools.getStorage().set({
+        autoCheckOnDomains: [...new Set(items.autoCheckOnDomains)]
+      });
+    }
+  );
+}
+
 /** DOM manipulate */
 
 function styleRemindButton(btn, position, num) {
@@ -256,6 +276,20 @@ function disableLanguageToolButton(clickHandler, position) {
   return btn;
 }
 
+function autoCheckLanguageToolButton(clickHandler, position) {
+  const { top, left, offsetHeight, offsetWidth } = position;
+  const btn = document.createElement("A");
+  btn.onclick = clickHandler;
+  btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
+  btn.setAttribute(
+    "tooltip",
+    chrome.i18n.getMessage("autoCheckForThisDomainTitle")
+  );
+  // style
+  styleRemindButton(btn, position, 3);
+  return btn;
+}
+
 function textAreaWrapper(textElement, btnElements) {
   const wrapper = document.createElement("div");
   wrapper.className = REMIND_WRAPPER_CLASS;
@@ -279,8 +313,13 @@ function insertLanguageToolIcon(element) {
   });
   const btns = [
     remindLanguageToolButton(checkErrorMenu, position),
-    disableLanguageToolButton(disableMenu, position)
+    disableLanguageToolButton(disableMenu, position),
   ];
+
+  if(!autoCheckOnDomain) {
+    btns.push(autoCheckLanguageToolButton(autoCheckMenu, position));
+  }
+
   textAreaWrapper(element, btns);
 }
 
