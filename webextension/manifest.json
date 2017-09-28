@@ -19,6 +19,7 @@
     "browser_style": false
   },
   "permissions": [
+    "*://languagetoolplus.com/*",
     "activeTab",
     "storage",
     "contextMenus"

@@ -309,10 +309,10 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         document.getElementById('ltLink').target = "_blank";
         setHintListener();
         if (disabledOnThisDomain) {
-            setReactivateIconListener(response.url, tabs);
+            setReactivateIconListener(response.url || pageUrlParam, tabs);
         }
         if (autoCheckOnDomain) {
-            setTurnOffAutoCheckIconListener(response.url, tabs);
+            setTurnOffAutoCheckIconListener(response.url || pageUrlParam, tabs);
         }
         if (matchesCount > 0) {
             fillReviewRequest(matchesCount);

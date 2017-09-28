@@ -125,7 +125,7 @@ function isEditorElement(focusElement) {
 /** event handlers */
 
 function isShowErrorDetail() {
-  return !autoCheckOnDomain || (autoCheckOnDomain && totalErrorOnCheckText);
+  return !autoCheckOnDomain || (autoCheckOnDomain && totalErrorOnCheckText > 0);
 }
 
 function checkErrorMenu(evt) {
@@ -242,7 +242,7 @@ function styleRemindButton(btn, position, num) {
   btn.style.left = `${left + offsetWidth - (REMIND_BTN_SIZE + MARGIN_TO_CORNER)*num}px`;
 }
 
-function remindLanguageToolButton(clickHandler, position) {
+function remindLanguageToolButton(clickHandler, position, num) {
   const btn = document.createElement("A");
   if (autoCheckOnDomain && totalErrorOnCheckText >= 0) {
      if (totalErrorOnCheckText > 0) {
@@ -258,11 +258,11 @@ function remindLanguageToolButton(clickHandler, position) {
   }
   btn.onclick = clickHandler;
   // style
-  styleRemindButton(btn, position, 1);
+  styleRemindButton(btn, position, num);
   return btn;
 }
 
-function disableLanguageToolButton(clickHandler, position) {
+function disableLanguageToolButton(clickHandler, position, num) {
   const { top, left, offsetHeight, offsetWidth } = position;
   const btn = document.createElement("A");
   btn.onclick = clickHandler;
@@ -272,11 +272,11 @@ function disableLanguageToolButton(clickHandler, position) {
     chrome.i18n.getMessage("disableForThisDomainTitle")
   );
   // style
-  styleRemindButton(btn, position, 2);
+  styleRemindButton(btn, position, num);
   return btn;
 }
 
-function autoCheckLanguageToolButton(clickHandler, position) {
+function autoCheckLanguageToolButton(clickHandler, position, num) {
   const { top, left, offsetHeight, offsetWidth } = position;
   const btn = document.createElement("A");
   btn.onclick = clickHandler;
@@ -286,7 +286,7 @@ function autoCheckLanguageToolButton(clickHandler, position) {
     chrome.i18n.getMessage("autoCheckForThisDomainTitle")
   );
   // style
-  styleRemindButton(btn, position, 3);
+  styleRemindButton(btn, position, num);
   return btn;
 }
 
@@ -312,12 +312,14 @@ function insertLanguageToolIcon(element) {
     offsetWidth
   });
   const btns = [
-    remindLanguageToolButton(checkErrorMenu, position),
-    disableLanguageToolButton(disableMenu, position),
+    remindLanguageToolButton(checkErrorMenu, position, 1),
   ];
 
   if(!autoCheckOnDomain) {
-    btns.push(autoCheckLanguageToolButton(autoCheckMenu, position));
+    btns.push(autoCheckLanguageToolButton(autoCheckMenu, position, 2));
+    btns.push(disableLanguageToolButton(disableMenu, position, 3));
+  } else {
+    btns.push(disableLanguageToolButton(disableMenu, position, 2));
   }
 
   textAreaWrapper(element, btns);
@@ -354,8 +356,10 @@ function positionMarkerOnChangeSize() {
 
 function showResultOnMarker(result) {
   console.warn('showResultOnMarker', result);
-  totalErrorOnCheckText = result.length;
-  positionMarkerOnChangeSize();
+  if (result) {
+    totalErrorOnCheckText = result.length;
+    positionMarkerOnChangeSize();
+  }
 }
 
 function markup2text({ markupList }) {
@@ -366,7 +370,6 @@ function markup2text({ markupList }) {
       text = text.replace(/^>.*?\n/gm, function(match) {
           return " ".repeat(match.length - 1) + "\n";
       });
-      quotedLinesIgnored = text != textOrig;
   }
   return text;
 }
@@ -387,7 +390,10 @@ function checkTextApi(text) {
       throw new Error("Bad response from server");
     }
     return response.json();
-  });
+  }).catch(error => {
+    const pageUrl = window.location.href;
+    Tools.track(pageUrl, `error on checkTextApi: ${error.message}`);
+  })
 }
 
 
@@ -430,7 +436,7 @@ function observeEditorElement(element) {
     .map(checkTextApi)
     .map(fromPromise)
     .switch()
-    .map(result => result.matches);
+    .map(result => result && result.matches);
   merge(results, emptyResults).observe(showResultOnMarker);
 }
 
@@ -441,7 +447,10 @@ function bindClickEventOnElement(currentElement) {
       observeEditorElement(currentElement);
       const text = markup2text(getTextFromElement(currentElement));
       checkTextApi(text).then(result => {
-        showResultOnMarker(result.matches);
+        console.warn('result', result);
+        if(result) {
+          showResultOnMarker(result.matches);
+        }
       });
     }
     if (!currentElement.getAttribute("lt-bind-click")) {
