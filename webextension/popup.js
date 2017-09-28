@@ -173,15 +173,21 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     Tools.getStorage().get({
         dictionary: [],
         disabledDomains: [],
+        autoCheckOnDomains: [],
         ignoredRules: ruleIdsIgnoredByDefault
     }, function(items) {
         let matchesCount = 0;
         let disabledOnThisDomain = false;
+        let autoCheckOnDomain = false;
         if (response.url) {
             const { hostname } = new URL(response.url);
             disabledOnThisDomain = items.disabledDomains.includes(hostname);
+            autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
             if (disabledOnThisDomain) {
                 html += `<div id="reactivateIcon"><a href="#"><img src='/images/reminder.png'>&nbsp;${chrome.i18n.getMessage("reactivateIcon")}</a></div>`;
+            }
+            if (autoCheckOnDomain) {
+                html += `<div id="turnOffAutoCheckIcon"><a href="#">${chrome.i18n.getMessage("turnOffAutoCheckIcon")}</a></div>`;
             }
         }
         // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
@@ -305,6 +311,9 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         if (disabledOnThisDomain) {
             setReactivateIconListener(response.url, tabs);
         }
+        if (autoCheckOnDomain) {
+            setTurnOffAutoCheckIconListener(response.url, tabs);
+        }
         if (matchesCount > 0) {
             fillReviewRequest(matchesCount);
         }
@@ -338,6 +347,20 @@ function setReactivateIconListener(url, tabs) {
           });
           document.getElementById("reactivateIcon").style.display = "none";
           sendMessageToTab(tabs[0].id, { action: 'reactivateIcon', pageUrl: url }, function(response) {});
+        }
+      );
+    });
+}
+
+function setTurnOffAutoCheckIconListener(url, tabs) {
+    document.getElementById("turnOffAutoCheckIcon").addEventListener("click", function() {
+        Tools.getStorage().get({ disabledDomains: [] }, items => {
+          const { hostname } = new URL(url);
+          Tools.getStorage().set({
+            disabledDomains: items.disabledDomains.filter(item => item !== hostname)
+          });
+          document.getElementById("turnOffAutoCheckIcon").style.display = "none";
+          sendMessageToTab(tabs[0].id, { action: 'turnOffAutoCheck', pageUrl: url }, function(response) {});
         }
       );
     });
