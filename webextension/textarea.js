@@ -23,6 +23,7 @@ const REMIND_WRAPPER_CLASS = "lt-marker-container";
 const POPUP_CONTENT_CLASS = "ltaddon-popup-content";
 const BTN_CLASS = "lt-buttons";
 const REMIND_BTN_CLASS = "lt-remind-btn";
+const ERROR_BTN_CLASS = "lt-error-btn";
 const DISABLE_BTN_CLASS = "lt-disable-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
@@ -30,6 +31,8 @@ const CLEAN_TIME_OUT = 200; // 0.2 second
 const BG_CHECK_TIME_OUT = 500; // 0.5 seconds
 
 let disableOnDomain = false;
+let autoCheckOnDomain = false;
+let totalErrorOnCheckText = 0;
 const activeElementHandler = ally.event.activeElement();
 
 function isGmail() {
@@ -118,6 +121,10 @@ function isEditorElement(focusElement) {
 
 /** event handlers */
 
+function isShowErrorDetail() {
+  return !autoCheckOnDomain || (autoCheckOnDomain && totalErrorOnCheckText);
+}
+
 function checkErrorMenu(evt) {
   evt.stopPropagation();
   evt.preventDefault();
@@ -130,28 +137,30 @@ function checkErrorMenu(evt) {
       textAreaElement.focus();
     }
   }
-  const popupWidth = 450;
-  const popupHeight = Math.min(window.innerHeight * 80 / 100, 600);
-  $.featherlight({
-    iframe: `${chrome.runtime.getURL("popup.html")}?pageUrl=${currentUrl}`,
-    iframeWidth: popupWidth,
-    iframeHeight: popupHeight,
-    namespace: "ltaddon-popup",
-    beforeOpen: () => {
-      const popupContainers = document.getElementsByClassName(
-        POPUP_CONTENT_CLASS
-      );
-      for (let counter = 0; counter < popupContainers.length; counter += 1) {
-        const popupContainer = popupContainers[counter];
-        popupContainer.style.minWidth = `${popupWidth}px`;
-        popupContainer.style.minHeight = `${popupHeight}px`;
+  if (isShowErrorDetail()) {
+    const popupWidth = 450;
+    const popupHeight = Math.min(window.innerHeight * 80 / 100, 600);
+    $.featherlight({
+      iframe: `${chrome.runtime.getURL("popup.html")}?pageUrl=${currentUrl}`,
+      iframeWidth: popupWidth,
+      iframeHeight: popupHeight,
+      namespace: "ltaddon-popup",
+      beforeOpen: () => {
+        const popupContainers = document.getElementsByClassName(
+          POPUP_CONTENT_CLASS
+        );
+        for (let counter = 0; counter < popupContainers.length; counter += 1) {
+          const popupContainer = popupContainers[counter];
+          popupContainer.style.minWidth = `${popupWidth}px`;
+          popupContainer.style.minHeight = `${popupHeight}px`;
+        }
+      },
+      afterOpen: () => {
+        const currentPopup = $.featherlight.current();
+        currentPopup.$content.focus();
       }
-    },
-    afterOpen: () => {
-      const currentPopup = $.featherlight.current();
-      currentPopup.$content.focus();
-    }
-  });
+    });
+  }
 }
 
 function removeAllButtons() {
@@ -213,10 +222,19 @@ function styleRemindButton(btn, position, num) {
 
 function remindLanguageToolButton(clickHandler, position) {
   const btn = document.createElement("A");
+  if (autoCheckOnDomain) {
+     if (totalErrorOnCheckText > 0) {
+      btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+      btn.setAttribute("tooltip", `Found ${totalErrorOnCheckText} errors, show detail.`);
+    } else {
+      btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
+      btn.setAttribute("tooltip", 'No error');
+    }
+  } else {
+    btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
+    btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+  }
   btn.onclick = clickHandler;
-  btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
-  btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
-
   // style
   styleRemindButton(btn, position, 1);
   return btn;
@@ -295,6 +313,8 @@ function positionMarkerOnChangeSize() {
 
 function showResultOnConsole(result) {
   console.warn('showResultOnConsole', result);
+  totalErrorOnCheckText = result.length;
+  positionMarkerOnChangeSize();
 }
 
 function checkTextApi(text) {
@@ -329,7 +349,6 @@ function observeEditorElement(element) {
     .map(checkTextApi)
     .map(fromPromise)
     .switch()
-    .filter(result => result.matches.length > 0)
     .map(result => result.matches);
   merge(results, emptyResults).observe(showResultOnConsole);
 }
@@ -337,7 +356,9 @@ function observeEditorElement(element) {
 function bindClickEventOnElement(currentElement) {
   if (isEditorElement(currentElement)) {
     if (!currentElement.getAttribute("lt-bind-click")) {
-      observeEditorElement(currentElement);
+      if (autoCheckOnDomain) {
+        observeEditorElement(currentElement);
+      }
       currentElement.addEventListener(
         "mouseup",
         () => {
@@ -368,12 +389,14 @@ function allowToShowMarker(callback) {
   if (!disableOnDomain) {
     Tools.getStorage().get(
       {
-        disabledDomains: []
+        disabledDomains: [],
+        autoCheckOnDomains: []
       },
       items => {
         const { hostname } = new URL(currentUrl);
-        if (items.disabledDomains.indexOf(hostname) !== -1) {
-          disableOnDomain = true;
+        autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
+        disableOnDomain = items.disabledDomains.includes(hostname);
+        if (disableOnDomain) {
           removeAllButtons();
         } else {
           callback();
@@ -382,7 +405,6 @@ function allowToShowMarker(callback) {
     );
   } else {
     removeAllButtons();
-    callback();
     activeElementHandler.disengage();
   }
 }
