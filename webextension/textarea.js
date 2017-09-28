@@ -33,6 +33,8 @@ const BG_CHECK_TIME_OUT = 500; // 0.5 seconds
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let totalErrorOnCheckText = 0;
+// TODO: should move to tools.js for reused code
+let apiCheckTextOptions = '';
 const activeElementHandler = ally.event.activeElement();
 
 function isGmail() {
@@ -225,7 +227,7 @@ function remindLanguageToolButton(clickHandler, position) {
   if (autoCheckOnDomain) {
      if (totalErrorOnCheckText > 0) {
       btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
-      btn.setAttribute("tooltip", `Found ${totalErrorOnCheckText} errors, show detail.`);
+      btn.setAttribute("tooltip", `Found ${totalErrorOnCheckText} errors, view detail`);
     } else {
       btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
       btn.setAttribute("tooltip", 'No error');
@@ -320,7 +322,7 @@ function showResultOnConsole(result) {
 function checkTextApi(text) {
   console.warn('checkTextApi',text);
   const url = "https://languagetoolplus.com/api/v2/check";
-  const data = `disabledRules=WHITESPACE_RULE&text=${encodeURIComponent(text)}&language=auto`;
+  const data = `${apiCheckTextOptions}&text=${encodeURIComponent(text)}`;
   const request = new Request(url, {
     method: "POST",
     headers: new Headers({
@@ -358,6 +360,11 @@ function bindClickEventOnElement(currentElement) {
     if (!currentElement.getAttribute("lt-bind-click")) {
       if (autoCheckOnDomain) {
         observeEditorElement(currentElement);
+        if(currentElement.value) {
+          checkTextApi(currentElement.value).then(result => {
+            showResultOnConsole(result.matches);
+          })
+        }
       }
       currentElement.addEventListener(
         "mouseup",
@@ -390,12 +397,26 @@ function allowToShowMarker(callback) {
     Tools.getStorage().get(
       {
         disabledDomains: [],
-        autoCheckOnDomains: []
+        autoCheckOnDomains: [],
+        motherTongue: ''
       },
       items => {
         const { hostname } = new URL(currentUrl);
         autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
         disableOnDomain = items.disabledDomains.includes(hostname);
+        apiCheckTextOptions = `disabledRules=WHITESPACE_RULE&language=auto`;
+        if(items.motherTongue) {
+          apiCheckTextOptions += `&motherTongue=${items.motherTongue}`;
+        }
+        let userAgent = "webextension";
+        if (Tools.isFirefox()) {
+            userAgent += "-firefox";
+        } else if (Tools.isChrome()) {
+            userAgent += "-chrome";
+        } else {
+            userAgent += "-unknown";
+        }
+        apiCheckTextOptions += `&userAgent=${userAgent}`;
         if (disableOnDomain) {
           removeAllButtons();
         } else {
