@@ -24,7 +24,7 @@ const urlRegExp = new RegExp(
 );
 
 function validURL(str) {
-  return urlRegExp.test(str);
+  return urlRegExp.test(str) || str === 'localhost' ; // suport for localhost
 }
 
 function domainName(url) {

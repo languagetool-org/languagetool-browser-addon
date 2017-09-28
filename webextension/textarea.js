@@ -32,8 +32,9 @@ const BG_CHECK_TIME_OUT = 500; // 0.5 seconds
 
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
-let totalErrorOnCheckText = 0;
+let totalErrorOnCheckText = -1; // -1 = not checking yet
 let apiCheckTextOptions = '';
+let ignoreQuotedLines = true;
 const activeElementHandler = ally.event.activeElement();
 
 function isGmail() {
@@ -223,7 +224,7 @@ function styleRemindButton(btn, position, num) {
 
 function remindLanguageToolButton(clickHandler, position) {
   const btn = document.createElement("A");
-  if (autoCheckOnDomain) {
+  if (autoCheckOnDomain && totalErrorOnCheckText >= 0) {
      if (totalErrorOnCheckText > 0) {
       btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
       btn.setAttribute("tooltip", `Found ${totalErrorOnCheckText} errors, view detail`);
@@ -312,10 +313,23 @@ function positionMarkerOnChangeSize() {
   ticking = true;
 }
 
-function showResultOnConsole(result) {
-  console.warn('showResultOnConsole', result);
+function showResultOnMarker(result) {
+  console.warn('showResultOnMarker', result);
   totalErrorOnCheckText = result.length;
   positionMarkerOnChangeSize();
+}
+
+function markup2text({ markupList }) {
+  console.warn('markup2text', markupList);
+  let text = Markup.markupList2text(markupList);
+  if (ignoreQuotedLines) {
+      const textOrig = text;
+      text = text.replace(/^>.*?\n/gm, function(match) {
+          return " ".repeat(match.length - 1) + "\n";
+      });
+      quotedLinesIgnored = text != textOrig;
+  }
+  return text;
 }
 
 function checkTextApi(text) {
@@ -337,34 +351,61 @@ function checkTextApi(text) {
   });
 }
 
+
+function getTextFromElement(element) {
+    const pageUrl = window.location.href;
+    if (element.tagName === "IFRAME") {
+        try {
+            if (element
+                && element.contentWindow
+                && element.contentWindow.document.getSelection()
+                && element.contentWindow.document.getSelection().toString() !== "") {
+                const text = element.contentWindow.document.getSelection().toString();
+                return ({ markupList: [{ text }], isEditableText: false });
+            }
+        } catch (err) {
+            Tools.track(pageUrl, `error on getTextFromElement for iframe: ${err.message}`);
+        }
+    }
+
+    const markupList = getMarkupListOfActiveElement(element);
+    return ({ markupList, isEditableText: true });
+}
+
+function elementMarkup(evt) {
+  totalErrorOnCheckText = -1;
+  return getTextFromElement(evt.target);
+}
+
 function observeEditorElement(element) {
   console.warn('observeEditorElement', element, most);
   /* global most,mostDomEvent */
   const { fromEvent, fromPromise, merge } = most;
   // Logs the current value of the searchInput, only after the user stops typing
-  const inputText = fromEvent('input', element).map(evt => evt.target.value).skipRepeats().multicast();
+  const inputText = fromEvent('input', element).map(elementMarkup).skipRepeats().multicast();
   // Empty results list if there is no text
-  const emptyResults = inputText.filter(text => text.length === 0).constant([]);
-  const results = inputText.filter(text => text.length > 0)
+  const emptyResults = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text.length === 0).constant([]);
+  const results = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text.length > 0)
     .debounce(BG_CHECK_TIME_OUT)
+    .map(markup2text)
     .map(checkTextApi)
     .map(fromPromise)
     .switch()
     .map(result => result.matches);
-  merge(results, emptyResults).observe(showResultOnConsole);
+  merge(results, emptyResults).observe(showResultOnMarker);
 }
 
 function bindClickEventOnElement(currentElement) {
   if (isEditorElement(currentElement)) {
+    totalErrorOnCheckText = -1;
+    if (autoCheckOnDomain) {
+      observeEditorElement(currentElement);
+      const text = markup2text(getTextFromElement(currentElement));
+      checkTextApi(text).then(result => {
+        showResultOnMarker(result.matches);
+      });
+    }
     if (!currentElement.getAttribute("lt-bind-click")) {
-      if (autoCheckOnDomain) {
-        observeEditorElement(currentElement);
-        if(currentElement.value) {
-          checkTextApi(currentElement.value).then(result => {
-            showResultOnConsole(result.matches);
-          })
-        }
-      }
       currentElement.addEventListener(
         "mouseup",
         () => {
@@ -399,12 +440,14 @@ function allowToShowMarker(callback) {
     Tools.getStorage().get(
       {
         disabledDomains: [],
-        autoCheckOnDomains: []
+        autoCheckOnDomains: [],
+        ignoreQuotedLines: true,
       },
       items => {
         const { hostname } = new URL(currentUrl);
         autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
         disableOnDomain = items.disabledDomains.includes(hostname);
+        ignoreQuotedLines = items.ignoreQuotedLines;
         if (disableOnDomain) {
           removeAllButtons();
         } else {
