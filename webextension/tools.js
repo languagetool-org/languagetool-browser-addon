@@ -1,6 +1,6 @@
-/* LanguageTool WebExtension 
+/* LanguageTool WebExtension
  * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -29,6 +29,48 @@ const notSupportMarkerSitesRegex = /^https?:\/\/(www.facebook.com|docs.google.co
 class Tools {
 
     constructor() {
+    }
+
+    static prepareApiCheckTextParam(callback) {
+        const storage = Tools.getStorage();
+        storage.get({
+            motherTongue: '',
+            enVariant: "en-US",
+            deVariant: "de-DE",
+            ptVariant: "pt-PT",
+            caVariant: "ca-ES",
+        }, function(items) {
+            let apiCheckTextOptions = `disabledRules=WHITESPACE_RULE&language=auto`;
+            if (items.motherTongue) {
+              apiCheckTextOptions += `&motherTongue=${items.motherTongue}`;
+            }
+            let userAgent = "webextension";
+            if (Tools.isFirefox()) {
+                userAgent += "-firefox";
+            } else if (Tools.isChrome()) {
+                userAgent += "-chrome";
+            } else {
+                userAgent += "-unknown";
+            }
+            apiCheckTextOptions += `&userAgent=${userAgent}`;
+            const preferredVariants = [];
+            if (items.enVariant) {
+                preferredVariants.push(items.enVariant);
+            }
+            if (items.deVariant) {
+                preferredVariants.push(items.deVariant);
+            }
+            if (items.ptVariant) {
+                preferredVariants.push(items.ptVariant);
+            }
+            if (items.caVariant) {
+                preferredVariants.push(items.caVariant);
+            }
+            if (preferredVariants.length > 0) {
+                apiCheckTextOptions += "&preferredVariants=" + preferredVariants;
+            }
+            callback(apiCheckTextOptions);
+        });
     }
 
     static track(pageUrl, actionName, optionalTrackDetails) {
@@ -128,7 +170,7 @@ class Tools {
 
     static isChrome() {
         return navigator.userAgent.indexOf("Chrome/") !== -1 || navigator.userAgent.indexOf("Chromium/") !== -1;
-    }    
+    }
 
     static escapeHtml(s) {
         return s.replace(/&/g, '&amp;')
@@ -155,7 +197,7 @@ class Tools {
 
     // Due to Transifex limited support for Android i18n files, we already have
     // a very complicated i18n setup (see injectTranslations.py) and it seems
-    // we're better off just hard-coding the English language names here instead of 
+    // we're better off just hard-coding the English language names here instead of
     // making the process even more complicated:
     static getLangName(langCode) {
         switch (langCode) {

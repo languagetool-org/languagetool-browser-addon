@@ -33,7 +33,6 @@ const BG_CHECK_TIME_OUT = 500; // 0.5 seconds
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let totalErrorOnCheckText = 0;
-// TODO: should move to tools.js for reused code
 let apiCheckTextOptions = '';
 const activeElementHandler = ally.event.activeElement();
 
@@ -393,30 +392,19 @@ function bindClickEventOnElement(currentElement) {
 function allowToShowMarker(callback) {
   const currentUrl = window.location.href;
   disableOnDomain = Tools.doNotShowMarkerOnUrl(currentUrl);
+  Tools.prepareApiCheckTextParam(options => {
+      apiCheckTextOptions = options;
+  });
   if (!disableOnDomain) {
     Tools.getStorage().get(
       {
         disabledDomains: [],
-        autoCheckOnDomains: [],
-        motherTongue: ''
+        autoCheckOnDomains: []
       },
       items => {
         const { hostname } = new URL(currentUrl);
         autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
         disableOnDomain = items.disabledDomains.includes(hostname);
-        apiCheckTextOptions = `disabledRules=WHITESPACE_RULE&language=auto`;
-        if(items.motherTongue) {
-          apiCheckTextOptions += `&motherTongue=${items.motherTongue}`;
-        }
-        let userAgent = "webextension";
-        if (Tools.isFirefox()) {
-            userAgent += "-firefox";
-        } else if (Tools.isChrome()) {
-            userAgent += "-chrome";
-        } else {
-            userAgent += "-unknown";
-        }
-        apiCheckTextOptions += `&userAgent=${userAgent}`;
         if (disableOnDomain) {
           removeAllButtons();
         } else {
