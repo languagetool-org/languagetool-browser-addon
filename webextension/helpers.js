@@ -129,13 +129,10 @@ function isSuggestion(match) {
 }
 
 /** Automatically handle errors, only works for popup **/
-const THROTTLE_REQUESTS = 60 * 1000 / 5; // 5 requests per min
 window.addEventListener('error', function(evt) {
 	const { error } = evt;
 	if (error) {
     console.warn(`Found a error: ${error.message}`);
-    setTimeout(() => {
-		  Tools.track("unknown", `error message: ${error.message}`, error.stack);
-    }, THROTTLE_REQUESTS);
+    Tools.track("unknown", `error message: ${error.message}`, error.stack);
 	}
 });

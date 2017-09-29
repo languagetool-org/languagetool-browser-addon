@@ -28,10 +28,18 @@ then open it in Chrome and click the LanguageTool extension's button. Test mode 
 
 <p contenteditable="true">This is a paragraph. It is editable. Try to change this text.</p>
 
-<script>
-    CKEDITOR.replace('text2');
-    ClassicEditor.create(document.querySelector('#editor'));
-    tinymce.init({ selector: '#tinymce' });
+<script type="text/javascript">
+    if (CKEDITOR) {
+        CKEDITOR.replace('text2');
+    }
+
+    if (ClassicEditor) {
+        ClassicEditor.create(document.querySelector('#editor'));
+    }
+
+    if (tinymce) {
+        tinymce.init({ selector: '#tinymce' });
+    }
 </script>
 
 
