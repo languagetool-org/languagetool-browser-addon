@@ -51,6 +51,9 @@ function saveOptions() {
         Tools.getStorage().set({
             apiServerUrl: url,
             ignoreQuotedLines: document.getElementById('ignoreQuotedLines').checked,
+            havePremiumAccount: document.getElementById('havePremiumAccount').checked,
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value,
             motherTongue: document.getElementById('motherTongue').value,
             enVariant: document.getElementById('variant-en').value,
             deVariant: document.getElementById('variant-de').value,
@@ -71,6 +74,9 @@ function restoreOptions() {
     document.getElementById('defaultServerLink').textContent = chrome.i18n.getMessage("defaultServerLink");
     document.getElementById('save').textContent = chrome.i18n.getMessage("save");
     document.getElementById('ignoreQuotedLinesDesc').innerHTML = chrome.i18n.getMessage("ignoreQuotedLines");
+    document.getElementById('havePremiumAccountDesc').innerHTML = chrome.i18n.getMessage("havePremiumAccountDesc", "https://languagetoolplus.com");
+    document.getElementById('username').innerHTML = chrome.i18n.getMessage("username");
+    document.getElementById('password').innerHTML = chrome.i18n.getMessage("password");
     document.getElementById('motherTongueDesc').textContent = chrome.i18n.getMessage("motherTongueDesc");
     document.getElementById('motherTongueExpl').textContent = chrome.i18n.getMessage("motherTongueExpl");
     document.getElementById('variant-en-desc').textContent = chrome.i18n.getMessage("variantEnDesc");
@@ -83,6 +89,9 @@ function restoreOptions() {
     Tools.getStorage().get({
         apiServerUrl: defaultServerUrl,
         ignoreQuotedLines: true,
+        havePremiumAccount: false,
+        username:  "",
+        password:  "",
         motherTongue: "",
         enVariant: "en-US",
         deVariant: "de-DE",
@@ -94,6 +103,10 @@ function restoreOptions() {
     }, function(items) {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;
         document.getElementById('ignoreQuotedLines').checked = items.ignoreQuotedLines;
+        document.getElementById('havePremiumAccount').checked = items.havePremiumAccount;
+        document.getElementById('username').value = items.username;
+        document.getElementById('password').value = items.password;
+        setPremium(items.havePremiumAccount);
         document.getElementById('motherTongue').value = items.motherTongue;
         document.getElementById('variant-en').value = items.enVariant;
         document.getElementById('variant-de').value = items.deVariant;
@@ -108,6 +121,7 @@ function restoreOptions() {
         document.getElementById('autoCheckOnDomains').value = autoCheckOnDomains.join("\n") + "\n";
         showPrivacyLink();
     });
+    setTimeout(function() { window.scrollTo(0, 0); }, 50);  // otherwise Chrome will show the bottom if the options page
 }
 
 function useDefaultServer() {
@@ -119,8 +133,26 @@ function useDefaultServer() {
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('save').addEventListener('click', saveOptions);
 document.getElementById('defaultServerLink').addEventListener('click', useDefaultServer);
+document.getElementById('havePremiumAccount').addEventListener('click', toggleHavePremiumCheckbox);
 document.getElementById('apiServerUrl').addEventListener('change', showPrivacyLink);
 document.getElementById('apiServerUrl').addEventListener('keyup', showPrivacyLink);
+
+function toggleHavePremiumCheckbox() {
+    setPremium(this.checked);
+}
+
+function setPremium(enabled) {
+    if (enabled) {
+        document.getElementById('username').disabled = false;
+        document.getElementById('password').disabled = false;
+        document.getElementById('username').focus();
+        document.getElementById('apiServerUrl').disabled = true;
+    } else {
+        document.getElementById('username').disabled = true;
+        document.getElementById('password').disabled = true;
+        document.getElementById('apiServerUrl').disabled = false;
+    }
+}
 
 function showPrivacyLink() {
     if (document.getElementById('apiServerUrl').value == defaultServerUrl) {

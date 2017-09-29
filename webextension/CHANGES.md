@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.23 (2017-09-28)
+  * commented out error logging to avoid excessive logging of 'unknown error event'
+    to Piwik
+  
 ### 1.0.22 (2017-09-28)
   * An icon is now shown in the lower right corner of the text box the user is typing in,
     to remind them the add-on exists. Text is not checked automatically but only when
