@@ -286,8 +286,6 @@
     "message": "Cancel",
     "description": "Link shown below the privacy note on first use"
   },
-
-  
   "serverText": {
     "message": "LanguageTool API server URL:",
     "description": "Options dialog: description of the text field for the API server URL"
@@ -375,5 +373,29 @@
   "turnOffAutoCheckIcon": {
     "message": "You've turned on auto check text for this domain, click here to turn off.",
     "description": "Turn off auto check icon for a domain"
+  },
+  "noErrorOnCheckText": {
+    "message": "No error",
+    "description": "Show total error on hover on maker icon"
+  },
+  "foundAErrorOnCheckText": {
+    "message": "Found: $totalErrorOnCheckText$ error, view detail",
+    "description": "Show total errors on hover on maker icon",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "foundErrorsOnCheckText": {
+    "message": "Found: $totalErrorOnCheckText$ errors, view detail",
+    "description": "Show total errors on hover on maker icon",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
   }
 }

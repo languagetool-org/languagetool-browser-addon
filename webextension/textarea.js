@@ -248,10 +248,11 @@ function remindLanguageToolButton(clickHandler, position, num) {
   if (autoCheckOnDomain && totalErrorOnCheckText >= 0) {
      if (totalErrorOnCheckText > 0) {
       btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
-      btn.setAttribute("tooltip", `Found ${totalErrorOnCheckText} errors, view detail`);
+      const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
+      btn.setAttribute("tooltip", tooltip);
     } else {
       btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
-      btn.setAttribute("tooltip", 'No error');
+      btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
     }
   } else {
     btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
