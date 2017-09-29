@@ -29,98 +29,19 @@ const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
 const CLEAN_TIME_OUT = 200; // 0.2 second
-const BG_CHECK_TIME_OUT = 500; // 0.5 seconds
+const BG_CHECK_TIME_OUT = 2000; // 2 seconds
 
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let apiCheckTextOptions = '';
 let ignoreQuotedLines = true;
-let ignoredRules = [];
 const activeElementHandler = ally.event.activeElement();
 
 function isGmail() {
   const currentUrl = window.location.href;
   const { hostname } = new URL(currentUrl);
   return hostname === "mail.google.com";
-}
-
-/**
- * Check the element is display or hidden
- * @param {DOMElement} el
- * @return {bool}
- */
-function isHiddenElement(el) {
-  const style = window.getComputedStyle(el);
-  return el.offsetParent === null || style.display === "none";
-}
-
-/**
- * check element is on viewport or not
- * @param {DOMElement} el
- */
-function isShowOnViewPort(el) {
-  const bounds = el.getBoundingClientRect();
-  return bounds.top < window.innerHeight && bounds.bottom > 0;
-}
-
-/**
- * Check the element is parent node
- * @param {DOMElement} parent
- * @param {DOMElement} child
- * @return boolean
- */
-function isDescendant(parent, child) {
-  if(child && parent) {
-    let node = child.parentNode;
-    while (node !== null) {
-      if (node === parent) {
-        return true;
-      }
-      node = node.parentNode;
-    }
-  }
-  return false;
-}
-
-/**
- * Find the position of element base on window
- * @param {DOMElement} el
- * @return {object} position { top, left }
- */
-function offset(el) {
-  const rect = el.getBoundingClientRect();
-  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
-}
-
-/**
- * Check textarea or editor is allow spellcheck
- * @param {DOMElement} element
- */
-function isAllowSpellcheck(element) {
-  return (
-    element.getAttribute("spellcheck") === null ||
-    element.getAttribute("spellcheck") === true
-  );
-}
-
-/**
- * True if that is textarea or html5 contentEditable element
- * @param {DOMElement} focusElement
- * @return {bool}
- */
-function isEditorElement(focusElement) {
-  return (
-    focusElement &&
-    isAllowSpellcheck(focusElement) &&
-    (focusElement.tagName === "TEXTAREA" ||
-      focusElement.contentEditable !== "inherit" ||
-      (focusElement.tagName === "IFRAME" &&
-        (focusElement.className.indexOf("cke_wysiwyg_frame") !== -1 ||
-          focusElement.title.indexOf("Rich Text Area") !== -1)))
-  );
 }
 
 /** event handlers */
@@ -343,8 +264,8 @@ function showMarkerOnEditor(focusElement) {
 
 // detect on window resize, scroll
 let ticking = false;
-function positionMarkerOnChangeSize() {
-  if (!ticking) {
+function positionMarkerOnChangeSize(forceRender = false) {
+  if (!ticking || forceRender) {
     window.requestAnimationFrame(() => {
       removeAllButtons();
       if (!disableOnDomain && isShowOnViewPort(document.activeElement)) {
@@ -356,13 +277,67 @@ function positionMarkerOnChangeSize() {
   ticking = true;
 }
 
-function showResultOnMarker(result) {
-  console.warn('showResultOnMarker', result, ignoredRules);
+function showMatchedResultOnMarker(result) {
+  console.warn('showMatchedResultOnMarker', result);
   if (result) {
-    // const ruleIds = ignoredRules.map(item => item.id);
-    // TODO: need to find a way to count the errors (ignore rule, dictinary words, etc)
-    totalErrorOnCheckText = result.length;
-    positionMarkerOnChangeSize();
+    let matchesCount = 0;
+    let matches = [];
+    const uniquePositionMatches = [];
+    let prevErrStart = -1;
+    let prevErrLen = -1;
+    for (let i = result.length-1; i >= 0; i--) {
+        const m = result[i];
+        const errStart = parseInt(m.offset);
+        const errLen = parseInt(m.length);
+        if (errStart != prevErrStart || errLen != prevErrLen) {
+            uniquePositionMatches.push(m);
+            prevErrStart = errStart;
+            prevErrLen = errLen;
+        }
+    }
+    uniquePositionMatches.reverse();
+    matches = uniquePositionMatches;
+    const ignoredRuleCounts = {};
+    const ruleIdToDesc = {};
+    Tools.getStorage().get(
+    {
+      ignoredRules: [],
+      dictionary: []
+    },
+    items => {
+      const { dictionary, ignoredRules } = items;
+      for (let m of matches) {
+          // these values come from the server, make sure they are ints:
+          const errStart = parseInt(m.context.offset);
+          const errLen = parseInt(m.length);
+          // these string values come from the server and need to be sanitized
+          // as they will be inserted with innerHTML:
+          const contextSanitized = DOMPurify.sanitize(m.context.text);
+          const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
+          const messageSanitized = DOMPurify.sanitize(m.message);
+          const descriptionSanitized = DOMPurify.sanitize(m.rule.description);
+          ruleIdToDesc[ruleIdSanitized] = descriptionSanitized;
+          const wordSanitized = contextSanitized.substr(errStart, errLen);
+          let ignoreError = false;
+          if (isSpellingError(m)) {
+              // Also accept uppercase versions of lowercase words in personal dict:
+              const knowToDict = dictionary.indexOf(wordSanitized) != -1;
+              if (knowToDict) {
+                  ignoreError = true;
+              } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
+                  ignoreError = dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) != -1;
+              }
+          } else {
+              ignoreError = ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
+          }
+          if (!ignoreError) {
+              matchesCount++;
+          }
+      }
+      totalErrorOnCheckText = matchesCount;
+      console.warn('found total errors', totalErrorOnCheckText);
+      positionMarkerOnChangeSize(true);
+    });
   }
 }
 
@@ -439,15 +414,15 @@ function observeEditorElement(element) {
     inputText = fromEvent('keypress', element).map(elementMarkup).skipRepeats().multicast();
   }
   // Empty results list if there is no text
-  const emptyResults = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text.length === 0).constant([]);
-  const results = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text.length > 0)
+  const emptyResults = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length === 0).constant([]);
+  const results = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length > 0)
     .debounce(BG_CHECK_TIME_OUT)
     .map(markup2text)
     .map(checkTextApi)
     .map(fromPromise)
     .switch()
     .map(result => result && result.matches);
-  merge(results, emptyResults).observe(showResultOnMarker);
+  merge(results, emptyResults).observe(showMatchedResultOnMarker);
 }
 
 function bindClickEventOnElement(currentElement) {
@@ -459,7 +434,7 @@ function bindClickEventOnElement(currentElement) {
       checkTextApi(text).then(result => {
         console.warn('result', result);
         if(result) {
-          showResultOnMarker(result.matches);
+          showMatchedResultOnMarker(result.matches);
         }
       });
     }
@@ -500,14 +475,12 @@ function allowToShowMarker(callback) {
         disabledDomains: [],
         autoCheckOnDomains: [],
         ignoreQuotedLines: true,
-        ignoredRules: [],
       },
       items => {
         const { hostname } = new URL(currentUrl);
         autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
         disableOnDomain = items.disabledDomains.includes(hostname);
         ignoreQuotedLines = items.ignoreQuotedLines;
-        ignoredRules = items.ignoredRules;
         if (disableOnDomain) {
           removeAllButtons();
         } else {

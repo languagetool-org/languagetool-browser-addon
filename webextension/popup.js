@@ -128,30 +128,6 @@ function getShortCode(languageCode) {
     return languageCode.replace(/-.*/, "");
 }
 
-function suggestionClass(match) {
-    if (isSpellingError(match)) {
-        return 'hiddenSpellError';
-    } else if (isSuggestion(match)) {
-        return 'hiddenSuggestion';
-    } else {
-        return 'hiddenGrammarError';
-    }
-}
-
-function isSpellingError(match) {
-    const ruleId = match.rule.id;
-    return ruleId.indexOf("SPELLER_RULE") >= 0 ||
-           ruleId.indexOf("MORFOLOGIK_RULE") >= 0 ||
-           ruleId.indexOf("HUNSPELL") >= 0
-}
-
-function isSuggestion(match) {
-    const issueType = match.rule.issueType;
-    return issueType === 'style' ||
-           issueType === 'locale-violation' ||
-           issueType === 'register'
-}
-
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
     const createLinks = response.isEditableText && !response.url.match(unsupportedReplacementSitesRegex);
     const data = JSON.parse(resultJson);
