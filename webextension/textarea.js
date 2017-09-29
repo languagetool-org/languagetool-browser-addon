@@ -343,6 +343,7 @@ function showMatchedResultOnMarker(result) {
 
 function markup2text({ markupList }) {
   console.warn('markup2text', markupList);
+  positionMarkerOnChangeSize();
   let text = Markup.markupList2text(markupList);
   if (ignoreQuotedLines) {
       const textOrig = text;

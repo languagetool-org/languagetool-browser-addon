@@ -133,7 +133,5 @@ window.addEventListener('error', function(evt) {
 	const { error } = evt;
 	if (error) {
 		Tools.track("unknown", `error message: ${error.message}`, error.stack);
-	} else {
-		Tools.track("unknown", "unknown error event", JSON.stringify(evt));
 	}
 });

@@ -114,7 +114,7 @@ class Tools {
                     console.log("LT add-on tracking failed with timeout");
                 };
                 trackReq.send();
-                console.log("LanguageTool tracking: ", shortenedUrl, actionName, optionalTrackDetails);
+                console.log(`LanguageTool tracking: ${shortenedUrl}, ${actionName}, ${optionalTrackDetails}`);
             });
         } catch(e) {
             console.log("LanguageTool add-on tracking failed: ", e);
