@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.24 (2017-09-29)
+  * Internal preparation for upcoming features
+  * Tracking fixes
+  
 ### 1.0.23 (2017-09-28)
   * commented out error logging to avoid excessive logging of 'unknown error event'
     to Piwik
