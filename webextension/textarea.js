@@ -36,6 +36,7 @@ let autoCheckOnDomain = false;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let apiCheckTextOptions = '';
 let ignoreQuotedLines = true;
+let ignoredRules = [];
 const activeElementHandler = ally.event.activeElement();
 
 function isGmail() {
@@ -355,8 +356,10 @@ function positionMarkerOnChangeSize() {
 }
 
 function showResultOnMarker(result) {
-  console.warn('showResultOnMarker', result);
+  console.warn('showResultOnMarker', result, ignoredRules);
   if (result) {
+    // const ruleIds = ignoredRules.map(item => item.id);
+    // TODO: need to find a way to count the errors (ignore rule, dictinary words, etc)
     totalErrorOnCheckText = result.length;
     positionMarkerOnChangeSize();
   }
@@ -427,7 +430,13 @@ function observeEditorElement(element) {
   /* global most,mostDomEvent */
   const { fromEvent, fromPromise, merge } = most;
   // Logs the current value of the searchInput, only after the user stops typing
-  const inputText = fromEvent('input', element).map(elementMarkup).skipRepeats().multicast();
+  let inputText;
+  if(element.tagName === 'IFRAME') {
+    console.warn('Found iframe', element);
+    inputText = fromEvent('keypress', element.contentWindow).map(elementMarkup).skipRepeats().multicast();
+  } else {
+    inputText = fromEvent('keypress', element).map(elementMarkup).skipRepeats().multicast();
+  }
   // Empty results list if there is no text
   const emptyResults = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text.length === 0).constant([]);
   const results = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text.length > 0)
@@ -490,12 +499,14 @@ function allowToShowMarker(callback) {
         disabledDomains: [],
         autoCheckOnDomains: [],
         ignoreQuotedLines: true,
+        ignoredRules: [],
       },
       items => {
         const { hostname } = new URL(currentUrl);
         autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
         disableOnDomain = items.disabledDomains.includes(hostname);
         ignoreQuotedLines = items.ignoreQuotedLines;
+        ignoredRules = items.ignoredRules;
         if (disableOnDomain) {
           removeAllButtons();
         } else {
@@ -538,6 +549,7 @@ document.addEventListener(
   "active-element",
   event => {
     const { focus: focusElement, blur: blurElement } = event.detail;
+    console.warn('active-element', focusElement, blurElement);
     if (isHiddenElement(blurElement) && isEditorElement(blurElement)) {
       removeAllButtons();
     }
