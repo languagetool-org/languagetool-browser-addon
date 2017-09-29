@@ -23,8 +23,13 @@ const urlRegExp = new RegExp(
   /^(https?:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
 );
 
+// regex idea from sindresorhus/ip-regex
+const ipv4 = '(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])){3}';
+const ipv4Reg = new RegExp(`^${ipv4}$`) ;
+
+// suport for localhost and ipv4
 function validURL(str) {
-  return urlRegExp.test(str) || str === 'localhost' ; // suport for localhost
+  return urlRegExp.test(str) || str === 'localhost' || ipv4Reg.test(str);
 }
 
 function domainName(url) {
@@ -52,8 +57,8 @@ function saveOptions() {
             ptVariant: document.getElementById('variant-pt').value,
             caVariant: document.getElementById('variant-ca').value,
             dictionary: document.getElementById('dictionary').value.split("\n").filter(a => a.length > 0),
-            disabledDomains: [... new Set(  document.getElementById("domains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item)))],
-            autoCheckOnDomains: [... new Set(  document.getElementById("autoCheckOnDomains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item)))]
+            disabledDomains: [... new Set(  document.getElementById("domains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))],
+            autoCheckOnDomains: [... new Set(  document.getElementById("autoCheckOnDomains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))]
         }, function() {
             window.close();
         });
