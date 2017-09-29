@@ -145,6 +145,7 @@ function checkErrorMenu(evt) {
     afterOpen: () => {
       const currentPopup = $.featherlight.current();
       currentPopup.$content.focus();
+      Tools.track(currentUrl, "reminderIconClick");
     }
   });
 }
