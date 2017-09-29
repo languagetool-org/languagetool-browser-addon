@@ -356,6 +356,9 @@ function markup2text({ markupList }) {
 
 function checkTextApi(text) {
   console.warn('checkTextApi',text);
+  if(!autoCheckOnDomain) {
+    return Promise.resolve({matches: []});
+  }
   const url = "https://languagetoolplus.com/api/v2/check";
   const data = `${apiCheckTextOptions}&text=${encodeURIComponent(text)}`;
   const request = new Request(url, {
@@ -403,7 +406,6 @@ function elementMarkup(evt) {
 }
 
 function observeEditorElement(element) {
-  console.warn('observeEditorElement', element, most);
   /* global most,mostDomEvent */
   const { fromEvent, fromPromise, merge } = most;
   // Logs the current value of the searchInput, only after the user stops typing
