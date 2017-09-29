@@ -36,6 +36,7 @@ let autoCheckOnDomain = false;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let apiCheckTextOptions = '';
 let ignoreQuotedLines = true;
+let lastCheckResult = { text: '', matches: [], total: -1, isProcess: false };
 const activeElementHandler = ally.event.activeElement();
 
 function isGmail() {
@@ -280,6 +281,7 @@ function positionMarkerOnChangeSize(forceRender = false) {
 function showMatchedResultOnMarker(result) {
   console.warn('showMatchedResultOnMarker', result);
   if (result) {
+    lastCheckResult = Object.assign({}, lastCheckResult, { matches: result });
     let matchesCount = 0;
     let matches = [];
     const uniquePositionMatches = [];
@@ -335,7 +337,8 @@ function showMatchedResultOnMarker(result) {
           }
       }
       totalErrorOnCheckText = matchesCount;
-      console.warn('found total errors', totalErrorOnCheckText);
+      lastCheckResult = Object.assign({}, lastCheckResult, { total: matchesCount });
+      console.warn('found total errors', totalErrorOnCheckText, lastCheckResult);
       positionMarkerOnChangeSize(true);
     });
   }
@@ -356,8 +359,12 @@ function markup2text({ markupList }) {
 
 function checkTextApi(text) {
   console.warn('checkTextApi',text);
+  if( text === lastCheckResult.text) {
+    return Promise.resolve({ matches: lastCheckResult.matches });
+  }
+  lastCheckResult = Object.assign({}, lastCheckResult, { text, isProcess: true });
   if(!autoCheckOnDomain) {
-    return Promise.resolve({matches: []});
+    return Promise.resolve({ matches: [] });
   }
   const url = "https://languagetoolplus.com/api/v2/check";
   const data = `${apiCheckTextOptions}&text=${encodeURIComponent(text)}`;
@@ -372,9 +379,11 @@ function checkTextApi(text) {
     if (response.status >= 400) {
       throw new Error("Bad response from server");
     }
+    lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
     return response.json();
   }).catch(error => {
     const pageUrl = window.location.href;
+    lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
     Tools.track(pageUrl, `error on checkTextApi: ${error.message}`);
   })
 }
@@ -526,7 +535,6 @@ document.addEventListener(
   "active-element",
   event => {
     const { focus: focusElement, blur: blurElement } = event.detail;
-    console.warn('active-element', focusElement, blurElement);
     if (isHiddenElement(blurElement) && isEditorElement(blurElement)) {
       removeAllButtons();
     }
