@@ -51,8 +51,10 @@ class Tools {
                 }
                 const shortenedUrl = pageUrl ? pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1") : '';  // for privacy reasons, only log host
                 const url = encodeURIComponent(shortenedUrl);
+                const version = chrome.app && chrome.app.getDetails ? chrome.app.getDetails().version : "unknown";
                 const trackingUrl = trackingBaseUrl +
                     "?idsite=" + trackingSiteId +
+                    "&_cvar={\"1\":[\"version\",\"" + encodeURIComponent(version) + "\"]}" +
                     "&rec=1" +
                     "&url=" + url +
                     "&action_name=" + encodeURIComponent(actionName) +
