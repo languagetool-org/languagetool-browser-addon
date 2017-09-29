@@ -345,7 +345,6 @@ function showMatchedResultOnMarker(result) {
 }
 
 function markup2text({ markupList }) {
-  console.warn('markup2text', markupList);
   positionMarkerOnChangeSize();
   let text = Markup.markupList2text(markupList);
   if (ignoreQuotedLines) {
@@ -377,6 +376,7 @@ function checkTextApi(text) {
   });
   return fetch(request).then(response => {
     if (response.status >= 400) {
+      lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false, text: '', matches: [], total: -1 });
       throw new Error("Bad response from server");
     }
     lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
@@ -420,7 +420,6 @@ function observeEditorElement(element) {
   // Logs the current value of the searchInput, only after the user stops typing
   let inputText;
   if(element.tagName === 'IFRAME') {
-    console.warn('Found iframe', element);
     inputText = fromEvent('keypress', element.contentWindow).map(elementMarkup).skipRepeats().multicast();
   } else {
     inputText = fromEvent('keypress', element).map(elementMarkup).skipRepeats().multicast();
@@ -444,7 +443,6 @@ function bindClickEventOnElement(currentElement) {
       observeEditorElement(currentElement);
       const text = markup2text(getTextFromElement(currentElement));
       checkTextApi(text).then(result => {
-        console.warn('result', result);
         if(result) {
           showMatchedResultOnMarker(result.matches);
         }

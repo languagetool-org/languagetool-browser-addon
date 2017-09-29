@@ -117,7 +117,7 @@ class Tools {
                 console.log(`LanguageTool tracking: ${shortenedUrl}, ${actionName}, ${optionalTrackDetails}`);
             });
         } catch(e) {
-            console.log("LanguageTool add-on tracking failed: ", e);
+            console.log(`LanguageTool add-on tracking failed: ${e.message}`);
         }
     }
 
