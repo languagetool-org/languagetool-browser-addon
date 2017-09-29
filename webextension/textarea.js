@@ -280,7 +280,7 @@ function positionMarkerOnChangeSize(forceRender = false) {
 
 function showMatchedResultOnMarker(result) {
   console.warn('showMatchedResultOnMarker', result);
-  if (result) {
+  if (result && result.length > 0) {
     lastCheckResult = Object.assign({}, lastCheckResult, { matches: result });
     let matchesCount = 0;
     let matches = [];
@@ -341,6 +341,10 @@ function showMatchedResultOnMarker(result) {
       console.warn('found total errors', totalErrorOnCheckText, lastCheckResult);
       positionMarkerOnChangeSize(true);
     });
+  } else {
+    totalErrorOnCheckText = -1;
+    lastCheckResult = Object.assign({}, lastCheckResult, { total: -1, matches: [], text: '' });
+    positionMarkerOnChangeSize(true);
   }
 }
 
@@ -362,7 +366,7 @@ function checkTextApi(text) {
     return Promise.resolve({ matches: lastCheckResult.matches });
   }
   lastCheckResult = Object.assign({}, lastCheckResult, { text, isProcess: true });
-  if(!autoCheckOnDomain) {
+  if(!autoCheckOnDomain || text.trim().length === 0) {
     return Promise.resolve({ matches: [] });
   }
   const url = "https://languagetoolplus.com/api/v2/check";
