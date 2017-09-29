@@ -1,7 +1,7 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.22 (2017-xx-xx)
-  * An icon is now shown in the lower right corner of the text box the user is typing,
+### 1.0.22 (2017-09-28)
+  * An icon is now shown in the lower right corner of the text box the user is typing in,
     to remind them the add-on exists. Text is not checked automatically but only when
     clicking on the icon. There are a few sites where the icon is not shown, e.g. Facebook.
     (https://github.com/languagetool-org/languagetool-browser-addon/issues/46)
@@ -9,6 +9,7 @@
     in a web context for most users (only affects new installations or those that haven't
     saved any rule turn on/off yet)
     (https://github.com/languagetool-org/languagetool/issues/798)
+  * Added French translation
 
 ### 1.0.21 (2017-09-11)
   * Show "no text found" message if no text could be found, as it also
