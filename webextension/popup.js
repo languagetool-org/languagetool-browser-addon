@@ -330,10 +330,10 @@ function setReactivateIconListener(url, tabs) {
 
 function setTurnOffAutoCheckIconListener(url, tabs) {
     document.getElementById("turnOffAutoCheckIcon").addEventListener("click", function() {
-        Tools.getStorage().get({ disabledDomains: [] }, items => {
+        Tools.getStorage().get({ autoCheckOnDomains: [] }, items => {
           const { hostname } = new URL(url);
           Tools.getStorage().set({
-            disabledDomains: items.disabledDomains.filter(item => item !== hostname)
+            autoCheckOnDomains: items.autoCheckOnDomains.filter(item => item !== hostname)
           });
           document.getElementById("turnOffAutoCheckIcon").style.display = "none";
           sendMessageToTab(tabs[0].id, { action: 'turnOffAutoCheck', pageUrl: url }, function(response) {});
