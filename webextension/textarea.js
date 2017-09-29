@@ -135,9 +135,7 @@ function checkErrorMenu(evt) {
     iframeHeight: popupHeight,
     namespace: "ltaddon-popup",
     beforeOpen: () => {
-      const popupContainers = document.getElementsByClassName(
-        POPUP_CONTENT_CLASS
-      );
+      const popupContainers = document.getElementsByClassName(POPUP_CONTENT_CLASS);
       for (let counter = 0; counter < popupContainers.length; counter += 1) {
         const popupContainer = popupContainers[counter];
         popupContainer.style.minWidth = `${popupWidth}px`;
@@ -213,8 +211,6 @@ function remindLanguageToolButton(clickHandler, position) {
   btn.onclick = clickHandler;
   btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
   btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
-
-  // style
   styleRemindButton(btn, position, 1);
   return btn;
 }
@@ -224,11 +220,7 @@ function disableLanguageToolButton(clickHandler, position) {
   const btn = document.createElement("A");
   btn.onclick = clickHandler;
   btn.className = `${BTN_CLASS} ${DISABLE_BTN_CLASS}`;
-  btn.setAttribute(
-    "tooltip",
-    chrome.i18n.getMessage("disableForThisDomainTitle")
-  );
-  // style
+  btn.setAttribute("tooltip", chrome.i18n.getMessage("disableForThisDomainTitle"));
   styleRemindButton(btn, position, 2);
   return btn;
 }
