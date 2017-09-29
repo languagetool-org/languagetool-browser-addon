@@ -19,6 +19,7 @@
 "use strict";
 
 let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in options.js
+let defaultPremiumServerUrl = 'https://languagetoolplus.com/api/v2';
 
 let thisExtensionUrl = "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji";
 
@@ -116,7 +117,17 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
             params += "&preferredVariants=" + preferredVariants;
         }
     }
-    req.send(params);
+    Tools.getStorage().get({
+        havePremiumAccount: false,
+        username: "",
+        password: ""
+    }, function(items) {
+        if (items.havePremiumAccount) {
+            params += "&username=" + encodeURIComponent(items.username) +
+                      "&password=" + encodeURIComponent(items.password);
+        }
+        req.send(params);
+    });
 }
 
 // to be called only with sanitized content (DOMPurify.sanitize()):
@@ -586,6 +597,7 @@ function handleCheckResult(response, tabs, callback) {
 function startCheckMaybeWithWarning(tabs) {
     Tools.getStorage().get({
             apiServerUrl: serverUrl,
+            havePremiumAccount: false,
             ignoreQuotedLines: ignoreQuotedLines,
             motherTongue: motherTongue,
             enVariant: "en-US",
@@ -603,6 +615,9 @@ function startCheckMaybeWithWarning(tabs) {
                 //console.log("Replacing old serverUrl " + serverUrl + " with " + defaultServerUrl);
                 // -> http://stackoverflow.com/questions/12229544/what-can-cause-a-chrome-browser-extension-to-crash
                 serverUrl = defaultServerUrl;
+            }
+            if (items.havePremiumAccount) {
+                serverUrl = defaultPremiumServerUrl;
             }
             ignoreQuotedLines = items.ignoreQuotedLines;
             motherTongue = items.motherTongue;
