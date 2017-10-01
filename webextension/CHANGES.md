@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.25 (2017-yy-xx)
+  * Fixed a bug that made the orientation setting (landscape/portrait) disappear
+    from Chrome's printing dialog
+
 ### 1.0.24 (2017-09-29)
   * Internal preparation for upcoming features
   * Tracking fixes
