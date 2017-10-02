@@ -308,8 +308,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         renderStatus(html);
 
-        const imgURL = chrome.extension.getURL("images/logo34x34.png");
-        document.getElementById('ltIcon').src = imgURL;
+        document.getElementById('ltIcon').src = chrome.extension.getURL("images/logo34x34.png");
         document.getElementById('ltLink').href = "https://languagetool.org";
         document.getElementById('ltLink').target = "_blank";
         setHintListener();
@@ -341,16 +340,16 @@ function setHintListener() {
 }
 
 function setReactivateIconListener(url, tabs) {
-    document.getElementById("reactivateIcon").addEventListener("click", function() {
-        Tools.getStorage().get({ disabledDomains: [] }, items => {
-          const { hostname } = new URL(url);
-          Tools.getStorage().set({
-            disabledDomains: items.disabledDomains.filter(item => item !== hostname)
-          });
-          document.getElementById("reactivateIcon").style.display = "none";
-          sendMessageToTab(tabs[0].id, { action: 'reactivateIcon', pageUrl: url }, function(response) {});
-        }
-      );
+    document.getElementById("reactivateIcon").addEventListener("click", function () {
+        Tools.getStorage().get({disabledDomains: []}, items => {
+                const {hostname} = new URL(url);
+                Tools.getStorage().set({
+                    disabledDomains: items.disabledDomains.filter(item => item !== hostname)
+                });
+                document.getElementById("reactivateIcon").style.display = "none";
+                sendMessageToTab(tabs[0].id, {action: 'reactivateIcon', pageUrl: url}, function (response) {});
+            }
+        );
     });
 }
 
@@ -701,18 +700,16 @@ function doCheck(tabs, causeOfCheck, optionalTrackDetails) {
 }
 
 function sendMessageToTab(tabId, data, callback) {
-  if (chrome.tabs) {
-    chrome.tabs.sendMessage(tabId, data, function(response) {
-      callback && callback(response);
-    });
-  } else {
-    // send to bg for proxy
-    chrome.runtime.sendMessage(Object.assign({}, { tabId }, data), function(
-      response
-    ) {
-      callback && callback(response);
-    });
-  }
+    if (chrome.tabs) {
+        chrome.tabs.sendMessage(tabId, data, function (response) {
+            callback && callback(response);
+        });
+    } else {
+        // send to bg for proxy
+        chrome.runtime.sendMessage(Object.assign({}, {tabId}, data), function (response) {
+            callback && callback(response);
+        });
+    }
 }
 
 
