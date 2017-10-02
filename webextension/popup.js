@@ -567,8 +567,7 @@ function reCheck(tabs, causeOfCheck) {
 
 function handleCheckResult(response, tabs, callback) {
     if (!response) {
-        // not sure *why* this happens...
-        renderStatus(chrome.i18n.getMessage("freshInstallReload"));
+        renderStatus(chrome.i18n.getMessage("freshInstallReload") + "<p>" + chrome.i18n.getMessage("freshInstallReload2"));
         Tools.track(tabs[0].url || pageUrlParam, "freshInstallReload");
         return;
     }
