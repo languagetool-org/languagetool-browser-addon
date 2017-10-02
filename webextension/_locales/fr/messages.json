@@ -5,7 +5,7 @@
   },
   "addToDictionaryTitle": {
     "description": "Title hover shown in the popup to accept a word to the internal dictionary",
-    "message": "Ajouter \"$word$\" au dictionnaire personnel",
+    "message": "Ajouter $word$\" au dictionnaire personnel",
     "placeholders": {
       "word": {
         "content": "$1",
@@ -151,6 +151,14 @@
     "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking",
     "message": "Dictionnaire personnel (un mot par ligne):"
   },
+  "disableForThisDomainTitle": {
+    "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)",
+    "message": "Disable for this domain"
+  },
+  "domainsDesc": {
+    "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
+    "message": "Disable on these domains (one domain per line):"
+  },
   "el": {
     "description": "automatically added by injectTranslation.py",
     "message": "Grec"
@@ -203,6 +211,10 @@
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
     "message": "Si vous venez d'installer ou de (ré-)activer cette extension, veuillez recharger au préalable l'onglet dans lequel vous voulez vérifier un texte."
   },
+  "freshInstallReload2": {
+    "description": "Next paragraph after 'freshInstallReload'",
+    "message": "A page reload may also be necessary when the extension has just been updated in the background."
+  },
   "gl": {
     "description": "automatically added by injectTranslation.py",
     "message": "Galicien"
@@ -214,6 +226,16 @@
       "url": {
         "content": "$1",
         "example": "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm"
+      }
+    }
+  },
+  "havePremiumAccountDesc": {
+    "description": "Options dialog: checkbox for premium access, will enable username/password field",
+    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>:",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://languagetoolplus.com"
       }
     }
   },
@@ -305,7 +327,7 @@
   },
   "noTextFound": {
     "description": "Error message shown when no text was found",
-    "message": "No text found"
+    "message": "Aucun texte trouvé"
   },
   "noTextFoundDetails": {
     "description": "More detailed error message shown when no text was found",
@@ -328,6 +350,10 @@
         "example": "404"
       }
     }
+  },
+  "password": {
+    "description": "Options dialog: password for languagetoolplus.com",
+    "message": "Password:"
   },
   "pl": {
     "description": "automatically added by injectTranslation.py",
@@ -416,6 +442,14 @@
         "example": "(do not translate)"
       }
     }
+  },
+  "reactivateIcon": {
+    "description": "Re-activate icon for disabled domain",
+    "message": "You've turned off the reminder icon for this domain, click here to re-activate it."
+  },
+  "reminderIconTitle": {
+    "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
+    "message": "Check Text"
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
@@ -522,6 +556,10 @@
   "uk": {
     "description": "automatically added by injectTranslation.py",
     "message": "Ukrainien"
+  },
+  "username": {
+    "description": "Options dialog: user name for languagetoolplus.com",
+    "message": "Username:"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
