@@ -213,7 +213,7 @@
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
-    "message": "A page reload may also be necessary when the extension has just been updated in the background."
+    "message": "Ein Neuladen kann auch nötig sein, wenn die Erweiterung im Hintergrund automatisch auf eine neue Version aktualisiert wurde."
   },
   "gl": {
     "description": "automatically added by injectTranslation.py",

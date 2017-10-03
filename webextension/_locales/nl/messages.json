@@ -1,11 +1,11 @@
 {
   "addToDictionary": {
     "description": "Link shown in the popup to accept a word to the internal dictionary",
-    "message": "add to dictionary"
+    "message": "voeg toe aan woordenboek"
   },
   "addToDictionaryTitle": {
     "description": "Title hover shown in the popup to accept a word to the internal dictionary",
-    "message": "add \"$word$\" to personal dictionary",
+    "message": "voeg \"$word$\" toe aan persoonlijk woordenboek",
     "placeholders": {
       "word": {
         "content": "$1",
@@ -15,35 +15,35 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Check your texts for style and grammar problems everywhere on the web"
+    "message": "Controleer je teksten op stijl- en grammaticaproblemen overal op het web"
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian."
+    "message": "Met deze extensie kun je teksten controleren met de gratis stijl- en grammaticacontrole LanguageTool. LanguageTool vindt veel fouten die een eenvoudige spellingcontrole niet kan vinden, zoals het verwisselen van die/dat/deze, zij/hun, onjuist spatiegebruik, het herhalen van een woord en het kan bepaalde grammaticale problemen vinden. Het ondersteunt meer dan 25 talen, waaronder Duits, Engels, Frans, Nederlands, Pools, Spaans en Russisch."
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Facebook, Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported - use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm for Google Docs instead."
+    "message": "LanguageTool is ontworpen voor eenvoud. Met een druk op de knop of met een ingestelde sneltoets, controleert LanguageTool direct de spelling en grammatica van de tekst die is geselecteerd. LanguageTool is compatibel met bijna alle teksten, ongeacht de oorsprong, inclusief sociale netwerken zoals Facebook, Twitter of LinkedIn en online e-maildiensten zoals Gmail. Enkele websites zoals docs.google.com en chrome.google.com zijn momenteel niet ondersteund – gebruik https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm om met Google Docs te werken."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With LanguageTool our aim is to give users a fully-featured grammar checker and proofreader that will enable them to have control and confidence over their content. While LanguageTool is a vital extension for non-native speakers, it’s also smart enough to recognize mistakes that native speakers commonly make and it will improve your writing overall. This grammar and spelling correction works across all variations of common language; distinguishing between U.S. and British English, for instance. LanguageTool also features a personal dictionary for exceptions or words that you might commonly use but that are not found in a conventional dictionary. LanguageTool will recognize these words in future grammar checking and proofreading."
+    "message": "Ons doel met LanguageTool is om gebruikers een complete grammaticacontrole en proeflezer te geven die het mogelijk maakt controle en vertrouwen over de inhoud van hun tekst te geven. Ook al is LanguageTool een essentiële extensie voor mensen met een andere moedertaal, het is ook slim genoeg om fouten te herkennen voor mensen die in hun moedertaal schrijven en helpt je je schrijfvaardigheid in het algemeen te verbeteren. Deze grammatica- en spellingcontrole werkt voor alle variaties van veelgebruikte talen; het onderscheidt bijvoorbeeld tussen Amerikaans en Engels. LanguageTool heeft ook een persoonlijk woordenboek voor uitzonderingen of woorden die je vaak gebruikt maar niet te vinden zijn in conventionele woordenboeken. LanguageTool herkent deze woorden in toekomstig gebruik van grammaticacontrole en proeflezen."
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Usage: Select the text that you want to check, or click in an editable field if you want to check its contents. Then click on the LT icon, which is displayed in the upper right corner of your browser. Alternatively, use Ctrl+Shift+Space as a shortcut."
+    "message": "Gebruik: Selecteer de tekst die je wil controleren of klik in het invoerveld als je de inhoud wil controleren. Klik daarna op het icoon van LT, dat is rechtsboven in de hoek van je webbrowser te vinden. Het is ook mogelijk om Ctrl+Shift+Spatie als sneltoets te gebruiken."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and is 100% free and offers many of the same features."
+    "message": "In tegenstelling tot Grammarly en Ginger ondersteunt LanguageTool veel talen en is 100% gratis en biedt veel van dezelfde functionaliteiten."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store the texts you check. In fact, we don't even store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+    "message": "Je privacy is voor ons belangrijk: Standaard controleert deze extensie je tekst door deze te sturen naar https://languagetool.org over een veilige versleutelde verbinding. Er is geen account voor nodig om deze extensie te gebruiken. We bewaren de teksten die je controleert niet. Sterker nog, we bewaren niet eens het IP-adres. Zie https://languagetool.org/privacy/ voor ons privacybeleid."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Rapporteer bugs op https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -71,19 +71,19 @@
   },
   "cancel": {
     "description": "Link shown below the privacy note on first use",
-    "message": "Annuleren"
+    "message": "Annuleer"
   },
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
-    "message": "Controleert..."
+    "message": "Aan het controleren..."
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
-    "message": "Check text with LanguageTool"
+    "message": "Controleer tekst met LanguageTool"
   },
   "contextMenuItemWithShortcut": {
     "description": "Text shown in the context menu, if available. The parenthesis show the shortcut.",
-    "message": "Check text with LanguageTool [$shortcut$]",
+    "message": "Controleer tekst met LanguageTool [$shortcut$]",
     "placeholders": {
       "shortcut": {
         "content": "$1",
@@ -93,11 +93,11 @@
   },
   "continue": {
     "description": "Link shown below the privacy note on first use",
-    "message": "Continue and don't ask again"
+    "message": "Ga door en vraag niet nog eens"
   },
   "couldNotCheckText": {
     "description": "Error shown in the popup to indicate an error",
-    "message": "Could not check text: $detail$",
+    "message": "Kon tekst niet controleren: $detail$",
     "placeholders": {
       "detail": {
         "content": "$1",
@@ -135,11 +135,11 @@
   },
   "defaultServerLink": {
     "description": "Options dialog: Link to reset the URL of the API server to the default value",
-    "message": "Use default"
+    "message": "Gebruik standaard"
   },
   "detectedLanguage": {
     "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
-    "message": "Detected language: $language$",
+    "message": "Detecteerde taal: $language$",
     "placeholders": {
       "language": {
         "content": "$1",
@@ -149,15 +149,15 @@
   },
   "dictionaryDesc": {
     "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking",
-    "message": "Personal dictionary words (one word per line):"
+    "message": "Persoonlijk woordenboekwoorden (een woord per regel):"
   },
   "disableForThisDomainTitle": {
     "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)",
-    "message": "Disable for this domain"
+    "message": "Schakel uit voor dit domein"
   },
   "domainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
-    "message": "Disable on these domains (one domain per line):"
+    "message": "Schakel deze domeinen uit (een domein per regel):"
   },
   "el": {
     "description": "automatically added by injectTranslation.py",
@@ -209,11 +209,11 @@
   },
   "freshInstallReload": {
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
-    "message": "If you have just installed or (re-)activated this extension, please reload the tab first in which you want to check a text."
+    "message": "Als je zonet deze extensie hebt geïnstalleerd of ge(re)activeerd, ververs eerst het tabblad waarin je de tekst wil controleren."
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
-    "message": "A page reload may also be necessary when the extension has just been updated in the background."
+    "message": "Herladen van een pagina kan ook noodzakelijk zijn wanneer de extensie zonet in de achtergrond is bijgewerkt."
   },
   "gl": {
     "description": "automatically added by injectTranslation.py",
@@ -221,7 +221,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Sorry, Google Docs site is not supported by this extension. Please install <a target='_blank' href='$url$'>this extension</a> instead, which is optimized for Google Docs. After installation, use the 'Add-on' menu in Google Docs to access that extension.",
+    "message": "Excuses, Google Docs website wordt niet ondersteund door deze extensie. Installeer <a target='_blank' href='$url$'>deze extensie</a> die geoptimaliseerd is voor Google Docs in plaats Gebruik na installatie het menu 'Add-on' in Google Docs voor toegang tot deze extensie.",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -231,7 +231,7 @@
   },
   "havePremiumAccountDesc": {
     "description": "Options dialog: checkbox for premium access, will enable username/password field",
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>:",
+    "message": "Gebruik mijn account bij <a href='$url$'>languagetoolplus.com</a>:",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -241,7 +241,7 @@
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
-    "message": "Ignore lines starting with $char$ (typically quoted text)",
+    "message": "Negeer regels die beginnen met $char$ (veelal geciteerde tekst)",
     "placeholders": {
       "char": {
         "content": "<span id='quoteChar'>&gt;</span>",
@@ -251,7 +251,7 @@
   },
   "ignoredRules": {
     "description": "Text shown at the bottom of the popup to turn on turned off rules again",
-    "message": "These rules have been turned off, click a rule to turn it on again:"
+    "message": "Deze regels zijn uitgeschakeld, klik op een regel om deze weer in te schakelen:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -271,7 +271,7 @@
   },
   "language": {
     "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
-    "message": "Language:"
+    "message": "Taal:"
   },
   "lt": {
     "description": "automatically added by injectTranslation.py",
@@ -283,15 +283,15 @@
   },
   "motherTongueDesc": {
     "description": "Options dialog: text next to the 'mother tongue' selection",
-    "message": "Mother tongue:"
+    "message": "Moedertaal:"
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
-    "message": "Set mother tongue if you want to be warned about false friends when checking texts not written in your mother tongue."
+    "message": "Stel moedertaal in als je gewaarschuwd wil worden voor valse vrienden bij het controleren van talen die niet in je moedertaal zijn geschreven."
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",
-    "message": "Network error ($serverUrl$)",
+    "message": "Networkfout ($serverUrl$)",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -305,19 +305,19 @@
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
-    "message": "No errors found"
+    "message": "Geen fouten gevonden"
   },
   "noReplacementPossible": {
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
-    "message": "Sorry, LanguageTool extension could not find error context in text"
+    "message": "Excuses, LanguageTool-extensie kon in de tekst de foutcontext niet vinden"
   },
   "noReplacementPossible2": {
     "description": "Error message shown when trying to replace an error with a suggestion in certain HTML that's not yet supported",
-    "message": "Sorry, could not replace error with suggestion. This can happen when editing HTML."
+    "message": "Excuses, kon fount net met correctie vervangen. Dit kan gebeuren bij bewerken van HTML."
   },
   "noResponseFromServer": {
     "description": "Error message if API server doesn't respond",
-    "message": "No response from $serverUrl$",
+    "message": "Geen antwoord van $serverUrl$",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -327,15 +327,15 @@
   },
   "noTextFound": {
     "description": "Error message shown when no text was found",
-    "message": "No text found"
+    "message": "Geen tekst gevonden"
   },
   "noTextFoundDetails": {
     "description": "More detailed error message shown when no text was found",
-    "message": "You don't seem to be inside a text area. If you're using an online office software, this add-on might not work there. Please check if the online office supports add-ons which provide support for LanguageTool."
+    "message": "Het lijkt erop dat je je niet in een invoerveld begeeft. Als je een online officepakket gebruikt zou het kunnen dat deze extensie daar niet werkt. Ga na of online office met add-ons werkt met die LanguageTool ondersteunen."
   },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",
-    "message": "No valid response from $serverUrl$: $response$, code $status$",
+    "message": "Geen valide antwoord van $serverUrl$: $response$, code $status$",
     "placeholders": {
       "response": {
         "content": "$2",
@@ -353,7 +353,7 @@
   },
   "password": {
     "description": "Options dialog: password for languagetoolplus.com",
-    "message": "Password:"
+    "message": "Wachtwoord:"
   },
   "pl": {
     "description": "automatically added by injectTranslation.py",
@@ -361,11 +361,11 @@
   },
   "placeCursor1": {
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
-    "message": "Please place the cursor in an editable field or select text (no active element in iframe found)."
+    "message": "Plaats de cursor in het invoerveld of selecteer tekst (geen actief element in iframe gevonden)."
   },
   "placeCursor2": {
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
-    "message": "Please place the cursor in an editable field or select text (active element: $elem$).",
+    "message": "Plaats de cursor in een invoerveld of selecteer tejst (actief element: $elem$).",
     "placeholders": {
       "elem": {
         "content": "$1",
@@ -375,11 +375,11 @@
   },
   "placeCursor3": {
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
-    "message": "Please place the cursor in an editable field or select text (no active element found)."
+    "message": "Plaats de cursor in een invoerveld of selecteer tekst (geen actief element gevonden)."
   },
   "privacyNoteForDefaultServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
-    "message": "This extension will check your text by sending it to <a href='$serverUrl$' target='_blank'>$serverUrl$</a> over an encrypted connection. Your text will not be stored. For details, see <a href='$privacyUrl$' target='_blank'>our privacy policy</a>.",
+    "message": "deze extensie controleert je tekst door die over een versleutelde verbinding te versturen naar <a href='$serverUrl$' target='_blank'>$serverUrl$</a>. Je teksten worden niet bewaard. Voor details, zie <a href='$privacyUrl$' target='_blank'>ons privacybeleid</a>.",
     "placeholders": {
       "privacyUrl": {
         "content": "$2",
@@ -393,7 +393,7 @@
   },
   "privacyNoteForOtherServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
-    "message": "This extension will check your text by sending it to $serverUrl$. To switch back to the default server, please visit the extension's options page.",
+    "message": "Deze extension controleert je tekst door het te versturen naar $serverUrl$. Om weer de standaardserver te gebruiken, bezoek de optiespagina van de extensie.",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -435,7 +435,7 @@
   },
   "quotedLinesIgnored": {
     "description": "Text shown in the popup to let the user know when parts of the text have been ignored",
-    "message": "Quoted lines starting with $char$ have been ignored",
+    "message": "Geciteerde regels die beginnen met $char$ zijn genegeerd",
     "placeholders": {
       "char": {
         "content": "<span class='quoteChar'>&gt;</span>",
@@ -445,15 +445,15 @@
   },
   "reactivateIcon": {
     "description": "Re-activate icon for disabled domain",
-    "message": "You've turned off the reminder icon for this domain, click here to re-activate it."
+    "message": "Je hebt het herinneringsicoon voor dit domein uitgeschakeld, klik hier om het te heractiveren."
   },
   "reminderIconTitle": {
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
-    "message": "Check Text"
+    "message": "Controleer tekst"
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
-    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "message": "Als je deze extensie leuk vindt, waarom geen <a target='_blank' href='$url$'>review schrijven</a>?",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -471,15 +471,15 @@
   },
   "save": {
     "description": "Options dialog: save button",
-    "message": "Save"
+    "message": "Bewaar"
   },
   "serverText": {
     "description": "Options dialog: description of the text field for the API server URL",
-    "message": "LanguageTool API server URL:"
+    "message": "Server-URL van de LanguageTool-API:"
   },
   "shortcutHint": {
     "description": "Text shown in the popup to let the user know about the shortcut key combination",
-    "message": "You can trigger the text check with this shortcut: $shortcut$",
+    "message": "Je kan tekstcontrole starten met deze sneltoets: $shortcut$",
     "placeholders": {
       "shortcut": {
         "content": "$1",
@@ -489,11 +489,11 @@
   },
   "shortcutHintDismiss": {
     "description": "Link to let the user hide the hint about the shortcut",
-    "message": "Okay, got it"
+    "message": "Oké, snap het"
   },
   "siteNotSupported": {
     "description": "Some sites are too complex, so we show this error",
-    "message": "Sorry, this site is not supported by this extension."
+    "message": "Excuses, deze website wordt door deze extensie niet ondersteund."
   },
   "sk": {
     "description": "automatically added by injectTranslation.py",
@@ -513,7 +513,7 @@
   },
   "textCheckedBy": {
     "description": "Text shown in the popup to make the user aware of which, possibly remote, service was used to check their text",
-    "message": "Text checked by $serverUrl$",
+    "message": "Tekst gecontroleerd door $serverUrl$",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -523,7 +523,7 @@
   },
   "textCheckedRemotely": {
     "description": "Text shown in the popup to make the user aware of which remote service was used to check their text",
-    "message": "Text checked remotely by <a target='_blank' href='$url$'>languagetool.org</a>",
+    "message": "Tekst op afstand gecontroleerd door <a target='_blank' href='$url$'>languagetool.org</a>",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -533,7 +533,7 @@
   },
   "timeoutError": {
     "description": "Error message shown if API server doesn't respond timely",
-    "message": "Timeout from server - please try again later ($serverUrl$)",
+    "message": "Time-out van server – probeer het laten nog eens ($serverUrl$)",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -547,11 +547,11 @@
   },
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
-    "message": "Check the current selection\nor editable field with LanguageTool"
+    "message": "Controleer de huidige selectie\nof invoerveld met LanguageTool"
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
-    "message": "Turn off rule"
+    "message": "Schakel regel uit"
   },
   "uk": {
     "description": "automatically added by injectTranslation.py",
@@ -559,27 +559,27 @@
   },
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
-    "message": "Username:"
+    "message": "Gebruikersnaam:"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Catalan:"
+    "message": "Ga uit van deze variatie van Catalaans:"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of German:"
+    "message": "Ga uit van deze variatie van Duits:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of English:"
+    "message": "Ga uit van deze variatie van Engels:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Portuguese:"
+    "message": "Ga uit van deze variatie van Portugees:"
   },
   "webstoreSiteNotSupported": {
     "description": "Error shown when Chrome extension is used on https://chrome.google.com/webstore, which doesn't work for technical reasons",
-    "message": "Sorry, Google Chrome prevents extensions to access the Chrome Web Store. Strange, isn't it?"
+    "message": "Excuses, Google Chrome wijgert de extensie toegang tot Chrome Web Store. Vreemd, niet waar?"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",
