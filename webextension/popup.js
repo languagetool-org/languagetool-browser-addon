@@ -28,6 +28,8 @@ let googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetoo
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
 let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
 
+const maxTokenCacheAgeMinutes = 60;
+
 // turn off some rules by default because they are not that useful in a typical web context:
 const ruleIdsIgnoredByDefault = [
     // English:
@@ -59,25 +61,50 @@ var errorGettingToken = false;
 var missingPremiumSession = false;
 
 function getToken(callback, errorCallback) {
-    const tokenUrl = "https://languagetoolplus.com/token";
-    const req = new XMLHttpRequest();
-    req.open('GET', tokenUrl);
-    req.onload = function() {
-        let response = req.response;
-        const loggedIn = response !== '';
-        if (req.status !== 200) {
-            errorCallback(chrome.i18n.getMessage("noValidResponseFromServer", [tokenUrl, req.response, req.status]), "noValidResponseFromServer");
-            return;
+    Tools.getStorage().get({
+        token: null,
+        tokenDate: null
+    }, function(items) {
+        const token = items.token;
+        const tokenDate = items.tokenDate;
+        if (token && token !== '' && tokenDate) {
+            const tokenDate = new Date(items.tokenDate);
+            console.log("cached token date: ", tokenDate.toISOString());
+            const tokenAgeMinutes = (new Date() - tokenDate) / 1000 / 60;
+            console.log("cached tokenAgeMinutes: ", tokenAgeMinutes);
+            if (tokenAgeMinutes < maxTokenCacheAgeMinutes) {
+                console.log("using cached token");
+                callback(true, token);
+                return;
+            } else {
+                console.log("getting new token, cached one is too old");
+            }
         }
-        callback(loggedIn, response);
-    };
-    req.onerror = function() {
-        errorCallback(chrome.i18n.getMessage("networkError", tokenUrl), "networkError");
-    };
-    req.ontimeout = function() {
-        errorCallback(chrome.i18n.getMessage("timeoutError", tokenUrl), "timeoutError");
-    };
-    req.send();
+        console.log("getting new token");
+        const tokenUrl = "https://languagetoolplus.com/token";
+        const req = new XMLHttpRequest();
+        req.open('GET', tokenUrl);
+        req.onload = function() {
+            let response = req.response;
+            const loggedIn = response !== '';
+            if (req.status !== 200) {
+                errorCallback(chrome.i18n.getMessage("noValidResponseFromServer", [tokenUrl, req.response, req.status]), "noValidResponseFromServer");
+                return;
+            }
+            Tools.getStorage().set({
+                token: response,
+                tokenDate: new Date().getTime()
+            });
+            callback(loggedIn, response);
+        };
+        req.onerror = function() {
+            errorCallback(chrome.i18n.getMessage("networkError", tokenUrl), "networkError");
+        };
+        req.ontimeout = function() {
+            errorCallback(chrome.i18n.getMessage("timeoutError", tokenUrl), "timeoutError");
+        };
+        req.send();
+    });
 }
 
 function getCheckResult(markupList, metaData, callback, errorCallback) {
