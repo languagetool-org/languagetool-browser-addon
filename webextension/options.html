@@ -38,23 +38,10 @@
 <!-- just setting 'body' width in CSS leads to a strange bug of misplaced <select>s when clicked, work around that: -->
 <div style="width:500px"></div>
 
-<!-- TODO: display again -->
-<table style="display:none">
-    <tr>
-        <td style="vertical-align: top"><input id="havePremiumAccount" type="checkbox" checked></td>
-        <td colspan="2"><label for="havePremiumAccount"><span id="havePremiumAccountDesc"></span></label></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Username</td>
-        <td><input id="username" type="text" spellcheck="false"/></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Password</td>
-        <td><input id="password" type="text" spellcheck="false"/></td>
-    </tr>
-</table>
+<p style="margin-bottom: 0px">
+<input id="havePremiumAccount" type="checkbox" checked>
+<label for="havePremiumAccount"><span id="havePremiumAccountDesc"></span></label>
+</p>
 
 <br>
 <div id="serverText"></div>

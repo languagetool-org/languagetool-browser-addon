@@ -311,8 +311,8 @@
     }
   },
   "havePremiumAccountDesc": {
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>:",
-    "description": "Options dialog: checkbox for premium access, will enable username/password field",
+    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a> (make sure you're logged in there)",
+    "description": "Options dialog: checkbox for premium access",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -320,13 +320,25 @@
       }
     }
   },
-  "username": {
-    "message": "Username:",
-    "description": "Options dialog: user name for languagetoolplus.com"
+  "missingPremiumSession": {
+    "message": "Seems you're lot logged in at <a target='_blank' href='$url$'>languagetoolplus.com</a> - log in there so this extension can make use of your premium account.",
+    "description": "Warning message if user has selected to have a premium account in the options, but doesn't seem to be logged in",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://languagetoolplus.com"
+      }
+    }
   },
-  "password": {
-    "message": "Password:",
-    "description": "Options dialog: password for languagetoolplus.com"
+  "errorGettingPremiumSession": {
+    "message": "Sorry, we couldn't get your session data from <a target='_blank' href='$url$'>languagetoolplus.com</a> - you'll see results without premium access.",
+    "description": "Warning message if user has selected to have a premium account in the options, but doesn't seem to be logged in",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://languagetoolplus.com"
+      }
+    }
   },
   "reviewRequest": {
     "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",

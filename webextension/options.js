@@ -47,8 +47,6 @@ function saveOptions() {
             apiServerUrl: url,
             ignoreQuotedLines: document.getElementById('ignoreQuotedLines').checked,
             havePremiumAccount: document.getElementById('havePremiumAccount').checked,
-            username: document.getElementById('username').value,
-            password: document.getElementById('password').value,
             motherTongue: document.getElementById('motherTongue').value,
             enVariant: document.getElementById('variant-en').value,
             deVariant: document.getElementById('variant-de').value,
@@ -71,8 +69,6 @@ function restoreOptions() {
     document.getElementById('save').textContent = chrome.i18n.getMessage("save");
     document.getElementById('ignoreQuotedLinesDesc').innerHTML = chrome.i18n.getMessage("ignoreQuotedLines");
     document.getElementById('havePremiumAccountDesc').innerHTML = chrome.i18n.getMessage("havePremiumAccountDesc", "https://languagetoolplus.com");
-    document.getElementById('username').innerHTML = chrome.i18n.getMessage("username");
-    document.getElementById('password').innerHTML = chrome.i18n.getMessage("password");
     document.getElementById('motherTongueDesc').textContent = chrome.i18n.getMessage("motherTongueDesc");
     document.getElementById('motherTongueExpl').textContent = chrome.i18n.getMessage("motherTongueExpl");
     document.getElementById('variant-en-desc').textContent = chrome.i18n.getMessage("variantEnDesc");
@@ -85,8 +81,6 @@ function restoreOptions() {
         apiServerUrl: defaultServerUrl,
         ignoreQuotedLines: true,
         havePremiumAccount: false,
-        username:  "",
-        password:  "",
         motherTongue: "",
         enVariant: "en-US",
         deVariant: "de-DE",
@@ -98,8 +92,6 @@ function restoreOptions() {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;
         document.getElementById('ignoreQuotedLines').checked = items.ignoreQuotedLines;
         document.getElementById('havePremiumAccount').checked = items.havePremiumAccount;
-        document.getElementById('username').value = items.username;
-        document.getElementById('password').value = items.password;
         setPremium(items.havePremiumAccount);
         document.getElementById('motherTongue').value = items.motherTongue;
         document.getElementById('variant-en').value = items.enVariant;
@@ -135,13 +127,8 @@ function toggleHavePremiumCheckbox() {
 
 function setPremium(enabled) {
     if (enabled) {
-        document.getElementById('username').disabled = false;
-        document.getElementById('password').disabled = false;
-        document.getElementById('username').focus();
         document.getElementById('apiServerUrl').disabled = true;
     } else {
-        document.getElementById('username').disabled = true;
-        document.getElementById('password').disabled = true;
         document.getElementById('apiServerUrl').disabled = false;
     }
 }

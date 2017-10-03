@@ -55,6 +55,30 @@ var quotedLinesIgnored = false;
 var motherTongue = "";
 var preferredVariants = [];
 var manuallySelectedLanguage = "";
+var errorGettingToken = false;
+var missingPremiumSession = false;
+
+function getToken(callback, errorCallback) {
+    const tokenUrl = "https://languagetoolplus.com/token";
+    const req = new XMLHttpRequest();
+    req.open('GET', tokenUrl);
+    req.onload = function() {
+        let response = req.response;
+        const loggedIn = response !== '';
+        if (req.status !== 200) {
+            errorCallback(chrome.i18n.getMessage("noValidResponseFromServer", [tokenUrl, req.response, req.status]), "noValidResponseFromServer");
+            return;
+        }
+        callback(loggedIn, response);
+    };
+    req.onerror = function() {
+        errorCallback(chrome.i18n.getMessage("networkError", tokenUrl), "networkError");
+    };
+    req.ontimeout = function() {
+        errorCallback(chrome.i18n.getMessage("timeoutError", tokenUrl), "timeoutError");
+    };
+    req.send();
+}
 
 function getCheckResult(markupList, metaData, callback, errorCallback) {
     const req = new XMLHttpRequest();
@@ -118,15 +142,26 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
         }
     }
     Tools.getStorage().get({
-        havePremiumAccount: false,
-        username: "",
-        password: ""
+        havePremiumAccount: false
     }, function(items) {
         if (items.havePremiumAccount) {
-            params += "&username=" + encodeURIComponent(items.username) +
-                      "&password=" + encodeURIComponent(items.password);
+            getToken(
+                function(loggedIn, token) {
+                    if (loggedIn) {
+                        params += "&token=" + encodeURIComponent(token);
+                        missingPremiumSession = false;
+                    } else {
+                        missingPremiumSession = true;
+                    }
+                    req.send(params);
+                },
+                function(errorMessage, errorMessageCode) {
+                    renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));                    errorGettingToken = true;
+                }
+            );
+        } else {
+            req.send(params);
         }
-        req.send(params);
     });
 }
 
@@ -179,12 +214,19 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let html = pageUrlParam.length > 0 ? '<a style="display:none;" id="closeLink" href="#"></a>' : '<a id="closeLink" href="#"></a>';
     html += DOMPurify.sanitize(getLanguageSelector(languageCode));
     html += '<div id="outerShortcutHint"></div>';
+    if (missingPremiumSession) {
+        html += "<div id='warning'>" + chrome.i18n.getMessage("missingPremiumSession", "https://languagetoolplus.com") + "</div>";
+    }
+    if (errorGettingToken) {
+        html += "<div id='warning'>" + chrome.i18n.getMessage("errorGettingPremiumSession", "https://languagetoolplus.com") + "</div>";
+    }
     html += "<hr>";
     let matches = data.matches;
     Tools.getStorage().get({
         dictionary: [],
         disabledDomains: [],
-        ignoredRules: ruleIdsIgnoredByDefault
+        ignoredRules: ruleIdsIgnoredByDefault,
+        havePremiumAccount: false
     }, function(items) {
         let matchesCount = 0;
         let disabledOnThisDomain = false;
@@ -309,7 +351,11 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         renderStatus(html);
 
         document.getElementById('ltIcon').src = chrome.extension.getURL("images/logo34x34.png");
-        document.getElementById('ltLink').href = "https://languagetool.org";
+        if (items.havePremiumAccount) {
+            document.getElementById('ltLink').href = "https://languagetoolplus.com";
+        } else {
+            document.getElementById('ltLink').href = "https://languagetool.org";
+        }
         document.getElementById('ltLink').target = "_blank";
         setHintListener();
         if (disabledOnThisDomain) {

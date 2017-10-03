@@ -231,7 +231,7 @@
   },
   "havePremiumAccountDesc": {
     "description": "Options dialog: checkbox for premium access, will enable username/password field",
-    "message": "Meinen <a href='$url$'>languagetoolplus.com</a>-Account benutzen:",
+    "message": "Meinen <a href='$url$'>languagetoolplus.com</a>-Account benutzen",
     "placeholders": {
       "url": {
         "content": "$1",

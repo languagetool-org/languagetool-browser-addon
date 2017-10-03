@@ -1,6 +1,9 @@
 # LanguageTool WebExtension Change Log
 
 ### 1.0.26 (2017-xx-xx)
+  * Added support for using languagetoolplus.com - activate
+    this in the options if you have a premium account there
+    and want the add-on to use it
   * Added Dutch translation
 
 ### 1.0.25 (2017-10-02)
