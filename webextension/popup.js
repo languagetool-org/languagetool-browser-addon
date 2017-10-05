@@ -83,6 +83,7 @@ function getToken(callback, errorCallback) {
         console.log("getting new token");
         const tokenUrl = "https://languagetoolplus.com/token";
         const req = new XMLHttpRequest();
+        //req.withCredentials = true;   // needed if Firefox should send cookies
         req.open('GET', tokenUrl);
         req.onload = function() {
             let response = req.response;
