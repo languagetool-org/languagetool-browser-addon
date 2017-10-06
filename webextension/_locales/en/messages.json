@@ -319,7 +319,7 @@
     }
   },
   "havePremiumAccountDesc": {
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a> (make sure you're logged in there)",
+    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>",
     "description": "Options dialog: checkbox for premium access",
     "placeholders": {
       "url": {
