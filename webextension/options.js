@@ -145,9 +145,11 @@ function setPremium(enabled) {
 }
 
 function showPrivacyLink() {
-    if (document.getElementById('apiServerUrl').value == defaultServerUrl) {
-        document.getElementById('privacyPolicy').innerHTML = "<a href='https://languagetool.org/privacy/'>Privacy Policy</a>";
+    if (document.getElementById('apiServerUrl').value === defaultServerUrl) {
+        document.getElementById('privacyPolicy').innerHTML = "<a href='https://languagetool.org/privacy/'>" + chrome.i18n.getMessage("privacyPolicy") + "</a>";
+        document.getElementById('defaultServerLink').style.display = "none";
     } else {
         document.getElementById('privacyPolicy').innerHTML = "";
+        document.getElementById('defaultServerLink').style.display = "block";
     }
 }

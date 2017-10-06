@@ -300,6 +300,10 @@
     "message": "LanguageTool API server URL:",
     "description": "Options dialog: description of the text field for the API server URL"
   },
+  "privacyPolicy": {
+    "message": "Privacy Policy",
+    "description": "Options dialog: Link to privacy policy"
+  },
   "defaultServerLink": {
     "message": "Use default",
     "description": "Options dialog: Link to reset the URL of the API server to the default value"
