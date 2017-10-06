@@ -28,8 +28,6 @@ let googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetoo
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
 let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
 
-const maxTokenCacheAgeMinutes = 60;
-
 // turn off some rules by default because they are not that useful in a typical web context:
 const ruleIdsIgnoredByDefault = [
     // English:
@@ -57,56 +55,6 @@ var quotedLinesIgnored = false;
 var motherTongue = "";
 var preferredVariants = [];
 var manuallySelectedLanguage = "";
-var errorGettingToken = false;
-var missingPremiumSession = false;
-
-function getToken(callback, errorCallback) {
-    Tools.getStorage().get({
-        token: null,
-        tokenDate: null
-    }, function(items) {
-        const token = items.token;
-        const tokenDate = items.tokenDate;
-        if (token && token !== '' && tokenDate) {
-            const tokenDate = new Date(items.tokenDate);
-            console.log("cached token date: ", tokenDate.toISOString());
-            const tokenAgeMinutes = (new Date() - tokenDate) / 1000 / 60;
-            console.log("cached tokenAgeMinutes: ", tokenAgeMinutes);
-            if (tokenAgeMinutes < maxTokenCacheAgeMinutes) {
-                console.log("using cached token");
-                callback(true, token);
-                return;
-            } else {
-                console.log("getting new token, cached one is too old");
-            }
-        }
-        console.log("getting new token");
-        const tokenUrl = "https://languagetoolplus.com/token";
-        const req = new XMLHttpRequest();
-        //req.withCredentials = true;   // needed if Firefox should send cookies
-        req.open('GET', tokenUrl);
-        req.onload = function() {
-            let response = req.response;
-            const loggedIn = response !== '';
-            if (req.status !== 200) {
-                errorCallback(chrome.i18n.getMessage("noValidResponseFromServer", [tokenUrl, req.response, req.status]), "noValidResponseFromServer");
-                return;
-            }
-            Tools.getStorage().set({
-                token: response,
-                tokenDate: new Date().getTime()
-            });
-            callback(loggedIn, response);
-        };
-        req.onerror = function() {
-            errorCallback(chrome.i18n.getMessage("networkError", tokenUrl), "networkError");
-        };
-        req.ontimeout = function() {
-            errorCallback(chrome.i18n.getMessage("timeoutError", tokenUrl), "timeoutError");
-        };
-        req.send();
-    });
-}
 
 function getCheckResult(markupList, metaData, callback, errorCallback) {
     const req = new XMLHttpRequest();
@@ -170,23 +118,14 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
         }
     }
     Tools.getStorage().get({
-        havePremiumAccount: false
+        havePremiumAccount: false,
+        username: "",
+        password: ""
     }, function(items) {
         if (items.havePremiumAccount) {
-            getToken(
-                function(loggedIn, token) {
-                    if (loggedIn) {
-                        params += "&token=" + encodeURIComponent(token);
-                        missingPremiumSession = false;
-                    } else {
-                        missingPremiumSession = true;
-                    }
-                    req.send(params);
-                },
-                function(errorMessage, errorMessageCode) {
-                    renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));                    errorGettingToken = true;
-                }
-            );
+            params += "&username=" + encodeURIComponent(items.username) +
+                      "&password=" + encodeURIComponent(items.password);
+            req.send(params);
         } else {
             req.send(params);
         }
@@ -242,12 +181,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     let html = pageUrlParam.length > 0 ? '<a style="display:none;" id="closeLink" href="#"></a>' : '<a id="closeLink" href="#"></a>';
     html += DOMPurify.sanitize(getLanguageSelector(languageCode));
     html += '<div id="outerShortcutHint"></div>';
-    if (missingPremiumSession) {
-        html += "<div id='warning'>" + chrome.i18n.getMessage("missingPremiumSession", "https://languagetoolplus.com") + "</div>";
-    }
-    if (errorGettingToken) {
-        html += "<div id='warning'>" + chrome.i18n.getMessage("errorGettingPremiumSession", "https://languagetoolplus.com") + "</div>";
-    }
     html += "<hr>";
     let matches = data.matches;
     Tools.getStorage().get({
@@ -658,8 +591,14 @@ function handleCheckResult(response, tabs, callback) {
     getCheckResult(response.markupList, response.metaData, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
-        renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));
-        Tools.track(tabs[0].url || pageUrlParam, "couldNotCheckText", errorMessageCode);
+        if (errorMessage.indexOf("code: 403 ") !== -1) {
+            renderStatus(chrome.i18n.getMessage("couldNotLoginAtLTPlus") +
+                "<p class='errorMessageDetail'>" + Tools.escapeHtml(DOMPurify.sanitize(errorMessage)) + "</p>");
+            Tools.track(tabs[0].url || pageUrlParam, "couldNotLoginAtLTPlus", errorMessageCode);
+        } else {
+            renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));
+            Tools.track(tabs[0].url || pageUrlParam, "couldNotCheckText", errorMessageCode);
+        }
         if (callback) {
             callback(response.markupList, errorMessage);
         }

@@ -254,6 +254,10 @@
       }
     }
   },
+  "couldNotLoginAtLTPlus": {
+    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure username and password are correct",
+    "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com"
+  },
   "checkingProgress": {
     "message": "Checking...",
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress"
@@ -320,25 +324,13 @@
       }
     }
   },
-  "missingPremiumSession": {
-    "message": "Seems you're lot logged in at <a target='_blank' href='$url$'>languagetoolplus.com</a> - log in there so this extension can make use of your premium account.",
-    "description": "Warning message if user has selected to have a premium account in the options, but doesn't seem to be logged in",
-    "placeholders": {
-      "url": {
-        "content": "$1",
-        "example": "https://languagetoolplus.com"
-      }
-    }
+  "username": {
+    "message": "Username:",
+    "description": "Options dialog: user name for languagetoolplus.com"
   },
-  "errorGettingPremiumSession": {
-    "message": "Sorry, we couldn't get your session data from <a target='_blank' href='$url$'>languagetoolplus.com</a> - you'll see results without premium access.",
-    "description": "Warning message if user has selected to have a premium account in the options, but doesn't seem to be logged in",
-    "placeholders": {
-      "url": {
-        "content": "$1",
-        "example": "https://languagetoolplus.com"
-      }
-    }
+  "password": {
+    "message": "Password:",
+    "description": "Options dialog: password for languagetoolplus.com"
   },
   "reviewRequest": {
     "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",

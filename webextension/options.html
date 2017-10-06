@@ -38,16 +38,29 @@
 <!-- just setting 'body' width in CSS leads to a strange bug of misplaced <select>s when clicked, work around that: -->
 <div style="width:500px"></div>
 
-<p style="margin-bottom: 0px">
-<input id="havePremiumAccount" type="checkbox" checked>
-<label for="havePremiumAccount"><span id="havePremiumAccountDesc"></span></label>
-</p>
+<div style="margin-bottom: 10px">
+    <input id="havePremiumAccount" type="checkbox" checked>&nbsp;<label for="havePremiumAccount"><span id="havePremiumAccountDesc"></span></label>
+</div>
 
-<br>
-<div id="serverText"></div>
-<input autofocus id="apiServerUrl" type="text" spellcheck="false"/> <span id="privacyPolicy"></span>
-<div class="error" id="status"></div>
-<a id="defaultServerLink" href="#"></a><br>
+<table id="ltPlusAccess">
+    <tr>
+        <td></td>
+        <td><label for="username"><span id="usernameDesc"></span></label></td>
+        <td><input id="username" type="text" spellcheck="false"/></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><label for="password"><span id="passwordDesc"></span></label></td>
+        <td><input id="password" type="password" spellcheck="false"/></td>
+    </tr>
+</table>
+
+<div id="ltServer">
+    <div id="serverText"></div>
+    <input autofocus id="apiServerUrl" type="text" spellcheck="false"/> <span id="privacyPolicy"></span>
+    <div class="error" id="status"></div>
+    <a id="defaultServerLink" href="#"></a><br>
+</div>
 
 <br>
 <table>
