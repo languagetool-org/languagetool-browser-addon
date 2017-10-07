@@ -23,13 +23,14 @@ const REMIND_WRAPPER_CLASS = "lt-marker-container";
 const POPUP_CONTENT_CLASS = "ltaddon-popup-content";
 const BTN_CLASS = "lt-buttons";
 const REMIND_BTN_CLASS = "lt-remind-btn";
+const CHECK_DONE_BTN_CLASS = "lt-check-done-btn";
 const ERROR_BTN_CLASS = "lt-error-btn";
 const DISABLE_BTN_CLASS = "lt-disable-btn";
 const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
 const CLEAN_TIME_OUT = 200; // 0.2 second
-const BG_CHECK_TIME_OUT = 2000; // 2 seconds
+const BG_CHECK_TIME_OUT = 500; // 0.5 second
 
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
@@ -173,13 +174,14 @@ function remindLanguageToolButton(clickHandler, position, num) {
       const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
       btn.setAttribute("tooltip", tooltip);
     } else {
-      btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
+      btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
       btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
     }
   } else {
     btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
     btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
   }
+
   btn.onclick = clickHandler;
   // style
   styleRemindButton(btn, position, num);
@@ -342,17 +344,17 @@ function showMatchedResultOnMarker(result) {
       positionMarkerOnChangeSize(true);
     });
   } else {
-    totalErrorOnCheckText = -1;
-    lastCheckResult = Object.assign({}, lastCheckResult, { total: -1, matches: [], text: '' });
+    totalErrorOnCheckText = 0;
+    lastCheckResult = Object.assign({}, lastCheckResult, { total: totalErrorOnCheckText, matches: [], text: '' });
     positionMarkerOnChangeSize(true);
   }
 }
 
 function markup2text({ markupList }) {
+  console.warn('markup2text', markupList);
   positionMarkerOnChangeSize();
   let text = Markup.markupList2text(markupList);
   if (ignoreQuotedLines) {
-      const textOrig = text;
       text = text.replace(/^>.*?\n/gm, function(match) {
           return " ".repeat(match.length - 1) + "\n";
       });
@@ -378,6 +380,17 @@ function checkTextApi(text) {
     }),
     body: data
   });
+  console.warn('animate');
+  setTimeout(() => {
+    document.querySelector(`.${BTN_CLASS}`).animate([
+      { transform: 'scale(1.25)' },
+      { transform: 'scale(0.75)' }
+    ], {
+      duration: 1000,
+      iterations: 2
+    });
+  },0);
+
   return fetch(request).then(response => {
     if (response.status >= 400) {
       lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false, text: '', matches: [], total: -1 });
@@ -415,27 +428,33 @@ function getTextFromElement(element) {
 
 function elementMarkup(evt) {
   totalErrorOnCheckText = -1;
+  positionMarkerOnChangeSize();
   return getTextFromElement(evt.target);
 }
 
+function isSameText(prevObject, nextObject) {
+  return JSON.stringify(nextObject) === JSON.stringify(prevObject);
+}
+
 function observeEditorElement(element) {
-  /* global most,mostDomEvent */
+  /* global most */
   const { fromEvent, fromPromise, merge } = most;
   // Logs the current value of the searchInput, only after the user stops typing
   let inputText;
   if(element.tagName === 'IFRAME') {
-    inputText = fromEvent('keypress', element.contentWindow).map(elementMarkup).skipRepeats().multicast();
+    inputText = fromEvent('keypress', element.contentWindow).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
   } else {
-    inputText = fromEvent('keypress', element).map(elementMarkup).skipRepeats().multicast();
+    inputText = fromEvent('keypress', element).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
   }
   // Empty results list if there is no text
-  const emptyResults = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length === 0).constant([]);
-  const results = inputText.filter(markup => markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length > 0)
+  const emptyResults = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length < 1).constant([]);
+  const results = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length > 1)
     .debounce(BG_CHECK_TIME_OUT)
     .map(markup2text)
     .map(checkTextApi)
     .map(fromPromise)
-    .switch()
+    .switchLatest()
+    .filter(result => result && result.matches.length > 0)
     .map(result => result && result.matches);
   merge(results, emptyResults).observe(showMatchedResultOnMarker);
 }
@@ -446,11 +465,16 @@ function bindClickEventOnElement(currentElement) {
     if (autoCheckOnDomain) {
       observeEditorElement(currentElement);
       const text = markup2text(getTextFromElement(currentElement));
-      checkTextApi(text).then(result => {
-        if(result) {
-          showMatchedResultOnMarker(result.matches);
-        }
-      });
+      console.warn('lastCheckResult', lastCheckResult, text);
+      if (text !== lastCheckResult.text) {
+        checkTextApi(text).then(result => {
+          if(result) {
+            showMatchedResultOnMarker(result.matches);
+          }
+        });
+      } else {
+        showMatchedResultOnMarker(lastCheckResult.matches);
+      }
     }
     if (!currentElement.getAttribute("lt-bind-click")) {
       currentElement.addEventListener(
