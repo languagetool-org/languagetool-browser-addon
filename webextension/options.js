@@ -143,25 +143,21 @@ function toggleHavePremiumCheckbox() {
 
 function setPremium(enabled) {
     if (enabled) {
-        document.getElementById('username').disabled = false;
-        document.getElementById('password').disabled = false;
-        document.getElementById('username').focus();
-        document.getElementById('apiServerUrl').disabled = true;
         document.getElementById('ltPlusAccess').style.display = "block";
         document.getElementById('ltServer').style.display = "none";
+        document.getElementById('username').focus();
     } else {
-        document.getElementById('username').disabled = true;
-        document.getElementById('password').disabled = true;
-        document.getElementById('apiServerUrl').disabled = false;
         document.getElementById('ltPlusAccess').style.display = "none";
         document.getElementById('ltServer').style.display = "block";
     }
 }
 
 function showPrivacyLink() {
-    if (document.getElementById('apiServerUrl').value == defaultServerUrl) {
-        document.getElementById('privacyPolicy').innerHTML = "<a href='https://languagetool.org/privacy/'>Privacy Policy</a>";
+    if (document.getElementById('apiServerUrl').value === defaultServerUrl) {
+        document.getElementById('privacyPolicy').innerHTML = "<a href='https://languagetool.org/privacy/'>" + chrome.i18n.getMessage("privacyPolicy") + "</a>";
+        document.getElementById('defaultServerLink').style.display = "none";
     } else {
         document.getElementById('privacyPolicy').innerHTML = "";
+        document.getElementById('defaultServerLink').style.display = "block";
     }
 }
