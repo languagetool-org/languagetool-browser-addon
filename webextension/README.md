@@ -1,6 +1,6 @@
 ## LanguageTool for Firefox and Chrome
 
-A [LanguageTool](https://languagetool.org) extension [for Firefox](https://addons.mozilla.org/de/firefox/addon/languagetool/)
+A [LanguageTool](https://languagetool.org) extension [for Firefox](https://addons.mozilla.org/firefox/addon/languagetool/)
 and [for Chrome](https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji).
 
 ### Unit tests
