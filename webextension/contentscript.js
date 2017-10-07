@@ -118,17 +118,27 @@ function checkText(callback, request) {
 function getMetaData(request) {
     const metaData = {};
     if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube (tested only with 1.0.1)
-        metaData['EmailToAddress'] = document.getElementById("_to").value;
+        metaData['EmailToAddress'] = cleanEMail(document.getElementById("_to").value);
     }
     if (request.pageUrl.indexOf("://mail.google.com")) {  // GMail
         const elems = document.getElementsByName("to");
         for (let obj of elems) {
             if (obj.nodeName === 'INPUT') {
-                metaData['EmailToAddress'] = obj.value;
+                metaData['EmailToAddress'] = cleanEMail(obj.value);
+                break;
             }
         }
     }
     return metaData;
+}
+
+function cleanEMail(email) {
+    // remove so we don't transfer data we don't need
+    if (email) {
+        return email.replace(/@[0-9a-zA-Z.-]+/, "@replaced.domain")
+    } else {
+        return email;
+    }
 }
 
 function getCurrentText() {

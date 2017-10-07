@@ -162,10 +162,6 @@
 
 /* hide non ltaddon-popup items when printing */
 @media print {
-  @page {
-    size: landscape;
-  }
-
   html.with-ltaddon-popup > * > :not(.ltaddon-popup) {
     display: none;
   }

@@ -147,15 +147,15 @@ function styleRemindButton(btn, position, num) {
     );
     // find parent of active table
     const allTables = document.getElementsByTagName("table");
-    const gmaiComposeToolbarHeight = 155;
+    const gmailComposeToolbarHeight = 155;
     for (let counter = allTables.length - 1; counter > 0; counter -= 1) {
       const parentTable = allTables[counter];
       if (isDescendant(parentTable, activeTable)) {
-        let topPostion = offset(parentTable).top;
-        if (topPostion < gmaiComposeToolbarHeight) {
-          topPostion = gmaiComposeToolbarHeight;
+        let topPosition = offset(parentTable).top;
+        if (topPosition < gmailComposeToolbarHeight) {
+          topPosition = gmailComposeToolbarHeight;
         }
-        btn.style.top = `${topPostion}px`;
+        btn.style.top = `${topPosition}px`;
         break;
       }
     }

@@ -151,6 +151,14 @@
     "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking",
     "message": "Persönliches Wörterbuch (ein Wort pro Zeile):"
   },
+  "disableForThisDomainTitle": {
+    "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)",
+    "message": "Auf dieser Domain deaktivieren"
+  },
+  "domainsDesc": {
+    "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
+    "message": "Hier deaktivieren (eine Domain pro Zeile):"
+  },
   "el": {
     "description": "automatically added by injectTranslation.py",
     "message": "Griechisch"
@@ -203,6 +211,10 @@
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
     "message": "Wenn Sie diese Erweiterung gerade installiert oder (re-)aktiviert haben, laden Sie bitte das Tab mit dem zu prüfenden Text neu."
   },
+  "freshInstallReload2": {
+    "description": "Next paragraph after 'freshInstallReload'",
+    "message": "Ein Neuladen kann auch nötig sein, wenn die Erweiterung im Hintergrund automatisch auf eine neue Version aktualisiert wurde."
+  },
   "gl": {
     "description": "automatically added by injectTranslation.py",
     "message": "Galicisch"
@@ -214,6 +226,16 @@
       "url": {
         "content": "$1",
         "example": "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm"
+      }
+    }
+  },
+  "havePremiumAccountDesc": {
+    "description": "Options dialog: checkbox for premium access, will enable username/password field",
+    "message": "Meinen <a href='$url$'>languagetoolplus.com</a>-Account benutzen",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://languagetoolplus.com"
       }
     }
   },
@@ -329,6 +351,10 @@
       }
     }
   },
+  "password": {
+    "description": "Options dialog: password for languagetoolplus.com",
+    "message": "Passwort:"
+  },
   "pl": {
     "description": "automatically added by injectTranslation.py",
     "message": "Polnisch"
@@ -416,6 +442,14 @@
         "example": "(do not translate)"
       }
     }
+  },
+  "reactivateIcon": {
+    "description": "Re-activate icon for disabled domain",
+    "message": "Sie haben das Erinnerungs-Icon für diese Domain deaktiviert, klicken Sie hier, um es wieder zu aktivieren."
+  },
+  "reminderIconTitle": {
+    "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
+    "message": "Text Prüfen"
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
@@ -522,6 +556,10 @@
   "uk": {
     "description": "automatically added by injectTranslation.py",
     "message": "Ukrainisch"
+  },
+  "username": {
+    "description": "Options dialog: user name for languagetoolplus.com",
+    "message": "Username:"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",

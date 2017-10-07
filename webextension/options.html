@@ -10,10 +10,11 @@
             padding: 10px;
         }
         select {
-            width: 105%;
+            width: 100%;
         }
         textarea {
-            width: 105%;
+            width: 100%;
+            height: 60px;
         }
         #apiServerUrl { width: 250px; margin-top: 5px; margin-bottom: 5px; }
         #save { margin-top: 10px; }
@@ -38,29 +39,29 @@
 <!-- just setting 'body' width in CSS leads to a strange bug of misplaced <select>s when clicked, work around that: -->
 <div style="width:500px"></div>
 
-<!-- TODO: display again -->
-<table style="display:none">
-    <tr>
-        <td style="vertical-align: top"><input id="havePremiumAccount" type="checkbox" checked></td>
-        <td colspan="2"><label for="havePremiumAccount"><span id="havePremiumAccountDesc"></span></label></td>
-    </tr>
+<div style="margin-bottom: 10px">
+    <input id="havePremiumAccount" type="checkbox" checked>&nbsp;<label for="havePremiumAccount"><span id="havePremiumAccountDesc"></span></label>
+</div>
+
+<table id="ltPlusAccess">
     <tr>
         <td></td>
-        <td>Username</td>
+        <td><label for="username"><span id="usernameDesc"></span></label></td>
         <td><input id="username" type="text" spellcheck="false"/></td>
     </tr>
     <tr>
         <td></td>
-        <td>Password</td>
-        <td><input id="password" type="text" spellcheck="false"/></td>
+        <td><label for="password"><span id="passwordDesc"></span></label></td>
+        <td><input id="password" type="password" spellcheck="false"/></td>
     </tr>
 </table>
 
-<br>
-<div id="serverText"></div>
-<input autofocus id="apiServerUrl" type="text" spellcheck="false"/> <span id="privacyPolicy"></span>
-<div class="error" id="status"></div>
-<a id="defaultServerLink" href="#"></a><br>
+<div id="ltServer">
+    <div id="serverText"></div>
+    <input autofocus id="apiServerUrl" type="text" spellcheck="false"/> <span id="privacyPolicy"></span>
+    <div class="error" id="status"></div>
+    <a id="defaultServerLink" href="#"></a><br>
+</div>
 
 <br>
 <table>

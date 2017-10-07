@@ -99,34 +99,38 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
     }
     let params = 'disabledRules=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
         '&useragent=' + userAgent;
-    if (true) {  // TODO: activate 'data' mode when server supports it
-        params += '&text=' + encodeURIComponent(text);
-    } else {
-        const json = {text: text, metaData: metaData};
-        params += '&data=' + encodeURIComponent(JSON.stringify(json));
-    }
-    if (motherTongue) {
-        params += "&motherTongue=" + motherTongue;
-    }
-    if (manuallySelectedLanguage) {
-        params += "&language=" + manuallySelectedLanguage;
-        manuallySelectedLanguage = "";
-    } else {
-        params += "&language=auto";
-        if (preferredVariants.length > 0) {
-            params += "&preferredVariants=" + preferredVariants;
-        }
-    }
     Tools.getStorage().get({
         havePremiumAccount: false,
         username: "",
         password: ""
     }, function(items) {
+        //console.log("metaData", metaData);
+        //console.log("havePremiumAccount", items.havePremiumAccount);
+        if (items.havePremiumAccount) {  // requires LT 3.9 or later
+            const json = {text: text, metaData: metaData};
+            params += '&data=' + encodeURIComponent(JSON.stringify(json));
+        } else {
+            params += '&text=' + encodeURIComponent(text);
+        }
+        if (motherTongue) {
+            params += "&motherTongue=" + motherTongue;
+        }
+        if (manuallySelectedLanguage) {
+            params += "&language=" + manuallySelectedLanguage;
+            manuallySelectedLanguage = "";
+        } else {
+            params += "&language=auto";
+            if (preferredVariants.length > 0) {
+                params += "&preferredVariants=" + preferredVariants;
+            }
+        }
         if (items.havePremiumAccount) {
             params += "&username=" + encodeURIComponent(items.username) +
                       "&password=" + encodeURIComponent(items.password);
+            req.send(params);
+        } else {
+            req.send(params);
         }
-        req.send(params);
     });
 }
 
@@ -161,7 +165,8 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         dictionary: [],
         disabledDomains: [],
         autoCheckOnDomains: [],
-        ignoredRules: ruleIdsIgnoredByDefault
+        ignoredRules: ruleIdsIgnoredByDefault,
+        havePremiumAccount: false
     }, function(items) {
         let matchesCount = 0;
         let disabledOnThisDomain = false;
@@ -290,9 +295,12 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         renderStatus(html);
 
-        const imgURL = chrome.extension.getURL("images/logo34x34.png");
-        document.getElementById('ltIcon').src = imgURL;
-        document.getElementById('ltLink').href = "https://languagetool.org";
+        document.getElementById('ltIcon').src = chrome.extension.getURL("images/logo34x34.png");
+        if (items.havePremiumAccount) {
+            document.getElementById('ltLink').href = "https://languagetoolplus.com";
+        } else {
+            document.getElementById('ltLink').href = "https://languagetool.org";
+        }
         document.getElementById('ltLink').target = "_blank";
         setHintListener();
         if (disabledOnThisDomain) {
@@ -566,8 +574,7 @@ function reCheck(tabs, causeOfCheck) {
 
 function handleCheckResult(response, tabs, callback) {
     if (!response) {
-        // not sure *why* this happens...
-        renderStatus(chrome.i18n.getMessage("freshInstallReload"));
+        renderStatus(chrome.i18n.getMessage("freshInstallReload") + "<p>" + chrome.i18n.getMessage("freshInstallReload2"));
         Tools.track(tabs[0].url || pageUrlParam, "freshInstallReload");
         return;
     }
@@ -585,8 +592,14 @@ function handleCheckResult(response, tabs, callback) {
     getCheckResult(response.markupList, response.metaData, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
-        renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));
-        Tools.track(tabs[0].url || pageUrlParam, "couldNotCheckText", errorMessageCode);
+        if (errorMessage.indexOf("code: 403 ") !== -1) {
+            renderStatus(chrome.i18n.getMessage("couldNotLoginAtLTPlus") +
+                "<p class='errorMessageDetail'>" + Tools.escapeHtml(DOMPurify.sanitize(errorMessage)) + "</p>");
+            Tools.track(tabs[0].url || pageUrlParam, "couldNotLoginAtLTPlus", errorMessageCode);
+        } else {
+            renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));
+            Tools.track(tabs[0].url || pageUrlParam, "couldNotCheckText", errorMessageCode);
+        }
         if (callback) {
             callback(response.markupList, errorMessage);
         }
@@ -701,18 +714,16 @@ function doCheck(tabs, causeOfCheck, optionalTrackDetails) {
 }
 
 function sendMessageToTab(tabId, data, callback) {
-  if (chrome.tabs) {
-    chrome.tabs.sendMessage(tabId, data, function(response) {
-      callback && callback(response);
-    });
-  } else {
-    // send to bg for proxy
-    chrome.runtime.sendMessage(Object.assign({}, { tabId }, data), function(
-      response
-    ) {
-      callback && callback(response);
-    });
-  }
+    if (chrome.tabs) {
+        chrome.tabs.sendMessage(tabId, data, function (response) {
+            callback && callback(response);
+        });
+    } else {
+        // send to bg for proxy
+        chrome.runtime.sendMessage(Object.assign({}, {tabId}, data), function (response) {
+            callback && callback(response);
+        });
+    }
 }
 
 

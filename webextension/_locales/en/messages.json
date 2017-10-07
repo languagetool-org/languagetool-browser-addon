@@ -240,6 +240,10 @@
     "message": "If you have just installed or (re-)activated this extension, please reload the tab first in which you want to check a text.",
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet"
   },
+  "freshInstallReload2": {
+    "message": "A page reload may also be necessary when the extension has just been updated in the background.",
+    "description": "Next paragraph after 'freshInstallReload'"
+  },
   "couldNotCheckText": {
     "message": "Could not check text: $detail$",
     "description": "Error shown in the popup to indicate an error",
@@ -249,6 +253,10 @@
         "example": "Network error (https://languagetool.org:8081/)"
       }
     }
+  },
+  "couldNotLoginAtLTPlus": {
+    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure username and password are correct",
+    "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com"
   },
   "checkingProgress": {
     "message": "Checking...",
@@ -305,8 +313,8 @@
     }
   },
   "havePremiumAccountDesc": {
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>:",
-    "description": "Options dialog: checkbox for premium access, will enable username/password field",
+    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a> (make sure you're logged in there)",
+    "description": "Options dialog: checkbox for premium access",
     "placeholders": {
       "url": {
         "content": "$1",
