@@ -36,7 +36,11 @@
 
 .lt-error-btn {
   opacity: 0.5;
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABVklEQVQ4T62T3UoCURDHZ86hwk16AiOEXHbxog9vowuv9DW60KCbpAcxiEqF3sMuiui6KIJVtyCEfIKwbV3YmTiHlEVWk6VzN2fm/5szHwdh6nRse5fDsCoAigCwod3MfZDylqRs5B3nOSrBsfFQKBiG550h88E0NGoTUWvN847XB4Nvda8Bv+JrZN6bJ4747tPDYUlBNKBj21dxmVfrda35qtXiuE271ztEVTMyP8ZF/AEAknIHHdNsCiEqSQCMeIld03wDITaTAAjAVYAAhFhKAgCi4B8AudwrSJmLe8FyqaSvg3Y7droE0MOuZTUAoLrg/KfDztHJ57dFGD4l6QEyb+lFmjXKeSUg84Xlukca8JHJpIbptCp0f5FSGOAu5fvlbL/vTz6TgnwaxumspRqDVeaV0ehEiSefKZpV9QSJKsxcFERZ5SMh3gXADTK3LNd9icb/AJnEm2qQzQCHAAAAAElFTkSuQmCC");
+  background-color: #ff0000;
+  line-height: 16px;
+  text-align: center;
+  color: #fff;
+  background: #ff0000;
 }
 
 .lt-buttons:not(:first-child) {
@@ -71,6 +75,7 @@
 }
 
 .lt-marker-container:hover .lt-remind-btn:hover,
+.lt-marker-container:hover .lt-check-loading-btn:hover,
 .lt-marker-container:hover .lt-check-done-btn:hover,
 .lt-marker-container:hover .lt-error-btn:hover,
 .lt-marker-container:hover .lt-disable-btn:hover {
@@ -122,4 +127,168 @@
 .lt-buttons[tooltip]:hover:after {
   visibility: visible;
   opacity: 1;
+}
+
+/* loading */
+@keyframes lds-ellipsis3 {
+  0%, 25% {
+    left: 32px;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  50% {
+    left: 32px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  75% {
+    left: 100px;
+  }
+  100% {
+    left: 168px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes lds-ellipsis3 {
+  0%, 25% {
+    left: 32px;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  50% {
+    left: 32px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  75% {
+    left: 100px;
+  }
+  100% {
+    left: 168px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  25%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+}
+@-webkit-keyframes lds-ellipsis2 {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  25%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis {
+  0% {
+    left: 32px;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  25% {
+    left: 32px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    left: 100px;
+  }
+  75% {
+    left: 168px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  100% {
+    left: 168px;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+}
+@-webkit-keyframes lds-ellipsis {
+  0% {
+    left: 32px;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  25% {
+    left: 32px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    left: 100px;
+  }
+  75% {
+    left: 168px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  100% {
+    left: 168px;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+}
+.lds-ellipsis {
+  position: relative;
+}
+.lds-ellipsis > div {
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+}
+.lds-ellipsis div > div {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f00;
+  position: absolute;
+  top: 100px;
+  left: 32px;
+  -webkit-animation: lds-ellipsis 1.5s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+  animation: lds-ellipsis 1.5s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+}
+.lds-ellipsis div:nth-child(1) div {
+  -webkit-animation: lds-ellipsis2 1.5s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+  animation: lds-ellipsis2 1.5s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+  background: #dce4eb;
+}
+.lds-ellipsis div:nth-child(2) div {
+  -webkit-animation-delay: -0.75s;
+  animation-delay: -0.75s;
+  background: #bbcedd;
+}
+.lds-ellipsis div:nth-child(3) div {
+  -webkit-animation-delay: -0.375s;
+  animation-delay: -0.375s;
+  background: #85a2b6;
+}
+.lds-ellipsis div:nth-child(4) div {
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+  background: #fdfdfd;
+}
+.lds-ellipsis div:nth-child(5) div {
+  -webkit-animation: lds-ellipsis3 1.5s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+  animation: lds-ellipsis3 1.5s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+  background: #dce4eb;
+}
+.lds-ellipsis {
+  width: 15px !important;
+  height: 15px !important;
+  -webkit-transform: translate(-7.5px, -7.5px) scale(0.075) translate(7.5px, 7.5px);
+  transform: translate(-7.5px, -7.5px) scale(0.075) translate(7.5px, 7.5px);
 }

@@ -24,6 +24,7 @@ const POPUP_CONTENT_CLASS = "ltaddon-popup-content";
 const BTN_CLASS = "lt-buttons";
 const REMIND_BTN_CLASS = "lt-remind-btn";
 const CHECK_DONE_BTN_CLASS = "lt-check-done-btn";
+const LOADING_BTN_CLASS = "lt-check-loading-btn";
 const ERROR_BTN_CLASS = "lt-error-btn";
 const DISABLE_BTN_CLASS = "lt-disable-btn";
 const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
@@ -162,14 +163,19 @@ function styleRemindButton(btn, position, num) {
 
 function remindLanguageToolButton(clickHandler, position, num) {
   const btn = document.createElement("A");
-  if (autoCheckOnDomain && totalErrorOnCheckText >= 0) {
+  if (autoCheckOnDomain) {
      if (totalErrorOnCheckText > 0) {
       btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
       const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
       btn.setAttribute("tooltip", tooltip);
-    } else {
+      btn.text = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
+    } else if (totalErrorOnCheckText === 0) {
       btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
       btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
+    } else {
+      btn.className = `${BTN_CLASS} ${LOADING_BTN_CLASS}`;
+      btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+      btn.innerHTML = '<div style="width:100%;height:100%" class="lds-ellipsis"><div> <div></div></div><div> <div></div></div><div> <div></div></div><div> <div></div></div><div> <div></div></div></div>';
     }
   } else {
     btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
@@ -417,7 +423,8 @@ function checkTextApi(text) {
     lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
     console.warn('text is changed?', lastCheckResult.text !== text);
     if (lastCheckResult.text !== text) {
-      return Promise.resolve({ result: {} });
+      totalErrorOnCheckText = -1;
+      return Promise.resolve({ result: {}, total: -1 });
     }
     return response.json();
   }).catch(error => {
