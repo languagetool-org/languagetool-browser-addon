@@ -128,6 +128,10 @@ function isSuggestion(match) {
            issueType === 'register'
 }
 
+function getShortCode(languageCode) {
+    return languageCode.replace(/-.*/, "");
+}
+
 /** Automatically handle errors, only works for popup **/
 window.addEventListener('error', function(evt) {
 	const { error } = evt;

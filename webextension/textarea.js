@@ -37,7 +37,7 @@ let autoCheckOnDomain = false;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let apiCheckTextOptions = '';
 let ignoreQuotedLines = true;
-let lastCheckResult = { text: '', matches: [], total: -1, isProcess: false };
+let lastCheckResult = { text: '', result: {}, total: -1, isProcess: false };
 const activeElementHandler = ally.event.activeElement();
 
 function isGmail() {
@@ -276,15 +276,18 @@ function positionMarkerOnChangeSize(forceRender = false) {
 
 function showMatchedResultOnMarker(result) {
   console.warn('showMatchedResultOnMarker', result, lastCheckResult);
-  if (result && result.length > 0) {
-    lastCheckResult = Object.assign({}, lastCheckResult, { matches: result });
+  if (result && result.matches && result.matches.length > 0) {
+    const language = DOMPurify.sanitize(result.language.name);
+    const languageCode = DOMPurify.sanitize(result.language.code);
+    const shortLanguageCode = getShortCode(languageCode);
+    lastCheckResult = Object.assign({}, lastCheckResult, { result });
     let matchesCount = 0;
     let matches = [];
     const uniquePositionMatches = [];
     let prevErrStart = -1;
     let prevErrLen = -1;
-    for (let i = result.length-1; i >= 0; i--) {
-        const m = result[i];
+    for (let i = result.matches.length-1; i >= 0; i--) {
+        const m = result.matches[i];
         const errStart = parseInt(m.offset);
         const errLen = parseInt(m.length);
         if (errStart != prevErrStart || errLen != prevErrLen) {
@@ -339,7 +342,7 @@ function showMatchedResultOnMarker(result) {
     });
   } else {
     totalErrorOnCheckText = 0;
-    lastCheckResult = Object.assign({}, lastCheckResult, { total: totalErrorOnCheckText, matches: [], text: '' });
+    lastCheckResult = Object.assign({}, lastCheckResult, { total: totalErrorOnCheckText, result: {}, text: '' });
     positionMarkerOnChangeSize(true);
   }
 }
@@ -359,11 +362,11 @@ function markup2text({ markupList }) {
 function checkTextApi(text) {
   console.warn('checkTextApi',text);
   if( text === lastCheckResult.text) {
-    return Promise.resolve({ matches: lastCheckResult.matches });
+    return Promise.resolve({ result: lastCheckResult.result });
   }
   lastCheckResult = Object.assign({}, lastCheckResult, { text, isProcess: true });
   if(!autoCheckOnDomain || text.trim().length === 0) {
-    return Promise.resolve({ matches: [] });
+    return Promise.resolve({ result: {} });
   }
   const url = "https://languagetoolplus.com/api/v2/check";
   const data = `${apiCheckTextOptions}&text=${encodeURIComponent(text.trim())}`;
@@ -407,14 +410,14 @@ function checkTextApi(text) {
       animation.cancel();
     }
     if (response.status >= 400) {
-      lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false, text: '', matches: [], total: -1 });
+      lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false, text: '', result: {}, total: -1 });
       throw new Error("Bad response from server");
     }
     // ignore this reques if the text is change
     lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
     console.warn('text is changed?', lastCheckResult.text !== text);
     if (lastCheckResult.text !== text) {
-      return Promise.resolve({ matches: [] });
+      return Promise.resolve({ result: {} });
     }
     return response.json();
   }).catch(error => {
@@ -448,7 +451,7 @@ function getTextFromElement(element) {
 
 function elementMarkup(evt) {
   totalErrorOnCheckText = -1;
-  lastCheckResult = Object.assign({}, lastCheckResult, { text: '' });
+  lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, text: '', total: -1 });
   positionMarkerOnChangeSize();
   return getTextFromElement(evt.target);
 }
@@ -463,9 +466,9 @@ function observeEditorElement(element) {
   // Logs the current value of the searchInput, only after the user stops typing
   let inputText;
   if(element.tagName === 'IFRAME') {
-    inputText = fromEvent('keyup', element.contentWindow).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
+    inputText = fromEvent('input', element.contentWindow).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
   } else {
-    inputText = fromEvent('keyup', element).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
+    inputText = fromEvent('input', element).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
   }
   // Empty results list if there is no text
   const emptyResults = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length < 1).constant([]);
@@ -474,8 +477,7 @@ function observeEditorElement(element) {
     .map(markup2text)
     .map(checkTextApi)
     .map(fromPromise)
-    .switchLatest()
-    .map(result => result && result.matches);
+    .switchLatest();
   merge(results, emptyResults).observe(showMatchedResultOnMarker);
 }
 
@@ -486,13 +488,15 @@ function bindClickEventOnElement(currentElement) {
       const text = markup2text(getTextFromElement(currentElement));
       console.warn('lastCheckResult', lastCheckResult, text);
       if (text !== lastCheckResult.text) {
-        checkTextApi(text).then(result => {
-          if(result) {
-            showMatchedResultOnMarker(result.matches);
-          }
-        });
+        if (text.length > 0) {
+          checkTextApi(text).then(result => {
+            if(result) {
+              showMatchedResultOnMarker(result);
+            }
+          });
+        }
       } else {
-        showMatchedResultOnMarker(lastCheckResult.matches);
+        showMatchedResultOnMarker(lastCheckResult.result);
       }
     }
 

@@ -139,10 +139,6 @@ function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
 }
 
-function getShortCode(languageCode) {
-    return languageCode.replace(/-.*/, "");
-}
-
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
     const createLinks = response.isEditableText && !response.url.match(unsupportedReplacementSitesRegex);
     const data = JSON.parse(resultJson);
