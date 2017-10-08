@@ -136,7 +136,6 @@ function getShortCode(languageCode) {
 window.addEventListener('error', function(evt) {
 	const { error } = evt;
 	if (error) {
-    console.warn(`Found a error: ${error.message}`);
     Tools.track("unknown", `error message: ${error.message}`, error.stack);
 	}
 });

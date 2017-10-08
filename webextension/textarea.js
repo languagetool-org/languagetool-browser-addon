@@ -241,7 +241,7 @@ function insertLanguageToolIcon(element) {
     remindLanguageToolButton(checkErrorMenu, position, 1),
   ];
 
-  if(!autoCheckOnDomain) {
+  if (!autoCheckOnDomain) {
     btns.push(autoCheckLanguageToolButton(autoCheckMenu, position, 2));
     btns.push(disableLanguageToolButton(disableMenu, position, 3));
   } else {
@@ -281,7 +281,6 @@ function positionMarkerOnChangeSize(forceRender = false) {
 }
 
 function showMatchedResultOnMarker(result) {
-  console.warn('showMatchedResultOnMarker', result, lastCheckResult);
   if (result && result.matches && result.matches.length > 0) {
     const language = DOMPurify.sanitize(result.language.name);
     const languageCode = DOMPurify.sanitize(result.language.code);
@@ -343,7 +342,6 @@ function showMatchedResultOnMarker(result) {
       }
       totalErrorOnCheckText = matchesCount;
       lastCheckResult = Object.assign({}, lastCheckResult, { total: matchesCount });
-      console.warn('found total errors', totalErrorOnCheckText, lastCheckResult);
       positionMarkerOnChangeSize(true);
     });
   } else {
@@ -354,7 +352,6 @@ function showMatchedResultOnMarker(result) {
 }
 
 function markup2text({ markupList }) {
-  console.warn('markup2text', markupList);
   positionMarkerOnChangeSize();
   let text = Markup.markupList2text(markupList);
   if (ignoreQuotedLines) {
@@ -366,12 +363,11 @@ function markup2text({ markupList }) {
 }
 
 function checkTextApi(text) {
-  console.warn('checkTextApi',text);
-  if( text === lastCheckResult.text) {
+  if (text === lastCheckResult.text) {
     return Promise.resolve({ result: lastCheckResult.result });
   }
   lastCheckResult = Object.assign({}, lastCheckResult, { text, isProcess: true });
-  if(!autoCheckOnDomain || text.trim().length === 0) {
+  if (!autoCheckOnDomain || text.trim().length === 0) {
     return Promise.resolve({ result: {} });
   }
   const url = "https://languagetoolplus.com/api/v2/check";
@@ -388,7 +384,7 @@ function checkTextApi(text) {
     setTimeout(() => {
       // Refer to https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Content_scripts
       // In Firefox: if you call window.eval(), it runs code in the context of the page.
-      window.eval(`console.warn('animate for FF');document.querySelector('.${BTN_CLASS}').animate([
+      window.eval(`document.querySelector('.${BTN_CLASS}').animate([
         { transform: 'scale(1.25)' },
         { transform: 'scale(0.75)' }
       ], {
@@ -398,7 +394,6 @@ function checkTextApi(text) {
     },0);
   } else {
     setTimeout(() => {
-      console.warn('animate from timeout');
       if (document.querySelector(`.${BTN_CLASS}`)) {
          animation = document.querySelector(`.${BTN_CLASS}`).animate([
           { transform: 'scale(1.25)' },
@@ -421,7 +416,6 @@ function checkTextApi(text) {
     }
     // ignore this reques if the text is change
     lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
-    console.warn('text is changed?', lastCheckResult.text !== text);
     if (lastCheckResult.text !== text) {
       totalErrorOnCheckText = -1;
       return Promise.resolve({ result: {}, total: -1 });
@@ -472,7 +466,7 @@ function observeEditorElement(element) {
   const { fromEvent, fromPromise, merge } = most;
   // Logs the current value of the searchInput, only after the user stops typing
   let inputText;
-  if(element.tagName === 'IFRAME') {
+  if (element.tagName === 'IFRAME') {
     inputText = fromEvent('input', element.contentWindow).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
   } else {
     inputText = fromEvent('input', element).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
@@ -493,11 +487,10 @@ function bindClickEventOnElement(currentElement) {
     totalErrorOnCheckText = -1;
     if (autoCheckOnDomain) {
       const text = markup2text(getTextFromElement(currentElement));
-      console.warn('lastCheckResult', lastCheckResult, text);
       if (text !== lastCheckResult.text) {
         if (text.length > 0) {
           checkTextApi(text).then(result => {
-            if(result) {
+            if (result) {
               showMatchedResultOnMarker(result);
             }
           });
