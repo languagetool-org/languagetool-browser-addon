@@ -603,6 +603,7 @@ document.addEventListener(
     if (!disableOnDomain) {
       // use timeout for adjust html after redering DOM
       // try to reposition for some site which is rendering from JS (e.g: Upwork)
+      setActiveElement(focusElement);
       if (!renderTimeout) {
         renderTimeout = setTimeout(() => {
           showMarkerOnEditor(focusElement);

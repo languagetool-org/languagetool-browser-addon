@@ -83,7 +83,7 @@ function offset(el) {
 function isAllowSpellcheck(element) {
   return (
     element.getAttribute("spellcheck") === null ||
-    element.getAttribute("spellcheck") === true
+    element.getAttribute("spellcheck") === "true"
   );
 }
 
