@@ -67,8 +67,14 @@
 }
 
 .lt-marker-container:hover .lt-remind-btn:hover {
-  opacity: 1;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QAFABmAOyJxZP8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QkSCgsG4cxmygAAAGBJREFUOMtjFEl785+BAsDEQCGgvwGvZwozvJ4pTJ4BMI2i6W9JNwCbZqINwKUZwwBkvxGjGcUAmEJkQwhpZmBgYGBETkjYXIBPM4YX0BUT0ow1EGGaiNGM4YURkhfQAQBgmSbkFLtu7AAAAABJRU5ErkJggg==");
+}
+
+.lt-marker-container:hover .lt-remind-btn:hover,
+.lt-marker-container:hover .lt-check-done-btn:hover,
+.lt-marker-container:hover .lt-error-btn:hover,
+.lt-marker-container:hover .lt-disable-btn:hover {
+  opacity: 1;
 }
 
 .lt-marker-container:hover .lt-buttons:not(:first-child) {
