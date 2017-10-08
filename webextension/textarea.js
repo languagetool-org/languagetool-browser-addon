@@ -275,7 +275,7 @@ function positionMarkerOnChangeSize(forceRender = false) {
 }
 
 function showMatchedResultOnMarker(result) {
-  console.warn('showMatchedResultOnMarker', result);
+  console.warn('showMatchedResultOnMarker', result, lastCheckResult);
   if (result && result.length > 0) {
     lastCheckResult = Object.assign({}, lastCheckResult, { matches: result });
     let matchesCount = 0;
@@ -366,7 +366,7 @@ function checkTextApi(text) {
     return Promise.resolve({ matches: [] });
   }
   const url = "https://languagetoolplus.com/api/v2/check";
-  const data = `${apiCheckTextOptions}&text=${encodeURIComponent(text)}`;
+  const data = `${apiCheckTextOptions}&text=${encodeURIComponent(text.trim())}`;
   const request = new Request(url, {
     method: "POST",
     headers: new Headers({
@@ -379,7 +379,7 @@ function checkTextApi(text) {
     setTimeout(() => {
       // Refer to https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Content_scripts
       // In Firefox: if you call window.eval(), it runs code in the context of the page.
-      window.eval(`console.warn('animate for FF');document.querySelector('.lt-buttons').animate([
+      window.eval(`console.warn('animate for FF');document.querySelector('.${BTN_CLASS}').animate([
         { transform: 'scale(1.25)' },
         { transform: 'scale(0.75)' }
       ], {
@@ -410,7 +410,12 @@ function checkTextApi(text) {
       lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false, text: '', matches: [], total: -1 });
       throw new Error("Bad response from server");
     }
+    // ignore this reques if the text is change
     lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
+    console.warn('text is changed?', lastCheckResult.text !== text);
+    if (lastCheckResult.text !== text) {
+      return Promise.resolve({ matches: [] });
+    }
     return response.json();
   }).catch(error => {
     animation.cancel();
@@ -443,6 +448,7 @@ function getTextFromElement(element) {
 
 function elementMarkup(evt) {
   totalErrorOnCheckText = -1;
+  lastCheckResult = Object.assign({}, lastCheckResult, { text: '' });
   positionMarkerOnChangeSize();
   return getTextFromElement(evt.target);
 }
@@ -457,9 +463,9 @@ function observeEditorElement(element) {
   // Logs the current value of the searchInput, only after the user stops typing
   let inputText;
   if(element.tagName === 'IFRAME') {
-    inputText = fromEvent('keypress', element.contentWindow).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
+    inputText = fromEvent('keyup', element.contentWindow).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
   } else {
-    inputText = fromEvent('keypress', element).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
+    inputText = fromEvent('keyup', element).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
   }
   // Empty results list if there is no text
   const emptyResults = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length < 1).constant([]);
@@ -478,7 +484,6 @@ function bindClickEventOnElement(currentElement) {
   if (isEditorElement(currentElement)) {
     totalErrorOnCheckText = -1;
     if (autoCheckOnDomain) {
-      observeEditorElement(currentElement);
       const text = markup2text(getTextFromElement(currentElement));
       console.warn('lastCheckResult', lastCheckResult, text);
       if (text !== lastCheckResult.text) {
@@ -491,6 +496,12 @@ function bindClickEventOnElement(currentElement) {
         showMatchedResultOnMarker(lastCheckResult.matches);
       }
     }
+
+    if (!currentElement.getAttribute("lt-auto-check") && autoCheckOnDomain) {
+        observeEditorElement(currentElement);
+        currentElement.setAttribute("lt-auto-check", true);
+    }
+
     if (!currentElement.getAttribute("lt-bind-click")) {
       currentElement.addEventListener(
         "mouseup",
