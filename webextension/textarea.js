@@ -475,7 +475,6 @@ function observeEditorElement(element) {
     .map(checkTextApi)
     .map(fromPromise)
     .switchLatest()
-    .filter(result => result && result.matches.length > 0)
     .map(result => result && result.matches);
   merge(results, emptyResults).observe(showMatchedResultOnMarker);
 }
