@@ -48,10 +48,6 @@ function isGmail() {
 
 /** event handlers */
 
-function isShowErrorDetail() {
-  return !autoCheckOnDomain || (autoCheckOnDomain && totalErrorOnCheckText > 0);
-}
-
 function checkErrorMenu(evt) {
   evt.stopPropagation();
   evt.preventDefault();
@@ -64,30 +60,28 @@ function checkErrorMenu(evt) {
       textAreaElement.focus();
     }
   }
-  if (isShowErrorDetail()) {
-    const popupWidth = 450;
-    const popupHeight = Math.min(window.innerHeight * 80 / 100, 600);
-    $.featherlight({
-      iframe: `${chrome.runtime.getURL("popup.html")}?pageUrl=${currentUrl}`,
-      iframeWidth: popupWidth,
-      iframeHeight: popupHeight,
-      namespace: "ltaddon-popup",
-      beforeOpen: () => {
-        const popupContainers = document.getElementsByClassName(
-          POPUP_CONTENT_CLASS
-        );
-        for (let counter = 0; counter < popupContainers.length; counter += 1) {
-          const popupContainer = popupContainers[counter];
-          popupContainer.style.minWidth = `${popupWidth}px`;
-          popupContainer.style.minHeight = `${popupHeight}px`;
-        }
-      },
-      afterOpen: () => {
-        const currentPopup = $.featherlight.current();
-        currentPopup.$content.focus();
+  const popupWidth = 450;
+  const popupHeight = Math.min(window.innerHeight * 80 / 100, 600);
+  $.featherlight({
+    iframe: `${chrome.runtime.getURL("popup.html")}?pageUrl=${currentUrl}`,
+    iframeWidth: popupWidth,
+    iframeHeight: popupHeight,
+    namespace: "ltaddon-popup",
+    beforeOpen: () => {
+      const popupContainers = document.getElementsByClassName(
+        POPUP_CONTENT_CLASS
+      );
+      for (let counter = 0; counter < popupContainers.length; counter += 1) {
+        const popupContainer = popupContainers[counter];
+        popupContainer.style.minWidth = `${popupWidth}px`;
+        popupContainer.style.minHeight = `${popupHeight}px`;
       }
-    });
-  }
+    },
+    afterOpen: () => {
+      const currentPopup = $.featherlight.current();
+      currentPopup.$content.focus();
+    }
+  });
 }
 
 function removeAllButtons() {
@@ -380,18 +374,38 @@ function checkTextApi(text) {
     }),
     body: data
   });
-  console.warn('animate');
-  setTimeout(() => {
-    document.querySelector(`.${BTN_CLASS}`).animate([
-      { transform: 'scale(1.25)' },
-      { transform: 'scale(0.75)' }
-    ], {
-      duration: 1000,
-      iterations: 2
-    });
-  },0);
+  let animation;
+  if (Tools.isFirefox()) {
+    setTimeout(() => {
+      // Refer to https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Content_scripts
+      // In Firefox: if you call window.eval(), it runs code in the context of the page.
+      window.eval(`console.warn('animate for FF');document.querySelector('.lt-buttons').animate([
+        { transform: 'scale(1.25)' },
+        { transform: 'scale(0.75)' }
+      ], {
+        duration: 1000,
+        iterations: 10
+      });`);
+    },0);
+  } else {
+    setTimeout(() => {
+      console.warn('animate from timeout');
+      if (document.querySelector(`.${BTN_CLASS}`)) {
+         animation = document.querySelector(`.${BTN_CLASS}`).animate([
+          { transform: 'scale(1.25)' },
+          { transform: 'scale(0.75)' }
+        ], {
+          duration: 1000,
+          iterations: 10
+        });
+      }
+    },0);
+  }
 
   return fetch(request).then(response => {
+    if (animation) {
+      animation.cancel();
+    }
     if (response.status >= 400) {
       lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false, text: '', matches: [], total: -1 });
       throw new Error("Bad response from server");
@@ -399,6 +413,7 @@ function checkTextApi(text) {
     lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
     return response.json();
   }).catch(error => {
+    animation.cancel();
     const pageUrl = window.location.href;
     lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
     Tools.track(pageUrl, `error on checkTextApi: ${error.message}`);
