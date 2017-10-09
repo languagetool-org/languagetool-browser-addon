@@ -1,7 +1,11 @@
+
 <!doctype html>
 <html>
 <head>
     <title>Tests for LanguageTool WebExtension</title>
+    <script src="https://cdn.ckeditor.com/4.7.2/standard/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/0.11.0/classic/ckeditor.js"></script>
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
 </head>
 <body>
 
@@ -12,8 +16,32 @@ Put this file into your webroot so it's reachable as http://localhost/languageto
 then open it in Chrome and click the LanguageTool extension's button. Test mode will run.</p>
 
 <form>
+    <h1>Textarea </h1>
     <textarea style="width:400px;height:300px" name="text" autofocus>This is an test.</textarea>
+    <h3>CKEditor 4 </h3>
+    <textarea name="text2" cols="30" rows="10">Paste your own text here and click the 'Check Text' button. Click the colored phrases for details on potential errors. or use this text too see an few of of the problems that LanguageTool can detecd. What do you thinks of grammar checkers? Please not that they are not perfect. Style issues get a blue marker: It's 5 P.M. in the afternoon. LanguageTool 3.8 was released on Thursday, 27 June 2017.</textarea>
+    <h3>CKEditor 5 </h3>
+    <textarea name="content" id="editor">This is some sample content which has spellcheck="false".</textarea>
+    <h3>TinyMCE</h3>
+    <textarea name="content" id="tinymce">This is some sample content.</textarea>
 </form>
+
+<p contenteditable="true">This is a paragraph. It is editable. Try to change this text.</p>
+
+<script type="text/javascript">
+    if (CKEDITOR) {
+        CKEDITOR.replace('text2');
+    }
+
+    if (ClassicEditor) {
+        ClassicEditor.create(document.querySelector('#editor'));
+    }
+
+    if (tinymce) {
+        tinymce.init({ selector: '#tinymce' });
+    }
+</script>
+
 
 </body>
 </html>

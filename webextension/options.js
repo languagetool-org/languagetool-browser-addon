@@ -23,8 +23,13 @@ const urlRegExp = new RegExp(
   /^(https?:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
 );
 
+// regex idea from sindresorhus/ip-regex
+const ipv4 = '(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])){3}';
+const ipv4Reg = new RegExp(`^${ipv4}$`) ;
+
+// suport for localhost and ipv4
 function validURL(str) {
-  return urlRegExp.test(str);
+  return urlRegExp.test(str) || str === 'localhost' || ipv4Reg.test(str);
 }
 
 function domainName(url) {
@@ -55,9 +60,8 @@ function saveOptions() {
             ptVariant: document.getElementById('variant-pt').value,
             caVariant: document.getElementById('variant-ca').value,
             dictionary: document.getElementById('dictionary').value.split("\n").filter(a => a.length > 0),
-            disabledDomains: [... new Set(  document.getElementById("domains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item))
-          )
-        ]
+            disabledDomains: [... new Set(  document.getElementById("domains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))],
+            autoCheckOnDomains: [... new Set(  document.getElementById("autoCheckOnDomains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))]
         }, function() {
             window.close();
         });
@@ -81,6 +85,7 @@ function restoreOptions() {
     document.getElementById('variant-ca-desc').textContent = chrome.i18n.getMessage("variantCaDesc");
     document.getElementById('dictionaryDesc').textContent = chrome.i18n.getMessage("dictionaryDesc");
     document.getElementById('domainsDesc').textContent = chrome.i18n.getMessage("domainsDesc");
+    document.getElementById('autoCheckOnDomainsDesc').textContent = chrome.i18n.getMessage("autoCheckOnDomainsDesc");
     Tools.getStorage().get({
         apiServerUrl: defaultServerUrl,
         ignoreQuotedLines: true,
@@ -93,7 +98,8 @@ function restoreOptions() {
         ptVariant: "pt-PT",
         caVariant: "ca-ES",
         dictionary: [],
-        disabledDomains: []
+        disabledDomains: [],
+        autoCheckOnDomains: []
     }, function(items) {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;
         document.getElementById('ignoreQuotedLines').checked = items.ignoreQuotedLines;
@@ -109,8 +115,10 @@ function restoreOptions() {
         //document.getElementById('variant-ca-desc').value = items.caVariant;
         const dict = items.dictionary.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         const domains = items.disabledDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+        const autoCheckOnDomains = items.autoCheckOnDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         document.getElementById('dictionary').value = dict.join("\n") + "\n";
         document.getElementById('domains').value = domains.join("\n") + "\n";
+        document.getElementById('autoCheckOnDomains').value = autoCheckOnDomains.join("\n") + "\n";
         showPrivacyLink();
     });
     setTimeout(function() { window.scrollTo(0, 0); }, 50);  // otherwise Chrome will show the bottom if the options page

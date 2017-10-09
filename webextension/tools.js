@@ -1,6 +1,6 @@
-/* LanguageTool WebExtension 
+/* LanguageTool WebExtension
  * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -20,15 +20,62 @@
 
 const trackingBaseUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php";
 const trackingSiteId = "12";
+const THROTTLE_REQUESTS = 5;
+const MAX_TIME = 1 * 60 * 1000; // 1 minute
 // chrome.google.com: see http://stackoverflow.com/questions/11613371/
 // docs.google.com: Google Docs has a too complicated DOM (but its own add-on framework)
 // addons.mozilla.org: see http://stackoverflow.com/questions/42147966/
 const unsupportedSitesRegex = /^https?:\/\/(docs.google.com|chrome.google.com|addons.mozilla.org).*/;
 const notSupportMarkerSitesRegex = /^https?:\/\/(www.facebook.com|docs.google.com|chrome.google.com|addons.mozilla.org).*/;
 
+const errorsText = ['error', 'exception', 'problem'];
+const lastTrackingError = {};
+
 class Tools {
 
     constructor() {
+    }
+
+    static prepareApiCheckTextParam(callback) {
+        const storage = Tools.getStorage();
+        storage.get({
+            motherTongue: '',
+            enVariant: "en-US",
+            deVariant: "de-DE",
+            ptVariant: "pt-PT",
+            caVariant: "ca-ES",
+        }, function(items) {
+            let apiCheckTextOptions = `disabledRules=WHITESPACE_RULE&language=auto`;
+            if (items.motherTongue) {
+              apiCheckTextOptions += `&motherTongue=${items.motherTongue}`;
+            }
+            let userAgent = "webextension";
+            if (Tools.isFirefox()) {
+                userAgent += "-firefox";
+            } else if (Tools.isChrome()) {
+                userAgent += "-chrome";
+            } else {
+                userAgent += "-unknown";
+            }
+            apiCheckTextOptions += `&userAgent=${userAgent}`;
+            const preferredVariants = [];
+            if (items.enVariant) {
+                preferredVariants.push(items.enVariant);
+            }
+            if (items.deVariant) {
+                preferredVariants.push(items.deVariant);
+            }
+            if (items.ptVariant) {
+                preferredVariants.push(items.ptVariant);
+            }
+            if (items.caVariant) {
+                preferredVariants.push(items.caVariant);
+            }
+            if (preferredVariants.length > 0) {
+                apiCheckTextOptions += "&preferredVariants=" + preferredVariants;
+            }
+            callback(apiCheckTextOptions);
+        });
     }
 
     static track(pageUrl, actionName, optionalTrackDetails) {
@@ -37,6 +84,29 @@ class Tools {
             return;
         }
         try {
+            // throttle request for error tracking
+            const foundErrorTracking = errorsText.find(item => actionName.toLowerCase().indexOf(item) !== -1);
+            if (foundErrorTracking) {
+                if(!lastTrackingError[actionName]) {
+                    lastTrackingError[actionName] = [Date.now()];
+                } else {
+                    if (lastTrackingError[actionName].length < THROTTLE_REQUESTS) {
+                        lastTrackingError[actionName].push(Date.now());
+                    } else {
+                        // compare the first item, make sure only max THROTTLE_REQUESTS per min
+                        const now = Date.now();
+                        const distanceRunTime = now - lastTrackingError[actionName][0];
+                        if (distanceRunTime >= MAX_TIME ) {
+                            lastTrackingError[actionName].push(now);
+                            lastTrackingError[actionName].splice(0,1);
+                        } else {
+                            console.warn(`LT add-on ingore tracking for ${actionName} - ${new Date(now)}`, lastTrackingError);
+                            return null; // break, ignore this action name
+                        }
+                    }
+                }
+            }
+            console.warn('lastTrackingError', lastTrackingError, actionName);
             const storage = Tools.getStorage();
             storage.get({
                 uid: null
@@ -75,10 +145,10 @@ class Tools {
                     console.log("LT add-on tracking failed with timeout");
                 };
                 trackReq.send();
-                console.log("LanguageTool tracking: ", shortenedUrl, actionName, optionalTrackDetails);
+                console.log(`LanguageTool tracking: ${shortenedUrl}, ${actionName}, ${optionalTrackDetails}`);
             });
         } catch(e) {
-            console.log("LanguageTool add-on tracking failed: ", e);
+            console.log(`LanguageTool add-on tracking failed: ${e.message}`);
         }
     }
 
@@ -131,7 +201,7 @@ class Tools {
 
     static isChrome() {
         return navigator.userAgent.indexOf("Chrome/") !== -1 || navigator.userAgent.indexOf("Chromium/") !== -1;
-    }    
+    }
 
     static escapeHtml(s) {
         return s.replace(/&/g, '&amp;')
@@ -158,7 +228,7 @@ class Tools {
 
     // Due to Transifex limited support for Android i18n files, we already have
     // a very complicated i18n setup (see injectTranslations.py) and it seems
-    // we're better off just hard-coding the English language names here instead of 
+    // we're better off just hard-coding the English language names here instead of
     // making the process even more complicated:
     static getLangName(langCode) {
         switch (langCode) {

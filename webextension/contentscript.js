@@ -26,7 +26,9 @@ let lastReminderDate = new Date().getTime();  // TODO: should actually be saved 
 let unusedMinutesShowReminder = 0.5;
 
 function handleRequest(request, sender, callback) {
-    if(request.action === "reactivateIcon") {
+    if (request.action === "turnOffAutoCheck") {
+        autoCheckOnDomain = false;
+    } else if (request.action === "reactivateIcon") {
         disableOnDomain = false;
     } else if (request.action === "closePopup") {
         closePopup();

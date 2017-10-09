@@ -23,94 +23,28 @@ const REMIND_WRAPPER_CLASS = "lt-marker-container";
 const POPUP_CONTENT_CLASS = "ltaddon-popup-content";
 const BTN_CLASS = "lt-buttons";
 const REMIND_BTN_CLASS = "lt-remind-btn";
+const CHECK_DONE_BTN_CLASS = "lt-check-done-btn";
+const LOADING_BTN_CLASS = "lt-check-loading-btn";
+const ERROR_BTN_CLASS = "lt-error-btn";
 const DISABLE_BTN_CLASS = "lt-disable-btn";
+const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
-const CLEAN_TIME_OUT = 200;
+const CLEAN_TIME_OUT = 200; // 0.2 second
+const BG_CHECK_TIME_OUT = 500; // 0.5 second
 
 let disableOnDomain = false;
+let autoCheckOnDomain = false;
+let totalErrorOnCheckText = -1; // -1 = not checking yet
+let apiCheckTextOptions = '';
+let ignoreQuotedLines = true;
+let lastCheckResult = { text: '', result: {}, total: -1, isProcess: false };
 const activeElementHandler = ally.event.activeElement();
 
 function isGmail() {
   const currentUrl = window.location.href;
   const { hostname } = new URL(currentUrl);
   return hostname === "mail.google.com";
-}
-
-/**
- * Check the element is display or hidden
- * @param {DOMElement} el
- * @return {bool}
- */
-function isHiddenElement(el) {
-  const style = window.getComputedStyle(el);
-  return el.offsetParent === null || style.display === "none";
-}
-
-/**
- * check element is on viewport or not
- * @param {DOMElement} el
- */
-function isShowOnViewPort(el) {
-  const bounds = el.getBoundingClientRect();
-  return bounds.top < window.innerHeight && bounds.bottom > 0;
-}
-
-/**
- * Check the element is parent node
- * @param {DOMElement} parent
- * @param {DOMElement} child
- * @return boolean
- */
-function isDescendant(parent, child) {
-  let node = child.parentNode;
-  while (node !== null) {
-    if (node === parent) {
-      return true;
-    }
-    node = node.parentNode;
-  }
-  return false;
-}
-
-/**
- * Find the position of element base on window
- * @param {DOMElement} el
- * @return {object} position { top, left }
- */
-function offset(el) {
-  const rect = el.getBoundingClientRect();
-  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
-}
-
-/**
- * Check textarea or editor is allow spellcheck
- * @param {DOMElement} element
- */
-function isAllowSpellcheck(element) {
-  return (
-    element.getAttribute("spellcheck") === null ||
-    element.getAttribute("spellcheck") === true
-  );
-}
-
-/**
- * True if that is textarea or html5 contentEditable element
- * @param {DOMElement} focusElement
- * @return {bool}
- */
-function isEditorElement(focusElement) {
-  return (
-    focusElement &&
-    isAllowSpellcheck(focusElement) &&
-    (focusElement.tagName === "TEXTAREA" ||
-      focusElement.contentEditable !== "inherit" ||
-      (focusElement.tagName === "IFRAME" &&
-        (focusElement.className.indexOf("cke_wysiwyg_frame") !== -1 ||
-          focusElement.title.indexOf("Rich Text Area") !== -1)))
-  );
 }
 
 /** event handlers */
@@ -135,7 +69,9 @@ function checkErrorMenu(evt) {
     iframeHeight: popupHeight,
     namespace: "ltaddon-popup",
     beforeOpen: () => {
-      const popupContainers = document.getElementsByClassName(POPUP_CONTENT_CLASS);
+      const popupContainers = document.getElementsByClassName(
+        POPUP_CONTENT_CLASS
+      );
       for (let counter = 0; counter < popupContainers.length; counter += 1) {
         const popupContainer = popupContainers[counter];
         popupContainer.style.minWidth = `${popupWidth}px`;
@@ -145,7 +81,6 @@ function checkErrorMenu(evt) {
     afterOpen: () => {
       const currentPopup = $.featherlight.current();
       currentPopup.$content.focus();
-      Tools.track(currentUrl, "reminderIconClick");
     }
   });
 }
@@ -172,6 +107,25 @@ function disableMenu(evt) {
       items.disabledDomains.push(hostname);
       Tools.getStorage().set({
         disabledDomains: [...new Set(items.disabledDomains)]
+      });
+    }
+  );
+}
+
+function autoCheckMenu(evt) {
+  evt.preventDefault();
+  autoCheckOnDomain = true;
+  document.querySelector('a.lt-auto-check-btn').style.display = "none";
+  Tools.getStorage().get(
+    {
+      autoCheckOnDomains: []
+    },
+    items => {
+      const currentUrl = window.location.href;
+      const { hostname } = new URL(currentUrl);
+      items.autoCheckOnDomains.push(hostname);
+      Tools.getStorage().set({
+        autoCheckOnDomains: [...new Set(items.autoCheckOnDomains)]
       });
     }
   );
@@ -207,22 +161,58 @@ function styleRemindButton(btn, position, num) {
   btn.style.left = `${left + offsetWidth - (REMIND_BTN_SIZE + MARGIN_TO_CORNER)*num}px`;
 }
 
-function remindLanguageToolButton(clickHandler, position) {
+function remindLanguageToolButton(clickHandler, position, num) {
   const btn = document.createElement("A");
+  if (autoCheckOnDomain) {
+     if (totalErrorOnCheckText > 0) {
+      btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+      const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
+      btn.setAttribute("tooltip", tooltip);
+      btn.text = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
+    } else if (totalErrorOnCheckText === 0) {
+      btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
+      btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
+    } else {
+      btn.className = `${BTN_CLASS} ${LOADING_BTN_CLASS}`;
+      btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+      btn.innerHTML = '<div style="width:100%;height:100%" class="lds-ellipsis"><div> <div></div></div><div> <div></div></div><div> <div></div></div><div> <div></div></div><div> <div></div></div></div>';
+    }
+  } else {
+    btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
+    btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+  }
+
   btn.onclick = clickHandler;
-  btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
-  btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
-  styleRemindButton(btn, position, 1);
+  // style
+  styleRemindButton(btn, position, num);
   return btn;
 }
 
-function disableLanguageToolButton(clickHandler, position) {
+function disableLanguageToolButton(clickHandler, position, num) {
   const { top, left, offsetHeight, offsetWidth } = position;
   const btn = document.createElement("A");
   btn.onclick = clickHandler;
   btn.className = `${BTN_CLASS} ${DISABLE_BTN_CLASS}`;
-  btn.setAttribute("tooltip", chrome.i18n.getMessage("disableForThisDomainTitle"));
-  styleRemindButton(btn, position, 2);
+  btn.setAttribute(
+    "tooltip",
+    chrome.i18n.getMessage("disableForThisDomainTitle")
+  );
+  // style
+  styleRemindButton(btn, position, num);
+  return btn;
+}
+
+function autoCheckLanguageToolButton(clickHandler, position, num) {
+  const { top, left, offsetHeight, offsetWidth } = position;
+  const btn = document.createElement("A");
+  btn.onclick = clickHandler;
+  btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
+  btn.setAttribute(
+    "tooltip",
+    chrome.i18n.getMessage("autoCheckForThisDomainTitle")
+  );
+  // style
+  styleRemindButton(btn, position, num);
   return btn;
 }
 
@@ -248,9 +238,16 @@ function insertLanguageToolIcon(element) {
     offsetWidth
   });
   const btns = [
-    remindLanguageToolButton(checkErrorMenu, position),
-    disableLanguageToolButton(disableMenu, position)
+    remindLanguageToolButton(checkErrorMenu, position, 1),
   ];
+
+  if (!autoCheckOnDomain) {
+    btns.push(autoCheckLanguageToolButton(autoCheckMenu, position, 2));
+    btns.push(disableLanguageToolButton(disableMenu, position, 3));
+  } else {
+    btns.push(disableLanguageToolButton(disableMenu, position, 2));
+  }
+
   textAreaWrapper(element, btns);
 }
 
@@ -270,8 +267,8 @@ function showMarkerOnEditor(focusElement) {
 
 // detect on window resize, scroll
 let ticking = false;
-function positionMarkerOnChangeSize() {
-  if (!ticking) {
+function positionMarkerOnChangeSize(forceRender = false) {
+  if (!ticking || forceRender) {
     window.requestAnimationFrame(() => {
       removeAllButtons();
       if (!disableOnDomain && isShowOnViewPort(document.activeElement)) {
@@ -283,8 +280,231 @@ function positionMarkerOnChangeSize() {
   ticking = true;
 }
 
+function showMatchedResultOnMarker(result) {
+  if (result && result.matches && result.matches.length > 0) {
+    const language = DOMPurify.sanitize(result.language.name);
+    const languageCode = DOMPurify.sanitize(result.language.code);
+    const shortLanguageCode = getShortCode(languageCode);
+    lastCheckResult = Object.assign({}, lastCheckResult, { result });
+    let matchesCount = 0;
+    let matches = [];
+    const uniquePositionMatches = [];
+    let prevErrStart = -1;
+    let prevErrLen = -1;
+    for (let i = result.matches.length-1; i >= 0; i--) {
+        const m = result.matches[i];
+        const errStart = parseInt(m.offset);
+        const errLen = parseInt(m.length);
+        if (errStart != prevErrStart || errLen != prevErrLen) {
+            uniquePositionMatches.push(m);
+            prevErrStart = errStart;
+            prevErrLen = errLen;
+        }
+    }
+    uniquePositionMatches.reverse();
+    matches = uniquePositionMatches;
+    const ignoredRuleCounts = {};
+    const ruleIdToDesc = {};
+    Tools.getStorage().get(
+    {
+      ignoredRules: [],
+      dictionary: []
+    },
+    items => {
+      const { dictionary, ignoredRules } = items;
+      for (let m of matches) {
+          // these values come from the server, make sure they are ints:
+          const errStart = parseInt(m.context.offset);
+          const errLen = parseInt(m.length);
+          // these string values come from the server and need to be sanitized
+          // as they will be inserted with innerHTML:
+          const contextSanitized = DOMPurify.sanitize(m.context.text);
+          const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
+          const messageSanitized = DOMPurify.sanitize(m.message);
+          const descriptionSanitized = DOMPurify.sanitize(m.rule.description);
+          ruleIdToDesc[ruleIdSanitized] = descriptionSanitized;
+          const wordSanitized = contextSanitized.substr(errStart, errLen);
+          let ignoreError = false;
+          if (isSpellingError(m)) {
+              // Also accept uppercase versions of lowercase words in personal dict:
+              const knowToDict = dictionary.indexOf(wordSanitized) != -1;
+              if (knowToDict) {
+                  ignoreError = true;
+              } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
+                  ignoreError = dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) != -1;
+              }
+          } else {
+              ignoreError = ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
+          }
+          if (!ignoreError) {
+              matchesCount++;
+          }
+      }
+      totalErrorOnCheckText = matchesCount;
+      lastCheckResult = Object.assign({}, lastCheckResult, { total: matchesCount });
+      positionMarkerOnChangeSize(true);
+    });
+  } else {
+    totalErrorOnCheckText = 0;
+    lastCheckResult = Object.assign({}, lastCheckResult, { total: totalErrorOnCheckText, result: {}, text: '' });
+    positionMarkerOnChangeSize(true);
+  }
+}
+
+function markup2text({ markupList }) {
+  positionMarkerOnChangeSize();
+  let text = Markup.markupList2text(markupList);
+  if (ignoreQuotedLines) {
+      text = text.replace(/^>.*?\n/gm, function(match) {
+          return " ".repeat(match.length - 1) + "\n";
+      });
+  }
+  return text;
+}
+
+function checkTextApi(text) {
+  if (text === lastCheckResult.text) {
+    return Promise.resolve({ result: lastCheckResult.result });
+  }
+  lastCheckResult = Object.assign({}, lastCheckResult, { text, isProcess: true });
+  if (!autoCheckOnDomain || text.trim().length === 0) {
+    return Promise.resolve({ result: {} });
+  }
+  const url = "https://languagetoolplus.com/api/v2/check";
+  const data = `${apiCheckTextOptions}&text=${encodeURIComponent(text.trim())}`;
+  const request = new Request(url, {
+    method: "POST",
+    headers: new Headers({
+      "Content-Type": "application/x-www-form-urlencoded",
+    }),
+    body: data
+  });
+  let animation;
+  if (Tools.isFirefox()) {
+    setTimeout(() => {
+      // Refer to https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Content_scripts
+      // In Firefox: if you call window.eval(), it runs code in the context of the page.
+      window.eval(`document.querySelector('.${BTN_CLASS}').animate([
+        { transform: 'scale(1.25)' },
+        { transform: 'scale(0.75)' }
+      ], {
+        duration: 1000,
+        iterations: 10
+      });`);
+    },0);
+  } else {
+    setTimeout(() => {
+      if (document.querySelector(`.${BTN_CLASS}`)) {
+         animation = document.querySelector(`.${BTN_CLASS}`).animate([
+          { transform: 'scale(1.25)' },
+          { transform: 'scale(0.75)' }
+        ], {
+          duration: 1000,
+          iterations: 10
+        });
+      }
+    },0);
+  }
+
+  return fetch(request).then(response => {
+    if (animation) {
+      animation.cancel();
+    }
+    if (response.status >= 400) {
+      lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false, text: '', result: {}, total: -1 });
+      throw new Error("Bad response from server");
+    }
+    // ignore this reques if the text is change
+    lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
+    if (lastCheckResult.text !== text) {
+      totalErrorOnCheckText = -1;
+      return Promise.resolve({ result: {}, total: -1 });
+    }
+    return response.json();
+  }).catch(error => {
+    animation.cancel();
+    const pageUrl = window.location.href;
+    lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
+    Tools.track(pageUrl, `error on checkTextApi: ${error.message}`);
+  })
+}
+
+
+function getTextFromElement(element) {
+    const pageUrl = window.location.href;
+    if (element.tagName === "IFRAME") {
+        try {
+            if (element
+                && element.contentWindow
+                && element.contentWindow.document.getSelection()
+                && element.contentWindow.document.getSelection().toString() !== "") {
+                const text = element.contentWindow.document.getSelection().toString();
+                return ({ markupList: [{ text }], isEditableText: false });
+            }
+        } catch (err) {
+            Tools.track(pageUrl, `error on getTextFromElement for iframe: ${err.message}`);
+        }
+    }
+
+    const markupList = getMarkupListOfActiveElement(element);
+    return ({ markupList, isEditableText: true });
+}
+
+function elementMarkup(evt) {
+  totalErrorOnCheckText = -1;
+  lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, text: '', total: -1 });
+  positionMarkerOnChangeSize();
+  return getTextFromElement(evt.target);
+}
+
+function isSameText(prevObject, nextObject) {
+  return JSON.stringify(nextObject) === JSON.stringify(prevObject);
+}
+
+function observeEditorElement(element) {
+  /* global most */
+  const { fromEvent, fromPromise, merge } = most;
+  // Logs the current value of the searchInput, only after the user stops typing
+  let inputText;
+  if (element.tagName === 'IFRAME') {
+    inputText = fromEvent('input', element.contentWindow).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
+  } else {
+    inputText = fromEvent('input', element).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
+  }
+  // Empty results list if there is no text
+  const emptyResults = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length < 1).constant([]);
+  const results = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length > 1)
+    .debounce(BG_CHECK_TIME_OUT)
+    .map(markup2text)
+    .map(checkTextApi)
+    .map(fromPromise)
+    .switchLatest();
+  merge(results, emptyResults).observe(showMatchedResultOnMarker);
+}
+
 function bindClickEventOnElement(currentElement) {
   if (isEditorElement(currentElement)) {
+    totalErrorOnCheckText = -1;
+    if (autoCheckOnDomain) {
+      const text = markup2text(getTextFromElement(currentElement));
+      if (text !== lastCheckResult.text) {
+        if (text.length > 0) {
+          checkTextApi(text).then(result => {
+            if (result) {
+              showMatchedResultOnMarker(result);
+            }
+          });
+        }
+      } else {
+        showMatchedResultOnMarker(lastCheckResult.result);
+      }
+    }
+
+    if (!currentElement.getAttribute("lt-auto-check") && autoCheckOnDomain) {
+        observeEditorElement(currentElement);
+        currentElement.setAttribute("lt-auto-check", true);
+    }
+
     if (!currentElement.getAttribute("lt-bind-click")) {
       currentElement.addEventListener(
         "mouseup",
@@ -313,15 +533,22 @@ function bindClickEventOnElement(currentElement) {
 function allowToShowMarker(callback) {
   const currentUrl = window.location.href;
   disableOnDomain = Tools.doNotShowMarkerOnUrl(currentUrl);
+  Tools.prepareApiCheckTextParam(options => {
+      apiCheckTextOptions = options;
+  });
   if (!disableOnDomain) {
     Tools.getStorage().get(
       {
-        disabledDomains: []
+        disabledDomains: [],
+        autoCheckOnDomains: [],
+        ignoreQuotedLines: true,
       },
       items => {
         const { hostname } = new URL(currentUrl);
-        if (items.disabledDomains.indexOf(hostname) !== -1) {
-          disableOnDomain = true;
+        autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
+        disableOnDomain = items.disabledDomains.includes(hostname);
+        ignoreQuotedLines = items.ignoreQuotedLines;
+        if (disableOnDomain) {
           removeAllButtons();
         } else {
           callback();
@@ -330,7 +557,6 @@ function allowToShowMarker(callback) {
     );
   } else {
     removeAllButtons();
-    callback();
     activeElementHandler.disengage();
   }
 }
@@ -370,6 +596,7 @@ document.addEventListener(
     if (!disableOnDomain) {
       // use timeout for adjust html after redering DOM
       // try to reposition for some site which is rendering from JS (e.g: Upwork)
+      setActiveElement(focusElement);
       if (!renderTimeout) {
         renderTimeout = setTimeout(() => {
           showMarkerOnEditor(focusElement);

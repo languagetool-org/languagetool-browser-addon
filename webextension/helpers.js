@@ -26,12 +26,116 @@ function setActiveElement(el) {
   activeTextarea = el;
 }
 
+/**
+ * Check the element is display or hidden
+ * @param {DOMElement} el
+ * @return {bool}
+ */
+function isHiddenElement(el) {
+  const style = window.getComputedStyle(el);
+  return el.offsetParent === null || style.display === "none";
+}
+
+/**
+ * check element is on viewport or not
+ * @param {DOMElement} el
+ */
+function isShowOnViewPort(el) {
+  const bounds = el.getBoundingClientRect();
+  return bounds.top < window.innerHeight && bounds.bottom > 0;
+}
+
+/**
+ * Check the element is parent node
+ * @param {DOMElement} parent
+ * @param {DOMElement} child
+ * @return boolean
+ */
+function isDescendant(parent, child) {
+  if(child && parent) {
+    let node = child.parentNode;
+    while (node !== null) {
+      if (node === parent) {
+        return true;
+      }
+      node = node.parentNode;
+    }
+  }
+  return false;
+}
+
+/**
+ * Find the position of element base on window
+ * @param {DOMElement} el
+ * @return {object} position { top, left }
+ */
+function offset(el) {
+  const rect = el.getBoundingClientRect();
+  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
+}
+
+/**
+ * Check textarea or editor is allow spellcheck
+ * @param {DOMElement} element
+ */
+function isAllowSpellcheck(element) {
+  return (
+    element.getAttribute("spellcheck") === null ||
+    element.getAttribute("spellcheck") === "true"
+  );
+}
+
+/**
+ * True if that is textarea or html5 contentEditable element
+ * @param {DOMElement} focusElement
+ * @return {bool}
+ */
+function isEditorElement(focusElement) {
+  return (
+    focusElement &&
+    isAllowSpellcheck(focusElement) &&
+    (focusElement.tagName === "TEXTAREA" ||
+      focusElement.contentEditable !== "inherit" ||
+      (focusElement.tagName === "IFRAME" &&
+        (focusElement.className.indexOf("cke_wysiwyg_frame") !== -1 ||
+          focusElement.title.indexOf("Rich Text Area") !== -1)))
+  );
+}
+
+function suggestionClass(match) {
+    if (isSpellingError(match)) {
+        return 'hiddenSpellError';
+    } else if (isSuggestion(match)) {
+        return 'hiddenSuggestion';
+    } else {
+        return 'hiddenGrammarError';
+    }
+}
+
+function isSpellingError(match) {
+    const ruleId = match.rule.id;
+    return ruleId.indexOf("SPELLER_RULE") >= 0 ||
+           ruleId.indexOf("MORFOLOGIK_RULE") >= 0 ||
+           ruleId.indexOf("HUNSPELL") >= 0
+}
+
+function isSuggestion(match) {
+    const issueType = match.rule.issueType;
+    return issueType === 'style' ||
+           issueType === 'locale-violation' ||
+           issueType === 'register'
+}
+
+function getShortCode(languageCode) {
+    return languageCode.replace(/-.*/, "");
+}
+
 /** Automatically handle errors, only works for popup **/
-/*window.addEventListener('error', function(evt) {
+window.addEventListener('error', function(evt) {
 	const { error } = evt;
 	if (error) {
-		Tools.track("unknown", `error message: ${error.message}`, error.stack);
-	} else {
-		Tools.track("unknown", "unknown error event", JSON.stringify(evt));
+    Tools.track("unknown", `error message: ${error.message}`, error.stack);
 	}
-});*/
+});
