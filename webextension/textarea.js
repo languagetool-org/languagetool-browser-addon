@@ -370,7 +370,7 @@ function checkTextApi(text) {
   if (!autoCheckOnDomain || text.trim().length === 0) {
     return Promise.resolve({ result: {} });
   }
-  const url = "https://languagetoolplus.com/api/v2/check";
+  const url = "https://languagetool.org/api/v2/check";
   const data = `${apiCheckTextOptions}&text=${encodeURIComponent(text.trim())}`;
   const request = new Request(url, {
     method: "POST",
