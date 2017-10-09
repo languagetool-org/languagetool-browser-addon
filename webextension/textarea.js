@@ -414,7 +414,7 @@ function checkTextApi(text) {
       lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false, text: '', result: {}, total: -1 });
       throw new Error("Bad response from server");
     }
-    // ignore this reques if the text is change
+    // ignore this request if the text is changed
     lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
     if (lastCheckResult.text !== text) {
       totalErrorOnCheckText = -1;
@@ -422,7 +422,9 @@ function checkTextApi(text) {
     }
     return response.json();
   }).catch(error => {
-    animation.cancel();
+    if (animation) {
+      animation.cancel();
+    }
     const pageUrl = window.location.href;
     lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
     Tools.track(pageUrl, `error on checkTextApi: ${error.message}`);
