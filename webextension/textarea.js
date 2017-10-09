@@ -596,7 +596,7 @@ document.addEventListener(
     if (!disableOnDomain) {
       // use timeout for adjust html after redering DOM
       // try to reposition for some site which is rendering from JS (e.g: Upwork)
-      setActiveElement(focusElement);
+      //setActiveElement(focusElement);  --> when commented in, I get: SecurityError: Blocked a frame with origin "http://localhost" from accessing a cross-origin frame.
       if (!renderTimeout) {
         renderTimeout = setTimeout(() => {
           showMarkerOnEditor(focusElement);
