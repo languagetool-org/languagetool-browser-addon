@@ -155,7 +155,6 @@ function getMetaData(pageUrl) {
 }
 
 function getCheckResult(markupList, metaData, callback, errorCallback) {
-    console.warn('getCheckResult', markupList, metaData);
     Tools.getApiServerUrl(serverUrl => {
       let text = Markup.markupList2text(markupList);
       if (ignoreQuotedLines) {
@@ -173,7 +172,6 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
       const req = new XMLHttpRequest();
       req.timeout = 60 * 1000; // milliseconds
       const url = serverUrl + (serverUrl.endsWith("/") ? "check" : "/check");
-      console.warn('url', url);
       req.open('POST', url);
       req.onload = function() {
           let response = req.response;
@@ -185,11 +183,9 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
               errorCallback(chrome.i18n.getMessage("noValidResponseFromServer", [serverUrl, req.response, req.status]), "noValidResponseFromServer");
               return;
           }
-          console.warn('response', response);
           callback(response);
       };
-      req.onerror = function(evt) {
-          console.warn('error', evt);
+      req.onerror = function() {
           errorCallback(chrome.i18n.getMessage("networkError", serverUrl), "networkError");
       };
       req.ontimeout = function() {

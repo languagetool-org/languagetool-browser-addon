@@ -21,7 +21,9 @@
   "permissions": [
     "activeTab",
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "*://languagetool.org/*",
+    "*://languagetoolplus.com/*",
   ],
   "background": {
     "scripts": ["background.js"]
