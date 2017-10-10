@@ -23,7 +23,7 @@
     "storage",
     "contextMenus",
     "*://languagetool.org/*",
-    "*://languagetoolplus.com/*",
+    "*://languagetoolplus.com/*"
   ],
   "background": {
     "scripts": ["background.js"]
