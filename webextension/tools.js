@@ -36,45 +36,26 @@ class Tools {
     constructor() {
     }
 
-    static prepareApiCheckTextParam(callback) {
+    static getApiServerUrl(callback) {
         const storage = Tools.getStorage();
         storage.get({
-            motherTongue: '',
-            enVariant: "en-US",
-            deVariant: "de-DE",
-            ptVariant: "pt-PT",
-            caVariant: "ca-ES",
+            apiServerUrl: 'https://languagetool.org/api/v2',
+            havePremiumAccount: false
         }, function(items) {
-            let apiCheckTextOptions = `disabledRules=WHITESPACE_RULE&language=auto`;
-            if (items.motherTongue) {
-              apiCheckTextOptions += `&motherTongue=${items.motherTongue}`;
+            let serverUrl = items.apiServerUrl;
+            if (serverUrl === 'https://languagetool.org:8081/') {
+                // This is migration code - users of the old version might have
+                // the old URL of the v1 API in their settings, force them to use
+                // the v2 JSON API, as this is what this extension supports now:
+                //console.log("Replacing old serverUrl " + serverUrl + " with " + defaultServerUrl);
+                // -> http://stackoverflow.com/questions/12229544/what-can-cause-a-chrome-browser-extension-to-crash
+                serverUrl = 'https://languagetool.org/api/v2';
             }
-            let userAgent = "webextension";
-            if (Tools.isFirefox()) {
-                userAgent += "-firefox";
-            } else if (Tools.isChrome()) {
-                userAgent += "-chrome";
-            } else {
-                userAgent += "-unknown";
+            if (items.havePremiumAccount) {
+                serverUrl = 'https://languagetoolplus.com/api/v2';
             }
-            apiCheckTextOptions += `&userAgent=${userAgent}`;
-            const preferredVariants = [];
-            if (items.enVariant) {
-                preferredVariants.push(items.enVariant);
-            }
-            if (items.deVariant) {
-                preferredVariants.push(items.deVariant);
-            }
-            if (items.ptVariant) {
-                preferredVariants.push(items.ptVariant);
-            }
-            if (items.caVariant) {
-                preferredVariants.push(items.caVariant);
-            }
-            if (preferredVariants.length > 0) {
-                apiCheckTextOptions += "&preferredVariants=" + preferredVariants;
-            }
-            callback(apiCheckTextOptions);
+
+            callback(serverUrl);
         });
     }
 

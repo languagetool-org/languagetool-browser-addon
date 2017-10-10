@@ -57,7 +57,7 @@ function closePopup() {
 
 function checkText(callback, request) {
     lastUseDate = new Date().getTime();
-    const metaData = getMetaData(request);
+    const metaData = getMetaData(request.pageUrl);
     if (document.activeElement.tagName === "IFRAME") {
         // this case happens e.g. in roundcube when selecting text in an email one is reading:
         try {
@@ -113,23 +113,6 @@ function checkText(callback, request) {
             }
         }
     }
-}
-
-function getMetaData(request) {
-    const metaData = {};
-    if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube (tested only with 1.0.1)
-        metaData['EmailToAddress'] = cleanEMail(document.getElementById("_to").value);
-    }
-    if (request.pageUrl.indexOf("://mail.google.com")) {  // GMail
-        const elems = document.getElementsByName("to");
-        for (let obj of elems) {
-            if (obj.nodeName === 'INPUT') {
-                metaData['EmailToAddress'] = cleanEMail(obj.value);
-                break;
-            }
-        }
-    }
-    return metaData;
 }
 
 function cleanEMail(email) {
