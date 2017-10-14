@@ -43,7 +43,7 @@
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Rapporteer bugs op https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Rapporteer s.v.p. bugs op https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -52,6 +52,14 @@
   "atd": {
     "description": "automatically added by injectTranslation.py",
     "message": "Bepaal taal automatisch"
+  },
+  "autoCheckForThisDomainTitle": {
+    "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
+    "message": "Controleer automatisch tekst voor dit domein"
+  },
+  "autoCheckOnDomainsDesc": {
+    "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
+    "message": "Controleer automatisch tekst voor deze domeinen (een domein per regel):"
   },
   "be": {
     "description": "automatically added by injectTranslation.py",
@@ -104,6 +112,10 @@
         "example": "Network error (https://languagetool.org:8081/)"
       }
     }
+  },
+  "couldNotLoginAtLTPlus": {
+    "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
+    "message": "Kon niet inloggen bij languagetoolplus.com: bezoek s.v.p. de optiedialoog van deze add-on en ga na of de gebruikersnaam en het wachtwoord correct zijn."
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -203,13 +215,33 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Perzisch"
   },
+  "foundAErrorOnCheckText": {
+    "description": "Show total errors on hover on maker icon",
+    "message": "Gevonden: $totalErrorOnCheckText$ fout, toon details",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "foundErrorsOnCheckText": {
+    "description": "Show total errors on hover on maker icon",
+    "message": "Gevonden: $totalErrorOnCheckText$ fouten, toon details",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
   "fr": {
     "description": "automatically added by injectTranslation.py",
     "message": "Frans"
   },
   "freshInstallReload": {
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
-    "message": "Als je zonet deze extensie hebt geïnstalleerd of ge(re)activeerd, ververs eerst het tabblad waarin je de tekst wil controleren."
+    "message": "Als je zonet deze extensie hebt geïnstalleerd of ge(re)activeerd, ververs s.v.p. eerst het tabblad waarin je de tekst wil controleren."
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
@@ -221,7 +253,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Excuses, Google Docs website wordt niet ondersteund door deze extensie. Installeer <a target='_blank' href='$url$'>deze extensie</a> die geoptimaliseerd is voor Google Docs in plaats Gebruik na installatie het menu 'Add-on' in Google Docs voor toegang tot deze extensie.",
+    "message": "Excuses, Google Docs website wordt niet ondersteund door deze extensie. Installeer s.v.p. <a target='_blank' href='$url$'>deze extensie</a> die geoptimaliseerd is voor Google Docs in plaats Gebruik na installatie het menu 'Add-on' in Google Docs voor toegang tot deze extensie.",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -230,8 +262,8 @@
     }
   },
   "havePremiumAccountDesc": {
-    "description": "Options dialog: checkbox for premium access, will enable username/password field",
-    "message": "Gebruik mijn account bij <a href='$url$'>languagetoolplus.com</a>:",
+    "description": "Options dialog: checkbox for premium access",
+    "message": "Gebruikt mijn account bij <a href='$url$'>languagetoolplus.com</a>",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -303,6 +335,10 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Nederlands"
   },
+  "noErrorOnCheckText": {
+    "description": "Show total error on hover on maker icon",
+    "message": "Geen fout"
+  },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
     "message": "Geen fouten gevonden"
@@ -331,7 +367,7 @@
   },
   "noTextFoundDetails": {
     "description": "More detailed error message shown when no text was found",
-    "message": "Het lijkt erop dat je je niet in een invoerveld begeeft. Als je een online officepakket gebruikt zou het kunnen dat deze extensie daar niet werkt. Ga na of online office met add-ons werkt met die LanguageTool ondersteunen."
+    "message": "Het lijkt erop dat je je niet in een invoerveld begeeft. Als je een online officepakket gebruikt zou het kunnen dat deze extensie daar niet werkt. Ga s.v.p. na of online office met add-ons werkt met die LanguageTool ondersteunen."
   },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",
@@ -361,11 +397,11 @@
   },
   "placeCursor1": {
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
-    "message": "Plaats de cursor in het invoerveld of selecteer tekst (geen actief element in iframe gevonden)."
+    "message": "Plaats s.v.p. de cursor in het invoerveld of selecteer tekst (geen actief element in iframe gevonden)."
   },
   "placeCursor2": {
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
-    "message": "Plaats de cursor in een invoerveld of selecteer tejst (actief element: $elem$).",
+    "message": "Plaats s.v.p. de cursor in een invoerveld of selecteer tejst (actief element: $elem$).",
     "placeholders": {
       "elem": {
         "content": "$1",
@@ -375,7 +411,7 @@
   },
   "placeCursor3": {
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
-    "message": "Plaats de cursor in een invoerveld of selecteer tekst (geen actief element gevonden)."
+    "message": "Plaats s.v.p. de cursor in een invoerveld of selecteer tekst (geen actief element gevonden)."
   },
   "privacyNoteForDefaultServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
@@ -393,13 +429,17 @@
   },
   "privacyNoteForOtherServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
-    "message": "Deze extension controleert je tekst door het te versturen naar $serverUrl$. Om weer de standaardserver te gebruiken, bezoek de optiespagina van de extensie.",
+    "message": "Deze extension controleert je tekst door het te versturen naar $serverUrl$. Om weer de standaardserver te gebruiken, bezoek s.v.p. de optiespagina van de extensie.",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
         "example": "http://localhost:8081/"
       }
     }
+  },
+  "privacyPolicy": {
+    "description": "Options dialog: Link to privacy policy",
+    "message": "Privacybeleid"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",
@@ -533,7 +573,7 @@
   },
   "timeoutError": {
     "description": "Error message shown if API server doesn't respond timely",
-    "message": "Time-out van server – probeer het laten nog eens ($serverUrl$)",
+    "message": "Time-out van server – probeer het s.v.p. laten nog eens ($serverUrl$)",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -548,6 +588,10 @@
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
     "message": "Controleer de huidige selectie\nof invoerveld met LanguageTool"
+  },
+  "turnOffAutoCheckIcon": {
+    "description": "Turn off auto check icon for a domain",
+    "message": "Je hebt automatisch controleren tekst voor dit domein ingeschakeld, klik hier om het uit te schakelen."
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
