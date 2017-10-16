@@ -43,7 +43,7 @@
 }
 
 .lt-buttons:not(:first-child) {
-  opacity: 0;
+  visibility: hidden;
   -webkit-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
@@ -82,7 +82,7 @@
 }
 
 .lt-marker-container:hover .lt-buttons:not(:first-child) {
-  opacity: 1;
+  visibility: visible;
   -webkit-transform: none;
   -ms-transform: none;
   transform: none;
