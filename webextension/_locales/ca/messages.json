@@ -53,6 +53,14 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Detecta l'idioma automàticament"
   },
+  "autoCheckForThisDomainTitle": {
+    "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
+    "message": "Auto check text for this domain"
+  },
+  "autoCheckOnDomainsDesc": {
+    "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
+    "message": "Auto check text on these domains (one domain per line):"
+  },
   "be": {
     "description": "automatically added by injectTranslation.py",
     "message": "bielorús"
@@ -104,6 +112,10 @@
         "example": "Network error (https://languagetool.org:8081/)"
       }
     }
+  },
+  "couldNotLoginAtLTPlus": {
+    "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
+    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure username and password are correct"
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -203,6 +215,26 @@
     "description": "automatically added by injectTranslation.py",
     "message": "persa"
   },
+  "foundAErrorOnCheckText": {
+    "description": "Show total errors on hover on maker icon",
+    "message": "Found: $totalErrorOnCheckText$ error, view detail",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "foundErrorsOnCheckText": {
+    "description": "Show total errors on hover on maker icon",
+    "message": "Found: $totalErrorOnCheckText$ errors, view detail",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
   "fr": {
     "description": "automatically added by injectTranslation.py",
     "message": "francès"
@@ -230,8 +262,8 @@
     }
   },
   "havePremiumAccountDesc": {
-    "description": "Options dialog: checkbox for premium access, will enable username/password field",
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>:",
+    "description": "Options dialog: checkbox for premium access",
+    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -302,6 +334,10 @@
   "nl": {
     "description": "automatically added by injectTranslation.py",
     "message": "neerlandès"
+  },
+  "noErrorOnCheckText": {
+    "description": "Show total error on hover on maker icon",
+    "message": "No error"
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
@@ -400,6 +436,10 @@
         "example": "http://localhost:8081/"
       }
     }
+  },
+  "privacyPolicy": {
+    "description": "Options dialog: Link to privacy policy",
+    "message": "Privacy Policy"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",
@@ -548,6 +588,10 @@
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
     "message": "Revisa la selecció o el camp \neditable actual amb LanguageTool"
+  },
+  "turnOffAutoCheckIcon": {
+    "description": "Turn off auto check icon for a domain",
+    "message": "You've turned on auto check text for this domain, click here to turn off."
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",

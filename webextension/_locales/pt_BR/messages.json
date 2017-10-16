@@ -53,6 +53,14 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Detectar o idioma automaticamente"
   },
+  "autoCheckForThisDomainTitle": {
+    "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
+    "message": "Verificar o texto automaticamente nesse domínio"
+  },
+  "autoCheckOnDomainsDesc": {
+    "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
+    "message": "Verificar o texto automaticamente nesses domínios (um domínio por linha):"
+  },
   "be": {
     "description": "automatically added by injectTranslation.py",
     "message": "Bielorrusso"
@@ -104,6 +112,10 @@
         "example": "Network error (https://languagetool.org:8081/)"
       }
     }
+  },
+  "couldNotLoginAtLTPlus": {
+    "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
+    "message": "Não foi possível logar em languagetoolplus.com: favor verificar as opções de diálogo dessa extensão e certificar-se que o nome de usuário e senha estão corretos."
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -203,6 +215,26 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Persa"
   },
+  "foundAErrorOnCheckText": {
+    "description": "Show total errors on hover on maker icon",
+    "message": "Encontrado: $totalErrorOnCheckText$ erro, veja detalhes",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "foundErrorsOnCheckText": {
+    "description": "Show total errors on hover on maker icon",
+    "message": "Encontrado: $totalErrorOnCheckText$ erros, veja detalhes",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
   "fr": {
     "description": "automatically added by injectTranslation.py",
     "message": "Francês"
@@ -213,7 +245,7 @@
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
-    "message": "A page reload may also be necessary when the extension has just been updated in the background."
+    "message": "Pode ser necessário recarregar a página quando a extensão for atualizada em segundo plano."
   },
   "gl": {
     "description": "automatically added by injectTranslation.py",
@@ -230,8 +262,8 @@
     }
   },
   "havePremiumAccountDesc": {
-    "description": "Options dialog: checkbox for premium access, will enable username/password field",
-    "message": "Use minha conta em <a href='$url$'>languagetoolplus.com</a>:",
+    "description": "Options dialog: checkbox for premium access",
+    "message": "Use minha conta em <a href='$url$'>languagetoolplus.com</a>",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -302,6 +334,10 @@
   "nl": {
     "description": "automatically added by injectTranslation.py",
     "message": "Holandês"
+  },
+  "noErrorOnCheckText": {
+    "description": "Show total error on hover on maker icon",
+    "message": "Nenhum erro"
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
@@ -400,6 +436,10 @@
         "example": "http://localhost:8081/"
       }
     }
+  },
+  "privacyPolicy": {
+    "description": "Options dialog: Link to privacy policy",
+    "message": "Política de privacidade"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",
@@ -548,6 +588,10 @@
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
     "message": "Varificar a seleção atual\nou o campo de edição com o LanguageTool"
+  },
+  "turnOffAutoCheckIcon": {
+    "description": "Turn off auto check icon for a domain",
+    "message": "Você habilitou a verificação de texto automática nesse domínio, clique aqui para desabilitá-la."
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",

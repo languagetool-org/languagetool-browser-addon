@@ -53,6 +53,14 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Sprache automatisch erkennen"
   },
+  "autoCheckForThisDomainTitle": {
+    "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
+    "message": "Autom. Prüfung für diese Domain"
+  },
+  "autoCheckOnDomainsDesc": {
+    "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
+    "message": "Hier Text autom. prüfen (eine Domain pro Zeile):"
+  },
   "be": {
     "description": "automatically added by injectTranslation.py",
     "message": "Weißrussisch"
@@ -104,6 +112,10 @@
         "example": "Network error (https://languagetool.org:8081/)"
       }
     }
+  },
+  "couldNotLoginAtLTPlus": {
+    "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
+    "message": "Einloggen auf languagetool.com nicht möglich: bitte rufen Sie die Einstellungen dieses Add-ons auf und stellen Sie sicher, dass Username und Passwort korrekt sind."
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -203,6 +215,26 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Persisch"
   },
+  "foundAErrorOnCheckText": {
+    "description": "Show total errors on hover on maker icon",
+    "message": "$totalErrorOnCheckText$ Fehler gefunden, für Details klicken",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "foundErrorsOnCheckText": {
+    "description": "Show total errors on hover on maker icon",
+    "message": "$totalErrorOnCheckText$ Fehler gefunden, für Details klicken",
+    "placeholders": {
+      "totalErrorOnCheckText": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
   "fr": {
     "description": "automatically added by injectTranslation.py",
     "message": "Französisch"
@@ -230,7 +262,7 @@
     }
   },
   "havePremiumAccountDesc": {
-    "description": "Options dialog: checkbox for premium access, will enable username/password field",
+    "description": "Options dialog: checkbox for premium access",
     "message": "Meinen <a href='$url$'>languagetoolplus.com</a>-Account benutzen",
     "placeholders": {
       "url": {
@@ -302,6 +334,10 @@
   "nl": {
     "description": "automatically added by injectTranslation.py",
     "message": "Niederländisch"
+  },
+  "noErrorOnCheckText": {
+    "description": "Show total error on hover on maker icon",
+    "message": "Keine Fehler gefunden"
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
@@ -400,6 +436,10 @@
         "example": "http://localhost:8081/"
       }
     }
+  },
+  "privacyPolicy": {
+    "description": "Options dialog: Link to privacy policy",
+    "message": "Datenschutzerklärung"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",
@@ -548,6 +588,10 @@
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
     "message": "Markierten Text oder Text in Textfeld mit LanguageTool überprüfen"
+  },
+  "turnOffAutoCheckIcon": {
+    "description": "Turn off auto check icon for a domain",
+    "message": "Sie haben die automatische Prüfung für diese Domain aktiviert, klicken Sie hier, um die wieder zu deaktivieren."
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
