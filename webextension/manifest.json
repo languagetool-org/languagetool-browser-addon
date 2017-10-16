@@ -21,12 +21,10 @@
   "permissions": [
     "activeTab",
     "storage",
-    "contextMenus",
-    "*://languagetool.org/*",
-    "*://languagetoolplus.com/*"
+    "contextMenus"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js", "tools.js", "common.js", "markup.js"]
   },
   "web_accessible_resources": ["images/*", "*.js", "vendors/*", "popup.html"],
   "content_scripts": [

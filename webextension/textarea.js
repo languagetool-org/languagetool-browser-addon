@@ -38,6 +38,7 @@ let autoCheckOnDomain = false;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false };
 const activeElementHandler = ally.event.activeElement();
+const port = chrome.runtime.connect({name: "LanguageTool"});
 
 function isGmail() {
   const currentUrl = window.location.href;
@@ -358,29 +359,36 @@ function checkTextFromMarkup({ markupList, metaData }) {
   if (!autoCheckOnDomain) {
     return Promise.resolve({ result: {} });
   }
+  port.postMessage({
+      action: "checkText",
+      data: { markupList, metaData }
+  });
+
   return new Promise((resolve, cancel) => {
     let animation;
-    getCheckResult(markupList, metaData,
-      (response) => {
+    port.onMessage.addListener((msg) => {
+      if (msg.sucess) {
         if (animation) {
           animation.cancel();
         }
-        // ignore this request if the text is changed
         lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
         if (!isSameObject(markupList,lastCheckResult.markupList)) {
           totalErrorOnCheckText = -1;
           return resolve({ result: {}, total: -1 });
         }
-        return resolve(JSON.parse(response));
-      }, (errorMessage) => {
+        return resolve(msg.result);
+      } else {
         if (animation) {
           animation.cancel();
         }
+        const { errorMessage } = msg;
         const pageUrl = window.location.href;
         lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
         Tools.track(pageUrl, `error on checkTextFromMarkup: ${errorMessage}`);
         return cancel(errorMessage);
+      }
     });
+
     if (Tools.isFirefox()) {
       setTimeout(() => {
         // Refer to https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Content_scripts

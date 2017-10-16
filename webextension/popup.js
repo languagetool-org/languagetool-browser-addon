@@ -50,7 +50,6 @@ if (pageUrlPosition !== -1) {
 
 var testMode = false;
 var serverUrl = defaultServerUrl;
-var ignoreQuotedLines = true;
 var motherTongue = "";
 var preferredVariants = [];
 var manuallySelectedLanguage = "";
