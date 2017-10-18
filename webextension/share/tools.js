@@ -81,7 +81,7 @@ class Tools {
                             lastTrackingError[actionName].push(now);
                             lastTrackingError[actionName].splice(0,1);
                         } else {
-                            // console.warn(`LT add-on ingore tracking for ${actionName} - ${new Date(now)}`, lastTrackingError);
+                            // console.warn(`LT add-on ignore tracking for ${actionName} - ${new Date(now)}`, lastTrackingError);
                             return null; // break, ignore this action name
                         }
                     }

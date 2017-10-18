@@ -367,7 +367,7 @@ function checkTextFromMarkup({ markupList, metaData }) {
   return new Promise((resolve, cancel) => {
     let animation;
     port.onMessage.addListener((msg) => {
-      if (msg.sucess) {
+      if (msg.success) {
         if (animation) {
           animation.cancel();
         }

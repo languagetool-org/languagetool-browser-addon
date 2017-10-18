@@ -121,14 +121,14 @@ chrome.runtime.onConnect.addListener(function(port) {
       getCheckResult(markupList, metaData, response => {
         port.postMessage({
           action: 'checkText',
-          sucess: true,
+          success: true,
           result: JSON.parse(response)
         });
       }, (errorMessage) => {
         console.warn('found error', errorMessage);
         port.postMessage({
           action: 'checkText',
-          sucess: false,
+          success: false,
           errorMessage
         });
       })
