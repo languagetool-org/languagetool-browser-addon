@@ -114,7 +114,7 @@ function disableMenu(evt) {
 function autoCheckMenu(evt) {
   evt.preventDefault();
   autoCheckOnDomain = true;
-  document.querySelector('a.lt-auto-check-btn').style.display = "none";
+  document.querySelector(`.${AUTO_CHECK_BTN_CLASS}`).style.display = "none";
   Tools.getStorage().get(
     {
       autoCheckOnDomains: []
@@ -161,13 +161,13 @@ function styleRemindButton(btn, position, num) {
 }
 
 function remindLanguageToolButton(clickHandler, position, num) {
-  const btn = document.createElement("A");
+  const btn = document.createElement(BTN_CLASS, { is: "a" });
   if (autoCheckOnDomain) {
      if (totalErrorOnCheckText > 0) {
       btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
       const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
       btn.setAttribute("tooltip", tooltip);
-      btn.text = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
+      btn.innerText = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
     } else if (totalErrorOnCheckText === 0) {
       btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
       btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
@@ -189,7 +189,7 @@ function remindLanguageToolButton(clickHandler, position, num) {
 
 function disableLanguageToolButton(clickHandler, position, num) {
   const { top, left, offsetHeight, offsetWidth } = position;
-  const btn = document.createElement("A");
+  const btn = document.createElement(BTN_CLASS, { is: "a" });
   btn.onclick = clickHandler;
   btn.className = `${BTN_CLASS} ${DISABLE_BTN_CLASS}`;
   btn.setAttribute(
@@ -203,7 +203,7 @@ function disableLanguageToolButton(clickHandler, position, num) {
 
 function autoCheckLanguageToolButton(clickHandler, position, num) {
   const { top, left, offsetHeight, offsetWidth } = position;
-  const btn = document.createElement("A");
+  const btn = document.createElement(BTN_CLASS, { is: "a" });
   btn.onclick = clickHandler;
   btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
   btn.setAttribute(
@@ -216,7 +216,7 @@ function autoCheckLanguageToolButton(clickHandler, position, num) {
 }
 
 function textAreaWrapper(textElement, btnElements) {
-  const wrapper = document.createElement("div");
+  const wrapper = document.createElement(REMIND_WRAPPER_CLASS, { is: 'div' });
   wrapper.className = REMIND_WRAPPER_CLASS;
   wrapper.id = `textarea-wrapper-${textElement.name ||
     textElement.id}-${Date.now()}`;
