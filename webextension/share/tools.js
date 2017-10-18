@@ -99,7 +99,10 @@ class Tools {
                     uid = Tools.getRandomToken();
                     storage.set({uid: uid}, function() {});
                 }
-                const shortenedUrl = pageUrl ? pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1") : '';  // for privacy reasons, only log host
+                let shortenedUrl = pageUrl ? pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1") : '';  // for privacy reasons, only log host
+                if (shortenedUrl.indexOf("http:") !== 0 && shortenedUrl.indexOf("https:") !== 0) {
+                    shortenedUrl = "http://"  + shortenedUrl;  // Piwik needs URL, it will not log otherwise
+                }
                 const url = encodeURIComponent(shortenedUrl);
                 const manifest = chrome.runtime.getManifest();
                 const version = manifest && manifest.version ? manifest.version : "unknown";

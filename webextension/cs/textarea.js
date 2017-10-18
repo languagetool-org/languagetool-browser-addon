@@ -107,6 +107,7 @@ function disableMenu(evt) {
       Tools.getStorage().set({
         disabledDomains: [...new Set(items.disabledDomains)]
       });
+      Tools.track(hostname, "reminder deactivated");
     }
   );
 }
@@ -126,6 +127,7 @@ function autoCheckMenu(evt) {
       Tools.getStorage().set({
         autoCheckOnDomains: [...new Set(items.autoCheckOnDomains)]
       });
+      Tools.track(hostname, "auto-check activated");
     }
   );
 }
