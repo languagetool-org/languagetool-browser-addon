@@ -116,6 +116,27 @@ function autoCheckMenu(evt) {
   evt.preventDefault();
   autoCheckOnDomain = true;
   document.querySelector(`.${AUTO_CHECK_BTN_CLASS}`).style.display = "none";
+  const textAreaElement = activeElement();
+  if (textAreaElement) {
+    if (textAreaElement.setActive) {
+      textAreaElement.setActive();
+    } else {
+      textAreaElement.focus();
+    }
+    const { markupList, metaData } = getMarkupListFromElement(textAreaElement);
+    if (!isSameObject(markupList, lastCheckResult.markupList)) {
+      checkTextFromMarkup({ markupList, metaData }).then(result => {
+        if (result) {
+          showMatchedResultOnMarker(result);
+        }
+      }).catch(error => {
+        Tools.track(window.location.href, "auto-check error", error.message);
+      });
+    } else {
+      showMatchedResultOnMarker(lastCheckResult.result);
+    }
+  }
+
   Tools.getStorage().get(
     {
       autoCheckOnDomains: []
@@ -477,7 +498,6 @@ function bindClickEventOnElement(currentElement) {
             showMatchedResultOnMarker(result);
           }
         }).catch(error => {
-          console.warn('something went wrong', error);
           Tools.track(window.location.href, "auto-check error", error.message);
         });
       } else {
