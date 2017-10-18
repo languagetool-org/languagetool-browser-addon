@@ -384,9 +384,8 @@ function checkTextFromMarkup({ markupList, metaData }) {
           animation.cancel();
         }
         const { errorMessage } = msg;
-        const pageUrl = window.location.href;
         lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
-        Tools.track(pageUrl, `error on checkTextFromMarkup: ${errorMessage}`);
+        Tools.track(window.location.href, `error on checkTextFromMarkup: ${errorMessage}`);
         return cancel(errorMessage);
       }
     });
@@ -477,7 +476,10 @@ function bindClickEventOnElement(currentElement) {
           if (result) {
             showMatchedResultOnMarker(result);
           }
-        }).catch(error => { console.warn('something went wrong', error) });
+        }).catch(error => {
+          console.warn('something went wrong', error);
+          Tools.track(window.location.href, "auto-check error", error.message);
+        });
       } else {
         showMatchedResultOnMarker(lastCheckResult.result);
       }
