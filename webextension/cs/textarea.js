@@ -36,10 +36,9 @@ const BG_CHECK_TIME_OUT = 500; // 0.5 second
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
-let apiCheckTextOptions = '';
-let ignoreQuotedLines = true;
-let lastCheckResult = { text: '', result: {}, total: -1, isProcess: false };
+let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false };
 const activeElementHandler = ally.event.activeElement();
+const port = chrome.runtime.connect({name: "LanguageTool"});
 
 function isGmail() {
   const currentUrl = window.location.href;
@@ -307,11 +306,12 @@ function showMatchedResultOnMarker(result) {
     const ruleIdToDesc = {};
     Tools.getStorage().get(
     {
+      ignoreQuotedLines: false,
       ignoredRules: [],
       dictionary: []
     },
     items => {
-      const { dictionary, ignoredRules } = items;
+      const { dictionary, ignoredRules, ignoreQuotedLines } = items;
       for (let m of matches) {
           // these values come from the server, make sure they are ints:
           const errStart = parseInt(m.context.offset);
@@ -346,93 +346,79 @@ function showMatchedResultOnMarker(result) {
     });
   } else {
     totalErrorOnCheckText = 0;
-    lastCheckResult = Object.assign({}, lastCheckResult, { total: totalErrorOnCheckText, result: {}, text: '' });
+    lastCheckResult = Object.assign({}, lastCheckResult, { total: totalErrorOnCheckText, result: {}, markupList: [] });
     positionMarkerOnChangeSize(true);
   }
 }
 
-function markup2text({ markupList }) {
-  positionMarkerOnChangeSize();
-  let text = Markup.markupList2text(markupList);
-  if (ignoreQuotedLines) {
-      text = text.replace(/^>.*?\n/gm, function(match) {
-          return " ".repeat(match.length - 1) + "\n";
-      });
-  }
-  return text;
-}
-
-function checkTextApi(text) {
-  if (text === lastCheckResult.text) {
+function checkTextFromMarkup({ markupList, metaData }) {
+  if (isSameObject(markupList,lastCheckResult.markupList)) {
     return Promise.resolve({ result: lastCheckResult.result });
   }
-  lastCheckResult = Object.assign({}, lastCheckResult, { text, isProcess: true });
-  if (!autoCheckOnDomain || text.trim().length === 0) {
+  lastCheckResult = Object.assign({}, lastCheckResult, { markupList, isProcess: true });
+  if (!autoCheckOnDomain) {
     return Promise.resolve({ result: {} });
   }
-  const url = "https://languagetool.org/api/v2/check";
-  const data = `${apiCheckTextOptions}&text=${encodeURIComponent(text.trim())}`;
-  const request = new Request(url, {
-    method: "POST",
-    headers: new Headers({
-      "Content-Type": "application/x-www-form-urlencoded",
-    }),
-    body: data
+  port.postMessage({
+      action: "checkText",
+      data: { markupList, metaData }
   });
-  let animation;
-  if (Tools.isFirefox()) {
-    setTimeout(() => {
-      // Refer to https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Content_scripts
-      // In Firefox: if you call window.eval(), it runs code in the context of the page.
-      window.eval(`document.querySelector('.${BTN_CLASS}').animate([
-        { transform: 'scale(1.25)' },
-        { transform: 'scale(0.75)' }
-      ], {
-        duration: 1000,
-        iterations: 10
-      });`);
-    },0);
-  } else {
-    setTimeout(() => {
-      if (document.querySelector(`.${BTN_CLASS}`)) {
-         animation = document.querySelector(`.${BTN_CLASS}`).animate([
+
+  return new Promise((resolve, cancel) => {
+    let animation;
+    port.onMessage.addListener((msg) => {
+      if (msg.sucess) {
+        if (animation) {
+          animation.cancel();
+        }
+        lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
+        if (!isSameObject(markupList,lastCheckResult.markupList)) {
+          totalErrorOnCheckText = -1;
+          return resolve({ result: {}, total: -1 });
+        }
+        return resolve(msg.result);
+      } else {
+        if (animation) {
+          animation.cancel();
+        }
+        const { errorMessage } = msg;
+        const pageUrl = window.location.href;
+        lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
+        Tools.track(pageUrl, `error on checkTextFromMarkup: ${errorMessage}`);
+        return cancel(errorMessage);
+      }
+    });
+
+    if (Tools.isFirefox()) {
+      setTimeout(() => {
+        // Refer to https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Content_scripts
+        // In Firefox: if you call window.eval(), it runs code in the context of the page.
+        window.eval(`document.querySelector('.${BTN_CLASS}').animate([
           { transform: 'scale(1.25)' },
           { transform: 'scale(0.75)' }
         ], {
           duration: 1000,
           iterations: 10
-        });
-      }
-    },0);
-  }
-
-  return fetch(request).then(response => {
-    if (animation) {
-      animation.cancel();
+        });`);
+      },0);
+    } else {
+      setTimeout(() => {
+        if (document.querySelector(`.${BTN_CLASS}`)) {
+           animation = document.querySelector(`.${BTN_CLASS}`).animate([
+            { transform: 'scale(1.25)' },
+            { transform: 'scale(0.75)' }
+          ], {
+            duration: 1000,
+            iterations: 10
+          });
+        }
+      },0);
     }
-    if (response.status >= 400) {
-      lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false, text: '', result: {}, total: -1 });
-      throw new Error("Bad response from server");
-    }
-    // ignore this request if the text is changed
-    lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
-    if (lastCheckResult.text !== text) {
-      totalErrorOnCheckText = -1;
-      return Promise.resolve({ result: {}, total: -1 });
-    }
-    return response.json();
-  }).catch(error => {
-    if (animation) {
-      animation.cancel();
-    }
-    const pageUrl = window.location.href;
-    lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
-    Tools.track(pageUrl, `error on checkTextApi: ${error.message}`);
-  })
+  });
 }
 
 
-function getTextFromElement(element) {
+function getMarkupListFromElement(element) {
     const pageUrl = window.location.href;
     if (element.tagName === "IFRAME") {
         try {
@@ -441,26 +427,22 @@ function getTextFromElement(element) {
                 && element.contentWindow.document.getSelection()
                 && element.contentWindow.document.getSelection().toString() !== "") {
                 const text = element.contentWindow.document.getSelection().toString();
-                return ({ markupList: [{ text }], isEditableText: false });
+                return ({ markupList: [{ text }], isEditableText: false, metaData: getMetaData(pageUrl) });
             }
         } catch (err) {
-            Tools.track(pageUrl, `error on getTextFromElement for iframe: ${err.message}`);
+            Tools.track(pageUrl, `error on getMarkupListFromElement for iframe: ${err.message}`);
         }
     }
 
     const markupList = getMarkupListOfActiveElement(element);
-    return ({ markupList, isEditableText: true });
+    return ({ markupList, isEditableText: true, metaData: getMetaData(pageUrl) });
 }
 
 function elementMarkup(evt) {
   totalErrorOnCheckText = -1;
-  lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, text: '', total: -1 });
+  lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, markupList: [], total: -1 });
   positionMarkerOnChangeSize();
-  return getTextFromElement(evt.target);
-}
-
-function isSameText(prevObject, nextObject) {
-  return JSON.stringify(nextObject) === JSON.stringify(prevObject);
+  return getMarkupListFromElement(evt.target);
 }
 
 function observeEditorElement(element) {
@@ -469,16 +451,15 @@ function observeEditorElement(element) {
   // Logs the current value of the searchInput, only after the user stops typing
   let inputText;
   if (element.tagName === 'IFRAME') {
-    inputText = fromEvent('input', element.contentWindow).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
+    inputText = fromEvent('input', element.contentWindow).map(elementMarkup).skipRepeatsWith(isSameObject).multicast();
   } else {
-    inputText = fromEvent('input', element).map(elementMarkup).skipRepeatsWith(isSameText).multicast();
+    inputText = fromEvent('input', element).map(elementMarkup).skipRepeatsWith(isSameObject).multicast();
   }
   // Empty results list if there is no text
   const emptyResults = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length < 1).constant([]);
   const results = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length > 1)
     .debounce(BG_CHECK_TIME_OUT)
-    .map(markup2text)
-    .map(checkTextApi)
+    .map(checkTextFromMarkup)
     .map(fromPromise)
     .switchLatest();
   merge(results, emptyResults).observe(showMatchedResultOnMarker);
@@ -488,15 +469,13 @@ function bindClickEventOnElement(currentElement) {
   if (isEditorElement(currentElement)) {
     totalErrorOnCheckText = -1;
     if (autoCheckOnDomain) {
-      const text = markup2text(getTextFromElement(currentElement));
-      if (text !== lastCheckResult.text) {
-        if (text.length > 0) {
-          checkTextApi(text).then(result => {
-            if (result) {
-              showMatchedResultOnMarker(result);
-            }
-          });
-        }
+      const { markupList, metaData } = getMarkupListFromElement(currentElement);
+      if (!isSameObject(markupList, lastCheckResult.markupList)) {
+        checkTextFromMarkup({ markupList, metaData }).then(result => {
+          if (result) {
+            showMatchedResultOnMarker(result);
+          }
+        }).catch(error => { console.warn('something went wrong', error) });
       } else {
         showMatchedResultOnMarker(lastCheckResult.result);
       }
@@ -535,9 +514,6 @@ function bindClickEventOnElement(currentElement) {
 function allowToShowMarker(callback) {
   const currentUrl = window.location.href;
   disableOnDomain = Tools.doNotShowMarkerOnUrl(currentUrl);
-  Tools.prepareApiCheckTextParam(options => {
-      apiCheckTextOptions = options;
-  });
   if (!disableOnDomain) {
     Tools.getStorage().get(
       {

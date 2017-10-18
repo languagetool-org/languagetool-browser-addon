@@ -112,3 +112,26 @@ function handleMessage(request, sender, sendResponse) {
     }
   }
 }
+
+chrome.runtime.onConnect.addListener(function(port) {
+  console.assert(port.name == "LanguageTool");
+  port.onMessage.addListener((msg) => {
+    if (msg.action == "checkText") {
+      const { markupList, metaData  } = msg.data
+      getCheckResult(markupList, metaData, response => {
+        port.postMessage({
+          action: 'checkText',
+          sucess: true,
+          result: JSON.parse(response)
+        });
+      }, (errorMessage) => {
+        console.warn('found error', errorMessage);
+        port.postMessage({
+          action: 'checkText',
+          sucess: false,
+          errorMessage
+        });
+      })
+    }
+  });
+});

@@ -24,9 +24,9 @@
     "contextMenus"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["bs/background.js", "share/tools.js", "bs/common.js", "share/markup.js"]
   },
-  "web_accessible_resources": ["images/*", "*.js", "vendors/*", "popup.html"],
+  "web_accessible_resources": ["images/*", "**/*.js", "vendors/*", "popup.html"],
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*", "file:///*"],
@@ -36,11 +36,11 @@
         "vendors/ally.js",
         "vendors/most.js",
         "vendors/featherlight/featherlight.js",
-        "helpers.js",
-        "tools.js",
-        "contentscript.js",
-        "markup.js",
-        "textarea.js"
+        "share/helpers.js",
+        "share/tools.js",
+        "share/markup.js",
+        "cs/contentscript.js",
+        "cs/textarea.js"
       ],
       "css": [
         "vendors/featherlight/featherlight.css",
@@ -52,7 +52,7 @@
         "https://languagetool.org/*",
         "https://www.languagetool.org/*"
       ],
-      "js": ["contentscript-lt.js"]
+      "js": ["cs/contentscript-lt.js"]
     }
   ],
   "commands": {

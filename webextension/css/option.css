@@ -1,0 +1,27 @@
+ body {
+    font-family: sans-serif;
+    padding: 10px;
+}
+select {
+    width: 100%;
+}
+textarea {
+    width: 100%;
+    height: 60px;
+}
+#apiServerUrl { width: 250px; margin-top: 5px; margin-bottom: 5px; }
+#save { margin-top: 10px; }
+#quoteChar {
+    padding-left: 2px;
+    padding-right: 2px;
+    font-family: monospace;
+    background-color: #dddddd;
+}
+.expl {
+    color: #777777;
+    margin-left: 10px;
+}
+.error {
+    font-weight: bold;
+    color: darkred;
+}

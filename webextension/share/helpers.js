@@ -132,6 +132,27 @@ function getShortCode(languageCode) {
     return languageCode.replace(/-.*/, "");
 }
 
+function isSameObject(prevObject, nextObject) {
+  return JSON.stringify(nextObject) === JSON.stringify(prevObject);
+}
+
+function getMetaData(pageUrl) {
+    const metaData = {};
+    if (document.getElementById("_to") && document.getElementById("compose-subject")) {   // Roundcube (tested only with 1.0.1)
+        metaData['EmailToAddress'] = cleanEMail(document.getElementById("_to").value);
+    }
+    if (pageUrl.indexOf("://mail.google.com")) {  // GMail
+        const elems = document.getElementsByName("to");
+        for (let obj of elems) {
+            if (obj.nodeName === 'INPUT') {
+                metaData['EmailToAddress'] = cleanEMail(obj.value);
+                break;
+            }
+        }
+    }
+    return metaData;
+}
+
 /** Automatically handle errors, only works for popup **/
 window.addEventListener('error', function(evt) {
 	const { error } = evt;
