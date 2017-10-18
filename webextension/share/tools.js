@@ -81,7 +81,7 @@ class Tools {
                             lastTrackingError[actionName].push(now);
                             lastTrackingError[actionName].splice(0,1);
                         } else {
-                            // console.warn(`LT add-on ingore tracking for ${actionName} - ${new Date(now)}`, lastTrackingError);
+                            // console.warn(`LT add-on ignore tracking for ${actionName} - ${new Date(now)}`, lastTrackingError);
                             return null; // break, ignore this action name
                         }
                     }
@@ -99,7 +99,10 @@ class Tools {
                     uid = Tools.getRandomToken();
                     storage.set({uid: uid}, function() {});
                 }
-                const shortenedUrl = pageUrl ? pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1") : '';  // for privacy reasons, only log host
+                let shortenedUrl = pageUrl ? pageUrl.replace(/^(.*?:\/\/.+?)[?\/].*/, "$1") : '';  // for privacy reasons, only log host
+                if (shortenedUrl.indexOf("http:") !== 0 && shortenedUrl.indexOf("https:") !== 0) {
+                    shortenedUrl = "http://"  + shortenedUrl;  // Piwik needs URL, it will not log otherwise
+                }
                 const url = encodeURIComponent(shortenedUrl);
                 const manifest = chrome.runtime.getManifest();
                 const version = manifest && manifest.version ? manifest.version : "unknown";
@@ -159,7 +162,7 @@ class Tools {
     // NOTE: the number of logs that can be sent is limited by the same limit
     // that limits the check requests per minute, so prefer Tools.track()
     static logOnServer(message, serverUrl = 'https://languagetool.org/api/v2') {
-        if (serverUrl.indexOf("https://languagetool.org") == -1) {
+        if (serverUrl.indexOf("https://languagetool.org") === -1) {
             // these logging messages are only useful for the LT dev team
             // to improve the add-on, so don't send anywhere else:
             return;

@@ -107,6 +107,7 @@ function disableMenu(evt) {
       Tools.getStorage().set({
         disabledDomains: [...new Set(items.disabledDomains)]
       });
+      Tools.track(hostname, "reminder deactivated");
     }
   );
 }
@@ -126,6 +127,7 @@ function autoCheckMenu(evt) {
       Tools.getStorage().set({
         autoCheckOnDomains: [...new Set(items.autoCheckOnDomains)]
       });
+      Tools.track(hostname, "auto-check activated");
     }
   );
 }
@@ -367,7 +369,7 @@ function checkTextFromMarkup({ markupList, metaData }) {
   return new Promise((resolve, cancel) => {
     let animation;
     port.onMessage.addListener((msg) => {
-      if (msg.sucess) {
+      if (msg.success) {
         if (animation) {
           animation.cancel();
         }
@@ -382,9 +384,8 @@ function checkTextFromMarkup({ markupList, metaData }) {
           animation.cancel();
         }
         const { errorMessage } = msg;
-        const pageUrl = window.location.href;
         lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
-        Tools.track(pageUrl, `error on checkTextFromMarkup: ${errorMessage}`);
+        Tools.track(window.location.href, `error on checkTextFromMarkup: ${errorMessage}`);
         return cancel(errorMessage);
       }
     });
@@ -475,7 +476,10 @@ function bindClickEventOnElement(currentElement) {
           if (result) {
             showMatchedResultOnMarker(result);
           }
-        }).catch(error => { console.warn('something went wrong', error) });
+        }).catch(error => {
+          console.warn('something went wrong', error);
+          Tools.track(window.location.href, "auto-check error", error.message);
+        });
       } else {
         showMatchedResultOnMarker(lastCheckResult.result);
       }
