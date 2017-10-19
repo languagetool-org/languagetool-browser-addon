@@ -36,7 +36,7 @@ const BG_CHECK_TIME_OUT = 500; // 0.5 second
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
-let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false };
+let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false, success: true };
 const activeElementHandler = ally.event.activeElement();
 const port = chrome.runtime.connect({name: "LanguageTool"});
 
@@ -187,17 +187,23 @@ function remindLanguageToolButton(clickHandler, position, num) {
       btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
       btn.innerHTML = `<div class="lt-sk-three-bounce"><div class="lt-sk-child lt-sk-bounce1"></div><div class="lt-sk-child lt-sk-bounce2"></div><div class="lt-sk-child lt-sk-bounce3"></div></div>`;
      } else {
-      if (totalErrorOnCheckText > 0) {
-        btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
-        const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
-        btn.setAttribute("tooltip", tooltip);
-        btn.innerText = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
-      } else if (totalErrorOnCheckText === 0) {
-        btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
-        btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
+      if (lastCheckResult.success) {
+        if (totalErrorOnCheckText > 0) {
+          btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+          const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
+          btn.setAttribute("tooltip", tooltip);
+          btn.innerText = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
+        } else if (totalErrorOnCheckText === 0) {
+          btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
+          btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
+        } else {
+          btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
+          btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+        }
       } else {
-        btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
-        btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+        btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+        btn.setAttribute("tooltip", lastCheckResult.errorMessage);
+        btn.innerText = "E";
       }
      }
   } else {
@@ -387,7 +393,7 @@ function checkTextFromMarkup({ markupList, metaData }) {
       action: "checkText",
       data: { markupList, metaData }
   });
-  return new Promise((resolve, cancel) => {
+  return new Promise((resolve) => {
     port.onMessage.addListener((msg) => {
       if (msg.success) {
         if (!isSameObject(markupList,lastCheckResult.markupList)) {
@@ -395,13 +401,13 @@ function checkTextFromMarkup({ markupList, metaData }) {
           lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, total: -1, isProcess: false  });
           return resolve({ result: {}, total: -1 });
         }
-        lastCheckResult = Object.assign({}, lastCheckResult, { result: msg.result, isProcess: false });
+        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, isProcess: false });
         return resolve(msg.result);
       } else {
         const { errorMessage } = msg;
-        lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, total: -1, isProcess: false  });
+        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, result: {}, total: -1, isProcess: false });
         Tools.track(window.location.href, `error on checkTextFromMarkup: ${errorMessage}`);
-        return cancel(errorMessage);
+        return resolve({});
       }
     });
   });
