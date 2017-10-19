@@ -382,6 +382,7 @@ function showMatchedResultOnMarker(result) {
 }
 
 function checkTextFromMarkup({ markupList, metaData }) {
+  console.trace('checkTextFromMarkup', markupList);
   if (isSameObject(markupList,lastCheckResult.markupList)) {
     return Promise.resolve({ result: lastCheckResult.result });
   }
@@ -466,7 +467,7 @@ function observeEditorElement(element) {
 function bindClickEventOnElement(currentElement) {
   if (isEditorElement(currentElement)) {
     totalErrorOnCheckText = -1;
-    if (autoCheckOnDomain) {
+    if (autoCheckOnDomain && !lastCheckResult.isProcess) {
       const { markupList, metaData } = getMarkupListFromElement(currentElement);
       if (!isSameObject(markupList, lastCheckResult.markupList)) {
         checkTextFromMarkup({ markupList, metaData }).then(result => {
