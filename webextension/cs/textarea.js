@@ -129,6 +129,7 @@ function autoCheckMenu(evt) {
         showMatchedResultOnMarker(result);
       }
     }).catch(error => {
+      console.error(error);
       Tools.track(window.location.href, "auto-check error", error.message);
     });
   }
@@ -426,6 +427,7 @@ function getMarkupListFromElement(element) {
                 return ({ markupList: [{ text }], isEditableText: false, metaData: getMetaData(pageUrl) });
             }
         } catch (err) {
+            console.error(err);
             Tools.track(pageUrl, `error on getMarkupListFromElement for iframe: ${err.message}`);
         }
     }
@@ -472,6 +474,7 @@ function bindClickEventOnElement(currentElement) {
             showMatchedResultOnMarker(result);
           }
         }).catch(error => {
+          console.error(error);
           Tools.track(window.location.href, "auto-check error", error.message);
         });
       } else {
