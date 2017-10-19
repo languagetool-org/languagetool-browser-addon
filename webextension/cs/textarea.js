@@ -185,7 +185,7 @@ function remindLanguageToolButton(clickHandler, position, num) {
      if (!lastCheckResult.isTyping && lastCheckResult.isProcess) { // show loading on calling check api
       btn.className = `${BTN_CLASS} ${LOADING_BTN_CLASS}`;
       btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
-      btn.innerHTML = `<div class="sk-three-bounce"><div class="sk-child sk-bounce1"></div><div class="sk-child sk-bounce2"></div><div class="sk-child sk-bounce3"></div></div>`;
+      btn.innerHTML = `<div class="lt-sk-three-bounce"><div class="lt-sk-child lt-sk-bounce1"></div><div class="lt-sk-child lt-sk-bounce2"></div><div class="lt-sk-child lt-sk-bounce3"></div></div>`;
      } else {
       if (totalErrorOnCheckText > 0) {
         btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
@@ -401,7 +401,7 @@ function checkTextFromMarkup({ markupList, metaData }) {
         return resolve(msg.result);
       } else {
         const { errorMessage } = msg;
-        lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
+        lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, total: -1, isProcess: false  });
         Tools.track(window.location.href, `error on checkTextFromMarkup: ${errorMessage}`);
         return cancel(errorMessage);
       }
@@ -541,26 +541,26 @@ function injectLoadingStyle() {
   style.type = 'text/css';
   style.innerHTML = `
     /* loading */
-    .sk-three-bounce {
+    .lt-sk-three-bounce {
       margin: 2px auto;
-      width: 40px;
+      width: 100%;
       text-align: center; }
-      .sk-three-bounce .sk-child {
-        width: 10px;
-        height: 10px;
+      .lt-sk-three-bounce .lt-sk-child {
+        width: 5px;
+        height: 5px;
         background-color: #333;
         border-radius: 100%;
         display: inline-block;
-        -webkit-animation: sk-three-bounce 1.4s ease-in-out 0s infinite both;
-                animation: sk-three-bounce 1.4s ease-in-out 0s infinite both; }
-      .sk-three-bounce .sk-bounce1 {
+        -webkit-animation: lt-sk-three-bounce 1.4s ease-in-out 0s infinite both;
+                animation: lt-sk-three-bounce 1.4s ease-in-out 0s infinite both; }
+      .lt-sk-three-bounce .lt-sk-bounce1 {
         -webkit-animation-delay: -0.32s;
                 animation-delay: -0.32s; }
-      .sk-three-bounce .sk-bounce2 {
+      .lt-sk-three-bounce .lt-sk-bounce2 {
         -webkit-animation-delay: -0.16s;
                 animation-delay: -0.16s; }
 
-    @-webkit-keyframes sk-three-bounce {
+    @-webkit-keyframes lt-sk-three-bounce {
       0%, 80%, 100% {
         -webkit-transform: scale(0);
                 transform: scale(0); }
@@ -568,7 +568,7 @@ function injectLoadingStyle() {
         -webkit-transform: scale(1);
                 transform: scale(1); } }
 
-    @keyframes sk-three-bounce {
+    @keyframes lt-sk-three-bounce {
       0%, 80%, 100% {
         -webkit-transform: scale(0);
                 transform: scale(0); }
