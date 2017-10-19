@@ -382,7 +382,6 @@ function showMatchedResultOnMarker(result) {
 }
 
 function checkTextFromMarkup({ markupList, metaData }) {
-  console.trace('checkTextFromMarkup', markupList);
   if (isSameObject(markupList,lastCheckResult.markupList)) {
     return Promise.resolve({ result: lastCheckResult.result });
   }
