@@ -36,7 +36,7 @@ const BG_CHECK_TIME_OUT = 500; // 0.5 second
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
-let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false };
+let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false, success: true };
 const activeElementHandler = ally.event.activeElement();
 const port = chrome.runtime.connect({name: "LanguageTool"});
 
@@ -116,6 +116,23 @@ function autoCheckMenu(evt) {
   evt.preventDefault();
   autoCheckOnDomain = true;
   document.querySelector(`.${AUTO_CHECK_BTN_CLASS}`).style.display = "none";
+  const textAreaElement = activeElement();
+  if (textAreaElement) {
+    if (textAreaElement.setActive) {
+      textAreaElement.setActive();
+    } else {
+      textAreaElement.focus();
+    }
+    const { markupList, metaData } = getMarkupListFromElement(textAreaElement);
+    checkTextFromMarkup({ markupList, metaData }).then(result => {
+      if (result) {
+        showMatchedResultOnMarker(result);
+      }
+    }).catch(error => {
+      Tools.track(window.location.href, "auto-check error", error.message);
+    });
+  }
+
   Tools.getStorage().get(
     {
       autoCheckOnDomains: []
@@ -165,19 +182,30 @@ function styleRemindButton(btn, position, num) {
 function remindLanguageToolButton(clickHandler, position, num) {
   const btn = document.createElement(BTN_CLASS, { is: "a" });
   if (autoCheckOnDomain) {
-     if (totalErrorOnCheckText > 0) {
-      btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
-      const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
-      btn.setAttribute("tooltip", tooltip);
-      btn.innerText = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
-    } else if (totalErrorOnCheckText === 0) {
-      btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
-      btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
-    } else {
+     if (!lastCheckResult.isTyping && lastCheckResult.isProcess) { // show loading on calling check api
       btn.className = `${BTN_CLASS} ${LOADING_BTN_CLASS}`;
       btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
-      btn.innerHTML = '<div style="width:100%;height:100%" class="lds-ellipsis"><div> <div></div></div><div> <div></div></div><div> <div></div></div><div> <div></div></div><div> <div></div></div></div>';
-    }
+      btn.innerHTML = `<div class="lt-sk-three-bounce"><div class="lt-sk-child lt-sk-bounce1"></div><div class="lt-sk-child lt-sk-bounce2"></div><div class="lt-sk-child lt-sk-bounce3"></div></div>`;
+     } else {
+      if (lastCheckResult.success) {
+        if (totalErrorOnCheckText > 0) {
+          btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+          const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
+          btn.setAttribute("tooltip", tooltip);
+          btn.innerText = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
+        } else if (totalErrorOnCheckText === 0) {
+          btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
+          btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
+        } else {
+          btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
+          btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+        }
+      } else {
+        btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+        btn.setAttribute("tooltip", lastCheckResult.errorMessage);
+        btn.innerText = "E";
+      }
+     }
   } else {
     btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
     btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
@@ -286,7 +314,6 @@ function showMatchedResultOnMarker(result) {
     const language = DOMPurify.sanitize(result.language.name);
     const languageCode = DOMPurify.sanitize(result.language.code);
     const shortLanguageCode = getShortCode(languageCode);
-    lastCheckResult = Object.assign({}, lastCheckResult, { result });
     let matchesCount = 0;
     let matches = [];
     const uniquePositionMatches = [];
@@ -348,7 +375,7 @@ function showMatchedResultOnMarker(result) {
     });
   } else {
     totalErrorOnCheckText = 0;
-    lastCheckResult = Object.assign({}, lastCheckResult, { total: totalErrorOnCheckText, result: {}, markupList: [] });
+    lastCheckResult = Object.assign({}, lastCheckResult, { total: 0, result: {}, markupList: [] });
     positionMarkerOnChangeSize(true);
   }
 }
@@ -357,7 +384,8 @@ function checkTextFromMarkup({ markupList, metaData }) {
   if (isSameObject(markupList,lastCheckResult.markupList)) {
     return Promise.resolve({ result: lastCheckResult.result });
   }
-  lastCheckResult = Object.assign({}, lastCheckResult, { markupList, isProcess: true });
+  lastCheckResult = Object.assign({}, lastCheckResult, { markupList, isProcess: true, isTyping: false });
+  positionMarkerOnChangeSize(true); // force render maker for show loading
   if (!autoCheckOnDomain) {
     return Promise.resolve({ result: {} });
   }
@@ -365,56 +393,23 @@ function checkTextFromMarkup({ markupList, metaData }) {
       action: "checkText",
       data: { markupList, metaData }
   });
-
-  return new Promise((resolve, cancel) => {
-    let animation;
+  return new Promise((resolve) => {
     port.onMessage.addListener((msg) => {
       if (msg.success) {
-        if (animation) {
-          animation.cancel();
-        }
-        lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
         if (!isSameObject(markupList,lastCheckResult.markupList)) {
           totalErrorOnCheckText = -1;
+          lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, total: -1, isProcess: false  });
           return resolve({ result: {}, total: -1 });
         }
+        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, isProcess: false });
         return resolve(msg.result);
       } else {
-        if (animation) {
-          animation.cancel();
-        }
         const { errorMessage } = msg;
-        lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
+        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, result: {}, total: -1, isProcess: false });
         Tools.track(window.location.href, `error on checkTextFromMarkup: ${errorMessage}`);
-        return cancel(errorMessage);
+        return resolve({});
       }
     });
-
-    if (Tools.isFirefox()) {
-      setTimeout(() => {
-        // Refer to https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Content_scripts
-        // In Firefox: if you call window.eval(), it runs code in the context of the page.
-        window.eval(`document.querySelector('.${BTN_CLASS}').animate([
-          { transform: 'scale(1.25)' },
-          { transform: 'scale(0.75)' }
-        ], {
-          duration: 1000,
-          iterations: 10
-        });`);
-      },0);
-    } else {
-      setTimeout(() => {
-        if (document.querySelector(`.${BTN_CLASS}`)) {
-           animation = document.querySelector(`.${BTN_CLASS}`).animate([
-            { transform: 'scale(1.25)' },
-            { transform: 'scale(0.75)' }
-          ], {
-            duration: 1000,
-            iterations: 10
-          });
-        }
-      },0);
-    }
   });
 }
 
@@ -441,7 +436,7 @@ function getMarkupListFromElement(element) {
 
 function elementMarkup(evt) {
   totalErrorOnCheckText = -1;
-  lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, markupList: [], total: -1 });
+  lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, markupList: [], total: -1, isProcess: false, isTyping: true });
   positionMarkerOnChangeSize();
   return getMarkupListFromElement(evt.target);
 }
@@ -477,7 +472,6 @@ function bindClickEventOnElement(currentElement) {
             showMatchedResultOnMarker(result);
           }
         }).catch(error => {
-          console.warn('something went wrong', error);
           Tools.track(window.location.href, "auto-check error", error.message);
         });
       } else {
@@ -546,10 +540,54 @@ function allowToShowMarker(callback) {
 window.addEventListener("resize", positionMarkerOnChangeSize);
 window.addEventListener("scroll", positionMarkerOnChangeSize);
 
+function injectLoadingStyle() {
+  const style = document.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = `
+    /* loading */
+    .lt-sk-three-bounce {
+      margin: 2px auto;
+      width: 100%;
+      text-align: center; }
+      .lt-sk-three-bounce .lt-sk-child {
+        width: 5px;
+        height: 5px;
+        background-color: #333;
+        border-radius: 100%;
+        display: inline-block;
+        -webkit-animation: lt-sk-three-bounce 1.4s ease-in-out 0s infinite both;
+                animation: lt-sk-three-bounce 1.4s ease-in-out 0s infinite both; }
+      .lt-sk-three-bounce .lt-sk-bounce1 {
+        -webkit-animation-delay: -0.32s;
+                animation-delay: -0.32s; }
+      .lt-sk-three-bounce .lt-sk-bounce2 {
+        -webkit-animation-delay: -0.16s;
+                animation-delay: -0.16s; }
+
+    @-webkit-keyframes lt-sk-three-bounce {
+      0%, 80%, 100% {
+        -webkit-transform: scale(0);
+                transform: scale(0); }
+      40% {
+        -webkit-transform: scale(1);
+                transform: scale(1); } }
+
+    @keyframes lt-sk-three-bounce {
+      0%, 80%, 100% {
+        -webkit-transform: scale(0);
+                transform: scale(0); }
+      40% {
+        -webkit-transform: scale(1);
+                transform: scale(1); } }
+  `;
+  document.body.appendChild(style);
+}
+
 if (
   document.readyState === "complete" ||
   (document.readyState !== "loading" && !document.documentElement.doScroll)
 ) {
+  injectLoadingStyle();
   allowToShowMarker(() => {
     const currentElement = document.activeElement;
     showMarkerOnEditor(currentElement);
@@ -557,6 +595,7 @@ if (
   });
 } else {
   document.addEventListener("DOMContentLoaded", () => {
+    injectLoadingStyle();
     allowToShowMarker(() => {
       const currentElement = document.activeElement;
       showMarkerOnEditor(currentElement);
