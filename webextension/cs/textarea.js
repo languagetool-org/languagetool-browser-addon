@@ -280,7 +280,6 @@ function insertLanguageToolIcon(element) {
  */
 function showMarkerOnEditor(focusElement) {
   if (isEditorElement(focusElement)) {
-    console.trace('showMarkerOnEditor', focusElement, lastCheckResult);
     removeAllButtons();
     setActiveElement(focusElement);
     if (!isHiddenElement(focusElement) && !disableOnDomain) {
@@ -305,7 +304,6 @@ function positionMarkerOnChangeSize(forceRender = false) {
 }
 
 function showMatchedResultOnMarker(result) {
-  console.trace('showMatchedResultOnMarker', result);
   if (result && result.matches && result.matches.length > 0) {
     const language = DOMPurify.sanitize(result.language.name);
     const languageCode = DOMPurify.sanitize(result.language.code);
