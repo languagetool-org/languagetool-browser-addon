@@ -124,17 +124,13 @@ function autoCheckMenu(evt) {
       textAreaElement.focus();
     }
     const { markupList, metaData } = getMarkupListFromElement(textAreaElement);
-    if (!isSameObject(markupList, lastCheckResult.markupList)) {
-      checkTextFromMarkup({ markupList, metaData }).then(result => {
-        if (result) {
-          showMatchedResultOnMarker(result);
-        }
-      }).catch(error => {
-        Tools.track(window.location.href, "auto-check error", error.message);
-      });
-    } else {
-      showMatchedResultOnMarker(lastCheckResult.result);
-    }
+    checkTextFromMarkup({ markupList, metaData }).then(result => {
+      if (result) {
+        showMatchedResultOnMarker(result);
+      }
+    }).catch(error => {
+      Tools.track(window.location.href, "auto-check error", error.message);
+    });
   }
 
   Tools.getStorage().get(
@@ -307,7 +303,6 @@ function showMatchedResultOnMarker(result) {
     const language = DOMPurify.sanitize(result.language.name);
     const languageCode = DOMPurify.sanitize(result.language.code);
     const shortLanguageCode = getShortCode(languageCode);
-    lastCheckResult = Object.assign({}, lastCheckResult, { result });
     let matchesCount = 0;
     let matches = [];
     const uniquePositionMatches = [];
@@ -369,7 +364,7 @@ function showMatchedResultOnMarker(result) {
     });
   } else {
     totalErrorOnCheckText = 0;
-    lastCheckResult = Object.assign({}, lastCheckResult, { total: totalErrorOnCheckText, result: {}, markupList: [] });
+    lastCheckResult = Object.assign({}, lastCheckResult, { total: 0, result: {}, markupList: [] });
     positionMarkerOnChangeSize(true);
   }
 }
@@ -394,11 +389,12 @@ function checkTextFromMarkup({ markupList, metaData }) {
         if (animation) {
           animation.cancel();
         }
-        lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
         if (!isSameObject(markupList,lastCheckResult.markupList)) {
           totalErrorOnCheckText = -1;
+          lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, total: -1, isProcess: false  });
           return resolve({ result: {}, total: -1 });
         }
+        lastCheckResult = Object.assign({}, lastCheckResult, { result: msg.result, isProcess: false });
         return resolve(msg.result);
       } else {
         if (animation) {
