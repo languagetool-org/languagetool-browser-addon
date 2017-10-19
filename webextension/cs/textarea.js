@@ -606,7 +606,6 @@ if (
 
 // observe the active element to show the marker
 let cleanUpTimeout;
-let renderTimeout;
 document.addEventListener(
   "active-element",
   event => {
@@ -618,13 +617,8 @@ document.addEventListener(
       // use timeout for adjust html after redering DOM
       // try to reposition for some site which is rendering from JS (e.g: Upwork)
       //setActiveElement(focusElement);  --> when commented in, I get: SecurityError: Blocked a frame with origin "http://localhost" from accessing a cross-origin frame.
-      if (!renderTimeout) {
-        renderTimeout = setTimeout(() => {
-          showMarkerOnEditor(focusElement);
-          bindClickEventOnElement(focusElement);
-          renderTimeout = null;
-        }, 0);
-      }
+      showMarkerOnEditor(focusElement);
+      bindClickEventOnElement(focusElement);
 
       if (!cleanUpTimeout) {
         cleanUpTimeout = setTimeout(() => {
