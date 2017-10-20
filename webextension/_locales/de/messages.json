@@ -543,6 +543,26 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Slowenisch"
   },
+  "sr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbisch"
+  },
+  "sr_BA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbisch (Bosnien)"
+  },
+  "sr_HR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbisch (Kroatien)"
+  },
+  "sr_ME": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbisch (Montenegro)"
+  },
+  "sr_RS": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbisch (Serbien)"
+  },
   "sv": {
     "description": "automatically added by injectTranslation.py",
     "message": "Schwedisch"
