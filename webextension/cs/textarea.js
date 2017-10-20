@@ -31,7 +31,7 @@ const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
 const CLEAN_TIMEOUT_MILLIS = 200;
-const BG_CHECK_TIMEOUT_MILLIS = 500;
+const BG_CHECK_TIMEOUT_MILLIS = 1000;
 
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
