@@ -94,9 +94,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             if (disabledOnThisDomain) {
                 html += `<div id="reactivateIcon"><a href="#"><img src='/images/reminder.png'>&nbsp;${chrome.i18n.getMessage("reactivateIcon")}</a></div>`;
             }
-            if (autoCheckOnDomain) {
-                html += `<div id="turnOffAutoCheckIcon"><a href="#">${chrome.i18n.getMessage("turnOffAutoCheckIcon")}</a></div>`;
-            }
         }
         // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
         if (matches) {
@@ -178,6 +175,9 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         if (quotedLinesIgnored) {
             html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
+        }
+        if (response.url && autoCheckOnDomain) {
+            html += `<div id="turnOffAutoCheckIcon"><a href="#">${chrome.i18n.getMessage("turnOffAutoCheckIcon")}</a></div>`;
         }
         if (items.ignoredRules && items.ignoredRules.length > 0) {
             const ruleItems = [];
