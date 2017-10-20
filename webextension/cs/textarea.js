@@ -1,5 +1,5 @@
 /* LanguageTool WebExtension
- * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,13 +30,13 @@ const DISABLE_BTN_CLASS = "lt-disable-btn";
 const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
-const CLEAN_TIME_OUT = 200; // 0.2 second
-const BG_CHECK_TIME_OUT = 500; // 0.5 second
+const CLEAN_TIMEOUT_MILLIS = 200;
+const BG_CHECK_TIMEOUT_MILLIS = 1000;
 
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
-let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false };
+let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false, success: true };
 const activeElementHandler = ally.event.activeElement();
 const port = chrome.runtime.connect({name: "LanguageTool"});
 
@@ -129,6 +129,7 @@ function autoCheckMenu(evt) {
         showMatchedResultOnMarker(result);
       }
     }).catch(error => {
+      console.error(error);
       Tools.track(window.location.href, "auto-check error", error.message);
     });
   }
@@ -187,17 +188,23 @@ function remindLanguageToolButton(clickHandler, position, num) {
       btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
       btn.innerHTML = `<div class="lt-sk-three-bounce"><div class="lt-sk-child lt-sk-bounce1"></div><div class="lt-sk-child lt-sk-bounce2"></div><div class="lt-sk-child lt-sk-bounce3"></div></div>`;
      } else {
-      if (totalErrorOnCheckText > 0) {
-        btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
-        const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
-        btn.setAttribute("tooltip", tooltip);
-        btn.innerText = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
-      } else if (totalErrorOnCheckText === 0) {
-        btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
-        btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
+      if (lastCheckResult.success) {
+        if (totalErrorOnCheckText > 0) {
+          btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+          const tooltip = totalErrorOnCheckText === 1 ? chrome.i18n.getMessage("foundAErrorOnCheckText",[totalErrorOnCheckText]) : chrome.i18n.getMessage("foundErrorsOnCheckText",[totalErrorOnCheckText]);
+          btn.setAttribute("tooltip", tooltip);
+          btn.innerText = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
+        } else if (totalErrorOnCheckText === 0) {
+          btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
+          btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
+        } else {
+          btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
+          btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+        }
       } else {
-        btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
-        btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
+        btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+        btn.setAttribute("tooltip", lastCheckResult.errorMessage);
+        btn.innerText = "E";
       }
      }
   } else {
@@ -280,7 +287,6 @@ function insertLanguageToolIcon(element) {
  */
 function showMarkerOnEditor(focusElement) {
   if (isEditorElement(focusElement)) {
-    console.trace('showMarkerOnEditor', focusElement, lastCheckResult);
     removeAllButtons();
     setActiveElement(focusElement);
     if (!isHiddenElement(focusElement) && !disableOnDomain) {
@@ -305,7 +311,6 @@ function positionMarkerOnChangeSize(forceRender = false) {
 }
 
 function showMatchedResultOnMarker(result) {
-  console.trace('showMatchedResultOnMarker', result);
   if (result && result.matches && result.matches.length > 0) {
     const language = DOMPurify.sanitize(result.language.name);
     const languageCode = DOMPurify.sanitize(result.language.code);
@@ -319,7 +324,7 @@ function showMatchedResultOnMarker(result) {
         const m = result.matches[i];
         const errStart = parseInt(m.offset);
         const errLen = parseInt(m.length);
-        if (errStart != prevErrStart || errLen != prevErrLen) {
+        if (errStart !== prevErrStart || errLen !== prevErrLen) {
             uniquePositionMatches.push(m);
             prevErrStart = errStart;
             prevErrLen = errLen;
@@ -346,17 +351,16 @@ function showMatchedResultOnMarker(result) {
           const contextSanitized = DOMPurify.sanitize(m.context.text);
           const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
           const messageSanitized = DOMPurify.sanitize(m.message);
-          const descriptionSanitized = DOMPurify.sanitize(m.rule.description);
-          ruleIdToDesc[ruleIdSanitized] = descriptionSanitized;
+          ruleIdToDesc[ruleIdSanitized] = DOMPurify.sanitize(m.rule.description);
           const wordSanitized = contextSanitized.substr(errStart, errLen);
           let ignoreError = false;
           if (isSpellingError(m)) {
               // Also accept uppercase versions of lowercase words in personal dict:
-              const knowToDict = dictionary.indexOf(wordSanitized) != -1;
+              const knowToDict = dictionary.indexOf(wordSanitized) !== -1;
               if (knowToDict) {
                   ignoreError = true;
               } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
-                  ignoreError = dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) != -1;
+                  ignoreError = dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) !== -1;
               }
           } else {
               ignoreError = ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
@@ -389,7 +393,7 @@ function checkTextFromMarkup({ markupList, metaData }) {
       action: "checkText",
       data: { markupList, metaData }
   });
-  return new Promise((resolve, cancel) => {
+  return new Promise((resolve) => {
     port.onMessage.addListener((msg) => {
       if (msg.success) {
         if (!isSameObject(markupList,lastCheckResult.markupList)) {
@@ -397,13 +401,13 @@ function checkTextFromMarkup({ markupList, metaData }) {
           lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, total: -1, isProcess: false  });
           return resolve({ result: {}, total: -1 });
         }
-        lastCheckResult = Object.assign({}, lastCheckResult, { result: msg.result, isProcess: false });
+        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, isProcess: false });
         return resolve(msg.result);
       } else {
         const { errorMessage } = msg;
-        lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, total: -1, isProcess: false  });
+        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, result: {}, total: -1, isProcess: false });
         Tools.track(window.location.href, `error on checkTextFromMarkup: ${errorMessage}`);
-        return cancel(errorMessage);
+        return resolve({});
       }
     });
   });
@@ -422,6 +426,7 @@ function getMarkupListFromElement(element) {
                 return ({ markupList: [{ text }], isEditableText: false, metaData: getMetaData(pageUrl) });
             }
         } catch (err) {
+            console.error(err);
             Tools.track(pageUrl, `error on getMarkupListFromElement for iframe: ${err.message}`);
         }
     }
@@ -450,7 +455,7 @@ function observeEditorElement(element) {
   // Empty results list if there is no text
   const emptyResults = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length < 1).constant([]);
   const results = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length > 1)
-    .debounce(BG_CHECK_TIME_OUT)
+    .debounce(BG_CHECK_TIMEOUT_MILLIS)
     .map(checkTextFromMarkup)
     .map(fromPromise)
     .switchLatest();
@@ -460,7 +465,7 @@ function observeEditorElement(element) {
 function bindClickEventOnElement(currentElement) {
   if (isEditorElement(currentElement)) {
     totalErrorOnCheckText = -1;
-    if (autoCheckOnDomain) {
+    if (autoCheckOnDomain && !lastCheckResult.isProcess) {
       const { markupList, metaData } = getMarkupListFromElement(currentElement);
       if (!isSameObject(markupList, lastCheckResult.markupList)) {
         checkTextFromMarkup({ markupList, metaData }).then(result => {
@@ -468,6 +473,7 @@ function bindClickEventOnElement(currentElement) {
             showMatchedResultOnMarker(result);
           }
         }).catch(error => {
+          console.error(error);
           Tools.track(window.location.href, "auto-check error", error.message);
         });
       } else {
@@ -602,7 +608,6 @@ if (
 
 // observe the active element to show the marker
 let cleanUpTimeout;
-let renderTimeout;
 document.addEventListener(
   "active-element",
   event => {
@@ -611,16 +616,11 @@ document.addEventListener(
       removeAllButtons();
     }
     if (!disableOnDomain) {
-      // use timeout for adjust html after redering DOM
+      // use timeout for adjust html after rendering DOM
       // try to reposition for some site which is rendering from JS (e.g: Upwork)
       //setActiveElement(focusElement);  --> when commented in, I get: SecurityError: Blocked a frame with origin "http://localhost" from accessing a cross-origin frame.
-      if (!renderTimeout) {
-        renderTimeout = setTimeout(() => {
-          showMarkerOnEditor(focusElement);
-          bindClickEventOnElement(focusElement);
-          renderTimeout = null;
-        }, 0);
-      }
+      showMarkerOnEditor(focusElement);
+      bindClickEventOnElement(focusElement);
 
       if (!cleanUpTimeout) {
         cleanUpTimeout = setTimeout(() => {
@@ -631,7 +631,7 @@ document.addEventListener(
             removeAllButtons();
           }
           cleanUpTimeout = null;
-        }, CLEAN_TIME_OUT);
+        }, CLEAN_TIMEOUT_MILLIS);
       }
     }
   },
