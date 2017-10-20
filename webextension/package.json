@@ -1,4 +1,11 @@
 {
+    "name": "LanguageTool",
+    "version": "0.0.1",
+    "description": "LanguageTool - Grammar and Style Checker",
+    "main": "index.js",
+    "repository": "https://github.com/languagetool-org/languagetool-browser-addon",
+    "author": "Daniel Naber (http://www.danielnaber.de)",
+    "license": "MIT",
     "scripts": {
         "test": "./node_modules/mocha/bin/mocha"
     },

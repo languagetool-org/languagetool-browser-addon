@@ -119,7 +119,9 @@
   padding: 5px;
   margin-bottom: 5px;
   position: absolute;
-  white-space: nowrap;
+  white-space: pre-wrap;
+  text-align: center;
+  width: 200px;
 }
 
 .lt-buttons[tooltip]:hover:before,
