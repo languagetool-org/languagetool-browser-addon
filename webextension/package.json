@@ -5,7 +5,7 @@
     "main": "index.js",
     "repository": "https://github.com/languagetool-org/languagetool-browser-addon",
     "author": "Daniel Naber (http://www.danielnaber.de)",
-    "license": "MIT",
+    "license": "LGPL-2.1",
     "scripts": {
         "test": "./node_modules/mocha/bin/mocha"
     },
