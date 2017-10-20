@@ -30,8 +30,8 @@ const DISABLE_BTN_CLASS = "lt-disable-btn";
 const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
-const CLEAN_TIME_OUT = 200; // 0.2 second
-const BG_CHECK_TIME_OUT = 500; // 0.5 second
+const CLEAN_TIMEOUT_MILLIS = 200;
+const BG_CHECK_TIMEOUT_MILLIS = 500;
 
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
@@ -455,7 +455,7 @@ function observeEditorElement(element) {
   // Empty results list if there is no text
   const emptyResults = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length < 1).constant([]);
   const results = inputText.filter(markup => markup.markupList && markup.markupList[0] && markup.markupList[0].text && markup.markupList[0].text.length > 1)
-    .debounce(BG_CHECK_TIME_OUT)
+    .debounce(BG_CHECK_TIMEOUT_MILLIS)
     .map(checkTextFromMarkup)
     .map(fromPromise)
     .switchLatest();
@@ -631,7 +631,7 @@ document.addEventListener(
             removeAllButtons();
           }
           cleanUpTimeout = null;
-        }, CLEAN_TIME_OUT);
+        }, CLEAN_TIMEOUT_MILLIS);
       }
     }
   },
