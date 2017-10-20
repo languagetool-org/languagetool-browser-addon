@@ -1,5 +1,5 @@
 /* LanguageTool WebExtension
- * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -324,7 +324,7 @@ function showMatchedResultOnMarker(result) {
         const m = result.matches[i];
         const errStart = parseInt(m.offset);
         const errLen = parseInt(m.length);
-        if (errStart != prevErrStart || errLen != prevErrLen) {
+        if (errStart !== prevErrStart || errLen !== prevErrLen) {
             uniquePositionMatches.push(m);
             prevErrStart = errStart;
             prevErrLen = errLen;
@@ -351,17 +351,16 @@ function showMatchedResultOnMarker(result) {
           const contextSanitized = DOMPurify.sanitize(m.context.text);
           const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
           const messageSanitized = DOMPurify.sanitize(m.message);
-          const descriptionSanitized = DOMPurify.sanitize(m.rule.description);
-          ruleIdToDesc[ruleIdSanitized] = descriptionSanitized;
+          ruleIdToDesc[ruleIdSanitized] = DOMPurify.sanitize(m.rule.description);
           const wordSanitized = contextSanitized.substr(errStart, errLen);
           let ignoreError = false;
           if (isSpellingError(m)) {
               // Also accept uppercase versions of lowercase words in personal dict:
-              const knowToDict = dictionary.indexOf(wordSanitized) != -1;
+              const knowToDict = dictionary.indexOf(wordSanitized) !== -1;
               if (knowToDict) {
                   ignoreError = true;
               } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
-                  ignoreError = dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) != -1;
+                  ignoreError = dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) !== -1;
               }
           } else {
               ignoreError = ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
@@ -617,7 +616,7 @@ document.addEventListener(
       removeAllButtons();
     }
     if (!disableOnDomain) {
-      // use timeout for adjust html after redering DOM
+      // use timeout for adjust html after rendering DOM
       // try to reposition for some site which is rendering from JS (e.g: Upwork)
       //setActiveElement(focusElement);  --> when commented in, I get: SecurityError: Blocked a frame with origin "http://localhost" from accessing a cross-origin frame.
       showMarkerOnEditor(focusElement);
