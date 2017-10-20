@@ -94,9 +94,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             if (disabledOnThisDomain) {
                 html += `<div id="reactivateIcon"><a href="#"><img src='/images/reminder.png'>&nbsp;${chrome.i18n.getMessage("reactivateIcon")}</a></div>`;
             }
-            if (autoCheckOnDomain) {
-                html += `<div id="turnOffAutoCheckIcon"><a href="#">${chrome.i18n.getMessage("turnOffAutoCheckIcon")}</a></div>`;
-            }
         }
         // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
         if (matches) {
@@ -107,7 +104,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 const m = matches[i];
                 const errStart = parseInt(m.offset);
                 const errLen = parseInt(m.length);
-                if (errStart != prevErrStart || errLen != prevErrLen) {
+                if (errStart !== prevErrStart || errLen !== prevErrLen) {
                     uniquePositionMatches.push(m);
                     prevErrStart = errStart;
                     prevErrLen = errLen;
@@ -139,11 +136,11 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
 
             if (isSpellingError(m)) {
                 // Also accept uppercase versions of lowercase words in personal dict:
-                const knowToDict = items.dictionary.indexOf(wordSanitized) != -1;
+                const knowToDict = items.dictionary.indexOf(wordSanitized) !== -1;
                 if (knowToDict) {
                     ignoreError = true;
                 } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
-                    ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) != -1;
+                    ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) !== -1;
                 }
             } else {
                 ignoreError = items.ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
@@ -173,11 +170,14 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 matchesCount++;
             }
         }
-        if (matchesCount == 0) {
+        if (matchesCount === 0) {
             html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
         }
         if (quotedLinesIgnored) {
             html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
+        }
+        if (response.url && autoCheckOnDomain) {
+            html += `<div id="turnOffAutoCheckIcon"><a href="#">${chrome.i18n.getMessage("turnOffAutoCheckIcon")}</a></div>`;
         }
         if (items.ignoredRules && items.ignoredRules.length > 0) {
             const ruleItems = [];
@@ -354,7 +354,7 @@ function getLanguageSelector(languageCode) {
 function renderContext(contextSanitized, errStart, errLen) {
     return "<div class='errorArea'>"
           + Tools.escapeHtml(contextSanitized.substr(0, errStart))
-          + "<span class='error'>" + Tools.escapeHtml(contextSanitized.substr(errStart, errLen)) + "</span>" 
+          + "<span class='error'>" + Tools.escapeHtml(contextSanitized.substr(errStart, errLen)) + "</span>"
           + Tools.escapeHtml(contextSanitized.substr(errStart + errLen))
           + "</div>";
 }

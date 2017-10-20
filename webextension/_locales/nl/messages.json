@@ -51,7 +51,7 @@
   },
   "atd": {
     "description": "automatically added by injectTranslation.py",
-    "message": "Bepaal taal automatisch"
+    "message": "Detecteer taal automatisch"
   },
   "autoCheckForThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
@@ -542,6 +542,26 @@
   "sl": {
     "description": "automatically added by injectTranslation.py",
     "message": "Sloveens"
+  },
+  "sr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Servisch"
+  },
+  "sr_BA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Servisch (Bosnië)"
+  },
+  "sr_HR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Servisch (Kroatië)"
+  },
+  "sr_ME": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Servisch (Montenegro)"
+  },
+  "sr_RS": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Servisch (Servië)"
   },
   "sv": {
     "description": "automatically added by injectTranslation.py",

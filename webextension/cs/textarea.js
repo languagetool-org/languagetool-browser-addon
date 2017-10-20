@@ -213,7 +213,6 @@ function remindLanguageToolButton(clickHandler, position, num) {
   }
 
   btn.onclick = clickHandler;
-  // style
   styleRemindButton(btn, position, num);
   return btn;
 }
@@ -227,7 +226,6 @@ function disableLanguageToolButton(clickHandler, position, num) {
     "tooltip",
     chrome.i18n.getMessage("disableForThisDomainTitle")
   );
-  // style
   styleRemindButton(btn, position, num);
   return btn;
 }
@@ -241,7 +239,6 @@ function autoCheckLanguageToolButton(clickHandler, position, num) {
     "tooltip",
     chrome.i18n.getMessage("autoCheckForThisDomainTitle")
   );
-  // style
   styleRemindButton(btn, position, num);
   return btn;
 }
@@ -249,8 +246,7 @@ function autoCheckLanguageToolButton(clickHandler, position, num) {
 function textAreaWrapper(textElement, btnElements) {
   const wrapper = document.createElement(REMIND_WRAPPER_CLASS, { is: 'div' });
   wrapper.className = REMIND_WRAPPER_CLASS;
-  wrapper.id = `textarea-wrapper-${textElement.name ||
-    textElement.id}-${Date.now()}`;
+  wrapper.id = `textarea-wrapper-${textElement.name || textElement.id}-${Date.now()}`;
   wrapper.style.position = "absolute";
   wrapper.style.top = "0px";
   wrapper.style.left = "0px";
@@ -320,15 +316,15 @@ function showMatchedResultOnMarker(result) {
     const uniquePositionMatches = [];
     let prevErrStart = -1;
     let prevErrLen = -1;
-    for (let i = result.matches.length-1; i >= 0; i--) {
-        const m = result.matches[i];
-        const errStart = parseInt(m.offset);
-        const errLen = parseInt(m.length);
-        if (errStart !== prevErrStart || errLen !== prevErrLen) {
-            uniquePositionMatches.push(m);
-            prevErrStart = errStart;
-            prevErrLen = errLen;
-        }
+    for (let i = result.matches.length - 1; i >= 0; i--) {
+      const m = result.matches[i];
+      const errStart = parseInt(m.offset);
+      const errLen = parseInt(m.length);
+      if (errStart !== prevErrStart || errLen !== prevErrLen) {
+        uniquePositionMatches.push(m);
+        prevErrStart = errStart;
+        prevErrLen = errLen;
+      }
     }
     uniquePositionMatches.reverse();
     matches = uniquePositionMatches;
@@ -343,31 +339,31 @@ function showMatchedResultOnMarker(result) {
     items => {
       const { dictionary, ignoredRules, ignoreQuotedLines } = items;
       for (let m of matches) {
-          // these values come from the server, make sure they are ints:
-          const errStart = parseInt(m.context.offset);
-          const errLen = parseInt(m.length);
-          // these string values come from the server and need to be sanitized
-          // as they will be inserted with innerHTML:
-          const contextSanitized = DOMPurify.sanitize(m.context.text);
-          const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
-          const messageSanitized = DOMPurify.sanitize(m.message);
-          ruleIdToDesc[ruleIdSanitized] = DOMPurify.sanitize(m.rule.description);
-          const wordSanitized = contextSanitized.substr(errStart, errLen);
-          let ignoreError = false;
-          if (isSpellingError(m)) {
-              // Also accept uppercase versions of lowercase words in personal dict:
-              const knowToDict = dictionary.indexOf(wordSanitized) !== -1;
-              if (knowToDict) {
-                  ignoreError = true;
-              } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
-                  ignoreError = dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) !== -1;
-              }
-          } else {
-              ignoreError = ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
+        // these values come from the server, make sure they are ints:
+        const errStart = parseInt(m.context.offset);
+        const errLen = parseInt(m.length);
+        // these string values come from the server and need to be sanitized
+        // as they will be inserted with innerHTML:
+        const contextSanitized = DOMPurify.sanitize(m.context.text);
+        const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
+        const messageSanitized = DOMPurify.sanitize(m.message);
+        ruleIdToDesc[ruleIdSanitized] = DOMPurify.sanitize(m.rule.description);
+        const wordSanitized = contextSanitized.substr(errStart, errLen);
+        let ignoreError = false;
+        if (isSpellingError(m)) {
+          // Also accept uppercase versions of lowercase words in personal dict:
+          const knowToDict = dictionary.indexOf(wordSanitized) !== -1;
+          if (knowToDict) {
+            ignoreError = true;
+          } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
+            ignoreError = dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) !== -1;
           }
-          if (!ignoreError) {
-              matchesCount++;
-          }
+        } else {
+          ignoreError = ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
+        }
+        if (!ignoreError) {
+          matchesCount++;
+        }
       }
       totalErrorOnCheckText = matchesCount;
       lastCheckResult = Object.assign({}, lastCheckResult, { total: matchesCount });
@@ -413,26 +409,24 @@ function checkTextFromMarkup({ markupList, metaData }) {
   });
 }
 
-
 function getMarkupListFromElement(element) {
-    const pageUrl = window.location.href;
-    if (element.tagName === "IFRAME") {
-        try {
-            if (element
-                && element.contentWindow
-                && element.contentWindow.document.getSelection()
-                && element.contentWindow.document.getSelection().toString() !== "") {
-                const text = element.contentWindow.document.getSelection().toString();
-                return ({ markupList: [{ text }], isEditableText: false, metaData: getMetaData(pageUrl) });
-            }
-        } catch (err) {
-            console.error(err);
-            Tools.track(pageUrl, `error on getMarkupListFromElement for iframe: ${err.message}`);
-        }
+  const pageUrl = window.location.href;
+  if (element.tagName === "IFRAME") {
+    try {
+      if (element
+        && element.contentWindow
+        && element.contentWindow.document.getSelection()
+        && element.contentWindow.document.getSelection().toString() !== "") {
+        const text = element.contentWindow.document.getSelection().toString();
+        return ({markupList: [{text}], isEditableText: false, metaData: getMetaData(pageUrl)});
+      }
+    } catch (err) {
+      console.error(err);
+      Tools.track(pageUrl, `error on getMarkupListFromElement for iframe: ${err.message}`);
     }
-
-    const markupList = getMarkupListOfActiveElement(element);
-    return ({ markupList, isEditableText: true, metaData: getMetaData(pageUrl) });
+  }
+  const markupList = getMarkupListOfActiveElement(element);
+  return ({markupList, isEditableText: true, metaData: getMetaData(pageUrl)});
 }
 
 function elementMarkup(evt) {

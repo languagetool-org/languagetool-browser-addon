@@ -41,10 +41,6 @@ hr {
 #reactivateIcon,
 #warning,
 #turnOffAutoCheckIcon {
-    padding: 8px;
-    background-color: #eeeeee;
-    border-radius: 7px;
-    margin-bottom: 8px;
 }
 
 #shortcutHint a,

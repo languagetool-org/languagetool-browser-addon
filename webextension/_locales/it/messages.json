@@ -337,7 +337,7 @@
   },
   "noErrorOnCheckText": {
     "description": "Show total error on hover on maker icon",
-    "message": "No error"
+    "message": "Nessun errore"
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
@@ -363,7 +363,7 @@
   },
   "noTextFound": {
     "description": "Error message shown when no text was found",
-    "message": "No text found"
+    "message": "Nessun testo presente"
   },
   "noTextFoundDetails": {
     "description": "More detailed error message shown when no text was found",
@@ -439,7 +439,7 @@
   },
   "privacyPolicy": {
     "description": "Options dialog: Link to privacy policy",
-    "message": "Privacy Policy"
+    "message": "Politica sulla privacy"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",
@@ -489,7 +489,7 @@
   },
   "reminderIconTitle": {
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
-    "message": "Check Text"
+    "message": "Controlla testo"
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
@@ -542,6 +542,26 @@
   "sl": {
     "description": "automatically added by injectTranslation.py",
     "message": "Sloveno"
+  },
+  "sr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbo"
+  },
+  "sr_BA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbo (Bosnia)"
+  },
+  "sr_HR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbo (Croazia)"
+  },
+  "sr_ME": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbo (Montenegro)"
+  },
+  "sr_RS": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbo (Serbia)"
   },
   "sv": {
     "description": "automatically added by injectTranslation.py",
@@ -603,7 +623,7 @@
   },
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
-    "message": "Username:"
+    "message": "Nome utente:"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
