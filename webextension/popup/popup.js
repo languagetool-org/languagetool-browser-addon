@@ -509,11 +509,11 @@ function handleCheckResult(response, tabs, callback) {
         renderMatchesToHtml(resultText, response, tabs, callback);
     }, function(errorMessage, errorMessageCode) {
         if (errorMessage.indexOf("code: 403 ") !== -1) {
-            renderStatus(chrome.i18n.getMessage("couldNotLoginAtLTPlus") +
-                "<p class='errorMessageDetail'>" + Tools.escapeHtml(DOMPurify.sanitize(errorMessage)) + "</p>");
+            renderStatus("<p class='programError'>" + chrome.i18n.getMessage("couldNotLoginAtLTPlus") + "</p>" +
+                         "<p class='errorMessageDetail'>" + Tools.escapeHtml(DOMPurify.sanitize(errorMessage)) + "</p>");
             Tools.track(tabs[0].url || pageUrlParam, "couldNotLoginAtLTPlus", errorMessageCode);
         } else {
-            renderStatus(chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))));
+            renderStatus("<p class='programError'>" + chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))) + "</p>");
             Tools.track(tabs[0].url || pageUrlParam, "couldNotCheckText", errorMessageCode);
         }
         if (callback) {
