@@ -114,8 +114,7 @@ function disableMenu(evt) {
 
 function autoCheckMenu(evt) {
   evt.preventDefault();
-  autoCheckOnDomain = true;
-  document.querySelector(`.${AUTO_CHECK_BTN_CLASS}`).style.display = "none";
+  autoCheckOnDomain = !autoCheckOnDomain;
   const textAreaElement = activeElement();
   if (textAreaElement) {
     if (textAreaElement.setActive) {
@@ -123,15 +122,20 @@ function autoCheckMenu(evt) {
     } else {
       textAreaElement.focus();
     }
-    const { markupList, metaData } = getMarkupListFromElement(textAreaElement);
-    checkTextFromMarkup({ markupList, metaData }).then(result => {
-      if (result) {
-        showMatchedResultOnMarker(result);
-      }
-    }).catch(error => {
-      console.error(error);
-      Tools.track(window.location.href, "auto-check error", error.message);
-    });
+
+    if (autoCheckOnDomain) {
+      const { markupList, metaData } = getMarkupListFromElement(textAreaElement);
+      checkTextFromMarkup({ markupList, metaData }).then(result => {
+        if (result) {
+          showMatchedResultOnMarker(result);
+        }
+      }).catch(error => {
+        console.error(error);
+        Tools.track(window.location.href, "auto-check error", error.message);
+      });
+    } else {
+      positionMarkerOnChangeSize(true);
+    }
   }
 
   Tools.getStorage().get(
@@ -141,11 +145,22 @@ function autoCheckMenu(evt) {
     items => {
       const currentUrl = window.location.href;
       const { hostname } = new URL(currentUrl);
-      items.autoCheckOnDomains.push(hostname);
-      Tools.getStorage().set({
-        autoCheckOnDomains: [...new Set(items.autoCheckOnDomains)]
-      });
-      Tools.track(hostname, "auto-check activated");
+      if (autoCheckOnDomain) {
+        items.autoCheckOnDomains.push(hostname);
+        Tools.getStorage().set({
+          autoCheckOnDomains: [...new Set(items.autoCheckOnDomains)]
+        });
+      } else {
+        Tools.getStorage().set({
+          autoCheckOnDomains: items.autoCheckOnDomains.filter(item => item !== hostname)
+        });
+      }
+
+      if (autoCheckOnDomain) {
+        Tools.track(hostname, "auto-check activated");
+      } else {
+        Tools.track(hostname, "auto-check deactivated");
+      }
     }
   );
 }
@@ -235,10 +250,17 @@ function autoCheckLanguageToolButton(clickHandler, position, num) {
   const btn = document.createElement(BTN_CLASS, { is: "a" });
   btn.onclick = clickHandler;
   btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
-  btn.setAttribute(
-    "tooltip",
-    chrome.i18n.getMessage("autoCheckForThisDomainTitle")
-  );
+  if (!autoCheckOnDomain) {
+    btn.setAttribute(
+      "tooltip",
+      chrome.i18n.getMessage("autoCheckForThisDomainTitle")
+    );
+  } else {
+    btn.setAttribute(
+      "tooltip",
+      chrome.i18n.getMessage("autoCheckForOffThisDomainTitle")
+    );
+  }
   styleRemindButton(btn, position, num);
   return btn;
 }
@@ -267,12 +289,8 @@ function insertLanguageToolIcon(element) {
     remindLanguageToolButton(checkErrorMenu, position, 1),
   ];
 
-  if (!autoCheckOnDomain) {
-    btns.push(autoCheckLanguageToolButton(autoCheckMenu, position, 2));
-    btns.push(disableLanguageToolButton(disableMenu, position, 3));
-  } else {
-    btns.push(disableLanguageToolButton(disableMenu, position, 2));
-  }
+  btns.push(autoCheckLanguageToolButton(autoCheckMenu, position, 2));
+  btns.push(disableLanguageToolButton(disableMenu, position, 3));
 
   textAreaWrapper(element, btns);
 }
