@@ -327,7 +327,7 @@
     }
   },
   "username": {
-    "message": "Username:",
+    "message": "E-Mail:",
     "description": "Options dialog: user name for languagetoolplus.com"
   },
   "password": {
