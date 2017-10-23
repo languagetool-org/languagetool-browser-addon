@@ -28,6 +28,7 @@ const LOADING_BTN_CLASS = "lt-check-loading-btn";
 const ERROR_BTN_CLASS = "lt-error-btn";
 const DISABLE_BTN_CLASS = "lt-disable-btn";
 const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
+const AUTO_CHECK_OFF_BTN_CLASS = "lt-auto-check-off-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
 const CLEAN_TIMEOUT_MILLIS = 200;
@@ -262,13 +263,14 @@ function autoCheckLanguageToolButton(clickHandler, position, num) {
   const { top, left, offsetHeight, offsetWidth } = position;
   const btn = document.createElement(BTN_CLASS, { is: "a" });
   btn.onclick = clickHandler;
-  btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
   if (!autoCheckOnDomain) {
+    btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
     btn.setAttribute(
       "tooltip",
       chrome.i18n.getMessage("autoCheckForThisDomainTitle")
     );
   } else {
+    btn.className = `${BTN_CLASS} ${AUTO_CHECK_OFF_BTN_CLASS}`;
     btn.setAttribute(
       "tooltip",
       chrome.i18n.getMessage("autoCheckForOffThisDomainTitle")
