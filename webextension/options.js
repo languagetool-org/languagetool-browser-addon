@@ -90,7 +90,7 @@ function restoreOptions() {
     document.getElementById('autoCheckOnDomainsDesc').textContent = chrome.i18n.getMessage("autoCheckOnDomainsDesc");
     Tools.getStorage().get({
         apiServerUrl: defaultServerUrl,
-        autoCheck: true,
+        autoCheck: false,
         ignoreQuotedLines: true,
         havePremiumAccount: false,
         username: "",
