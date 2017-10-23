@@ -141,7 +141,7 @@ function manualAutoCheck(evt) {
     } else {
       textAreaElement.focus();
     }
-    positionMarkerOnChangeSize(true);
+    positionMarkerOnChangeSize();
   }
 }
 
@@ -170,7 +170,7 @@ function autoCheckMenu(evt) {
         Tools.track(window.location.href, "auto-check error", error.message);
       });
     } else {
-      positionMarkerOnChangeSize(true);
+      positionMarkerOnChangeSize();
     }
   }
 
@@ -326,8 +326,10 @@ function textAreaWrapper(textElement, btnElements) {
 
 function insertLanguageToolIcon(element) {
   const { offsetHeight, offsetWidth } = element;
+  const { top } = element.getBoundingClientRect();
+  const offsetHeightForLongText = window.innerHeight - top - 10;
   const position = Object.assign({}, offset(element), {
-    offsetHeight,
+    offsetHeight: offsetHeight > window.innerHeight && offsetHeightForLongText < offsetHeight ? offsetHeightForLongText : offsetHeight,
     offsetWidth
   });
   const btns = [
@@ -360,7 +362,9 @@ function showMarkerOnEditor(focusElement) {
 
 // detect on window resize, scroll
 let ticking = false;
-function positionMarkerOnChangeSize(forceRender = false) {
+let lastScrollPosition = 0;
+function positionMarkerOnChangeSize() {
+  lastScrollPosition = window.scrollY
   if (!ticking || forceRender) {
     window.requestAnimationFrame(() => {
       removeAllButtons();
@@ -369,8 +373,8 @@ function positionMarkerOnChangeSize(forceRender = false) {
       }
       ticking = false;
     });
+    ticking = true;
   }
-  ticking = true;
 }
 
 function showMatchedResultOnMarker(result) {
@@ -429,12 +433,12 @@ function showMatchedResultOnMarker(result) {
       }
       totalErrorOnCheckText = matchesCount;
       lastCheckResult = Object.assign({}, lastCheckResult, { total: matchesCount });
-      positionMarkerOnChangeSize(true);
+      positionMarkerOnChangeSize();
     });
   } else {
     totalErrorOnCheckText = 0;
     lastCheckResult = Object.assign({}, lastCheckResult, { total: 0, result: {}, markupList: [] });
-    positionMarkerOnChangeSize(true);
+    positionMarkerOnChangeSize();
   }
 }
 
@@ -443,7 +447,7 @@ function checkTextFromMarkup({ markupList, metaData }) {
     return Promise.resolve({ result: lastCheckResult.result });
   }
   lastCheckResult = Object.assign({}, lastCheckResult, { markupList, isProcess: true, isTyping: false });
-  positionMarkerOnChangeSize(true); // force render maker for show loading
+  positionMarkerOnChangeSize();
   if (!isAutoCheckEnable()) {
     return Promise.resolve({ result: {} });
   }
