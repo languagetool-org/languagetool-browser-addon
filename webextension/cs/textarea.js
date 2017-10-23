@@ -28,6 +28,8 @@ const LOADING_BTN_CLASS = "lt-check-loading-btn";
 const ERROR_BTN_CLASS = "lt-error-btn";
 const DISABLE_BTN_CLASS = "lt-disable-btn";
 const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
+const AUTO_CHECK_OFF_BTN_CLASS = "lt-auto-check-off-btn";
+const AUTO_CHECK_MANUAL_BTN_CLASS = "lt-auto-check-manual-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
 const CLEAN_TIMEOUT_MILLIS = 200;
@@ -35,6 +37,7 @@ const BG_CHECK_TIMEOUT_MILLIS = 1000;
 
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
+let autoCheck = true;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false, success: true };
 const activeElementHandler = ally.event.activeElement();
@@ -52,6 +55,10 @@ function cleanErrorMessage(msg) {
     return msg.substr(position + 7);
   }
   return msg;
+}
+
+function isAutoCheckEnable() {
+  return autoCheckOnDomain || autoCheck;
 }
 
 /** event handlers */
@@ -118,6 +125,23 @@ function disableMenu(evt) {
       Tools.track(hostname, "reminder deactivated");
     }
   );
+}
+
+function manualAutoCheck(evt) {
+  evt.preventDefault();
+  autoCheck = false;
+  Tools.getStorage().set({
+    autoCheck
+  });
+  const textAreaElement = activeElement();
+  if (textAreaElement) {
+    if (textAreaElement.setActive) {
+      textAreaElement.setActive();
+    } else {
+      textAreaElement.focus();
+    }
+    positionMarkerOnChangeSize(true);
+  }
 }
 
 function autoCheckMenu(evt) {
@@ -205,7 +229,7 @@ function styleRemindButton(btn, position, num) {
 
 function remindLanguageToolButton(clickHandler, position, num) {
   const btn = document.createElement(BTN_CLASS, { is: "a" });
-  if (autoCheckOnDomain) {
+  if (isAutoCheckEnable()) {
      if (!lastCheckResult.isTyping && lastCheckResult.isProcess) { // show loading on calling check api
       btn.className = `${BTN_CLASS} ${LOADING_BTN_CLASS}`;
       btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
@@ -257,17 +281,26 @@ function autoCheckLanguageToolButton(clickHandler, position, num) {
   const { top, left, offsetHeight, offsetWidth } = position;
   const btn = document.createElement(BTN_CLASS, { is: "a" });
   btn.onclick = clickHandler;
-  btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
-  if (!autoCheckOnDomain) {
-    btn.setAttribute(
-      "tooltip",
-      chrome.i18n.getMessage("autoCheckForThisDomainTitle")
-    );
+  if (autoCheck) {
+     btn.className = `${BTN_CLASS} ${AUTO_CHECK_MANUAL_BTN_CLASS}`;
+     btn.setAttribute(
+        "tooltip",
+        chrome.i18n.getMessage("autoCheckOffDesc")
+      );
   } else {
-    btn.setAttribute(
-      "tooltip",
-      chrome.i18n.getMessage("autoCheckForOffThisDomainTitle")
-    );
+    if (!autoCheckOnDomain) {
+      btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
+      btn.setAttribute(
+        "tooltip",
+        chrome.i18n.getMessage("autoCheckForThisDomainTitle")
+      );
+    } else {
+      btn.className = `${BTN_CLASS} ${AUTO_CHECK_OFF_BTN_CLASS}`;
+      btn.setAttribute(
+        "tooltip",
+        chrome.i18n.getMessage("autoCheckForOffThisDomainTitle")
+      );
+    }
   }
   styleRemindButton(btn, position, num);
   return btn;
@@ -297,7 +330,11 @@ function insertLanguageToolIcon(element) {
     remindLanguageToolButton(checkErrorMenu, position, 1),
   ];
 
-  btns.push(autoCheckLanguageToolButton(autoCheckMenu, position, 2));
+  if (autoCheck) {
+    btns.push(autoCheckLanguageToolButton(manualAutoCheck, position, 2));
+  } else {
+    btns.push(autoCheckLanguageToolButton(autoCheckMenu, position, 2));
+  }
   btns.push(disableLanguageToolButton(disableMenu, position, 3));
 
   textAreaWrapper(element, btns);
@@ -356,12 +393,7 @@ function showMatchedResultOnMarker(result) {
     matches = uniquePositionMatches;
     const ignoredRuleCounts = {};
     const ruleIdToDesc = {};
-    Tools.getStorage().get(
-    {
-      ignoreQuotedLines: false,
-      ignoredRules: [],
-      dictionary: []
-    },
+    Tools.getUserSettingsForRender(
     items => {
       const { dictionary, ignoredRules, ignoreQuotedLines } = items;
       for (let m of matches) {
@@ -541,12 +573,14 @@ function allowToShowMarker(callback) {
         disabledDomains: [],
         autoCheckOnDomains: [],
         ignoreQuotedLines: true,
+        autoCheck: true,
       },
       items => {
         const { hostname } = new URL(currentUrl);
         autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
         disableOnDomain = items.disabledDomains.includes(hostname);
         ignoreQuotedLines = items.ignoreQuotedLines;
+        autoCheck = items.autoCheck;
         if (disableOnDomain) {
           removeAllButtons();
         } else {
