@@ -152,11 +152,3 @@ function getMetaData(pageUrl) {
     }
     return metaData;
 }
-
-/** Automatically handle errors, only works for popup **/
-window.addEventListener('error', function(evt) {
-	const { error } = evt;
-	if (error) {
-    Tools.track("unknown", `error message: ${error.message}`, error.stack);
-	}
-});

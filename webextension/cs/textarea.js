@@ -338,12 +338,7 @@ function showMatchedResultOnMarker(result) {
     matches = uniquePositionMatches;
     const ignoredRuleCounts = {};
     const ruleIdToDesc = {};
-    Tools.getStorage().get(
-    {
-      ignoreQuotedLines: false,
-      ignoredRules: [],
-      dictionary: []
-    },
+    Tools.getUserSettingsForRender(
     items => {
       const { dictionary, ignoredRules, ignoreQuotedLines } = items;
       for (let m of matches) {
