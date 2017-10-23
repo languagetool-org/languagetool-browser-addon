@@ -1,6 +1,6 @@
-/* LanguageTool WebExtension 
+/* LanguageTool WebExtension
  * Copyright (C) 2016-2017 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -74,10 +74,10 @@ function restoreOptions() {
     document.getElementById('serverText').textContent = chrome.i18n.getMessage("serverText");
     document.getElementById('defaultServerLink').textContent = chrome.i18n.getMessage("defaultServerLink");
     document.getElementById('save').textContent = chrome.i18n.getMessage("save");
-    document.getElementById('ignoreQuotedLinesDesc').innerHTML = chrome.i18n.getMessage("ignoreQuotedLines");
+    document.getElementById('ignoreQuotedLinesDesc').textContent = chrome.i18n.getMessage("ignoreQuotedLines");
     document.getElementById('havePremiumAccountDesc').innerHTML = chrome.i18n.getMessage("havePremiumAccountDesc", "https://languagetoolplus.com");
-    document.getElementById('usernameDesc').innerHTML = chrome.i18n.getMessage("username");
-    document.getElementById('passwordDesc').innerHTML = chrome.i18n.getMessage("password");
+    document.getElementById('usernameDesc').textContent = chrome.i18n.getMessage("username");
+    document.getElementById('passwordDesc').textContent = chrome.i18n.getMessage("password");
     document.getElementById('motherTongueDesc').textContent = chrome.i18n.getMessage("motherTongueDesc");
     document.getElementById('motherTongueExpl').textContent = chrome.i18n.getMessage("motherTongueExpl");
     document.getElementById('variant-en-desc').textContent = chrome.i18n.getMessage("variantEnDesc");
