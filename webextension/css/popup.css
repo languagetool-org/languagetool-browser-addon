@@ -91,6 +91,10 @@ hr {
     background-position: left bottom;
 }
 
+.programError {
+  margin-top: 20px;
+}
+
 .poweredBy {
     font-size: small;
     color: #777777;

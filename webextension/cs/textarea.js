@@ -46,6 +46,14 @@ function isGmail() {
   return hostname === "mail.google.com";
 }
 
+function cleanErrorMessage(msg) {
+  const position = msg.lastIndexOf('Error:');
+  if (position !== -1) {
+    return msg.substr(position + 7);
+  }
+  return msg;
+}
+
 /** event handlers */
 
 function checkErrorMenu(evt) {
@@ -218,7 +226,7 @@ function remindLanguageToolButton(clickHandler, position, num) {
         }
       } else {
         btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
-        btn.setAttribute("tooltip", lastCheckResult.errorMessage);
+        btn.setAttribute("tooltip", cleanErrorMessage(lastCheckResult.errorMessage));
         btn.innerText = "E";
       }
      }
@@ -502,6 +510,7 @@ function bindClickEventOnElement(currentElement) {
       currentElement.addEventListener(
         "mouseup",
         () => {
+          lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
           showMarkerOnEditor(currentElement);
         },
         false

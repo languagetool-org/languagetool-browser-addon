@@ -1,9 +1,12 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.26 (2017-xx-xx)
+### 1.0.26 (2017-10-22)
+  * Text can now be checked automatically. This needs to be activated once
+    per domain by hovering over the reminder icon in the lower right corner
+    of the text area and selecting the auto-check icon.
   * Added support for using languagetoolplus.com - activate
     this in the options if you have a premium account there
-    and want the add-on to use it
+    and want the add-on to use it.
   * Added Dutch translation
 
 ### 1.0.25 (2017-10-02)
