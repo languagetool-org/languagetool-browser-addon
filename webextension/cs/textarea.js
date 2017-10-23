@@ -341,7 +341,16 @@ function showMatchedResultOnMarker(result) {
     Tools.getStorage().get(
     {
       ignoreQuotedLines: false,
-      ignoredRules: [],
+      ignoredRules: [
+          // English:
+          {id: 'EN_QUOTES', language: 'en'},
+          {id: 'DASH_RULE', language: 'en'},
+          // German:
+          {id: 'TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN', language: 'de'},
+          {id: 'FALSCHE_VERWENDUNG_DES_BINDESTRICHS', language: 'de'},
+          {id: 'BISSTRICH', language: 'de'},
+          {id: 'AUSLASSUNGSPUNKTE', language: 'de'},
+      ],
       dictionary: []
     },
     items => {
