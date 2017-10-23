@@ -376,6 +376,14 @@
     "message": "Disable on these domains (one domain per line):",
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled"
   },
+  "autoCheckDesc": {
+    "message": "Auto-check on all domains by default",
+    "description": "Options dialog: auto-check on all domains by default"
+  },
+  "autoCheckOffDesc": {
+    "message": "Auto-check off on all domains",
+    "description": "Options dialog: auto-check off on all domains"
+  },
   "autoCheckOnDomainsDesc": {
     "message": "Auto check text on these domains (one domain per line):",
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background"
@@ -394,6 +402,10 @@
   },
   "autoCheckForThisDomainTitle": {
     "message": "Auto check text for this domain",
+    "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)"
+  },
+  "autoCheckForOffThisDomainTitle": {
+    "message": "Turn off auto check text for this domain",
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)"
   },
   "reactivateIcon": {
