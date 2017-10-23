@@ -371,7 +371,7 @@
   },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",
-    "message": "Keine gültige Antwort von Server $serverUrl$: $response$, Nummer $status$",
+    "message": "Keine gültige Antwort von Server $serverUrl$: $response$, Code $status$",
     "placeholders": {
       "response": {
         "content": "$2",
@@ -623,7 +623,7 @@
   },
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
-    "message": "Username:"
+    "message": "E-Mail:"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",

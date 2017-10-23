@@ -19,8 +19,8 @@
 "use strict";
 
 let assert = require('assert');
-let Tools = require('../tools.js');
-let Markup = require('../markup.js');
+let Tools = require('../share/tools.js');
+let Markup = require('../share/markup.js');
 
 describe('Tools', function () {
     it('should properly escape', function () {

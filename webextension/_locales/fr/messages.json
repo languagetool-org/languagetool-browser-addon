@@ -623,7 +623,7 @@
   },
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
-    "message": "Username:"
+    "message": "E-Mail:"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
