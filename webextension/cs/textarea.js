@@ -35,6 +35,7 @@ const BG_CHECK_TIMEOUT_MILLIS = 1000;
 
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
+let autoCheck = true;
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false, success: true };
 const activeElementHandler = ally.event.activeElement();
@@ -52,6 +53,10 @@ function cleanErrorMessage(msg) {
     return msg.substr(position + 7);
   }
   return msg;
+}
+
+function isAutoCheckEnable() {
+  return autoCheckOnDomain || autoCheck;
 }
 
 /** event handlers */
@@ -205,7 +210,7 @@ function styleRemindButton(btn, position, num) {
 
 function remindLanguageToolButton(clickHandler, position, num) {
   const btn = document.createElement(BTN_CLASS, { is: "a" });
-  if (autoCheckOnDomain) {
+  if (isAutoCheckEnable()) {
      if (!lastCheckResult.isTyping && lastCheckResult.isProcess) { // show loading on calling check api
       btn.className = `${BTN_CLASS} ${LOADING_BTN_CLASS}`;
       btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
@@ -550,12 +555,14 @@ function allowToShowMarker(callback) {
         disabledDomains: [],
         autoCheckOnDomains: [],
         ignoreQuotedLines: true,
+        autoCheck: true,
       },
       items => {
         const { hostname } = new URL(currentUrl);
         autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
         disableOnDomain = items.disabledDomains.includes(hostname);
         ignoreQuotedLines = items.ignoreQuotedLines;
+        autoCheck = items.autoCheck;
         if (disableOnDomain) {
           removeAllButtons();
         } else {
