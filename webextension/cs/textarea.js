@@ -130,6 +130,7 @@ function disableMenu(evt) {
 function manualAutoCheck(evt) {
   evt.preventDefault();
   autoCheck = false;
+  lastCheckResult = Object.assign({},lastCheckResult, { markupList: [], result: {}, total: -1, isProcess: false, success: true });
   Tools.getStorage().set({
     autoCheck
   });
@@ -147,6 +148,9 @@ function manualAutoCheck(evt) {
 function autoCheckMenu(evt) {
   evt.preventDefault();
   autoCheckOnDomain = !autoCheckOnDomain;
+  if (!autoCheckOnDomain) {
+    lastCheckResult = Object.assign({},lastCheckResult, { markupList: [], result: {}, total: -1, isProcess: false, success: true });
+  }
   const textAreaElement = activeElement();
   if (textAreaElement) {
     if (textAreaElement.setActive) {
@@ -440,7 +444,7 @@ function checkTextFromMarkup({ markupList, metaData }) {
   }
   lastCheckResult = Object.assign({}, lastCheckResult, { markupList, isProcess: true, isTyping: false });
   positionMarkerOnChangeSize(true); // force render maker for show loading
-  if (!autoCheckOnDomain) {
+  if (!isAutoCheckEnable()) {
     return Promise.resolve({ result: {} });
   }
   port.postMessage({
@@ -517,7 +521,7 @@ function observeEditorElement(element) {
 function bindClickEventOnElement(currentElement) {
   if (isEditorElement(currentElement)) {
     totalErrorOnCheckText = -1;
-    if (autoCheckOnDomain && !lastCheckResult.isProcess) {
+    if (isAutoCheckEnable() && !lastCheckResult.isProcess) {
       const { markupList, metaData } = getMarkupListFromElement(currentElement);
       if (!isSameObject(markupList, lastCheckResult.markupList)) {
         checkTextFromMarkup({ markupList, metaData }).then(result => {
@@ -533,7 +537,7 @@ function bindClickEventOnElement(currentElement) {
       }
     }
 
-    if (!currentElement.getAttribute("lt-auto-check") && autoCheckOnDomain) {
+    if (!currentElement.getAttribute("lt-auto-check") && isAutoCheckEnable()) {
         observeEditorElement(currentElement);
         currentElement.setAttribute("lt-auto-check", true);
     }
@@ -573,7 +577,7 @@ function allowToShowMarker(callback) {
         disabledDomains: [],
         autoCheckOnDomains: [],
         ignoreQuotedLines: true,
-        autoCheck: true,
+        autoCheck: autoCheck,
       },
       items => {
         const { hostname } = new URL(currentUrl);
