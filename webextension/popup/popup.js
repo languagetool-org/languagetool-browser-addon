@@ -403,7 +403,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
         link.addEventListener("click", function() {
             const storage = Tools.getStorage();
             if (link.getAttribute('data-ruleIdOn')) {
-                storage.setIgnoreRules(items => {
+                Tools.setIgnoreRules(items => {
                     let idx = 0;
                     for (let rule of items.ignoredRules) {
                         if (rule.id == link.getAttribute('data-ruleIdOn')) {
@@ -419,7 +419,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                 });
 
             } else if (link.getAttribute('data-ruleIdOff')) {
-                storage.setIgnoreRules(items => {
+                Tools.setIgnoreRules(items => {
                     const ignoredRules = items.ignoredRules;
                     const ruleId = link.getAttribute('data-ruleIdOff');
                     ignoredRules.push({
