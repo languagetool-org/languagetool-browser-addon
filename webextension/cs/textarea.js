@@ -327,7 +327,7 @@ function textAreaWrapper(textElement, btnElements) {
 function insertLanguageToolIcon(element) {
   const { offsetHeight, offsetWidth } = element;
   const { top } = element.getBoundingClientRect();
-  const offsetHeightForLongText = window.innerHeight - top;
+  const offsetHeightForLongText = window.innerHeight - top - 10;
   const position = Object.assign({}, offset(element), {
     offsetHeight: offsetHeight > window.innerHeight && offsetHeightForLongText < offsetHeight ? offsetHeightForLongText : offsetHeight,
     offsetWidth
