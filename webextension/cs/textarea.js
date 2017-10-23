@@ -338,21 +338,7 @@ function showMatchedResultOnMarker(result) {
     matches = uniquePositionMatches;
     const ignoredRuleCounts = {};
     const ruleIdToDesc = {};
-    Tools.getStorage().get(
-    {
-      ignoreQuotedLines: false,
-      ignoredRules: [
-          // English:
-          {id: 'EN_QUOTES', language: 'en'},
-          {id: 'DASH_RULE', language: 'en'},
-          // German:
-          {id: 'TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN', language: 'de'},
-          {id: 'FALSCHE_VERWENDUNG_DES_BINDESTRICHS', language: 'de'},
-          {id: 'BISSTRICH', language: 'de'},
-          {id: 'AUSLASSUNGSPUNKTE', language: 'de'},
-      ],
-      dictionary: []
-    },
+    Tools.getUserSettingsForRender(
     items => {
       const { dictionary, ignoredRules, ignoreQuotedLines } = items;
       for (let m of matches) {

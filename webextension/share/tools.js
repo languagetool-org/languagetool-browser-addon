@@ -28,6 +28,18 @@ const MAX_TIME = 1 * 60 * 1000; // 1 minute
 const unsupportedSitesRegex = /^https?:\/\/(docs.google.com|chrome.google.com|addons.mozilla.org).*/;
 const notSupportMarkerSitesRegex = /^https?:\/\/(www.facebook.com|docs.google.com|chrome.google.com|addons.mozilla.org).*/;
 
+// turn off some rules by default because they are not that useful in a typical web context:
+const ruleIdsIgnoredByDefault = [
+    // English:
+    {id: 'EN_QUOTES', language: 'en'},
+    {id: 'DASH_RULE', language: 'en'},
+    // German:
+    {id: 'TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN', language: 'de'},
+    {id: 'FALSCHE_VERWENDUNG_DES_BINDESTRICHS', language: 'de'},
+    {id: 'BISSTRICH', language: 'de'},
+    {id: 'AUSLASSUNGSPUNKTE', language: 'de'},
+];
+
 const errorsText = ['error', 'exception', 'problem'];
 const lastTrackingError = {};
 
@@ -207,6 +219,22 @@ class Tools {
     static lowerCaseFirstChar(str) {
         const firstCh = str.charAt(0);
         return firstCh.toLowerCase() + str.substr(1);
+    }
+
+    static setIgnoreRules(callback) {
+        const storage = Tools.getStorage();
+        storage.get({ ignoredRules: ruleIdsIgnoredByDefault }, callback);
+    }
+
+    static getUserSettingsForRender(callback) {
+        const storage = Tools.getStorage();
+        storage.get({
+            dictionary: [],
+            disabledDomains: [],
+            autoCheckOnDomains: [],
+            ignoredRules: ruleIdsIgnoredByDefault,
+            havePremiumAccount: false
+        }, callback);
     }
 
     // Due to Transifex limited support for Android i18n files, we already have
