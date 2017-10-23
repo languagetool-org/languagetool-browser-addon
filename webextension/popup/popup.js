@@ -28,18 +28,6 @@ let googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetoo
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
 let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
 
-// turn off some rules by default because they are not that useful in a typical web context:
-const ruleIdsIgnoredByDefault = [
-    // English:
-    {id: 'EN_QUOTES', language: 'en'},
-    {id: 'DASH_RULE', language: 'en'},
-    // German:
-    {id: 'TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN', language: 'de'},
-    {id: 'FALSCHE_VERWENDUNG_DES_BINDESTRICHS', language: 'de'},
-    {id: 'BISSTRICH', language: 'de'},
-    {id: 'AUSLASSUNGSPUNKTE', language: 'de'},
-];
-
 // ask the user for a review in the store if they have used this add-on at least this many times:
 let minUsageForReviewRequest = 30;
 let pageUrlParam = "";
@@ -78,13 +66,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     html += '<div id="outerShortcutHint"></div>';
     html += "<hr>";
     let matches = data.matches;
-    Tools.getStorage().get({
-        dictionary: [],
-        disabledDomains: [],
-        autoCheckOnDomains: [],
-        ignoredRules: ruleIdsIgnoredByDefault,
-        havePremiumAccount: false
-    }, function(items) {
+    Tools.getUserSettingsForRender(items => {
         let matchesCount = 0;
         let disabledOnThisDomain = false;
         let autoCheckOnDomain = false;
@@ -425,9 +407,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
         link.addEventListener("click", function() {
             const storage = Tools.getStorage();
             if (link.getAttribute('data-ruleIdOn')) {
-                storage.get({
-                    ignoredRules: ruleIdsIgnoredByDefault
-                }, function(items) {
+                storage.setIgnoreRules(items => {
                     let idx = 0;
                     for (let rule of items.ignoredRules) {
                         if (rule.id == link.getAttribute('data-ruleIdOn')) {
@@ -443,9 +423,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                 });
 
             } else if (link.getAttribute('data-ruleIdOff')) {
-                storage.get({
-                    ignoredRules: ruleIdsIgnoredByDefault
-                }, function(items) {
+                storage.setIgnoreRules(items => {
                     const ignoredRules = items.ignoredRules;
                     const ruleId = link.getAttribute('data-ruleIdOff');
                     ignoredRules.push({
