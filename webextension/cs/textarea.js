@@ -29,6 +29,7 @@ const ERROR_BTN_CLASS = "lt-error-btn";
 const DISABLE_BTN_CLASS = "lt-disable-btn";
 const AUTO_CHECK_BTN_CLASS = "lt-auto-check-btn";
 const AUTO_CHECK_OFF_BTN_CLASS = "lt-auto-check-off-btn";
+const AUTO_CHECK_MANUAL_BTN_CLASS = "lt-auto-check-manual-btn";
 const MARGIN_TO_CORNER = 8;
 const REMIND_BTN_SIZE = 16;
 const CLEAN_TIMEOUT_MILLIS = 200;
@@ -124,6 +125,23 @@ function disableMenu(evt) {
       Tools.track(hostname, "reminder deactivated");
     }
   );
+}
+
+function manualAutoCheck(evt) {
+  evt.preventDefault();
+  autoCheck = false;
+  Tools.getStorage().set({
+    autoCheck
+  });
+  const textAreaElement = activeElement();
+  if (textAreaElement) {
+    if (textAreaElement.setActive) {
+      textAreaElement.setActive();
+    } else {
+      textAreaElement.focus();
+    }
+    positionMarkerOnChangeSize(true);
+  }
 }
 
 function autoCheckMenu(evt) {
@@ -263,18 +281,26 @@ function autoCheckLanguageToolButton(clickHandler, position, num) {
   const { top, left, offsetHeight, offsetWidth } = position;
   const btn = document.createElement(BTN_CLASS, { is: "a" });
   btn.onclick = clickHandler;
-  if (!autoCheckOnDomain) {
-    btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
-    btn.setAttribute(
-      "tooltip",
-      chrome.i18n.getMessage("autoCheckForThisDomainTitle")
-    );
+  if (autoCheck) {
+     btn.className = `${BTN_CLASS} ${AUTO_CHECK_MANUAL_BTN_CLASS}`;
+     btn.setAttribute(
+        "tooltip",
+        chrome.i18n.getMessage("autoCheckOffDesc")
+      );
   } else {
-    btn.className = `${BTN_CLASS} ${AUTO_CHECK_OFF_BTN_CLASS}`;
-    btn.setAttribute(
-      "tooltip",
-      chrome.i18n.getMessage("autoCheckForOffThisDomainTitle")
-    );
+    if (!autoCheckOnDomain) {
+      btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
+      btn.setAttribute(
+        "tooltip",
+        chrome.i18n.getMessage("autoCheckForThisDomainTitle")
+      );
+    } else {
+      btn.className = `${BTN_CLASS} ${AUTO_CHECK_OFF_BTN_CLASS}`;
+      btn.setAttribute(
+        "tooltip",
+        chrome.i18n.getMessage("autoCheckForOffThisDomainTitle")
+      );
+    }
   }
   styleRemindButton(btn, position, num);
   return btn;
@@ -304,7 +330,11 @@ function insertLanguageToolIcon(element) {
     remindLanguageToolButton(checkErrorMenu, position, 1),
   ];
 
-  btns.push(autoCheckLanguageToolButton(autoCheckMenu, position, 2));
+  if (autoCheck) {
+    btns.push(autoCheckLanguageToolButton(manualAutoCheck, position, 2));
+  } else {
+    btns.push(autoCheckLanguageToolButton(autoCheckMenu, position, 2));
+  }
   btns.push(disableLanguageToolButton(disableMenu, position, 3));
 
   textAreaWrapper(element, btns);
