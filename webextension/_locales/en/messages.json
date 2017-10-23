@@ -376,6 +376,10 @@
     "message": "Disable on these domains (one domain per line):",
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled"
   },
+  "autoCheckDesc": {
+    "message": "Auto-check on all domains by default",
+    "description": "Options dialog: auto-check on all domains by default"
+  },
   "autoCheckOnDomainsDesc": {
     "message": "Auto check text on these domains (one domain per line):",
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background"

@@ -52,6 +52,7 @@ function saveOptions() {
             apiServerUrl: url,
             ignoreQuotedLines: document.getElementById('ignoreQuotedLines').checked,
             havePremiumAccount: document.getElementById('havePremiumAccount').checked,
+            autoCheck: document.getElementById('autoCheck').checked,
             username: document.getElementById('username').value,
             password: document.getElementById('password').value,
             motherTongue: document.getElementById('motherTongue').value,
@@ -84,10 +85,12 @@ function restoreOptions() {
     document.getElementById('variant-pt-desc').textContent = chrome.i18n.getMessage("variantPtDesc");
     document.getElementById('variant-ca-desc').textContent = chrome.i18n.getMessage("variantCaDesc");
     document.getElementById('dictionaryDesc').textContent = chrome.i18n.getMessage("dictionaryDesc");
+    document.getElementById('autoCheckDesc').textContent = chrome.i18n.getMessage("autoCheckDesc");
     document.getElementById('domainsDesc').textContent = chrome.i18n.getMessage("domainsDesc");
     document.getElementById('autoCheckOnDomainsDesc').textContent = chrome.i18n.getMessage("autoCheckOnDomainsDesc");
     Tools.getStorage().get({
         apiServerUrl: defaultServerUrl,
+        autoCheck: true,
         ignoreQuotedLines: true,
         havePremiumAccount: false,
         username: "",
@@ -116,6 +119,8 @@ function restoreOptions() {
         const dict = items.dictionary.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         const domains = items.disabledDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         const autoCheckOnDomains = items.autoCheckOnDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+        document.getElementById('autoCheck').checked = items.autoCheck;
+        setAutoCheck(items.autoCheck);
         document.getElementById('dictionary').value = dict.join("\n") + "\n";
         document.getElementById('domains').value = domains.join("\n") + "\n";
         document.getElementById('autoCheckOnDomains').value = autoCheckOnDomains.join("\n") + "\n";
@@ -134,11 +139,16 @@ document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('save').addEventListener('click', saveOptions);
 document.getElementById('defaultServerLink').addEventListener('click', useDefaultServer);
 document.getElementById('havePremiumAccount').addEventListener('click', toggleHavePremiumCheckbox);
+document.getElementById('autoCheck').addEventListener('click', toggleAutoCheckCheckbox);
 document.getElementById('apiServerUrl').addEventListener('change', showPrivacyLink);
 document.getElementById('apiServerUrl').addEventListener('keyup', showPrivacyLink);
 
 function toggleHavePremiumCheckbox() {
     setPremium(this.checked);
+}
+
+function toggleAutoCheckCheckbox() {
+    setAutoCheck(this.checked);
 }
 
 function setPremium(enabled) {
@@ -149,6 +159,14 @@ function setPremium(enabled) {
     } else {
         document.getElementById('ltPlusAccess').style.display = "none";
         document.getElementById('ltServer').style.display = "block";
+    }
+}
+
+function setAutoCheck(enabled) {
+    if (!enabled) {
+        document.getElementById('autoCheckOnDomainsContainer').style.display = "table-row";
+    } else {
+        document.getElementById('autoCheckOnDomainsContainer').style.display = "none";
     }
 }
 
