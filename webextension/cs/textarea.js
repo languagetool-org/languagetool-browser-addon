@@ -141,7 +141,7 @@ function manualAutoCheck(evt) {
     } else {
       textAreaElement.focus();
     }
-    positionMarkerOnChangeSize(true);
+    positionMarkerOnChangeSize();
   }
 }
 
@@ -170,7 +170,7 @@ function autoCheckMenu(evt) {
         Tools.track(window.location.href, "auto-check error", error.message);
       });
     } else {
-      positionMarkerOnChangeSize(true);
+      positionMarkerOnChangeSize();
     }
   }
 
@@ -362,7 +362,10 @@ function showMarkerOnEditor(focusElement) {
 
 // detect on window resize, scroll
 let ticking = false;
-function positionMarkerOnChangeSize(forceRender = false) {
+let lastScrollPosition = 0;
+function positionMarkerOnChangeSize() {
+  lastScrollPosition = window.scrollY
+  console.warn('lastScrollPosition', lastScrollPosition);
   if (!ticking || forceRender) {
     window.requestAnimationFrame(() => {
       removeAllButtons();
@@ -371,8 +374,8 @@ function positionMarkerOnChangeSize(forceRender = false) {
       }
       ticking = false;
     });
+    ticking = true;
   }
-  ticking = true;
 }
 
 function showMatchedResultOnMarker(result) {
@@ -431,12 +434,12 @@ function showMatchedResultOnMarker(result) {
       }
       totalErrorOnCheckText = matchesCount;
       lastCheckResult = Object.assign({}, lastCheckResult, { total: matchesCount });
-      positionMarkerOnChangeSize(true);
+      positionMarkerOnChangeSize();
     });
   } else {
     totalErrorOnCheckText = 0;
     lastCheckResult = Object.assign({}, lastCheckResult, { total: 0, result: {}, markupList: [] });
-    positionMarkerOnChangeSize(true);
+    positionMarkerOnChangeSize();
   }
 }
 
@@ -445,7 +448,7 @@ function checkTextFromMarkup({ markupList, metaData }) {
     return Promise.resolve({ result: lastCheckResult.result });
   }
   lastCheckResult = Object.assign({}, lastCheckResult, { markupList, isProcess: true, isTyping: false });
-  positionMarkerOnChangeSize(true); // force render maker for show loading
+  positionMarkerOnChangeSize();
   if (!isAutoCheckEnable()) {
     return Promise.resolve({ result: {} });
   }
