@@ -325,9 +325,10 @@ function textAreaWrapper(textElement, btnElements) {
 }
 
 function insertLanguageToolIcon(element) {
-  const { offsetHeight, offsetWidth } = element;
+  const { offsetHeight, offsetWidth, offsetTop } = element;
+  const offsetHeightForLongText = window.innerHeight - offsetTop + (window.pageYOffset || document.documentElement.scrollTop);
   const position = Object.assign({}, offset(element), {
-    offsetHeight,
+    offsetHeight: offsetHeight > window.innerHeight && offsetHeightForLongText < offsetHeight ? offsetHeightForLongText : offsetHeight,
     offsetWidth
   });
   const btns = [
