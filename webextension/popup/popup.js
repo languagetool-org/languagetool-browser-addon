@@ -565,7 +565,7 @@ function startCheckMaybeWithWarning(tabs) {
                            '  <li><a class="privacyLink" id="confirmCheck" href="#">' + chrome.i18n.getMessage("continue") + '</a></li>' +
                            '  <li><a class="privacyLink" id="cancelCheck" href="#">' + chrome.i18n.getMessage("cancel") + '</a></li>' +
                            '</ul>';
-                message += '<input id="autoCheck" type="checkbox" checked>&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
+                message += '<input id="autoCheck" type="checkbox">&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
                 renderStatus(message);
                 document.getElementById("confirmCheck").addEventListener("click", function() {
                     Tools.getStorage().set({
