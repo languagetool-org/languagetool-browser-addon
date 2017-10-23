@@ -47,6 +47,7 @@ const pageUrlPosition = window.location.href.indexOf("?pageUrl=");
 if (pageUrlPosition !== -1) {
   pageUrlParam = window.location.href.substr(pageUrlPosition + 9);
 }
+let closePopupAfterRecheck = false;
 
 var testMode = false;
 var serverUrl = defaultServerUrl;
@@ -172,6 +173,9 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         if (matchesCount === 0) {
             html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
+            if (autoCheckOnDomain && closePopupAfterRecheck) {
+                sendMessageToTab(tabs[0].id, { action: "closePopup" }, function(response) {});
+            }
         }
         if (quotedLinesIgnored) {
             html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
@@ -477,6 +481,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                 sendMessageToTab(tabs[0].id, data, function(response) {
                     doCheck(tabs, "apply_suggestion");   // re-check, as applying changes might change context also for other errors
                 });
+                closePopupAfterRecheck = true;
             }
         });
     }
