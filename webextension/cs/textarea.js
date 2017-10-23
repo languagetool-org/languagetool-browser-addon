@@ -365,7 +365,6 @@ let ticking = false;
 let lastScrollPosition = 0;
 function positionMarkerOnChangeSize() {
   lastScrollPosition = window.scrollY
-  console.warn('lastScrollPosition', lastScrollPosition);
   if (!ticking || forceRender) {
     window.requestAnimationFrame(() => {
       removeAllButtons();
