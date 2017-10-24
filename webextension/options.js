@@ -61,8 +61,8 @@ function saveOptions() {
             ptVariant: document.getElementById('variant-pt').value,
             caVariant: document.getElementById('variant-ca').value,
             dictionary: document.getElementById('dictionary').value.split("\n").filter(a => a.length > 0),
-            disabledDomains: [... new Set(  document.getElementById("domains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))],
-            autoCheckOnDomains: [... new Set(  document.getElementById("autoCheckOnDomains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))]
+            disabledDomains: Array.from(new Set(  document.getElementById("domains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))),
+            autoCheckOnDomains: Array.from(new Set(  document.getElementById("autoCheckOnDomains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item)))
         }, function() {
             window.close();
         });
