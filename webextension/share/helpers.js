@@ -100,6 +100,8 @@ function isEditorElement(focusElement) {
       focusElement.contentEditable !== "inherit" ||
       (focusElement.tagName === "IFRAME" &&
         (focusElement.className.indexOf("cke_wysiwyg_frame") !== -1 ||
+         focusElement.name.indexOf("editor") !== -1 ||
+         focusElement.id.indexOf("editor") !== -1 ||
           focusElement.title.indexOf("Rich Text Area") !== -1)))
   );
 }
