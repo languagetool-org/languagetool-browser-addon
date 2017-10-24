@@ -393,7 +393,7 @@ let ticking = false;
 let lastScrollPosition = 0;
 function positionMarkerOnChangeSize() {
   lastScrollPosition = window.scrollY
-  if (!ticking || forceRender) {
+  if (!ticking) {
     window.requestAnimationFrame(() => {
       removeAllButtons();
       if (!disableOnDomain && isShowOnViewPort(document.activeElement)) {
