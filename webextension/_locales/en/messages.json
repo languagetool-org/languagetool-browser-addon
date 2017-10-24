@@ -381,8 +381,12 @@
     "description": "Options dialog: auto-check on all domains by default"
   },
   "autoCheckOffDesc": {
-    "message": "Auto-check off on all domains",
-    "description": "Options dialog: auto-check off on all domains"
+    "message": "Auto-check off on this domain",
+    "description": "Options dialog: auto-check off on this domain"
+  },
+  "autoCheckOnDesc": {
+    "message": "Auto-check on this domain",
+    "description": "Options dialog: auto-check on this domain"
   },
   "autoCheckOnDomainsDesc": {
     "message": "Auto check text on these domains (one domain per line):",
