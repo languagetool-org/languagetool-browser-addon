@@ -162,9 +162,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         if (quotedLinesIgnored) {
             html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
         }
-        if (response.url && autoCheckOnDomain) {
-            html += `<div id="turnOffAutoCheckIcon"><a href="#">${chrome.i18n.getMessage("turnOffAutoCheckIcon")}</a></div>`;
-        }
         if (items.ignoredRules && items.ignoredRules.length > 0) {
             const ruleItems = [];
             const currentLang = getShortCode(languageCode);
@@ -208,9 +205,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         if (disabledOnThisDomain) {
             setReactivateIconListener(response.url || pageUrlParam, tabs);
         }
-        if (autoCheckOnDomain) {
-            setTurnOffAutoCheckIconListener(response.url || pageUrlParam, tabs);
-        }
         if (matchesCount > 0) {
             fillReviewRequest(matchesCount);
         }
@@ -244,20 +238,6 @@ function setReactivateIconListener(url, tabs) {
           });
           document.getElementById("reactivateIcon").style.display = "none";
           sendMessageToTab(tabs[0].id, { action: 'reactivateIcon', pageUrl: url }, function(response) {});
-        }
-      );
-    });
-}
-
-function setTurnOffAutoCheckIconListener(url, tabs) {
-    document.getElementById("turnOffAutoCheckIcon").addEventListener("click", function() {
-        Tools.getStorage().get({ autoCheckOnDomains: [] }, items => {
-          const { hostname } = new URL(url);
-          Tools.getStorage().set({
-            autoCheckOnDomains: items.autoCheckOnDomains.filter(item => item !== hostname)
-          });
-          document.getElementById("turnOffAutoCheckIcon").style.display = "none";
-          sendMessageToTab(tabs[0].id, { action: 'turnOffAutoCheck', pageUrl: url }, function(response) {});
         }
       );
     });

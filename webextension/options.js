@@ -61,8 +61,9 @@ function saveOptions() {
             ptVariant: document.getElementById('variant-pt').value,
             caVariant: document.getElementById('variant-ca').value,
             dictionary: document.getElementById('dictionary').value.split("\n").filter(a => a.length > 0),
-            disabledDomains: [... new Set(  document.getElementById("domains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))],
-            autoCheckOnDomains: [... new Set(  document.getElementById("autoCheckOnDomains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))]
+            disabledDomains: Array.from(new Set(  document.getElementById("domains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))),
+            ignoreCheckOnDomains: Array.from(new Set(  document.getElementById("ignoreCheckOnDomains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item))),
+            autoCheckOnDomains: Array.from(new Set(  document.getElementById("autoCheckOnDomains").value.split("\n").filter(a => a.length > 0 && validURL(a)).map(item => domainName(item) || item)))
         }, function() {
             window.close();
         });
@@ -74,7 +75,7 @@ function restoreOptions() {
     document.getElementById('serverText').textContent = chrome.i18n.getMessage("serverText");
     document.getElementById('defaultServerLink').textContent = chrome.i18n.getMessage("defaultServerLink");
     document.getElementById('save').textContent = chrome.i18n.getMessage("save");
-    document.getElementById('ignoreQuotedLinesDesc').textContent = chrome.i18n.getMessage("ignoreQuotedLines");
+    document.getElementById('ignoreQuotedLinesDesc').innerHTML = chrome.i18n.getMessage("ignoreQuotedLines");
     document.getElementById('havePremiumAccountDesc').innerHTML = chrome.i18n.getMessage("havePremiumAccountDesc", "https://languagetoolplus.com");
     document.getElementById('usernameDesc').textContent = chrome.i18n.getMessage("username");
     document.getElementById('passwordDesc').textContent = chrome.i18n.getMessage("password");
@@ -88,6 +89,7 @@ function restoreOptions() {
     document.getElementById('autoCheckDesc').textContent = chrome.i18n.getMessage("autoCheckDesc");
     document.getElementById('domainsDesc').textContent = chrome.i18n.getMessage("domainsDesc");
     document.getElementById('autoCheckOnDomainsDesc').textContent = chrome.i18n.getMessage("autoCheckOnDomainsDesc");
+    document.getElementById('ignoreDomainsCheckDesc').textContent = chrome.i18n.getMessage("ignoreDomainsCheckDesc");
     Tools.getStorage().get({
         apiServerUrl: defaultServerUrl,
         autoCheck: false,
@@ -102,6 +104,7 @@ function restoreOptions() {
         caVariant: "ca-ES",
         dictionary: [],
         disabledDomains: [],
+        ignoreCheckOnDomains: [],
         autoCheckOnDomains: []
     }, function(items) {
         document.getElementById('apiServerUrl').value = items.apiServerUrl;
@@ -119,11 +122,13 @@ function restoreOptions() {
         const dict = items.dictionary.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         const domains = items.disabledDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         const autoCheckOnDomains = items.autoCheckOnDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+        const ignoreCheckOnDomains = items.ignoreCheckOnDomains.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         document.getElementById('autoCheck').checked = items.autoCheck;
         setAutoCheck(items.autoCheck);
         document.getElementById('dictionary').value = dict.join("\n") + "\n";
         document.getElementById('domains').value = domains.join("\n") + "\n";
         document.getElementById('autoCheckOnDomains').value = autoCheckOnDomains.join("\n") + "\n";
+        document.getElementById('ignoreCheckOnDomains').value = ignoreCheckOnDomains.join("\n") + "\n";
         showPrivacyLink();
     });
     setTimeout(function() { window.scrollTo(0, 0); }, 50);  // otherwise Chrome will show the bottom if the options page
@@ -165,8 +170,10 @@ function setPremium(enabled) {
 function setAutoCheck(enabled) {
     if (!enabled) {
         document.getElementById('autoCheckOnDomainsContainer').style.display = "table-row";
+        document.getElementById('autoCheckContainer').style.display = "none";
     } else {
         document.getElementById('autoCheckOnDomainsContainer').style.display = "none";
+        document.getElementById('autoCheckContainer').style.display = "table-row";
     }
 }
 

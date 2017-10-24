@@ -38,6 +38,7 @@ const BG_CHECK_TIMEOUT_MILLIS = 1000;
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let autoCheck = false;
+let ignoreCheckOnDomains = [];
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false, success: true };
 const activeElementHandler = ally.event.activeElement();
@@ -58,7 +59,9 @@ function cleanErrorMessage(msg) {
 }
 
 function isAutoCheckEnable() {
-  return autoCheckOnDomain || autoCheck;
+  const currentUrl = window.location.href;
+  const { hostname } = new URL(currentUrl);
+  return autoCheckOnDomain || (autoCheck && !ignoreCheckOnDomains.includes(hostname));
 }
 
 /** event handlers */
@@ -120,7 +123,7 @@ function disableMenu(evt) {
       const { hostname } = new URL(currentUrl);
       items.disabledDomains.push(hostname);
       Tools.getStorage().set({
-        disabledDomains: [...new Set(items.disabledDomains)]
+        disabledDomains: Array.from(new Set(items.disabledDomains))
       });
       Tools.track(hostname, "reminder deactivated");
     }
@@ -129,20 +132,36 @@ function disableMenu(evt) {
 
 function manualAutoCheck(evt) {
   evt.preventDefault();
-  autoCheck = false;
   lastCheckResult = Object.assign({},lastCheckResult, { markupList: [], result: {}, total: -1, isProcess: false, success: true });
-  Tools.getStorage().set({
-    autoCheck
+  const currentUrl = window.location.href;
+  const { hostname } = new URL(currentUrl);
+  Tools.getStorage().get(
+    {
+      ignoreCheckOnDomains: ignoreCheckOnDomains
+    },
+    items => {
+      if (!items.ignoreCheckOnDomains.includes(hostname)) {
+        items.ignoreCheckOnDomains.push(hostname);
+        ignoreCheckOnDomains = Array.from(new Set(items.ignoreCheckOnDomains));
+        Tools.getStorage().set({
+          ignoreCheckOnDomains
+        });
+      } else {
+        ignoreCheckOnDomains = items.ignoreCheckOnDomains.filter(item => item !== hostname);
+        Tools.getStorage().set({
+          ignoreCheckOnDomains
+        });
+      }
+      const textAreaElement = activeElement();
+      if (textAreaElement) {
+        if (textAreaElement.setActive) {
+          textAreaElement.setActive();
+        } else {
+          textAreaElement.focus();
+        }
+        positionMarkerOnChangeSize();
+      }
   });
-  const textAreaElement = activeElement();
-  if (textAreaElement) {
-    if (textAreaElement.setActive) {
-      textAreaElement.setActive();
-    } else {
-      textAreaElement.focus();
-    }
-    positionMarkerOnChangeSize();
-  }
 }
 
 function autoCheckMenu(evt) {
@@ -184,7 +203,7 @@ function autoCheckMenu(evt) {
       if (autoCheckOnDomain) {
         items.autoCheckOnDomains.push(hostname);
         Tools.getStorage().set({
-          autoCheckOnDomains: [...new Set(items.autoCheckOnDomains)]
+          autoCheckOnDomains: Array.from(new Set(items.autoCheckOnDomains))
         });
       } else {
         Tools.getStorage().set({
@@ -286,11 +305,20 @@ function autoCheckLanguageToolButton(clickHandler, position, num) {
   const btn = document.createElement(BTN_CLASS, { is: "a" });
   btn.onclick = clickHandler;
   if (autoCheck) {
-     btn.className = `${BTN_CLASS} ${AUTO_CHECK_MANUAL_BTN_CLASS}`;
-     btn.setAttribute(
-        "tooltip",
-        chrome.i18n.getMessage("autoCheckOffDesc")
-      );
+     const { hostname } = new URL(window.location.href);
+     if (ignoreCheckOnDomains.includes(hostname)) {
+        btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
+        btn.setAttribute(
+            "tooltip",
+            chrome.i18n.getMessage("autoCheckOnDesc")
+          );
+     } else {
+        btn.className = `${BTN_CLASS} ${AUTO_CHECK_MANUAL_BTN_CLASS}`;
+        btn.setAttribute(
+          "tooltip",
+          chrome.i18n.getMessage("autoCheckOffDesc")
+        );
+     }
   } else {
     if (!autoCheckOnDomain) {
       btn.className = `${BTN_CLASS} ${AUTO_CHECK_BTN_CLASS}`;
@@ -365,7 +393,7 @@ let ticking = false;
 let lastScrollPosition = 0;
 function positionMarkerOnChangeSize() {
   lastScrollPosition = window.scrollY
-  if (!ticking || forceRender) {
+  if (!ticking) {
     window.requestAnimationFrame(() => {
       removeAllButtons();
       if (!disableOnDomain && isShowOnViewPort(document.activeElement)) {
@@ -463,11 +491,11 @@ function checkTextFromMarkup({ markupList, metaData }) {
           lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, total: -1, isProcess: false  });
           return resolve({ result: {}, total: -1 });
         }
-        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, isProcess: false });
+        lastCheckResult = Object.assign({}, lastCheckResult, msg, { isProcess: false });
         return resolve(msg.result);
       } else {
         const { errorMessage } = msg;
-        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, result: {}, total: -1, isProcess: false });
+        lastCheckResult = Object.assign({}, lastCheckResult, msg, { result: {}, total: -1, isProcess: false });
         Tools.track(window.location.href, `error on checkTextFromMarkup: ${errorMessage}`);
         return resolve({});
       }
@@ -580,6 +608,7 @@ function allowToShowMarker(callback) {
       {
         disabledDomains: [],
         autoCheckOnDomains: [],
+        ignoreCheckOnDomains: [],
         ignoreQuotedLines: true,
         autoCheck: autoCheck,
       },
@@ -589,6 +618,7 @@ function allowToShowMarker(callback) {
         disableOnDomain = items.disabledDomains.includes(hostname);
         ignoreQuotedLines = items.ignoreQuotedLines;
         autoCheck = items.autoCheck;
+        ignoreCheckOnDomains = items.ignoreCheckOnDomains;
         if (disableOnDomain) {
           removeAllButtons();
         } else {
@@ -681,9 +711,11 @@ document.addEventListener(
     if (!disableOnDomain) {
       // use timeout for adjust html after rendering DOM
       // try to reposition for some site which is rendering from JS (e.g: Upwork)
+      setTimeout(() => {
+        showMarkerOnEditor(focusElement);
+        bindClickEventOnElement(focusElement);
+      },0);
       //setActiveElement(focusElement);  --> when commented in, I get: SecurityError: Blocked a frame with origin "http://localhost" from accessing a cross-origin frame.
-      showMarkerOnEditor(focusElement);
-      bindClickEventOnElement(focusElement);
 
       if (!cleanUpTimeout) {
         cleanUpTimeout = setTimeout(() => {
