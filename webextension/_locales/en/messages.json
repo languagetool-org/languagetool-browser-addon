@@ -425,8 +425,8 @@
     "description": "Show total error on hover on maker icon"
   },
   "foundAErrorOnCheckText": {
-    "message": "Found: $totalErrorOnCheckText$ error, view detail",
-    "description": "Show total errors on hover on maker icon",
+    "message": "Found $totalErrorOnCheckText$ error, view details",
+    "description": "Show total errors on hover on reminder icon",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -435,8 +435,8 @@
     }
   },
   "foundErrorsOnCheckText": {
-    "message": "Found: $totalErrorOnCheckText$ errors, view detail",
-    "description": "Show total errors on hover on maker icon",
+    "message": "Found $totalErrorOnCheckText$ errors, view details",
+    "description": "Show total errors on hover on reminder icon",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
