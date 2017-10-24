@@ -120,7 +120,7 @@ function disableMenu(evt) {
       const { hostname } = new URL(currentUrl);
       items.disabledDomains.push(hostname);
       Tools.getStorage().set({
-        disabledDomains: [...new Set(items.disabledDomains)]
+        disabledDomains: Array.from(new Set(items.disabledDomains))
       });
       Tools.track(hostname, "reminder deactivated");
     }
@@ -184,7 +184,7 @@ function autoCheckMenu(evt) {
       if (autoCheckOnDomain) {
         items.autoCheckOnDomains.push(hostname);
         Tools.getStorage().set({
-          autoCheckOnDomains: [...new Set(items.autoCheckOnDomains)]
+          autoCheckOnDomains: Array.from(new Set(items.autoCheckOnDomains))
         });
       } else {
         Tools.getStorage().set({
@@ -463,11 +463,11 @@ function checkTextFromMarkup({ markupList, metaData }) {
           lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, total: -1, isProcess: false  });
           return resolve({ result: {}, total: -1 });
         }
-        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, isProcess: false });
+        lastCheckResult = Object.assign({}, lastCheckResult, msg, { isProcess: false });
         return resolve(msg.result);
       } else {
         const { errorMessage } = msg;
-        lastCheckResult = Object.assign({}, lastCheckResult, { ...msg, result: {}, total: -1, isProcess: false });
+        lastCheckResult = Object.assign({}, lastCheckResult, msg, { result: {}, total: -1, isProcess: false });
         Tools.track(window.location.href, `error on checkTextFromMarkup: ${errorMessage}`);
         return resolve({});
       }
@@ -681,9 +681,11 @@ document.addEventListener(
     if (!disableOnDomain) {
       // use timeout for adjust html after rendering DOM
       // try to reposition for some site which is rendering from JS (e.g: Upwork)
+      setTimeout(() => {
+        showMarkerOnEditor(focusElement);
+        bindClickEventOnElement(focusElement);
+      },0);
       //setActiveElement(focusElement);  --> when commented in, I get: SecurityError: Blocked a frame with origin "http://localhost" from accessing a cross-origin frame.
-      showMarkerOnEditor(focusElement);
-      bindClickEventOnElement(focusElement);
 
       if (!cleanUpTimeout) {
         cleanUpTimeout = setTimeout(() => {
