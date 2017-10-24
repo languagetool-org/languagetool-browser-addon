@@ -388,8 +388,12 @@
     "message": "Auto-check on this domain",
     "description": "Options dialog: auto-check on this domain"
   },
+  "ignoreDomainsCheckDesc": {
+    "message": "Ignore on these domains (one domain per line):",
+    "description": "Options dialog: text for the textarea with the domains's where the check text won't run automatically in background"
+  },
   "autoCheckOnDomainsDesc": {
-    "message": "Auto check text on these domains (one domain per line):",
+    "message": "Auto-check text on these domains (one domain per line):",
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background"
   },
   "save": {
