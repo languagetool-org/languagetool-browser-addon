@@ -74,7 +74,7 @@ function restoreOptions() {
     document.getElementById('serverText').textContent = chrome.i18n.getMessage("serverText");
     document.getElementById('defaultServerLink').textContent = chrome.i18n.getMessage("defaultServerLink");
     document.getElementById('save').textContent = chrome.i18n.getMessage("save");
-    document.getElementById('ignoreQuotedLinesDesc').textContent = chrome.i18n.getMessage("ignoreQuotedLines");
+    document.getElementById('ignoreQuotedLinesDesc').innerHTML = chrome.i18n.getMessage("ignoreQuotedLines");
     document.getElementById('havePremiumAccountDesc').innerHTML = chrome.i18n.getMessage("havePremiumAccountDesc", "https://languagetoolplus.com");
     document.getElementById('usernameDesc').textContent = chrome.i18n.getMessage("username");
     document.getElementById('passwordDesc').textContent = chrome.i18n.getMessage("password");
