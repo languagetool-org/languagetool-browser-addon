@@ -17,6 +17,7 @@
  * USA
  */
 let activeTextarea;
+let iframeActiveElement;
 
 function activeElement() {
   return activeTextarea;
@@ -24,6 +25,15 @@ function activeElement() {
 
 function setActiveElement(el) {
   activeTextarea = el;
+  if (el.tagName === "IFRAME") {
+    iframeActiveElement = el.contentWindow.document.activeElement;
+  } else {
+    iframeActiveElement = null;
+  }
+}
+
+function activeElementOnIframe() {
+    return iframeActiveElement;
 }
 
 /**

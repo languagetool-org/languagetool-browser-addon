@@ -174,13 +174,15 @@ function applyCorrection(request) {
     } else if (activeElem.hasAttribute("contenteditable")) {
         found = replaceIn(activeElem, "innerHTML", newMarkupList);  // contentEditable=true
     } else if (activeElem.tagName === "IFRAME") {
-        const activeElem2 = activeElem.contentWindow.document.activeElement;
-        if (activeElem2 && activeElem2.innerHTML) {
-            found = replaceIn(activeElem2, "innerHTML", newMarkupList);  // e.g. on wordpress.com
-        } else if (isSimpleInput(activeElem2)) {
-            found = replaceIn(activeElem2, "value", newMarkupList);  // e.g. sending messages on upwork.com (https://www.upwork.com/e/.../contracts/v2/.../)
-        } else {
-            found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
+        const activeElem2 = activeElementOnIframe();
+        if (activeElem2)  {
+            if (activeElem2.innerHTML) {
+                found = replaceIn(activeElem2, "innerHTML", newMarkupList);  // e.g. on wordpress.com
+            } else if (isSimpleInput(activeElem2)) {
+                found = replaceIn(activeElem2, "value", newMarkupList);  // e.g. sending messages on upwork.com (https://www.upwork.com/e/.../contracts/v2/.../)
+            } else {
+                found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
+            }
         }
     }
     if (!found) {
