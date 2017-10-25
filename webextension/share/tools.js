@@ -232,8 +232,10 @@ class Tools {
             dictionary: [],
             disabledDomains: [],
             autoCheckOnDomains: [],
+            ignoreCheckOnDomains: [],
             ignoredRules: ruleIdsIgnoredByDefault,
-            havePremiumAccount: false
+            havePremiumAccount: false,
+            autoCheck: false
         }, callback);
     }
 

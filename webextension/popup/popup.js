@@ -70,10 +70,13 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         let matchesCount = 0;
         let disabledOnThisDomain = false;
         let autoCheckOnDomain = false;
+        let autoCheck = items.autoCheck;
+        let hasIgnoreDomain = false;
         if (response.url) {
             const { hostname } = new URL(response.url);
             disabledOnThisDomain = items.disabledDomains.includes(hostname);
             autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
+            hasIgnoreDomain = items.ignoreCheckOnDomains.includes(hostname);
             if (disabledOnThisDomain) {
                 html += `<div id="reactivateIcon"><a href="#"><img src='/images/reminder.png'>&nbsp;${chrome.i18n.getMessage("reactivateIcon")}</a></div>`;
             }
@@ -155,7 +158,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         if (matchesCount === 0) {
             html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
-            if (autoCheckOnDomain && closePopupAfterRecheck) {
+            if ((autoCheckOnDomain || (autoCheck && !hasIgnoreDomain)) && closePopupAfterRecheck) {
                 sendMessageToTab(tabs[0].id, { action: "closePopup" }, function(response) {});
             }
         }
