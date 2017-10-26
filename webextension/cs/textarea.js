@@ -392,7 +392,7 @@ function showMarkerOnEditor(focusElement) {
 let ticking = false;
 let lastScrollPosition = 0;
 function positionMarkerOnChangeSize() {
-  lastScrollPosition = window.scrollY
+  lastScrollPosition = window.scrollY;
   if (!ticking) {
     window.requestAnimationFrame(() => {
       removeAllButtons();
