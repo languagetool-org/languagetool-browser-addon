@@ -37,10 +37,16 @@ hr {
 
 #outerShortcutHint {}
 
+#turnOffAutoCheckIcon {
+}
+
 #shortcutHint,
 #reactivateIcon,
-#warning,
-#turnOffAutoCheckIcon {
+#warning {
+  padding: 8px;
+  background-color: #eeeeee;
+  border-radius: 7px;
+  margin-bottom: 8px;
 }
 
 #shortcutHint a,
