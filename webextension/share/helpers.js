@@ -25,10 +25,8 @@ function activeElement() {
 
 function setActiveElement(el) {
   activeTextarea = el;
-  if (el.tagName === "IFRAME") {
+  if (el.tagName === "IFRAME" && isEditorElement(el.contentWindow.document.activeElement)) {
     iframeActiveElement = el.contentWindow.document.activeElement;
-  } else {
-    iframeActiveElement = null;
   }
 }
 
