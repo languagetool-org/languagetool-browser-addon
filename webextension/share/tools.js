@@ -26,7 +26,7 @@ const MAX_TIME = 1 * 60 * 1000; // 1 minute
 // docs.google.com: Google Docs has a too complicated DOM (but its own add-on framework)
 // addons.mozilla.org: see http://stackoverflow.com/questions/42147966/
 const unsupportedSitesRegex = /^https?:\/\/(docs.google.com|chrome.google.com|addons.mozilla.org).*/;
-const notSupportMarkerSitesRegex = /^https?:\/\/(docs.google.com|chrome.google.com|addons.mozilla.org).*/;
+const notSupportMarkerSitesRegex = /^https?:\/\/(www.facebook.com|docs.google.com|chrome.google.com|addons.mozilla.org).*/;
 
 // turn off some rules by default because they are not that useful in a typical web context:
 const ruleIdsIgnoredByDefault = [
@@ -89,7 +89,7 @@ class Tools {
                         // compare the first item, make sure only max THROTTLE_REQUESTS per min
                         const now = Date.now();
                         const distanceRunTime = now - lastTrackingError[actionName][0];
-                        if (distanceRunTime >= MAX_TIME ) {
+                        if (distanceRunTime >= MAX_TIME) {
                             lastTrackingError[actionName].push(now);
                             lastTrackingError[actionName].splice(0,1);
                         } else {
