@@ -53,13 +53,29 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Sprache automatisch erkennen"
   },
+  "autoCheckDesc": {
+    "description": "Options dialog: auto-check on all domains by default",
+    "message": "Autom. Prüfung für alle Domains aktivieren"
+  },
+  "autoCheckForOffThisDomainTitle": {
+    "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
+    "message": "Autom. Prüfung für diese Domain deaktivieren"
+  },
   "autoCheckForThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
     "message": "Autom. Prüfung für diese Domain"
   },
+  "autoCheckOffDesc": {
+    "description": "Options dialog: auto-check off on this domain",
+    "message": "Auf dieser Domain nicht autom. prüfen"
+  },
+  "autoCheckOnDesc": {
+    "description": "Options dialog: auto-check on this domain",
+    "message": "Auf dieser Domain autom. prüfen"
+  },
   "autoCheckOnDomainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
-    "message": "Hier Text autom. prüfen (eine Domain pro Zeile):"
+    "message": "Auf diesen Domains autom. prüfen (eine Domain pro Zeile):"
   },
   "be": {
     "description": "automatically added by injectTranslation.py",
@@ -216,8 +232,8 @@
     "message": "Persisch"
   },
   "foundAErrorOnCheckText": {
-    "description": "Show total errors on hover on maker icon",
-    "message": "$totalErrorOnCheckText$ Fehler gefunden, für Details klicken",
+    "description": "Show total errors on hover on reminder icon",
+    "message": "$totalErrorOnCheckText$ Fehler, Klick für Details",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -226,8 +242,8 @@
     }
   },
   "foundErrorsOnCheckText": {
-    "description": "Show total errors on hover on maker icon",
-    "message": "$totalErrorOnCheckText$ Fehler gefunden, für Details klicken",
+    "description": "Show total errors on hover on reminder icon",
+    "message": "$totalErrorOnCheckText$ Fehler, Klick für Details",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -270,6 +286,10 @@
         "example": "https://languagetoolplus.com"
       }
     }
+  },
+  "ignoreDomainsCheckDesc": {
+    "description": "Options dialog: text for the textarea with the domains's where the check text won't run automatically in background",
+    "message": "Auf diesen Domains nicht autom. prüfen (eine Domain pro Zeile):"
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
@@ -608,10 +628,6 @@
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
     "message": "Markierten Text oder Text in Textfeld mit LanguageTool überprüfen"
-  },
-  "turnOffAutoCheckIcon": {
-    "description": "Turn off auto check icon for a domain",
-    "message": "Sie haben die automatische Prüfung für diese Domain aktiviert, klicken Sie hier, um die wieder zu deaktivieren."
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
