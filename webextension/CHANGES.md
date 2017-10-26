@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.27 (2017-10-26)
+  * new option to auto-check on every domain
+  * bug fixes
+
 ### 1.0.26 (2017-10-22)
   * Text can now be checked automatically. This needs to be activated once
     per domain by hovering over the reminder icon in the lower right corner
