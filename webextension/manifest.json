@@ -36,6 +36,8 @@
         "vendors/ally.js",
         "vendors/most.js",
         "vendors/featherlight/featherlight.js",
+        "vendors/bililiteRange/bililiteRange.js",
+        "vendors/bililiteRange/jquery.sendkeys.js",
         "share/helpers.js",
         "share/tools.js",
         "share/markup.js",

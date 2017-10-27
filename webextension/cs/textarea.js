@@ -575,6 +575,12 @@ function bindClickEventOnElement(currentElement) {
     }
 
     if (!currentElement.getAttribute("lt-bind-click")) {
+      // NOTE: Test simulate key press on click event
+      // if (currentElement.tagName === 'IFRAME') {
+      //   $(currentElement.contentWindow.document.activeElement).sendkeys('a');
+      // } else {
+      //   $(currentElement).sendkeys('a');
+      // }
       currentElement.addEventListener(
         "mouseup",
         () => {
