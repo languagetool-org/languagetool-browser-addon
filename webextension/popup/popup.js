@@ -24,7 +24,7 @@ const thisExtensionUrl = "https://chrome.google.com/webstore/detail/languagetool
 const googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm";
 
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
-const unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
+const unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?medium.com.*/;
 
 // ask the user for a review in the store if they have used this add-on at least this many times:
 const minUsageForReviewRequest = 30;

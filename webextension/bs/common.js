@@ -88,10 +88,10 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
           //console.log("metaData", metaData);
           //console.log("havePremiumAccount", items.havePremiumAccount);
           if (havePremiumAccount) {  // requires LT 3.9 or later
-              const json = {text: text, metaData: metaData};
+              const json = {text: text.trim(), metaData: metaData};
               params += '&data=' + encodeURIComponent(JSON.stringify(json));
           } else {
-              params += '&text=' + encodeURIComponent(text);
+              params += '&text=' + encodeURIComponent(text.trim());
           }
           if (motherTongue) {
               params += "&motherTongue=" + motherTongue;

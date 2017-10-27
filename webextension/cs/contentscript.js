@@ -191,6 +191,7 @@ function createSelection(field, start, end, searchText = '') {
         // select text for contentEditable
         const range = document.createRange();
         range.selectNodeContents(field);
+        field.focus();
         const textNode = findNodeContainText(field, searchText)
         console.warn('textNode', textNode);
         range.setStart(textNode.firstChild, start);
