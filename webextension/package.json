@@ -1,16 +1,18 @@
 {
     "name": "LanguageTool",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "LanguageTool - Grammar and Style Checker",
     "main": "index.js",
     "repository": "https://github.com/languagetool-org/languagetool-browser-addon",
     "author": "Daniel Naber (http://www.danielnaber.de)",
     "license": "LGPL-2.1",
     "scripts": {
-        "test": "./node_modules/mocha/bin/mocha"
+        "test": "./node_modules/mocha/bin/mocha",
+        "es6": "./node_modules/es-check/index.js check es6 ./vendors/**/*.js ./bs/**/*.js ./cs/**/*.js ./popup/**/*.js ./share/**/*.js"
     },
     "devDependencies": {
         "assert": "^1.4.1",
+        "es-check": "^1.0.3",
         "eslint": "^4.9.0",
         "eslint-config-airbnb-base": "^12.1.0",
         "eslint-plugin-import": "^2.8.0",

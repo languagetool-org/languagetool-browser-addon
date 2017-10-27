@@ -1,6 +1,6 @@
-/* LanguageTool WebExtension 
+/* LanguageTool WebExtension
  * Copyright (C) 2015-2017 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -155,27 +155,56 @@ function getMarkupListOfActiveElement(elem) {
     }
 }
 
-function applyCorrection(request) {
-    let newMarkupList;
-    try {
-        newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
-    } catch (e) {
-        // e.g. when replacement fails because of complicated HTML
-        alert(e.toString());
-        Tools.track(request.pageUrl, "Exception in applyCorrection: " + e.message);
-        return;
+function createSelection(field, start, end) {
+    if( field.createTextRange ) {
+      var selRange = field.createTextRange();
+      selRange.collapse(true);
+      selRange.moveStart('character', start);
+      selRange.moveEnd('character', end);
+      selRange.select();
+      field.focus();
+      return true;
+    } else if( field.setSelectionRange ) {
+      field.focus();
+      field.setSelectionRange(start, end);
+      return true;
+    } else if( typeof field.selectionStart != 'undefined' ) {
+      field.selectionStart = start;
+      field.selectionEnd = end;
+      field.focus();
+      return true;
+    } else {
+        console.warn('failed to create selection on', field);
+        return false;
     }
-    // TODO: active element might have changed in between?!
-    const activeElem = activeElement();
+}
+
+function applyByTypings({ element, errorOffset, errorText, replacement }) {
+    let found = createSelection(element, errorOffset, errorOffset + errorText.length);
+    if (found) {
+        $(element).sendkeys(replacement);
+    }
+}
+
+function applyCorrection(request) {
     // Note: this duplicates the logic from getTextOfActiveElement():
-    let found = false;
-    if (isSimpleInput(activeElem)) {
-        found = replaceIn(activeElem, "value", newMarkupList);
-    } else if (activeElem.hasAttribute("contenteditable")) {
-        found = replaceIn(activeElem, "innerHTML", newMarkupList);  // contentEditable=true
+    const activeElem = activeElement();
+    let found = true;
+    const { errorOffset, errorText, replacement } = request;
+    if (isSimpleInput(activeElem) || activeElem.hasAttribute("contenteditable")) {
+        applyByTypings({ element: activeElem, errorOffset, errorText, replacement });
     } else if (activeElem.tagName === "IFRAME") {
         const activeElem2 = activeElementOnIframe();
-        if (activeElem2)  {
+        let newMarkupList;
+        if (activeElem2) {
+            try {
+                newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
+            } catch (e) {
+                // e.g. when replacement fails because of complicated HTML
+                alert(e.toString());
+                Tools.track(request.pageUrl, "Exception in applyCorrection: " + e.message);
+                return;
+            }
             if (activeElem2.innerHTML) {
                 found = replaceIn(activeElem2, "innerHTML", newMarkupList);  // e.g. on wordpress.com
             } else if (isSimpleInput(activeElem2)) {
@@ -183,8 +212,11 @@ function applyCorrection(request) {
             } else {
                 found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
             }
+        } else {
+            found = false;
         }
     }
+
     if (!found) {
         alert(chrome.i18n.getMessage("noReplacementPossible"));
         Tools.track(request.pageUrl, "Problem in applyCorrection: noReplacementPossible");
@@ -200,7 +232,7 @@ function isSimpleInput(elem) {
     }
     return false;
 }
-    
+
 function replaceIn(elem, elemValue, markupList) {
     if (elem && elem[elemValue]) {
         // Note for reviewer: elemValue can be 'innerHTML', but markupList always comes from
