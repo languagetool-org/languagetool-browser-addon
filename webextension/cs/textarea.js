@@ -272,9 +272,7 @@ function remindLanguageToolButton(clickHandler, position, num) {
           btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
         }
       } else {
-        btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
-        btn.setAttribute("tooltip", cleanErrorMessage(lastCheckResult.errorMessage));
-        btn.innerText = "E";
+        assignErrorStyle(btn, cleanErrorMessage(lastCheckResult.errorMessage));
       }
      }
   } else {
@@ -283,8 +281,20 @@ function remindLanguageToolButton(clickHandler, position, num) {
   }
 
   btn.onclick = clickHandler;
+  btn.onmouseover = function() {
+    if (chrome.i18n.getMessage("reminderIconTitle") === undefined) {
+      // this happens after first installation and after add-on update
+      assignErrorStyle(btn, "Page reload needed to make text checking work");
+    }
+  };
   styleRemindButton(btn, position, num);
   return btn;
+}
+
+function assignErrorStyle(btn, msg) {
+  btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+  btn.setAttribute("tooltip", msg);
+  btn.innerText = "E";
 }
 
 function disableLanguageToolButton(clickHandler, position, num) {
