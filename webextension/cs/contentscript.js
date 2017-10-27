@@ -155,7 +155,24 @@ function getMarkupListOfActiveElement(elem) {
     }
 }
 
-function createSelection(field, start, end) {
+function findNodeContainText(element, searchText) {
+    if (element.textContent && element.textContent.includes(searchText) && element.firstChild && element.firstChild.nodeType === 3) {
+        return element;
+    } else {
+        // find in childNodes
+        if (element.childNodes && element.childNodes.length) {
+            for (let elem of element.childNodes) {
+                const found = findNodeContainText(elem, searchText)
+                if (found) {
+                    return found;
+                }
+            }
+        }
+        return null;
+    }
+}
+
+function createSelection(field, start, end, searchText = '') {
     if( field.createTextRange ) {
       var selRange = field.createTextRange();
       selRange.collapse(true);
@@ -163,24 +180,31 @@ function createSelection(field, start, end) {
       selRange.moveEnd('character', end);
       selRange.select();
       field.focus();
-      return true;
     } else if( field.setSelectionRange ) {
       field.focus();
       field.setSelectionRange(start, end);
-      return true;
     } else if( typeof field.selectionStart != 'undefined' ) {
       field.selectionStart = start;
       field.selectionEnd = end;
       field.focus();
-      return true;
     } else {
-        console.warn('failed to create selection on', field);
-        return false;
+        // select text for contentEditable
+        const range = document.createRange();
+        range.selectNodeContents(field);
+        const textNode = findNodeContainText(field, searchText)
+        console.warn('textNode', textNode);
+        range.setStart(textNode.firstChild, start);
+        range.setEnd(textNode.firstChild, end);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
     }
+    return true;
 }
 
 function applyByTypings({ element, errorOffset, errorText, replacement }) {
-    let found = createSelection(element, errorOffset, errorOffset + errorText.length);
+    console.warn('applyByTypings', element, errorOffset, errorText, replacement);
+    let found = createSelection(element, errorOffset, errorOffset + errorText.length, errorText);
     if (found) {
         $(element).sendkeys(replacement);
     }
