@@ -18,18 +18,17 @@
  */
 "use strict";
 
-let defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in options.js
-let defaultPremiumServerUrl = 'https://languagetoolplus.com/api/v2';
-
-let thisExtensionUrl = "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji";
-
-let googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm";
+const defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in options.js
+const defaultPremiumServerUrl = 'https://languagetoolplus.com/api/v2';
+const thisExtensionUrl = "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji";
+const googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm";
 
 // see https://github.com/languagetool-org/languagetool-browser-addon/issues/70:
-let unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
+const unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
 
 // ask the user for a review in the store if they have used this add-on at least this many times:
-let minUsageForReviewRequest = 30;
+const minUsageForReviewRequest = 30;
+
 let pageUrlParam = "";
 const pageUrlPosition = window.location.href.indexOf("?pageUrl=");
 if (pageUrlPosition !== -1) {

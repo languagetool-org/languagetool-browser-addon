@@ -89,7 +89,7 @@ class Tools {
                         // compare the first item, make sure only max THROTTLE_REQUESTS per min
                         const now = Date.now();
                         const distanceRunTime = now - lastTrackingError[actionName][0];
-                        if (distanceRunTime >= MAX_TIME ) {
+                        if (distanceRunTime >= MAX_TIME) {
                             lastTrackingError[actionName].push(now);
                             lastTrackingError[actionName].splice(0,1);
                         } else {
