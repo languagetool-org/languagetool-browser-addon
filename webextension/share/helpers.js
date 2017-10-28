@@ -110,7 +110,7 @@ function isEditorElement(focusElement) {
         (focusElement.className.indexOf("cke_wysiwyg_frame") !== -1 ||
          focusElement.name.indexOf("editor") !== -1 ||
          focusElement.id.indexOf("editor") !== -1 ||
-          focusElement.title.indexOf("Rich Text Area") !== -1)))
+         (focusElement.title && focusElement.title.indexOf("Rich Text Area") !== -1))))
   );
 }
 
