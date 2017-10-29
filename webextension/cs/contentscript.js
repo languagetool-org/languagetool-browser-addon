@@ -1,6 +1,6 @@
-/* LanguageTool WebExtension 
+/* LanguageTool WebExtension
  * Copyright (C) 2015-2017 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -174,16 +174,14 @@ function applyCorrection(request) {
     } else if (activeElem.hasAttribute("contenteditable")) {
         found = replaceIn(activeElem, "innerHTML", newMarkupList);  // contentEditable=true
     } else if (activeElem.tagName === "IFRAME") {
-        const activeElem2 = activeElementOnIframe();
-        if (activeElem2)  {
-            if (activeElem2.innerHTML) {
-                found = replaceIn(activeElem2, "innerHTML", newMarkupList);  // e.g. on wordpress.com
-            } else if (isSimpleInput(activeElem2)) {
-                found = replaceIn(activeElem2, "value", newMarkupList);  // e.g. sending messages on upwork.com (https://www.upwork.com/e/.../contracts/v2/.../)
-            } else {
-                found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
-            }
-        }
+      const activeElem2 = activeElem.contentWindow.document.activeElement;
+      if (activeElem2 && activeElem2.innerHTML) {
+          found = replaceIn(activeElem2, "innerHTML", newMarkupList);  // e.g. on wordpress.com
+      } else if (isSimpleInput(activeElem2)) {
+          found = replaceIn(activeElem2, "value", newMarkupList);  // e.g. sending messages on upwork.com (https://www.upwork.com/e/.../contracts/v2/.../)
+      } else {
+          found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
+      }
     }
     if (!found) {
         alert(chrome.i18n.getMessage("noReplacementPossible"));
@@ -200,7 +198,7 @@ function isSimpleInput(elem) {
     }
     return false;
 }
-    
+
 function replaceIn(elem, elemValue, markupList) {
     if (elem && elem[elemValue]) {
         // Note for reviewer: elemValue can be 'innerHTML', but markupList always comes from
