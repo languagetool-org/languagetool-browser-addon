@@ -266,7 +266,7 @@ function remindLanguageToolButton(clickHandler, position, num) {
           btn.innerText = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
         } else if (totalErrorOnCheckText === 0) {
           btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
-          btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
+          btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorsFound"));
         } else {
           btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
           btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
