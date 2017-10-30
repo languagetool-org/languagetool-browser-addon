@@ -26,7 +26,7 @@ const MAX_TIME = 1 * 60 * 1000; // 1 minute
 // docs.google.com: Google Docs has a too complicated DOM (but its own add-on framework)
 // addons.mozilla.org: see http://stackoverflow.com/questions/42147966/
 const unsupportedSitesRegex = /^https?:\/\/(docs.google.com|chrome.google.com|addons.mozilla.org).*/;
-const notSupportMarkerSitesRegex = /^https?:\/\/(www.facebook.com|docs.google.com|chrome.google.com|addons.mozilla.org).*/;
+const notSupportMarkerSitesRegex = /^https?:\/\/(www.facebook.com|facebook.com|docs.google.com|chrome.google.com|addons.mozilla.org|.*wikipedia.org.*&veaction=edit).*/;
 
 // turn off some rules by default because they are not that useful in a typical web context:
 const ruleIdsIgnoredByDefault = [
