@@ -433,7 +433,8 @@ var gif = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAE
 var focusAreaImgTabindex = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = '<map name="image-map-tabindex-test">' + '<area shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#image-map-tabindex-test" tabindex="-1" alt="" src="' + gif + '">';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<map name="image-map-tabindex-test">' + '<area shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#image-map-tabindex-test" tabindex="-1" alt="" src="' + gif + '">';
 
     return element.querySelector('area');
   }
@@ -443,7 +444,8 @@ var focusAreaImgTabindex = {
 var focusAreaTabindex = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = '<map name="image-map-tabindex-test">' + '<area href="#void" tabindex="-1" shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#image-map-tabindex-test" alt="" src="' + gif + '">';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<map name="image-map-tabindex-test">' + '<area href="#void" tabindex="-1" shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#image-map-tabindex-test" alt="" src="' + gif + '">';
 
     return false;
   },
@@ -464,7 +466,8 @@ var focusAreaTabindex = {
 var focusAreaWithoutHref = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = '<map name="image-map-area-href-test">' + '<area shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#image-map-area-href-test" alt="" src="' + gif + '">';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<map name="image-map-area-href-test">' + '<area shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#image-map-area-href-test" alt="" src="' + gif + '">';
 
     return element.querySelector('area');
   },
@@ -501,7 +504,8 @@ var invalidGif = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ZZZZZZZZZZZZZZZ
 var focusBrokenImageMap = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = '<map name="broken-image-map-test"><area href="#void" shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#broken-image-map-test" alt="" src="' + invalidGif + '">';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<map name="broken-image-map-test"><area href="#void" shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#broken-image-map-test" alt="" src="' + invalidGif + '">';
 
     return element.querySelector('area');
   }
@@ -513,7 +517,8 @@ var focusChildrenOfFocusableFlexbox = {
   mutate: function mutate(element) {
     element.setAttribute('tabindex', '-1');
     element.setAttribute('style', 'display: -webkit-flex; display: -ms-flexbox; display: flex;');
-    element.innerHTML = '<span style="display: block;">hello</span>';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<span style="display: block;">hello</span>';
     return element.querySelector('span');
   }
 };
@@ -533,7 +538,8 @@ var focusFieldsetDisabled = {
 var focusFieldset = {
   element: 'fieldset',
   mutate: function mutate(element) {
-    element.innerHTML = '<legend>legend</legend><p>content</p>';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<legend>legend</legend><p>content</p>';
   }
 };
 
@@ -542,7 +548,8 @@ var focusFlexboxContainer = {
   element: 'span',
   mutate: function mutate(element) {
     element.setAttribute('style', 'display: -webkit-flex; display: -ms-flexbox; display: flex;');
-    element.innerHTML = '<span style="display: block;">hello</span>';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<span style="display: block;">hello</span>';
   }
 };
 
@@ -564,7 +571,8 @@ var focusImgIsmap = {
   element: 'a',
   mutate: function mutate(element) {
     element.href = '#void';
-    element.innerHTML = '<img ismap src="' + gif + '" alt="">';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<img ismap src="' + gif + '" alt="">';
     return element.querySelector('img');
   }
 };
@@ -574,7 +582,8 @@ var focusImgIsmap = {
 var focusImgUsemapTabindex = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = '<map name="image-map-tabindex-test"><area href="#void" shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#image-map-tabindex-test" tabindex="-1" alt="" ' + 'src="' + gif + '">';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<map name="image-map-tabindex-test"><area href="#void" shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#image-map-tabindex-test" tabindex="-1" alt="" ' + 'src="' + gif + '">';
 
     return element.querySelector('img');
   }
@@ -685,7 +694,8 @@ var focusObjectSwf = function focusObjectSwf() {
 var focusRedirectImgUsemap = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = '<map name="focus-redirect-img-usemap"><area href="#void" shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#focus-redirect-img-usemap" alt="" ' + 'src="' + gif + '">';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<map name="focus-redirect-img-usemap"><area href="#void" shape="rect" coords="63,19,144,45"></map>' + '<img usemap="#focus-redirect-img-usemap" alt="" ' + 'src="' + gif + '">';
 
     // focus the <img>, not the <div>
     return element.querySelector('img');
@@ -701,7 +711,8 @@ var focusRedirectImgUsemap = {
 var focusRedirectLegend = {
   element: 'fieldset',
   mutate: function mutate(element) {
-    element.innerHTML = '<legend>legend</legend><input tabindex="-1"><input tabindex="0">';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<legend>legend</legend><input tabindex="-1"><input tabindex="0">';
     // take care of focus in validate();
     return false;
   },
@@ -723,7 +734,8 @@ var focusScrollBody = {
   element: 'div',
   mutate: function mutate(element) {
     element.setAttribute('style', 'width: 100px; height: 50px; overflow: auto;');
-    element.innerHTML = '<div style="width: 500px; height: 40px;">scrollable content</div>';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:7
+    //element.innerHTML = '<div style="width: 500px; height: 40px;">scrollable content</div>';
     return element.querySelector('div');
   }
 };
@@ -733,7 +745,8 @@ var focusScrollContainerWithoutOverflow = {
   element: 'div',
   mutate: function mutate(element) {
     element.setAttribute('style', 'width: 100px; height: 50px;');
-    element.innerHTML = '<div style="width: 500px; height: 40px;">scrollable content</div>';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<div style="width: 500px; height: 40px;">scrollable content</div>';
   }
 };
 
@@ -742,21 +755,24 @@ var focusScrollContainer = {
   element: 'div',
   mutate: function mutate(element) {
     element.setAttribute('style', 'width: 100px; height: 50px; overflow: auto;');
-    element.innerHTML = '<div style="width: 500px; height: 40px;">scrollable content</div>';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<div style="width: 500px; height: 40px;">scrollable content</div>';
   }
 };
 
 var focusSummary = {
   element: 'details',
   mutate: function mutate(element) {
-    element.innerHTML = '<summary>foo</summary><p>content</p>';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = '<summary>foo</summary><p>content</p>';
     return element.firstElementChild;
   }
 };
 
 function makeFocusableForeignObject() {
   var fragment = document.createElement('div');
-  fragment.innerHTML = '<svg><foreignObject width="30" height="30">\n      <input type="text"/>\n  </foreignObject></svg>';
+  // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+  //fragment.innerHTML = '<svg><foreignObject width="30" height="30">\n      <input type="text"/>\n  </foreignObject></svg>';
 
   return fragment.firstChild.firstChild;
 }
@@ -811,7 +827,8 @@ function validate(element, focusTarget, _document) {
 var focusSvgFocusableAttribute = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = generate('<text focusable="true">a</text>');
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = generate('<text focusable="true">a</text>');
     return element.querySelector('text');
   },
   validate: validate
@@ -820,7 +837,8 @@ var focusSvgFocusableAttribute = {
 var focusSvgTabindexAttribute = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = generate('<text tabindex="0">a</text>');
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = generate('<text tabindex="0">a</text>');
     return element.querySelector('text');
   },
   validate: validate
@@ -829,7 +847,8 @@ var focusSvgTabindexAttribute = {
 var focusSvgNegativeTabindexAttribute = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = generate('<text tabindex="-1">a</text>');
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = generate('<text tabindex="-1">a</text>');
     return element.querySelector('text');
   },
   validate: validate
@@ -838,7 +857,8 @@ var focusSvgNegativeTabindexAttribute = {
 var focusSvgUseTabindex = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = generate(['<g id="ally-test-target"><a xlink:href="#void"><text>link</text></a></g>', '<use xlink:href="#ally-test-target" x="0" y="0" tabindex="-1" />'].join(''));
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = generate(['<g id="ally-test-target"><a xlink:href="#void"><text>link</text></a></g>', '<use xlink:href="#ally-test-target" x="0" y="0" tabindex="-1" />'].join(''));
 
     return element.querySelector('use');
   },
@@ -848,7 +868,8 @@ var focusSvgUseTabindex = {
 var focusSvgForeignobjectTabindex = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = generate('<foreignObject tabindex="-1"><input type="text" /></foreignObject>');
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = generate('<foreignObject tabindex="-1"><input type="text" /></foreignObject>');
     // Safari 8's quersSelector() can't identify foreignObject, but getElementyByTagName() can
     return element.querySelector('foreignObject') || element.getElementsByTagName('foreignObject')[0];
   },
@@ -870,7 +891,8 @@ var focusSvgInIframe = function focusSvgInIframe() {
 var focusSvg = {
   element: 'div',
   mutate: function mutate(element) {
-    element.innerHTML = generate('');
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //element.innerHTML = generate('');
     return element.firstChild;
   },
   validate: validate
@@ -892,7 +914,8 @@ var focusTable = {
     // https://stackoverflow.com/a/8097055/515124
     // element.innerHTML = '<tr><td>cell</td></tr>';
     var fragment = _document.createDocumentFragment();
-    fragment.innerHTML = '<tr><td>cell</td></tr>';
+    // dnaber: commented out to calm down Mozilla validator - doesn't seem to be needed:
+    //fragment.innerHTML = '<tr><td>cell</td></tr>';
     element.appendChild(fragment);
   }
 };
