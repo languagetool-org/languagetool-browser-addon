@@ -137,10 +137,11 @@ function restoreOptions() {
     setTimeout(function() { window.scrollTo(0, 0); }, 50);  // otherwise Chrome will show the bottom if the options page
 }
 
-function useDefaultServer() {
+function useDefaultServer(evt) {
     document.getElementById('apiServerUrl').value = defaultServerUrl;
     document.getElementById('status').textContent = "";
     showPrivacyLink();
+    evt.preventDefault();
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
