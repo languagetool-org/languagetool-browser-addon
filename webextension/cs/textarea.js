@@ -80,6 +80,7 @@ function checkErrorMenu(evt) {
   }
   const popupWidth = 450;
   const popupHeight = Math.min(window.innerHeight * 80 / 100, 600);
+  $.featherlight.defaults.closeIcon = "&nbsp;";
   $.featherlight({
     iframe: `${chrome.runtime.getURL("popup.html")}?pageUrl=${currentUrl}`,
     iframeWidth: popupWidth,
