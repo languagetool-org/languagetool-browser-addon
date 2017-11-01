@@ -185,6 +185,8 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 html += ruleItems.join(" &middot; ");
             }
         }
+        //TODO: comment in and make the close action work for both popups:
+        //html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
         html += "<p id='reviewRequest'></p>";
         if (serverUrl === defaultServerUrl) {
             html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
@@ -368,10 +370,15 @@ function addLinkListeners(response, tabs, languageCode) {
         const langSwitch = prevLanguage + " -> " + manuallySelectedLanguage;
         doCheck(tabs, "switch_language", langSwitch);
     });
-    const closeLink = document.getElementById("closeLink");
-    closeLink.addEventListener("click", function() {
+    document.getElementById("closeLink").addEventListener("click", function() {
         self.close();
     });
+    const closeLink2 = document.getElementById("close");
+    if (closeLink2) {
+      closeLink2.addEventListener("click", function() {
+        self.close();
+      });
+    }
     addListenerActions(document.getElementsByTagName("a"), tabs, response, languageCode);
     addListenerActions(document.getElementsByTagName("div"), tabs, response, languageCode);
 }

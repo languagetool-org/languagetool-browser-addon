@@ -443,5 +443,9 @@
         "example": "2"
       }
     }
+  },
+  "close": {
+    "message": "Close",
+    "description": "Text of large button at the bottom of the popup"
   }
 }
