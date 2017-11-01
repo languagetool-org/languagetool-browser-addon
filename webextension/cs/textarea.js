@@ -86,10 +86,8 @@ function checkErrorMenu(evt) {
     iframeHeight: popupHeight,
     namespace: "ltaddon-popup",
     beforeOpen: () => {
-      const popupContainers = document.getElementsByClassName(
-        POPUP_CONTENT_CLASS
-      );
-      for (let counter = 0; counter < popupContainers.length; counter += 1) {
+      const popupContainers = document.getElementsByClassName(POPUP_CONTENT_CLASS);
+      for (let counter = 0; counter < popupContainers.length; counter++) {
         const popupContainer = popupContainers[counter];
         popupContainer.style.minWidth = `${popupWidth}px`;
         popupContainer.style.minHeight = `${popupHeight}px`;
@@ -104,7 +102,7 @@ function checkErrorMenu(evt) {
 
 function removeAllButtons() {
   const btns = document.getElementsByClassName(REMIND_WRAPPER_CLASS);
-  for (let counter = 0; counter < btns.length; counter += 1) {
+  for (let counter = 0; counter < btns.length; counter++) {
     const btn = btns[counter];
     btn.parentNode.removeChild(btn);
   }
