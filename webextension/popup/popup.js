@@ -421,6 +421,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                         language: getShortCode(document.getElementById("language").value)
                     });
                     storage.set({'ignoredRules': ignoredRules}, function() {
+                        closePopupAfterRecheck = true;
                         reCheck(tabs, "turn_off_rule");
                         Tools.track(tabs[0].url || pageUrlParam, "rule_turned_off", languageCode + ":" + ruleId);
                     });
@@ -432,7 +433,10 @@ function addListenerActions(elements, tabs, response, languageCode) {
                 }, function(items) {
                     const dictionary = items.dictionary;
                     dictionary.push(link.getAttribute('data-addtodict'));
-                    storage.set({'dictionary': dictionary}, function() { reCheck(tabs, "add_to_dict") });
+                    storage.set({'dictionary': dictionary}, function() {
+                      closePopupAfterRecheck = true;
+                      reCheck(tabs, "add_to_dict")
+                    });
                 });
 
             } else if (link.getAttribute('data-errortext')) {
