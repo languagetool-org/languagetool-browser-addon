@@ -35,12 +35,17 @@ const REMIND_BTN_SIZE = 16;
 const CLEAN_TIMEOUT_MILLIS = 200;
 const BG_CHECK_TIMEOUT_MILLIS = 1000;
 
+const DOMAIN_SETTINGS = {
+  "twitter.com": {left: -22}
+};
+
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let autoCheck = false;
 let ignoreCheckOnDomains = [];
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false, success: true };
+
 const activeElementHandler = ally.event.activeElement();
 const port = chrome.runtime.connect({name: "LanguageTool"});
 
@@ -232,7 +237,7 @@ function styleRemindButton(btn, position, num) {
     // find parent of active table
     const allTables = document.getElementsByTagName("table");
     const gmailComposeToolbarHeight = 155;
-    for (let counter = allTables.length - 1; counter > 0; counter -= 1) {
+    for (let counter = allTables.length - 1; counter > 0; counter--) {
       const parentTable = allTables[counter];
       if (isDescendant(parentTable, activeTable)) {
         let topPosition = offset(parentTable).top;
@@ -246,7 +251,9 @@ function styleRemindButton(btn, position, num) {
   } else {
     btn.style.top = `${top + offsetHeight - REMIND_BTN_SIZE - MARGIN_TO_CORNER}px`;
   }
-  btn.style.left = `${left + offsetWidth - (REMIND_BTN_SIZE + MARGIN_TO_CORNER)*num}px`;
+  const { hostname } = new URL(window.location.href);
+  const leftTmp = DOMAIN_SETTINGS[hostname] ? left + DOMAIN_SETTINGS[hostname].left : left;
+  btn.style.left = `${leftTmp + offsetWidth - (REMIND_BTN_SIZE + MARGIN_TO_CORNER)*num}px`;
 }
 
 function remindLanguageToolButton(clickHandler, position, num) {
@@ -385,7 +392,7 @@ function insertLanguageToolIcon(element) {
 
 /**
  * show marker on element
- * @param DOMELement focusElement
+ * @param DOMElement focusElement
  */
 function showMarkerOnEditor(focusElement) {
   if (isEditorElement(focusElement)) {
