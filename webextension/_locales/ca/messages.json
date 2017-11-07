@@ -101,6 +101,10 @@
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Revisant..."
   },
+  "close": {
+    "description": "Text of large button at the bottom of the popup",
+    "message": "Close"
+  },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
     "message": "Revisa el text amb LanguageTool"

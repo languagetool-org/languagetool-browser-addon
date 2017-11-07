@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool создан с расчётом на простоту использования. При нажатии значка или настраиваемого сочетания клавиш LanguageTool немедленно проверяет орфографию и грамматику в любом выбранном тексте. LanguageTool совместим с любым текстом и любым сайтом, включая социальные сети, такие как Facebook, Twitter или LinkedIn и сервисы электронной почты, такие как Gmail. Очень незначительное количество сайтов (docs.google.com и chrome.google.com)  пока не поддерживается. Для Google Docs можно использовать следующее расширение:  https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm/kjcoklfhicmkbfifghaecedbohbmofkm"
+    "message": "LanguageTool создан с расчётом на простоту использования. При нажатии значка или настраиваемого сочетания клавиш LanguageTool немедленно проверяет орфографию и грамматику в любом выбранном тексте. LanguageTool совместим с любым текстом и любым сайтом, включая социальные сети, такие как Facebook, Twitter или LinkedIn и сервисы электронной почты, такие как Gmail. Очень незначительное количество сайтов (docs.google.com и chrome.google.com)  пока не поддерживается. Для Google Docs можно использовать следующее расширение:  https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm"
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -31,15 +31,15 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Использование: Выделите текст, который необходимо проверить, или щёлкните мышкой по редактируемому полю, если необходимо проверить его содержимое. Затем щёлкните на значке LT, который отображается в верхнем правом углу вашего браузера. Можно также использовать сочетание клавиш Ctrl + Shift + Space."
+    "message": "Использование: Щёлкните в редактируемом поле, если вы хотите проверить его содержимое. Затем щелкните по значку в правом нижнем углу редактируемого поля или на значке LT, который отображается на панели инструментов вашего браузера в правом верхнем углу. Можно также использовать сочетание клавиш Ctrl + Shift + Space."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "В отличие от Grammarly и Ginger, LanguageTool обрабатывает тексты на нескольких языках, но при этом является свободным программным обеспечением и работает не хуже своих аналогов."
+    "message": "В сравнении с Grammarly и Ginger, LanguageTool обрабатывает тексты на нескольких языках,  и работает не хуже своих аналогов."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Ваша приватность важна для нас: по умолчанию это расширение будет проверять ваш текст, отправив его на https://languagetool.org через безопасное зашифрованное соединение. Учётная запись не требуется для использования этого расширения. Мы не храним тексты, которые вы проверяете. На самом деле мы даже не запоминаем ваш IP-адрес. Смотрите https://languagetool.org/privacy/ с описанием нашей политики конфиденциальности."
+    "message": "Ваша приватность важна для нас: по умолчанию это расширение будет проверять ваш текст, отправляя его на адрес https://languagetool.org через безопасное зашифрованное соединение. Учётная запись не требуется для использования этого расширения. Мы не запоминаем ваш IP-адрес. Смотрите https://languagetool.org/privacy/ с описанием нашей политики конфиденциальности."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -55,27 +55,27 @@
   },
   "autoCheckDesc": {
     "description": "Options dialog: auto-check on all domains by default",
-    "message": "Auto-check on all domains by default"
+    "message": "Автопроверка для всех доменов по умолчанию"
   },
   "autoCheckForOffThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Turn off auto check text for this domain"
+    "message": "Выключить автопроверку текста для этого домена"
   },
   "autoCheckForThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Auto check text for this domain"
+    "message": "Автопроверка текста для этого домена"
   },
   "autoCheckOffDesc": {
     "description": "Options dialog: auto-check off on this domain",
-    "message": "Auto-check off on this domain"
+    "message": "Выключить автопроверку для этого домена"
   },
   "autoCheckOnDesc": {
     "description": "Options dialog: auto-check on this domain",
-    "message": "Auto-check on this domain"
+    "message": "Автопроверка для этого домена"
   },
   "autoCheckOnDomainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
-    "message": "Auto-check text on these domains (one domain per line):"
+    "message": "Автопроверка текста для этих доменов (один домен в строке):"
   },
   "be": {
     "description": "automatically added by injectTranslation.py",
@@ -100,6 +100,10 @@
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Идёт проверка..."
+  },
+  "close": {
+    "description": "Text of large button at the bottom of the popup",
+    "message": "Закрыть"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
@@ -131,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure username and password are correct"
+    "message": "Не удалось войти в систему на  languagetoolplus.com: просмотрите диалог настройки этого расширения, и убедитесь, что логин и пароль введены правильно"
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -181,11 +185,11 @@
   },
   "disableForThisDomainTitle": {
     "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)",
-    "message": "Disable for this domain"
+    "message": "Отключить для этого домена"
   },
   "domainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
-    "message": "Disable on these domains (one domain per line):"
+    "message": "Отключено для этих доменов (один домен в строке):"
   },
   "el": {
     "description": "automatically added by injectTranslation.py",
@@ -233,7 +237,7 @@
   },
   "foundAErrorOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ error, view details",
+    "message": "Найдена $totalErrorOnCheckText$ ошибка, смотри подробности",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -243,7 +247,7 @@
   },
   "foundErrorsOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ errors, view details",
+    "message": "Найдено $totalErrorOnCheckText$ ошибок, смотри подробности",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -261,7 +265,7 @@
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
-    "message": "A page reload may also be necessary when the extension has just been updated in the background."
+    "message": "Перезагрузка страницы может потребоваться, если расширение было обновлено в фоновом режиме."
   },
   "gl": {
     "description": "automatically added by injectTranslation.py",
@@ -279,7 +283,7 @@
   },
   "havePremiumAccountDesc": {
     "description": "Options dialog: checkbox for premium access",
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>",
+    "message": "Используйте учётную запись на <a href='$url$'>languagetoolplus.com</a>",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -289,7 +293,7 @@
   },
   "ignoreDomainsCheckDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text won't run automatically in background",
-    "message": "Don't auto-check on these domains (one domain per line):"
+    "message": "Отключить автопроверку для этих доменов (один домен в строке):"
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
@@ -357,7 +361,7 @@
   },
   "noErrorOnCheckText": {
     "description": "Show total error on hover on maker icon",
-    "message": "No error"
+    "message": "Ошибки не найдены"
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
@@ -409,7 +413,7 @@
   },
   "password": {
     "description": "Options dialog: password for languagetoolplus.com",
-    "message": "Password:"
+    "message": "Пароль:"
   },
   "pl": {
     "description": "automatically added by injectTranslation.py",
@@ -459,7 +463,7 @@
   },
   "privacyPolicy": {
     "description": "Options dialog: Link to privacy policy",
-    "message": "Privacy Policy"
+    "message": "Политика приватности"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",
@@ -505,11 +509,11 @@
   },
   "reactivateIcon": {
     "description": "Re-activate icon for disabled domain",
-    "message": "You've turned off the reminder icon for this domain, click here to re-activate it."
+    "message": "Был отключён значок напоминания для этого домена, нажмите здесь, чтобы повторно активировать его."
   },
   "reminderIconTitle": {
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
-    "message": "Check Text"
+    "message": "Проверить текст"
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",

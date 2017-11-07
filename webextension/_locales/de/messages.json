@@ -101,6 +101,10 @@
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Text wird geprüft..."
   },
+  "close": {
+    "description": "Text of large button at the bottom of the popup",
+    "message": "Schließen"
+  },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
     "message": "Text mit LanguageTool prüfen"

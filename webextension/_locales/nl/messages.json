@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is ontworpen voor eenvoud. Met een druk op de knop of met een ingestelde sneltoets, controleert LanguageTool direct de spelling en grammatica van de tekst die is geselecteerd. LanguageTool is compatibel met bijna alle teksten, ongeacht de oorsprong, inclusief sociale netwerken zoals Facebook, Twitter of LinkedIn en online e-maildiensten zoals Gmail. Enkele websites zoals docs.google.com en chrome.google.com zijn momenteel niet ondersteund – gebruik https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm om met Google Docs te werken."
+    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported - please use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm for Google Docs instead."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -31,15 +31,15 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Gebruik: Selecteer de tekst die je wil controleren of klik in het invoerveld als je de inhoud wil controleren. Klik daarna op het icoon van LT, dat is rechtsboven in de hoek van je webbrowser te vinden. Het is ook mogelijk om Ctrl+Shift+Spatie als sneltoets te gebruiken."
+    "message": "Usage: Click in an editable field if you want to check its contents. Then click either on the icon in the lower right corner of the editable field, or on the LT icon which is displayed in your browser's toolbar in the upper right corner. Alternatively, use Ctrl+Shift+Space as a shortcut."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "In tegenstelling tot Grammarly en Ginger ondersteunt LanguageTool veel talen en is 100% gratis en biedt veel van dezelfde functionaliteiten."
+    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and offers many of the same features."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Je privacy is voor ons belangrijk: Standaard controleert deze extensie je tekst door deze te sturen naar https://languagetool.org over een veilige versleutelde verbinding. Er is geen account voor nodig om deze extensie te gebruiken. We bewaren de teksten die je controleert niet. Sterker nog, we bewaren niet eens het IP-adres. Zie https://languagetool.org/privacy/ voor ons privacybeleid."
+    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -100,6 +100,10 @@
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Aan het controleren..."
+  },
+  "close": {
+    "description": "Text of large button at the bottom of the popup",
+    "message": "Close"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
