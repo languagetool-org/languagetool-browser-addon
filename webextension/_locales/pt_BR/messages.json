@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "A LanguageTool é desenvolvida pensando em simplicidade. Ao clicar num botão ou usar um atalho de teclado, ela verifica instantaneamente a ortografia e concordância do texto selecionado. Ela é compatível com quase todos os textos, independente da origem, incluindo redes sociais como o Facebook, Twitter ou LinkedIn e serviços de e-mail online como o Gmail. Apenas alguns poucos sites como docs.google.com e chrome.google.com ainda não são suportados - use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm para Google Docs."
+    "message": "O LanguageTool é desenvolvido pensando em simplicidade. Ao clicar num botão ou usar um atalho de teclado, ele verifica instantaneamente a ortografia e concordância do texto selecionado. Ele é compatível com quase todos os textos, independente da origem, incluindo redes sociais como Twitter ou LinkedIn e serviços de e-mail online como o Gmail. Apenas alguns poucos sites como docs.google.com e chrome.google.com ainda não são suportados - use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm para Google Docs."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -31,15 +31,15 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Uso: Selecione o texto que deseja verificar ou clique num campo de edição se quiser verificar seu conteúdo. Depois, clique no ícone LT posicionado no canto superior direito do seu navegador. Alternativamente, use Ctrl+Shift+Espaço como atalho."
+    "message": "Uso: clique num campo editável cujo conteúdo deseja verificar. Depois, clique no ícone no canto inferior direito do campo editável ou no ícone LT posicionado no canto superior direito do seu navegador. Alternativamente, use Ctrl+Shift+Espaço como atalho."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Diferentemente de Grammarly and Ginger, o LanguageTool funciona em vários idiomas e é 100% livre e oferece várias de suas funcionalidades."
+    "message": "Diferentemente de Grammarly and Ginger, o LanguageTool funciona em vários idiomas e oferece várias de suas funcionalidades."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Sua privacidade é importante para nós: por padrão, essa extensão verificará seu texto enviando-o para https://languagetool.org numa conexão criptografada. Não é necessária nenhuma conta para usar essa extensão. Não armazenamos o texto que você verifica. Na verdade, não armazenamos nem mesmo seu endereço IP. Veja nossa política de privacidade em https://languagetool.org/privacy/ ."
+    "message": "Sua privacidade é importante para nós: por padrão, essa extensão verificará seu texto enviando-o para https://languagetool.org numa conexão criptografada. Não é necessária nenhuma conta para usar essa extensão. Não armazenamos seu endereço IP. Veja nossa política de privacidade em https://languagetool.org/privacy/ ."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -100,6 +100,10 @@
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Verificando..."
+  },
+  "close": {
+    "description": "Text of large button at the bottom of the popup",
+    "message": "Fechar"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",

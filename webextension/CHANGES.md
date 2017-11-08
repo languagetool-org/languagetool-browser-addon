@@ -1,5 +1,15 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.30 (2017-xx-xx)
+  * small bug fixes
+  
+### 1.0.29 (2017-10-31)
+  * bug fix: using a local server was not possible anymore
+  * check mark icon that indicates "no errors" is now green
+  
+### 1.0.28 (2017-10-30)
+  * bug fixes
+
 ### 1.0.27 (2017-10-26)
   * new option to auto-check on every domain
   * bug fixes

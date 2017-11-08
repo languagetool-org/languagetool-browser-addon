@@ -20,10 +20,8 @@ are very incomplete yet).
 
 ### Testing in Firefox
 
-You need an [unbranded build](https://wiki.mozilla.org/Add-ons/Extension_Signing#Unbranded_Builds) 
-of Firefox. Go to `about:debugging`, enable add-on debugging and load `manifest.json` from the
-extension directory. See https://blog.mozilla.org/addons/2016/04/14/developing-extensions-with-web-ext-1-0/
-for details.
+Go to `about:debugging`, enable add-on debugging and load `manifest.json` from the
+extension directory.
 
 
 ### License
@@ -33,9 +31,10 @@ Lesser General Public License 2.1 or later, see file `COPYING`
 
 ### Release Checklist
 
-1. make sure no permissions have been added to the manifest since last release
-2. Run `updateLocales.bash`
-2. increase version in `manifest.json`
-3. update `CHANGES.md`
-4. run `pack-firefox-webext.sh` and `pack-chrome-extension.sh` and upload the 
+1. test at least the sites [linked here](https://github.com/languagetool-org/languagetool-browser-addon/wiki/Sites-to-test)
+2. make sure no permissions have been added to the manifest since last release
+3. Run `updateLocales.bash`
+4. increase version in `manifest.json`
+5. update `CHANGES.md`
+6. run `pack-firefox-webext.sh` and `pack-chrome-extension.sh` and upload the 
    results (in `dist`)

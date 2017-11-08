@@ -611,7 +611,8 @@ if (typeof self !== 'undefined') {
 } else if (typeof module !== 'undefined') {
   root = module;
 } else {
-  root = Function('return this')();
+  //commented out 2017-10-27 to calm down Mozilla validator - does not seem to be used anyway:
+  //root = Function('return this')();
 }
 
 var result = symbolObservablePonyfill(root);

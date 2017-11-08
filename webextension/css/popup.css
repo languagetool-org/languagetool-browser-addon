@@ -67,10 +67,23 @@ hr {
     width: 16px;
     height: 16px;
 }
-
 #closeLink:hover {
     background-image: url(../images/close-hover.png);
 }
+
+ #close {
+    background-color: #eee;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+ }
+ #close:hover {
+    background-color: #ddd;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+ }
 
 #language {
     height: 30px;

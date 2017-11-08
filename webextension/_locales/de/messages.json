@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool ist einfach zu benutzen: Einfach auf den Button klicken oder das frei konfigurierbare Tastenkürzel aufrufen und LanguageTool sucht im aktuellen Textfeld oder im markierten Text nach Grammatik- und Rechtschreibfehlern. Diese Erweiterung funktioniert fast überall im Netz: bei Twitter und Facebook genauso wie auf Gmail. docs.google.com und chrome.google.com werden derzeit nicht unterstützt - für Google Docs können Sie stattdessen https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm benutzen."
+    "message": "LanguageTool ist einfach zu benutzen: Einfach auf den Button klicken oder das frei konfigurierbare Tastenkürzel aufrufen und LanguageTool sucht im aktuellen Textfeld oder im markierten Text nach Grammatik- und Rechtschreibfehlern. Diese Erweiterung funktioniert fast überall im Netz: bei Twitter genauso wie auf Gmail. docs.google.com und chrome.google.com werden derzeit nicht unterstützt - für Google Docs können Sie stattdessen https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm benutzen."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -31,15 +31,15 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Benutzung: Markieren Sie den zu prüfenden Text oder klicken Sie in ein Textfeld. Dann klicken Sie auf das Icon dieser Erweiterung, das rechts oben im Browser angezeigt wird. Sie können alternativ auch Strg+Shift+Leertaste drücken.\n"
+    "message": "Benutzung: Wenn Sie in einem Textfeld sind, klicken Sie auf das kleine Icon dieser Erweiterung rechts unten im Textfeld, oder auf das rechts oben in der Browser-Toolbar angezeigte \"LT\"-Icon. Sie können alternativ auch Strg+Shift+Leertaste drücken."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Anders als Erweiterungen wie Grammarly und Ginger unterstützt LanguageTool mehrere Sprachen und ist völlig kostenlos."
+    "message": "Anders als Erweiterungen wie Grammarly und Ginger unterstützt LanguageTool mehrere Sprachen."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Standardmäßig schickt diese Erweiterung Ihre Texte über eine verschlüsselte Verbindung an https://languagetool.org. Ihre Texte werden nicht gespeichert. Wir speichern auch Ihre IP-Adresse nicht. Sie benötigen keine Registrierung. Einzelheiten finden Sie in unseren Datenschutzrichtlinien unter https://languagetool.org/privacy/."
+    "message": "Standardmäßig schickt diese Erweiterung Ihre Texte über eine verschlüsselte Verbindung an https://languagetool.org. Wir speichernIhre IP-Adresse nicht. Sie benötigen keine Registrierung. Einzelheiten finden Sie in unseren Datenschutzrichtlinien unter https://languagetool.org/privacy/."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -100,6 +100,10 @@
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Text wird geprüft..."
+  },
+  "close": {
+    "description": "Text of large button at the bottom of the popup",
+    "message": "Schließen"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",

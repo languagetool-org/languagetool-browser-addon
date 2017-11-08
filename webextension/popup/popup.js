@@ -185,6 +185,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                 html += ruleItems.join(" &middot; ");
             }
         }
+        html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
         html += "<p id='reviewRequest'></p>";
         if (serverUrl === defaultServerUrl) {
             html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
@@ -368,10 +369,16 @@ function addLinkListeners(response, tabs, languageCode) {
         const langSwitch = prevLanguage + " -> " + manuallySelectedLanguage;
         doCheck(tabs, "switch_language", langSwitch);
     });
-    const closeLink = document.getElementById("closeLink");
-    closeLink.addEventListener("click", function() {
+    document.getElementById("closeLink").addEventListener("click", function() {
         self.close();
     });
+    const closeLink2 = document.getElementById("close");
+    if (closeLink2) {
+      closeLink2.addEventListener("click", function() {
+        sendMessageToTab(tabs[0].id, { action: "closePopup" }, function(response) {});
+        self.close();
+      });
+    }
     addListenerActions(document.getElementsByTagName("a"), tabs, response, languageCode);
     addListenerActions(document.getElementsByTagName("div"), tabs, response, languageCode);
 }
@@ -414,6 +421,7 @@ function addListenerActions(elements, tabs, response, languageCode) {
                         language: getShortCode(document.getElementById("language").value)
                     });
                     storage.set({'ignoredRules': ignoredRules}, function() {
+                        closePopupAfterRecheck = true;
                         reCheck(tabs, "turn_off_rule");
                         Tools.track(tabs[0].url || pageUrlParam, "rule_turned_off", languageCode + ":" + ruleId);
                     });
@@ -425,7 +433,10 @@ function addListenerActions(elements, tabs, response, languageCode) {
                 }, function(items) {
                     const dictionary = items.dictionary;
                     dictionary.push(link.getAttribute('data-addtodict'));
-                    storage.set({'dictionary': dictionary}, function() { reCheck(tabs, "add_to_dict") });
+                    storage.set({'dictionary': dictionary}, function() {
+                      closePopupAfterRecheck = true;
+                      reCheck(tabs, "add_to_dict")
+                    });
                 });
 
             } else if (link.getAttribute('data-errortext')) {

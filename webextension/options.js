@@ -19,6 +19,9 @@
 "use strict";
 
 const defaultServerUrl = 'https://languagetool.org/api/v2';   // keep in sync with defaultServerUrl in popup.js
+const httpUrlRegExp = new RegExp(
+  /^https?:\/\/.+$/   // "http://localhost", "http://localhost.foo" etc is also okay
+);
 const urlRegExp = new RegExp(
   /^(https?:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
 );
@@ -27,7 +30,7 @@ const urlRegExp = new RegExp(
 const ipv4 = '(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])){3}';
 const ipv4Reg = new RegExp(`^${ipv4}$`) ;
 
-// suport for localhost and ipv4
+// support for localhost and ipv4
 function validURL(str) {
   return urlRegExp.test(str) || str === 'localhost' || ipv4Reg.test(str);
 }
@@ -44,7 +47,7 @@ function domainName(url) {
 function saveOptions() {
     const url = document.getElementById('apiServerUrl').value;
     const status = document.getElementById('status');
-    if (!validURL(url)) {
+    if (!httpUrlRegExp.test(url)) {
         status.textContent = 'This URL is not valid.';
     } else {
         status.textContent = '';
@@ -134,10 +137,11 @@ function restoreOptions() {
     setTimeout(function() { window.scrollTo(0, 0); }, 50);  // otherwise Chrome will show the bottom if the options page
 }
 
-function useDefaultServer() {
+function useDefaultServer(evt) {
     document.getElementById('apiServerUrl').value = defaultServerUrl;
     document.getElementById('status').textContent = "";
     showPrivacyLink();
+    evt.preventDefault();
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);

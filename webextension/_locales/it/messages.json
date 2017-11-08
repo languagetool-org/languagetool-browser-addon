@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool è progettato per essere semplice. Basta la pressione di un bottone o l'utilizzo di uno shortcut impostato dall'utente per controllare un testo selezionato. LanguageTool è compatibile con quasi tutti i siti, compresi quelli di social network come Facebook, Twitter o LinkedIn oppure con siti di posta elettronica on-line come Gmail. Solo alcuni siti come docs.google.com e chrome.google.com non sono attualmente supportati. Per Google Docs è possibile usare https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm . "
+    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported - please use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm for Google Docs instead."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -31,15 +31,15 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Utilizzo: selezione il testo che vuoi controllare, o fai click in un campo editabile se vuoi controllare il suo testo. Poi fai click sulla icona LT che è visualizzata sull'angolo in alto a destra del tuo browser. In alternativa puoi usare Ctrl+Shift+Spazio come shortcut."
+    "message": "Usage: Click in an editable field if you want to check its contents. Then click either on the icon in the lower right corner of the editable field, or on the LT icon which is displayed in your browser's toolbar in the upper right corner. Alternatively, use Ctrl+Shift+Space as a shortcut."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "A differenza di altri correttori come Grammarly e Ginger, LanguageTool funziona su molti linguaggi è 100% gratis e offre molte delle stesse funzionalità."
+    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and offers many of the same features."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "La tua privacy è importante per no: per default, questa estensione controlla il tuo testo inviandolo a https://languagetool.org tramite connessione sicura e cifrata. Non è necessario alcun account per usare l'estensione. Noi non memorizziamo il testo che ci invii e neanche il tuo indirizzo IP. Fai riferimento a https://languagetool.org/privacy/ per la nostra politica in materia di privacy."
+    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -100,6 +100,10 @@
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Controllo..."
+  },
+  "close": {
+    "description": "Text of large button at the bottom of the popup",
+    "message": "Close"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",

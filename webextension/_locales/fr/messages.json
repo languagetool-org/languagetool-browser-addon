@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool est conçu pour être simple. Une pression sur un bouton ou un raccourci clavier suffisent a vérifier instantanément l'orthographe et la grammaire de tout texte sélectionné. LanguageTool est compatible avec pratiquement tous les textes, d'où qu'ils viennent, par exemple les réseaux sociaux tels que Facebook, Twitter ou LinkedIn, et les messageries en ligne, telle que Gmail. Peu de sites, par exemple docs.google.com et chrome.google.com, ne sont pas compatible actuellement - utilsez https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm pour Google Docs à la place."
+    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported - please use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm for Google Docs instead."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -31,15 +31,15 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Utilisation: sélectionnez le texte à vérifier, ou cliquez dans une zone de texte éditable dont vous voulez vérifier le contenu. Puis cliquez sur l'icône LT qui est affichée dans le coin supérieur droit de votre navigateur. Ou utilisez le raccourci clavier Ctrl+Maj+Espace."
+    "message": "Usage: Click in an editable field if you want to check its contents. Then click either on the icon in the lower right corner of the editable field, or on the LT icon which is displayed in your browser's toolbar in the upper right corner. Alternatively, use Ctrl+Shift+Space as a shortcut."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "À la différence de Grammarly et Ginger, LanguageTool fonctionne avec de nombreuses langues, est 100% gratuit, et offre nombre de leurs fonctionnalités."
+    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and offers many of the same features."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "La préservation de votre vie privée est importante pour nous: par défaut cette extension vérifie votre texte en l'envoyant sur le site https://languagetool.org avec une connexion chiffrée sécurisée. Cette extension ne nécessite aucune création de compte. Nous ne stockons pas les textes que vous vérifiez. En réalité, nous ne stockons même pas votre adresse IP. Notre politique sur la vie privée est disponible à cette adresse https://languagetool.org/privacy/."
+    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -100,6 +100,10 @@
   "checkingProgress": {
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress",
     "message": "Vérification…"
+  },
+  "close": {
+    "description": "Text of large button at the bottom of the popup",
+    "message": "Close"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",

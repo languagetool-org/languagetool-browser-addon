@@ -35,12 +35,17 @@ const REMIND_BTN_SIZE = 16;
 const CLEAN_TIMEOUT_MILLIS = 200;
 const BG_CHECK_TIMEOUT_MILLIS = 1000;
 
+const DOMAIN_SETTINGS = {
+  "twitter.com": {left: -22}
+};
+
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let autoCheck = false;
 let ignoreCheckOnDomains = [];
 let totalErrorOnCheckText = -1; // -1 = not checking yet
 let lastCheckResult = { markupList: [], result: {}, total: -1, isProcess: false, success: true };
+
 const activeElementHandler = ally.event.activeElement();
 const port = chrome.runtime.connect({name: "LanguageTool"});
 
@@ -80,16 +85,15 @@ function checkErrorMenu(evt) {
   }
   const popupWidth = 450;
   const popupHeight = Math.min(window.innerHeight * 80 / 100, 600);
+  $.featherlight.defaults.closeIcon = "&nbsp;";
   $.featherlight({
     iframe: `${chrome.runtime.getURL("popup.html")}?pageUrl=${currentUrl}`,
     iframeWidth: popupWidth,
     iframeHeight: popupHeight,
     namespace: "ltaddon-popup",
     beforeOpen: () => {
-      const popupContainers = document.getElementsByClassName(
-        POPUP_CONTENT_CLASS
-      );
-      for (let counter = 0; counter < popupContainers.length; counter += 1) {
+      const popupContainers = document.getElementsByClassName(POPUP_CONTENT_CLASS);
+      for (let counter = 0; counter < popupContainers.length; counter++) {
         const popupContainer = popupContainers[counter];
         popupContainer.style.minWidth = `${popupWidth}px`;
         popupContainer.style.minHeight = `${popupHeight}px`;
@@ -104,7 +108,7 @@ function checkErrorMenu(evt) {
 
 function removeAllButtons() {
   const btns = document.getElementsByClassName(REMIND_WRAPPER_CLASS);
-  for (let counter = 0; counter < btns.length; counter += 1) {
+  for (let counter = 0; counter < btns.length; counter++) {
     const btn = btns[counter];
     btn.parentNode.removeChild(btn);
   }
@@ -233,7 +237,7 @@ function styleRemindButton(btn, position, num) {
     // find parent of active table
     const allTables = document.getElementsByTagName("table");
     const gmailComposeToolbarHeight = 155;
-    for (let counter = allTables.length - 1; counter > 0; counter -= 1) {
+    for (let counter = allTables.length - 1; counter > 0; counter--) {
       const parentTable = allTables[counter];
       if (isDescendant(parentTable, activeTable)) {
         let topPosition = offset(parentTable).top;
@@ -247,7 +251,9 @@ function styleRemindButton(btn, position, num) {
   } else {
     btn.style.top = `${top + offsetHeight - REMIND_BTN_SIZE - MARGIN_TO_CORNER}px`;
   }
-  btn.style.left = `${left + offsetWidth - (REMIND_BTN_SIZE + MARGIN_TO_CORNER)*num}px`;
+  const { hostname } = new URL(window.location.href);
+  const leftTmp = DOMAIN_SETTINGS[hostname] ? left + DOMAIN_SETTINGS[hostname].left : left;
+  btn.style.left = `${leftTmp + offsetWidth - (REMIND_BTN_SIZE + MARGIN_TO_CORNER)*num}px`;
 }
 
 function remindLanguageToolButton(clickHandler, position, num) {
@@ -266,15 +272,13 @@ function remindLanguageToolButton(clickHandler, position, num) {
           btn.innerText = totalErrorOnCheckText > 9 ? "9+" : totalErrorOnCheckText;
         } else if (totalErrorOnCheckText === 0) {
           btn.className = `${BTN_CLASS} ${CHECK_DONE_BTN_CLASS}`;
-          btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorOnCheckText"));
+          btn.setAttribute("tooltip", chrome.i18n.getMessage("noErrorsFound"));
         } else {
           btn.className = `${BTN_CLASS} ${REMIND_BTN_CLASS}`;
           btn.setAttribute("tooltip", chrome.i18n.getMessage("reminderIconTitle"));
         }
       } else {
-        btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
-        btn.setAttribute("tooltip", cleanErrorMessage(lastCheckResult.errorMessage));
-        btn.innerText = "E";
+        assignErrorStyle(btn, cleanErrorMessage(lastCheckResult.errorMessage));
       }
      }
   } else {
@@ -283,8 +287,20 @@ function remindLanguageToolButton(clickHandler, position, num) {
   }
 
   btn.onclick = clickHandler;
+  btn.onmouseover = function() {
+    if (chrome.i18n.getMessage("reminderIconTitle") === undefined) {
+      // this happens after first installation and after add-on update
+      assignErrorStyle(btn, "Page reload needed to make text checking work");
+    }
+  };
   styleRemindButton(btn, position, num);
   return btn;
+}
+
+function assignErrorStyle(btn, msg) {
+  btn.className = `${BTN_CLASS} ${ERROR_BTN_CLASS}`;
+  btn.setAttribute("tooltip", msg);
+  btn.innerText = "E";
 }
 
 function disableLanguageToolButton(clickHandler, position, num) {
@@ -376,7 +392,7 @@ function insertLanguageToolIcon(element) {
 
 /**
  * show marker on element
- * @param DOMELement focusElement
+ * @param DOMElement focusElement
  */
 function showMarkerOnEditor(focusElement) {
   if (isEditorElement(focusElement)) {
