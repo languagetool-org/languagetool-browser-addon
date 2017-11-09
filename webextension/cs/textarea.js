@@ -378,7 +378,9 @@ function insertLanguageToolIcon(element) {
     offsetWidth
   });
 
-  wrapperId = `textarea-wrapper-${element.name || element.id}-${Date.now()}`;
+  wrapperId = `textarea-wrapper-${Date.now()}`;
+  const maxToolTipWidth = 200;
+  injectTooltipStyle(Math.min(offsetWidth - 20, maxToolTipWidth));
 
   const btns = [
     remindLanguageToolButton(checkErrorMenu, position, 1),
@@ -392,8 +394,6 @@ function insertLanguageToolIcon(element) {
   btns.push(disableLanguageToolButton(disableMenu, position, 3));
 
   textAreaWrapper(element, btns);
-  const maxToolTipWidth = 200;
-  injectTooltipStyle(Math.min(offsetWidth - 20, maxToolTipWidth));
 }
 
 /**
