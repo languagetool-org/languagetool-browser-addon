@@ -76,6 +76,7 @@ hr {
     padding: 8px;
     border-radius: 8px;
     text-align: center;
+    margin-bottom: 6px;
  }
  #close:hover {
     background-color: #ddd;

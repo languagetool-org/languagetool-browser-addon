@@ -180,12 +180,14 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
                         + ruleId + "' href='#'>" + ruleDescription + " (" + matchCount + ")</a></span>");
                 }
             }
+            html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
             if (ruleItems.length > 0) {
                 html += "<span class='ignoredRulesIntro'>" + chrome.i18n.getMessage("ignoredRules") + "</span> ";
                 html += ruleItems.join(" &middot; ");
             }
+        } else {
+            html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
         }
-        html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
         html += "<p id='reviewRequest'></p>";
         if (serverUrl === defaultServerUrl) {
             html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
