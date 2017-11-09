@@ -39,6 +39,7 @@ const DOMAIN_SETTINGS = {
   "twitter.com": {left: -22}
 };
 
+let wrapperId = 0;
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
 let autoCheck = false;
@@ -357,7 +358,7 @@ function autoCheckLanguageToolButton(clickHandler, position, num) {
 function textAreaWrapper(textElement, btnElements) {
   const wrapper = document.createElement(REMIND_WRAPPER_CLASS, { is: 'div' });
   wrapper.className = REMIND_WRAPPER_CLASS;
-  wrapper.id = `textarea-wrapper-${textElement.name || textElement.id}-${Date.now()}`;
+  wrapper.id = wrapperId;
   wrapper.style.position = "absolute";
   wrapper.style.top = "0px";
   wrapper.style.left = "0px";
@@ -376,6 +377,9 @@ function insertLanguageToolIcon(element) {
     offsetHeight: offsetHeight > window.innerHeight && offsetHeightForLongText < offsetHeight ? offsetHeightForLongText : offsetHeight,
     offsetWidth
   });
+
+  wrapperId = `textarea-wrapper-${element.name || element.id}-${Date.now()}`;
+
   const btns = [
     remindLanguageToolButton(checkErrorMenu, position, 1),
   ];
@@ -388,6 +392,8 @@ function insertLanguageToolIcon(element) {
   btns.push(disableLanguageToolButton(disableMenu, position, 3));
 
   textAreaWrapper(element, btns);
+  const maxToolTipWidth = 200;
+  injectTooltipStyle(Math.min(offsetWidth - 20, maxToolTipWidth));
 }
 
 /**
@@ -690,6 +696,17 @@ function injectLoadingStyle() {
       40% {
         -webkit-transform: scale(1);
                 transform: scale(1); } }
+  `;
+  document.body.appendChild(style);
+}
+
+function injectTooltipStyle(width = 100) {
+  const style = document.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = `
+    #${wrapperId} .lt-buttons[tooltip]:before {
+      min-width: ${width}px;
+    }
   `;
   document.body.appendChild(style);
 }
