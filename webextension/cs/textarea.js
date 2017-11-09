@@ -377,10 +377,9 @@ function insertLanguageToolIcon(element) {
     offsetHeight: offsetHeight > window.innerHeight && offsetHeightForLongText < offsetHeight ? offsetHeightForLongText : offsetHeight,
     offsetWidth
   });
-
   wrapperId = `textarea-wrapper-${Date.now()}`;
   const maxToolTipWidth = 200;
-  injectTooltipStyle(Math.min(offsetWidth - 20, maxToolTipWidth));
+  injectTooltipStyle(Math.min(offsetWidth, maxToolTipWidth));
 
   const btns = [
     remindLanguageToolButton(checkErrorMenu, position, 1),
@@ -703,11 +702,21 @@ function injectLoadingStyle() {
 function injectTooltipStyle(width = 100) {
   const style = document.createElement('style');
   style.type = 'text/css';
-  style.innerHTML = `
-    #${wrapperId} .lt-buttons[tooltip]:before {
-      min-width: ${width}px;
-    }
-  `;
+  if (width < 100) {
+    style.innerHTML = `
+      #${wrapperId} .lt-buttons[tooltip]:before {
+        min-width: ${width}px;
+        bottom: 100%;
+        left: 5%;
+      }
+    `;
+  } else {
+    style.innerHTML = `
+      #${wrapperId} .lt-buttons[tooltip]:before {
+        min-width: ${width}px;
+      }
+    `;
+  }
   document.body.appendChild(style);
 }
 
