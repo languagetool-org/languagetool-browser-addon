@@ -147,7 +147,6 @@
   white-space: pre-wrap;
   text-align: center;
   width: fit-content;
-  min-width: 100px;
 }
 
 .lt-buttons[tooltip]:hover:before,
