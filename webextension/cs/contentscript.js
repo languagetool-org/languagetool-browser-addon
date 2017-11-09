@@ -155,21 +155,35 @@ function getMarkupListOfActiveElement(elem) {
     }
 }
 
+function isTextNode(element) {
+    return element.nodeType === 3;
+}
+
+function foundTextInNode(element, text) {
+    return element.textContent.includes(text);
+}
+
 function findNodeContainText(element, searchText) {
-    if (element.textContent && element.textContent.includes(searchText) && element.firstChild && element.firstChild.nodeType === 3) {
+    console.warn('findNodeContainText', element, searchText);
+    console.dir(element);
+    if (element.childNodes.length === 1 && foundTextInNode(element, searchText)) {
         return element;
-    } else {
-        // find in childNodes
-        if (element.childNodes && element.childNodes.length) {
-            for (let elem of element.childNodes) {
-                const found = findNodeContainText(elem, searchText)
-                if (found) {
-                    return found;
+    }
+    for (let index = element.childNodes.length - 1; index >= 0; index--) {
+        const elem = element.childNodes[index];
+        if (!isTextNode(elem)) {
+            const found = foundTextInNode(elem, searchText);
+            if (found) {
+                return elem;
+            } else {
+                const findInChild = findNodeContainText(elem, searchText);
+                if (findInChild) {
+                    return findInChild;
                 }
             }
         }
-        return null;
     }
+    return null;
 }
 
 function createSelection(field, start, end, searchText = '') {
@@ -193,9 +207,26 @@ function createSelection(field, start, end, searchText = '') {
         range.selectNodeContents(field);
         field.focus();
         const textNode = findNodeContainText(field, searchText)
-        console.warn('textNode', textNode);
-        range.setStart(textNode.firstChild, start);
-        range.setEnd(textNode.firstChild, end);
+        if (textNode.childNodes.length === 1) {
+            // somehow the start and end from API is wrong position
+            // we need to recalculate
+            if (start > textNode.textContent.length) {
+                start = textNode.textContent.search(searchText);
+                end =  start + searchText.length;
+            }
+            range.setStart(textNode.firstChild, start);
+            range.setEnd(textNode.firstChild, end);
+        } else {
+            for (let index = textNode.childNodes.length - 1; index >= 0; index--) {
+                if (foundTextInNode(textNode.childNodes[index], searchText) && isTextNode(textNode.childNodes[index])) {
+                    start = textNode.childNodes[index].textContent.search(searchText);
+                    end =  start + searchText.length;
+                    range.setStart(textNode.childNodes[index], start);
+                    range.setEnd(textNode.childNodes[index], end);
+                    break;
+                }
+            }
+        }
         const sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
