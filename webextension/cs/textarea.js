@@ -371,15 +371,17 @@ function textAreaWrapper(textElement, btnElements) {
 
 function insertLanguageToolIcon(element) {
   const { offsetHeight, offsetWidth } = element;
-  const { top } = element.getBoundingClientRect();
+  const { top, left } = element.getBoundingClientRect();
   const offsetHeightForLongText = window.innerHeight - top - 10;
   const position = Object.assign({}, offset(element), {
     offsetHeight: offsetHeight > window.innerHeight && offsetHeightForLongText < offsetHeight ? offsetHeightForLongText : offsetHeight,
     offsetWidth
   });
+
   wrapperId = `textarea-wrapper-${Date.now()}`;
   const maxToolTipWidth = 200;
-  injectTooltipStyle(Math.min(offsetWidth, maxToolTipWidth));
+  const showTooltipOnRight = left < 10 && Math.min(offsetWidth, maxToolTipWidth) < 150;
+  injectTooltipStyle(Math.min(offsetWidth, maxToolTipWidth), showTooltipOnRight);
 
   const btns = [
     remindLanguageToolButton(checkErrorMenu, position, 1),
@@ -699,10 +701,10 @@ function injectLoadingStyle() {
   document.body.appendChild(style);
 }
 
-function injectTooltipStyle(width = 100) {
+function injectTooltipStyle(width, showOnRight) {
   const style = document.createElement('style');
   style.type = 'text/css';
-  if (width < 100) {
+  if (showOnRight) {
     style.innerHTML = `
       #${wrapperId} .lt-buttons[tooltip]:before {
         min-width: ${width}px;
