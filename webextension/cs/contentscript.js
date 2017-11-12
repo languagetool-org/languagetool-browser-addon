@@ -186,6 +186,20 @@ function findNodeContainText(element, searchText) {
     return null;
 }
 
+function findTextNode(element, searchText) {
+    for (let index = element.childNodes.length - 1; index >= 0; index--) {
+        const elem = element.childNodes[index];
+        if (foundTextInNode(elem, searchText)) {
+            if (isTextNode(elem)) {
+                return elem;
+            } else {
+                return findTextNode(elem, searchText);
+            }
+        }
+    }
+    return null;
+}
+
 function createSelection(field, start, end, searchText = '') {
     if( field.createTextRange ) {
       var selRange = field.createTextRange();
@@ -206,27 +220,22 @@ function createSelection(field, start, end, searchText = '') {
         const range = document.createRange();
         range.selectNodeContents(field);
         field.focus();
-        const textNode = findNodeContainText(field, searchText)
-        if (textNode.childNodes.length === 1) {
-            // somehow the start and end from API is wrong position
-            // we need to recalculate
-            if (start > textNode.textContent.length) {
-                start = textNode.textContent.search(searchText);
-                end =  start + searchText.length;
-            }
-            range.setStart(textNode.firstChild, start);
-            range.setEnd(textNode.firstChild, end);
-        } else {
-            for (let index = textNode.childNodes.length - 1; index >= 0; index--) {
-                if (foundTextInNode(textNode.childNodes[index], searchText) && isTextNode(textNode.childNodes[index])) {
-                    start = textNode.childNodes[index].textContent.search(searchText);
-                    end =  start + searchText.length;
-                    range.setStart(textNode.childNodes[index], start);
-                    range.setEnd(textNode.childNodes[index], end);
-                    break;
-                }
-            }
+        const textNode = findNodeContainText(field, searchText);
+        console.warn('textNode', textNode);
+        if (!textNode) {
+            console.warn('not found text node');
+            return false;
         }
+        let childTextNode = findTextNode(textNode, searchText);
+        if (!childTextNode) {
+            console.warn('not found text for replacement', textNode, searchText);
+            return false;
+        }
+        console.warn('childTextNode', childTextNode);
+        start = childTextNode.textContent.search(searchText);
+        end =  start + searchText.length;
+        range.setStart(childTextNode, start);
+        range.setEnd(childTextNode, end);
         const sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
