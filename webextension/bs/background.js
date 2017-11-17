@@ -108,7 +108,7 @@ function handleMessage(request, sender, sendResponse) {
         });
         return true;
       }
-      // TODO: handle for unknow action
+      // TODO: handle for unknown action
       sendResponse({
         action: `unknow ${request.action}`
       });
@@ -121,7 +121,7 @@ chrome.runtime.onConnect.addListener(function(port) {
   console.assert(port.name == "LanguageTool");
   port.onMessage.addListener((msg) => {
     if (msg.action == "checkText") {
-      const { markupList, metaData  } = msg.data
+      const { markupList, metaData  } = msg.data;
       getCheckResult(markupList, metaData, response => {
         port.postMessage({
           action: 'checkText',
