@@ -16,14 +16,6 @@ function onClickHandler(info, tab) {
   }
 }
 
-/*
-This almost works for Firefox, but browser.browserAction.openPopup is missing:
- - https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/BrowserAction/openPopup
- - https://github.com/languagetool-org/languagetool-browser-addon/issues/45
-if (browser && browser.browserAction && browser.browserAction.openPopup) {
-  browser.contextMenus.create({"title": "FIXME", "contexts":["selection", "editable"], "id": "contextLT"});
-}*/
-
 if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
   chrome.contextMenus.onClicked.addListener(onClickHandler);
   chrome.runtime.onInstalled.addListener(function() {
@@ -42,39 +34,6 @@ if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
     //chrome.contextMenus.create({"title": "Check text field", "contexts":["editable"], "id": "contextLTeditable"});
   });
 }
-
-// Flash the icon as a reminder if the user hasn't used this extension for a long time.
-/*function checkUsage() {
-  var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
-  storage.get({
-    lastCheck: null
-  }, function(items) {
-    let now = new Date().getTime();
-    let diffSeconds = (now - items.lastCheck) / 1000;
-    let diffHours = diffSeconds / 60 / 60;
-    //console.log("lastCheck:" + items.lastCheck + ", diffSeconds: " + diffSeconds + ", diffHours: " + diffHours);
-    if (diffHours > 7*24) {  // TODO: make sure to not repeat the warning for n hours & only show if user is typing
-      flashIcon(3);
-    }
-    setTimeout(function() {checkUsage()}, 10000);
-  });
-}
-
-function flashIcon(times) {
-  if (times <= 0) {
-    return;
-  }
-  setTimeout(function() {
-    chrome.browserAction.setIcon({path: "images/icon48-highlight.png"});
-    setTimeout(function () {
-      chrome.browserAction.setIcon({path: "images/icon48.png"});
-      flashIcon(times - 1);
-    }, 500);
-  }, 500);
-}
-
-checkUsage();
-*/
 
 /* workaround handle for FF */
 chrome.runtime.onMessage.addListener(handleMessage);
