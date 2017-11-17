@@ -3,12 +3,16 @@ chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.
 
 function onClickHandler(info, tab) {
   if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
-    // 'openPopup' is not documented at https://developer.chrome.com/extensions/browserAction,
-    // and it's not in Chrome 50 (but in Chromium 49) so we are careful and don't call it if it's not there.
-    // Also see https://bugs.chromium.org/p/chromium/issues/detail?id=436489
-    chrome.browserAction.openPopup(
+    if (Tools.isFirefox()) {
+      chrome.browserAction.openPopup();
+    } else {
+      // 'openPopup' is not documented at https://developer.chrome.com/extensions/browserAction,
+      // and it's not in Chrome 50 (but in Chromium 49) so we are careful and don't call it if it's not there.
+      // Also see https://bugs.chromium.org/p/chromium/issues/detail?id=436489
+      chrome.browserAction.openPopup(
         function(popupView) {}
-    );
+      );
+    }
   }
 }
 

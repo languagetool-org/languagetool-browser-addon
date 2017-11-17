@@ -1,6 +1,7 @@
 # LanguageTool WebExtension Change Log
 
 ### 1.0.30 (2017-xx-xx)
+  * make the context menu item work in Firefox
   * small bug fixes
   
 ### 1.0.29 (2017-10-31)
