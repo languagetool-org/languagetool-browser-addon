@@ -32,6 +32,8 @@ function handleRequest(request, sender, callback) {
         disableOnDomain = false;
     } else if (request.action === "closePopup") {
         closePopup();
+    } else if (request.action === "showErrorNumberOnMarker") {
+        showMatchedResultOnMarker(request.data);
     } else if (request.action === 'checkText') {
         checkText(callback, request);
     } else if (request.action === 'getCurrentText') {
