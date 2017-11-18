@@ -485,6 +485,7 @@ function handleCheckResult(response, tabs, callback) {
     }
     getCheckResult(response.markupList, response.metaData, function(resultText) {
         renderMatchesToHtml(resultText, response, tabs, callback);
+        sendMessageToTab(tabs[0].id, { action: "showErrorNumberOnMarker", data: JSON.parse(resultText) }, function(response) {});
     }, function(errorMessage, errorMessageCode) {
         if (errorMessage.indexOf("code: 403") !== -1) {
             renderStatus("<p class='programError'>" + chrome.i18n.getMessage("couldNotLoginAtLTPlus") + "</p>" +
