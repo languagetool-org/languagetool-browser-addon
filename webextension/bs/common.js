@@ -18,8 +18,10 @@
  */
 "use strict";
 
+const WAIT_TIME = 15 * 1000; // wait 15 seconds if API returns 503
 let quotedLinesIgnored = false;
 let ignoreQuotedLines = true;
+let runAfterWaitTime;
 
 Tools.getStorage().get({
     ignoreQuotedLines: ignoreQuotedLines,
@@ -28,6 +30,12 @@ Tools.getStorage().get({
 });
 
 function getCheckResult(markupList, metaData, callback, errorCallback) {
+    // ignore to make a ajax call if we have 503 error
+    if (runAfterWaitTime && Date.now() < runAfterWaitTime) {
+      errorCallback(chrome.i18n.getMessage("noResponseFromServer", serverUrl), "noResponseFromServer");
+      return;
+    }
+
     Tools.getApiServerUrl(serverUrl => {
       let text = Markup.markupList2text(markupList);
       if (ignoreQuotedLines) {
@@ -53,6 +61,9 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
               return;
           }
           if (req.status !== 200) {
+              if (req.status === 503) {
+                runAfterWaitTime = Date.now() + WAIT_TIME;
+              }
               errorCallback(chrome.i18n.getMessage("noValidResponseFromServer", [serverUrl, req.response, req.status]), "noValidResponseFromServer");
               return;
           }
