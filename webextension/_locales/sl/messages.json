@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported - please use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm for Google Docs instead."
+    "message": "LanguageTool je zasnovan z mislijo na enostavnost. S pritiskom na gumb ali prilagodljivo kombinacijo tipk LanguageTool nemudoma preveri črkovanje in slovnico poljubnega izbranega besedila. LanguageTool je združljiv s skoraj vsemi vrstami besedila, ne glede na vir, vključno z družbenimi omrežji, kot sta Twitter in LinkedIn, in spletnimi storitvami e-pošte, kot je Gmail. Le redka spletišča, kot sta docs.google.com in chrome.google.com, trenutno niso podprta, namesto tega za Google Docs uporabite https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm"
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -31,15 +31,15 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Usage: Click in an editable field if you want to check its contents. Then click either on the icon in the lower right corner of the editable field, or on the LT icon which is displayed in your browser's toolbar in the upper right corner. Alternatively, use Ctrl+Shift+Space as a shortcut."
+    "message": "Raba: kliknite polje urejanja, če želite preveriti njegovo vsebino. Nato kliknite ikono v desnem spodnjem kotu polja ali ikono LT, ki je prikazana v orodni vrstici v desnem zgornjem kotu vašega brskalnika. Namesto tega lahko uporabite tudi kombinacijo tipk krmilka+dvigalka+preslednica."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and offers many of the same features."
+    "message": "LanguageTool za razliko od Grammarly in Ginger deluje za številne jezike in ponuja številne enake funkcije."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+    "message": "Vaša zasebnost nam veliko pomeni: ta razširitev privzeto preveri besedilo tako, da ga pošlje na naslov https://languagetool.org prek varno šifrirane povezave. Nobenega računa ne potrebujete za uporabo te razširitve. Vašega naslova IP ne hranimo. Politiko zasebnosti si preberite na naslovu https://languagetool.org/privacy/"
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -103,7 +103,7 @@
   },
   "close": {
     "description": "Text of large button at the bottom of the popup",
-    "message": "Close"
+    "message": "Zapri"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
@@ -185,7 +185,7 @@
   },
   "disableForThisDomainTitle": {
     "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)",
-    "message": "Disable for this domain"
+    "message": "Izključi ikono za to domeno"
   },
   "domainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
@@ -273,7 +273,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Sorry, Google Docs site is not supported by this extension. Please install <a target='_blank' href='$url$'>this extension</a> instead, which is optimized for Google Docs. After installation, use the 'Add-on' menu in Google Docs to access that extension.",
+    "message": "Žal ta razširitev ne podpira spletišča Google Docs. Namesto tega namestite <a target='_blank' href='$url$'>to razširitev</a>, ki je optimizirana za Google Docs. Po namestitvi uporabite meni \"Dodatek\" v Google Docs, da dostopate do te razširitve.",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -361,7 +361,7 @@
   },
   "noErrorOnCheckText": {
     "description": "Show total error on hover on maker icon",
-    "message": "No error"
+    "message": "Brez napake"
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
@@ -387,7 +387,7 @@
   },
   "noTextFound": {
     "description": "Error message shown when no text was found",
-    "message": "No text found"
+    "message": "Besedila ni mogoče najti"
   },
   "noTextFoundDetails": {
     "description": "More detailed error message shown when no text was found",
@@ -413,7 +413,7 @@
   },
   "password": {
     "description": "Options dialog: password for languagetoolplus.com",
-    "message": "Password:"
+    "message": "Geslo:"
   },
   "pl": {
     "description": "automatically added by injectTranslation.py",
@@ -463,7 +463,7 @@
   },
   "privacyPolicy": {
     "description": "Options dialog: Link to privacy policy",
-    "message": "Privacy Policy"
+    "message": "Politika zasebnosti"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",
@@ -509,11 +509,11 @@
   },
   "reactivateIcon": {
     "description": "Re-activate icon for disabled domain",
-    "message": "You've turned off the reminder icon for this domain, click here to re-activate it."
+    "message": "Izklopili ste opozorilno ikono za to domeno, kliknite sem za njeno ponovno aktivacijo."
   },
   "reminderIconTitle": {
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
-    "message": "Check Text"
+    "message": "Preveri besedilo"
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
@@ -623,7 +623,7 @@
   },
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
-    "message": "E-Mail:"
+    "message": "E-naslov:"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
