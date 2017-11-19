@@ -185,7 +185,7 @@
   },
   "disableForThisDomainTitle": {
     "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)",
-    "message": "Auf dieser Domain deaktivieren"
+    "message": "Icon für diese Domain deaktivieren"
   },
   "domainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",

@@ -3,22 +3,18 @@ chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.
 
 function onClickHandler(info, tab) {
   if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
-    // 'openPopup' is not documented at https://developer.chrome.com/extensions/browserAction,
-    // and it's not in Chrome 50 (but in Chromium 49) so we are careful and don't call it if it's not there.
-    // Also see https://bugs.chromium.org/p/chromium/issues/detail?id=436489
-    chrome.browserAction.openPopup(
+    if (Tools.isFirefox()) {
+      chrome.browserAction.openPopup();
+    } else {
+      // 'openPopup' is not documented at https://developer.chrome.com/extensions/browserAction,
+      // and it's not in Chrome 50 (but in Chromium 49) so we are careful and don't call it if it's not there.
+      // Also see https://bugs.chromium.org/p/chromium/issues/detail?id=436489
+      chrome.browserAction.openPopup(
         function(popupView) {}
-    );
+      );
+    }
   }
 }
-
-/*
-This almost works for Firefox, but browser.browserAction.openPopup is missing:
- - https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/BrowserAction/openPopup
- - https://github.com/languagetool-org/languagetool-browser-addon/issues/45
-if (browser && browser.browserAction && browser.browserAction.openPopup) {
-  browser.contextMenus.create({"title": "FIXME", "contexts":["selection", "editable"], "id": "contextLT"});
-}*/
 
 if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
   chrome.contextMenus.onClicked.addListener(onClickHandler);
@@ -38,39 +34,6 @@ if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
     //chrome.contextMenus.create({"title": "Check text field", "contexts":["editable"], "id": "contextLTeditable"});
   });
 }
-
-// Flash the icon as a reminder if the user hasn't used this extension for a long time.
-/*function checkUsage() {
-  var storage = chrome.storage.sync ? chrome.storage.sync : chrome.storage.local;
-  storage.get({
-    lastCheck: null
-  }, function(items) {
-    let now = new Date().getTime();
-    let diffSeconds = (now - items.lastCheck) / 1000;
-    let diffHours = diffSeconds / 60 / 60;
-    //console.log("lastCheck:" + items.lastCheck + ", diffSeconds: " + diffSeconds + ", diffHours: " + diffHours);
-    if (diffHours > 7*24) {  // TODO: make sure to not repeat the warning for n hours & only show if user is typing
-      flashIcon(3);
-    }
-    setTimeout(function() {checkUsage()}, 10000);
-  });
-}
-
-function flashIcon(times) {
-  if (times <= 0) {
-    return;
-  }
-  setTimeout(function() {
-    chrome.browserAction.setIcon({path: "images/icon48-highlight.png"});
-    setTimeout(function () {
-      chrome.browserAction.setIcon({path: "images/icon48.png"});
-      flashIcon(times - 1);
-    }, 500);
-  }, 500);
-}
-
-checkUsage();
-*/
 
 /* workaround handle for FF */
 chrome.runtime.onMessage.addListener(handleMessage);
@@ -104,7 +67,7 @@ function handleMessage(request, sender, sendResponse) {
         });
         return true;
       }
-      // TODO: handle for unknow action
+      // TODO: handle for unknown action
       sendResponse({
         action: `unknow ${request.action}`
       });
@@ -117,7 +80,7 @@ chrome.runtime.onConnect.addListener(function(port) {
   console.assert(port.name == "LanguageTool");
   port.onMessage.addListener((msg) => {
     if (msg.action == "checkText") {
-      const { markupList, metaData  } = msg.data
+      const { markupList, metaData  } = msg.data;
       getCheckResult(markupList, metaData, response => {
         port.postMessage({
           action: 'checkText',
