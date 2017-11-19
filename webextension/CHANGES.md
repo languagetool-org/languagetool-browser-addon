@@ -1,7 +1,7 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.31 (2017-xx-yy)
-  * ...
+### 1.0.31 (2017-11-19)
+  * auto-check 1.5 seconds after user stops typing (instead of 1 second) 
 
 ### 1.0.30 (2017-11-18)
   * make the context menu item work in Firefox
