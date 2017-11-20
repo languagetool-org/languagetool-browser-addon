@@ -564,12 +564,13 @@ function startCheckMaybeWithWarning(tabs) {
                 message += '<input id="autoCheck" type="checkbox">&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
                 renderStatus(message);
                 document.getElementById("confirmCheck").addEventListener("click", function() {
+                    const autoCheck = document.getElementById('autoCheck').checked;
                     Tools.getStorage().set({
-                        autoCheck: document.getElementById('autoCheck').checked,
+                        autoCheck: autoCheck,
                         allowRemoteCheck: true
                     }, function () {
                         doCheck(tabs, "manually_triggered");
-                        Tools.track(tabs[0].url || pageUrlParam, "accept_privacy_note");
+                        Tools.track(tabs[0].url || pageUrlParam, "accept_privacy_note", "autoCheck:" + autoCheck);
                     });
                 });
                 document.getElementById("cancelCheck").addEventListener("click", function() {
