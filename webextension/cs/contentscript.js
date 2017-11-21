@@ -188,11 +188,25 @@ function findNodeContainText(element, searchText) {
     return null;
 }
 
+function findTextNode(element, searchText) {
+    for (let index = element.childNodes.length - 1; index >= 0; index--) {
+        const elem = element.childNodes[index];
+        if (foundTextInNode(elem, searchText)) {
+            if (isTextNode(elem)) {
+                return elem;
+            } else {
+                return findTextNode(elem, searchText);
+            }
+        }
+    }
+    return null;
+}
+
 function findTextNodePosition(textNode, counter) {
     let total = 0;
     let position = 0;
     let index = 0;
-    for (index = 0; index < textNode.childNodes.length - 1; index++) {
+    for (index = 0; index < textNode.childNodes.length; index++) {
         total += textNode.childNodes[index].textContent.length;
         if (total > counter) {
             position = Math.abs(total - textNode.childNodes[index].textContent.length - counter);
@@ -250,14 +264,33 @@ function createSelection(field, start, end, searchText = '') {
             return true;
         }
 
-        const { index: startNode, position: startPos } = findTextNodePosition(textNode, start);
-        const { index: endNode, position: endPos } = findTextNodePosition(textNode, end);
-
-        range.setStart(textNode.childNodes[startNode], startPos);
-        if (endNode !== startNode) {
+        // find by position
+        let offset = field.textContent.indexOf(textNode.textContent);
+        console.warn('find by position', start, end, offset);
+        const { index: startNode, position: startPos } = findTextNodePosition(textNode, start - offset);
+        const { index: endNode, position: endPos } = findTextNodePosition(textNode, end - offset);
+        console.warn('found start text', textNode.childNodes[startNode], startPos);
+        console.warn('found end text', textNode.childNodes[endNode], endPos);
+        if (textNode.childNodes[startNode] && textNode.childNodes[endNode] && endNode !== startNode) {
+            console.warn('found start text', textNode.childNodes[startNode].textContent.substr(startPos));
+            console.warn('found end text', textNode.childNodes[endNode].textContent.substr(0, endPos));
+            range.setStart(textNode.childNodes[startNode], startPos);
             range.setEnd(textNode.childNodes[endNode], endPos);
         } else {
-            range.setEnd(textNode.childNodes[startNode], startPos + searchText.length);
+            if (textNode.childNodes[startNode] && textNode.childNodes[startNode].textContent.includes(searchText)) {
+                range.setStart(textNode.childNodes[startNode], startPos);
+                range.setEnd(textNode.childNodes[startNode], startPos + searchText.length);
+            } else {
+                // fallback to find by text
+                console.warn('fallback');
+                const foundNode = findTextNode(textNode, searchText);
+                if (!foundNode) {
+                    console.warn('not found node');
+                    return false;
+                }
+                range.setStart(foundNode, foundNode.textContent.indexOf(searchText));
+                range.setEnd(foundNode, foundNode.textContent.indexOf(searchText) + searchText.length);
+            }
         }
 
         const sel = window.getSelection();
@@ -270,9 +303,10 @@ function createSelection(field, start, end, searchText = '') {
 function applyByTypings({ element, errorOffset, errorText, replacement }) {
     console.warn('applyByTypings', element, errorOffset, errorText, replacement);
     let found = createSelection(element, errorOffset, errorOffset + errorText.length, errorText);
-    if (found) {
-        $(element).sendkeys(replacement);
-    }
+    // if (found) {
+    //     $(element).sendkeys(replacement);
+    // }
+    closePopup();
 }
 
 function applyCorrection(request) {
