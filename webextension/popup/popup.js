@@ -515,14 +515,6 @@ function startCheckMaybeWithWarning(tabs) {
             usageCounter: 0
         }, function(items) {
             serverUrl = items.apiServerUrl;
-            if (serverUrl === 'https://languagetool.org:8081/') {
-                // This is migration code - users of the old version might have
-                // the old URL of the v1 API in their settings, force them to use
-                // the v2 JSON API, as this is what this extension supports now:
-                //console.log("Replacing old serverUrl " + serverUrl + " with " + defaultServerUrl);
-                // -> http://stackoverflow.com/questions/12229544/what-can-cause-a-chrome-browser-extension-to-crash
-                serverUrl = defaultServerUrl;
-            }
             if (items.havePremiumAccount) {
                 serverUrl = defaultPremiumServerUrl;
             }
