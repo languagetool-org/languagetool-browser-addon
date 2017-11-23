@@ -157,6 +157,9 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         if (matchesCount === 0) {
             html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
+            if (items.usageCounter < 5) {
+              html += "<p>" + chrome.i18n.getMessage("noErrorsFoundFirstTimes") + "</p>";
+            }
             if ((autoCheckOnDomain || (autoCheck && !hasIgnoreDomain)) && closePopupAfterRecheck) {
                 sendMessageToTab(tabs[0].id, { action: "closePopup" }, function(response) {});
             }

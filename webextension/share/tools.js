@@ -226,7 +226,8 @@ class Tools {
             ignoreCheckOnDomains: [],
             ignoredRules: ruleIdsIgnoredByDefault,
             havePremiumAccount: false,
-            autoCheck: false
+            autoCheck: false,
+            usageCounter: 0,
         }, callback);
     }
 
