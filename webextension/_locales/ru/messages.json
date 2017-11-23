@@ -283,7 +283,7 @@
   },
   "havePremiumAccountDesc": {
     "description": "Options dialog: checkbox for premium access",
-    "message": "Используйте учётную запись на <a href='$url$'>languagetoolplus.com</a>",
+    "message": "Использовать учётную запись на <a href='$url$'>languagetoolplus.com</a>",
     "placeholders": {
       "url": {
         "content": "$1",
