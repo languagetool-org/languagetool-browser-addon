@@ -103,7 +103,7 @@
   },
   "close": {
     "description": "Text of large button at the bottom of the popup",
-    "message": "Close"
+    "message": "Закрити"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
@@ -361,7 +361,7 @@
   },
   "noErrorOnCheckText": {
     "description": "Show total error on hover on maker icon",
-    "message": "No error"
+    "message": "Без помилок"
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
@@ -417,7 +417,7 @@
   },
   "password": {
     "description": "Options dialog: password for languagetoolplus.com",
-    "message": "Password:"
+    "message": "Пароль:"
   },
   "pl": {
     "description": "automatically added by injectTranslation.py",
@@ -517,7 +517,7 @@
   },
   "reminderIconTitle": {
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
-    "message": "Check Text"
+    "message": "Перевірити текст"
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
@@ -627,7 +627,7 @@
   },
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
-    "message": "E-Mail:"
+    "message": "Е-пошта"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",

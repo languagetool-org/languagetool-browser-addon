@@ -369,7 +369,7 @@
   },
   "noErrorsFoundFirstTimes": {
     "description": "Text added after noErrorsFound on the first few checks",
-    "message": "Please note: LanguageTool is optimized to find errors that people actually make. So if you're just testing this add-on by entering some gibberish, it might not work well. Please use it for a few days on real text to see its value."
+    "message": "Por favor note: o LanguageTool é otimizado par encontrar erros reais cometidos pelas pessoas. Portanto, se você está digitando aleatoriamente para testar essa extensão, provavelmente ela não funcionará corretamente. Por favor use-a por alguns dias com texto normal para melhor avaliá-la."
   },
   "noReplacementPossible": {
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
