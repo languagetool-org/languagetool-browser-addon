@@ -166,8 +166,6 @@ function foundTextInNode(element, text) {
 }
 
 function findNodeContainText(element, searchText) {
-    console.warn('findNodeContainText', element, searchText);
-    console.dir(element);
     if (element.childNodes.length === 1 && foundTextInNode(element, searchText)) {
         return element.firstChild;
     }
@@ -202,19 +200,32 @@ function findTextNode(element, searchText) {
     return null;
 }
 
-function findTextNodePosition(textNode, counter) {
+function findTextNodePosition(textNode, offset) {
     let total = 0;
     let position = 0;
     let index = 0;
     for (index = 0; index < textNode.childNodes.length; index++) {
-        total += textNode.childNodes[index].textContent.length;
-        if (total > counter) {
-            position = Math.abs(total - textNode.childNodes[index].textContent.length - counter);
+        let length = textNode.childNodes[index].textContent.length;
+        total += length;
+
+        if (total > offset) {
+            position = Math.abs(total - length - offset);
             break;
         }
     }
-    console.warn('findTextNodePosition', counter, index, position, textNode.childNodes[index]);
-    return { index,  position };
+    return { index, position };
+}
+
+function countBrTag(node) {
+    let count = 0;
+
+    if (node.innerHTML && node.innerHTML.includes('<br>')) {
+        const totalBrTags = node.innerHTML.match(/<br>/g);
+        if (totalBrTags && totalBrTags.length) {
+            count = totalBrTags.length;
+        }
+    }
+    return count;
 }
 
 function createSelection(field, start, end, searchText = '') {
@@ -237,7 +248,9 @@ function createSelection(field, start, end, searchText = '') {
         const range = document.createRange();
         range.selectNodeContents(field);
         field.focus();
-        if (field && field.childNodes.length === 1 && isTextNode(field.firstChild)) {
+        let textNode = findNodeContainText(field, searchText);
+
+        if ( !textNode || (field && field.childNodes.length === 1 && isTextNode(field.firstChild))) {
             range.setStart(field.firstChild, start);
             range.setEnd(field.firstChild, end);
             const sel = window.getSelection();
@@ -246,51 +259,54 @@ function createSelection(field, start, end, searchText = '') {
             return true;
         }
 
-        const textNode = findNodeContainText(field, searchText);
-        console.warn('textNode', textNode);
-        if (!textNode) {
-            console.warn('not found text node');
-            return false;
-        }
-
-        if (textNode && textNode.childNodes.length === 1 && isTextNode(textNode.firstChild)) {
-            const { textContent } = textNode.firstChild;
-            console.warn('found textContent',textContent);
-            range.setStart(textNode.firstChild, textContent.indexOf(searchText));
-            range.setEnd(textNode.firstChild, textContent.indexOf(searchText) + searchText.length);
-            const sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-            return true;
-        }
-
         // find by position
-        let offset = field.textContent.indexOf(textNode.textContent);
-        console.warn('find by position', start, end, offset);
+        let offset = 0;
+        const breakLine = 1; // \n 
+        for (let i = 0; i < field.childNodes.length; i++) {
+            let node = field.childNodes[i];
+            let length = node.textContent.length + breakLine;
+            if (textNode.textContent === node.textContent) {
+                break;
+            }
+            if (isTextNode(node)) {
+                offset += length;
+                continue;
+            }
+            length += countBrTag(node) * 2;
+            offset += length;
+        }
+
         const { index: startNode, position: startPos } = findTextNodePosition(textNode, start - offset);
         const { index: endNode, position: endPos } = findTextNodePosition(textNode, end - offset);
-        console.warn('found start text', textNode.childNodes[startNode], startPos);
-        console.warn('found end text', textNode.childNodes[endNode], endPos);
-        if (textNode.childNodes[startNode] && textNode.childNodes[endNode] && endNode !== startNode) {
-            console.warn('found start text', textNode.childNodes[startNode].textContent.substr(startPos));
-            console.warn('found end text', textNode.childNodes[endNode].textContent.substr(0, endPos));
+
+        if (textNode.childNodes[startNode] && textNode.childNodes[startNode].textContent.includes(searchText)) {
+            console.warn('startNode includes error text');
+            console.log('startNode', textNode.childNodes[startNode], startPos);
+            console.log('endNode', textNode.childNodes[endNode], endPos);
+            let foundTextNode = textNode.childNodes[startNode];
+            if (typeof foundTextNode === "object" && foundTextNode.firstChild) {
+                foundTextNode = isTextNode(foundTextNode.firstChild) ? foundTextNode.firstChild : foundTextNode.lastChild;
+            }
+            let pos = foundTextNode.textContent ? foundTextNode.textContent.indexOf(searchText) : foundTextNode.indexOf(searchText);
+            range.setStart(foundTextNode, pos);
+            range.setEnd(foundTextNode, pos + searchText.length );
+        }  else if (textNode.childNodes[endNode] && textNode.childNodes[endNode].textContent.includes(searchText)) {
+            console.warn('endNode includes error text');
+            console.log('startNode', textNode.childNodes[startNode], startPos);
+            console.log('endNode', textNode.childNodes[endNode], endPos);
+            let foundTextNode = textNode.childNodes[endNode];
+            if (typeof foundTextNode === "object" && foundTextNode.firstChild) {
+                foundTextNode = isTextNode(foundTextNode.firstChild) ? foundTextNode.firstChild : foundTextNode.lastChild;
+            }
+            let pos = foundTextNode.textContent ? foundTextNode.textContent.indexOf(searchText) : foundTextNode.indexOf(searchText);
+            range.setStart(foundTextNode, pos);
+            range.setEnd(foundTextNode, pos + searchText.length );
+        } else {
+            console.warn('stardNode + endNode includes error text');
+            console.log('startNode', textNode.childNodes[startNode], startNode, startPos);
+            console.log('endNode', textNode.childNodes[endNode], endNode, endPos);
             range.setStart(textNode.childNodes[startNode], startPos);
             range.setEnd(textNode.childNodes[endNode], endPos);
-        } else {
-            if (textNode.childNodes[startNode] && textNode.childNodes[startNode].textContent.includes(searchText)) {
-                range.setStart(textNode.childNodes[startNode], startPos);
-                range.setEnd(textNode.childNodes[startNode], startPos + searchText.length);
-            } else {
-                // fallback to find by text
-                console.warn('fallback');
-                const foundNode = findTextNode(textNode, searchText);
-                if (!foundNode) {
-                    console.warn('not found node');
-                    return false;
-                }
-                range.setStart(foundNode, foundNode.textContent.indexOf(searchText));
-                range.setEnd(foundNode, foundNode.textContent.indexOf(searchText) + searchText.length);
-            }
         }
 
         const sel = window.getSelection();
@@ -301,12 +317,11 @@ function createSelection(field, start, end, searchText = '') {
 }
 
 function applyByTypings({ element, errorOffset, errorText, replacement }) {
-    console.warn('applyByTypings', element, errorOffset, errorText, replacement);
     let found = createSelection(element, errorOffset, errorOffset + errorText.length, errorText);
-    // if (found) {
-    //     $(element).sendkeys(replacement);
-    // }
-    closePopup();
+    if (found) {
+        $(element).sendkeys(replacement);
+    }
+    // closePopup();
 }
 
 function applyCorrection(request) {
