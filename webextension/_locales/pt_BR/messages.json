@@ -367,6 +367,10 @@
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
     "message": "Nenhum erro encontrado"
   },
+  "noErrorsFoundFirstTimes": {
+    "description": "Text added after noErrorsFound on the first few checks",
+    "message": "Por favor note: o LanguageTool é otimizado par encontrar erros reais cometidos pelas pessoas. Portanto, se você está digitando aleatoriamente para testar essa extensão, provavelmente ela não funcionará corretamente. Por favor use-a por alguns dias com texto normal para melhor avaliá-la."
+  },
   "noReplacementPossible": {
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
     "message": "Desculpe, mas a extensão LanguageTool não conseguiu encontrar o contexto do erro no texto"

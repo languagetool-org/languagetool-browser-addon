@@ -367,6 +367,10 @@
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
     "message": "Keine Fehler gefunden"
   },
+  "noErrorsFoundFirstTimes": {
+    "description": "Text added after noErrorsFound on the first few checks",
+    "message": "Bitte beachten: LanguageTool wurde entwickelt, um die Fehler zu finden, die beim täglichen Schreiben tatsächlich auftreten. Falls Sie dieses Add-on also mit Fehlern testen, die Sie sich ausgedacht haben, klappt das vielleicht nicht so gut. Wir empfehlen, das Add-on für ein paar Tage mit echten Texten zu benutzen."
+  },
   "noReplacementPossible": {
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
     "message": "Leider konnte die LanguageTool-Erweiterung den Fehler im Text nicht ersetzen"

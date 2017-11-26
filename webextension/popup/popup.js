@@ -157,6 +157,9 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
         }
         if (matchesCount === 0) {
             html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
+            if (items.usageCounter < 5) {
+              html += "<p>" + chrome.i18n.getMessage("noErrorsFoundFirstTimes") + "</p>";
+            }
             if ((autoCheckOnDomain || (autoCheck && !hasIgnoreDomain)) && closePopupAfterRecheck) {
                 sendMessageToTab(tabs[0].id, { action: "closePopup" }, function(response) {});
             }
@@ -515,14 +518,6 @@ function startCheckMaybeWithWarning(tabs) {
             usageCounter: 0
         }, function(items) {
             serverUrl = items.apiServerUrl;
-            if (serverUrl === 'https://languagetool.org:8081/') {
-                // This is migration code - users of the old version might have
-                // the old URL of the v1 API in their settings, force them to use
-                // the v2 JSON API, as this is what this extension supports now:
-                //console.log("Replacing old serverUrl " + serverUrl + " with " + defaultServerUrl);
-                // -> http://stackoverflow.com/questions/12229544/what-can-cause-a-chrome-browser-extension-to-crash
-                serverUrl = defaultServerUrl;
-            }
             if (items.havePremiumAccount) {
                 serverUrl = defaultPremiumServerUrl;
             }
@@ -546,7 +541,15 @@ function startCheckMaybeWithWarning(tabs) {
                     const newCounter = items.usageCounter + 1;
                     Tools.getStorage().set({'usageCounter': newCounter}, function() {});
                     if (chrome.runtime.setUninstallURL) {
-                        chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
+                        if (Tools.isFirefox()) {
+                            // no transfer of extra data for Firefox, as a reviewer once mentioned, this needs
+                            // to be explained in privacy policy and add-on description:
+                            chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
+                        } else {
+                            const { hostname } = new URL(tabs[0].url || pageUrlParam);
+                            chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php?" +
+                                "usageCounter=" + newCounter + "&lastUsedOn=" + hostname);
+                        }
                     }
                 }
             } else {
