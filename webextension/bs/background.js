@@ -1,6 +1,11 @@
 
 chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
 
+// would require "management" permission:
+//chrome.management.onUninstalled.addListener(function() {
+//  Tools.track("http://unknown.domain", "uninstall");
+//});
+
 function onClickHandler(info, tab) {
   if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
     if (Tools.isFirefox()) {
