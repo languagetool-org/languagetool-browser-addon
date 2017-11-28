@@ -19,6 +19,7 @@
 "use strict";
 
 const defaultServerUrl = 'https://api.languagetool.org/v2';   // keep in sync with defaultServerUrl in options.js
+const oldDefaultServerUrl = 'https://languagetool.org/api/v2';
 const defaultPremiumServerUrl = 'https://languagetoolplus.com/api/v2';
 const thisExtensionUrl = "https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji";
 const googleDocsExtension = "https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm";
@@ -192,7 +193,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
         }
         html += "<p id='reviewRequest'></p>";
-        if (serverUrl === defaultServerUrl) {
+        if (serverUrl === defaultServerUrl || serverUrl === oldDefaultServerUrl) {
             html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
         } else {
             html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedBy", DOMPurify.sanitize(serverUrl)) + "</p>";
