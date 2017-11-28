@@ -35,7 +35,7 @@
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and offers many of the same features."
+    "message": "На відміну від Grammarly та Ginger, LanguageTool працює з багатьма мовами та надає багато схожих можливостей."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -59,11 +59,11 @@
   },
   "autoCheckForOffThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Turn off auto check text for this domain"
+    "message": "Вимкнути автоперевірку для цього домену"
   },
   "autoCheckForThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Auto check text for this domain"
+    "message": "Перевіряти текст автоматично для цього домену"
   },
   "autoCheckOffDesc": {
     "description": "Options dialog: auto-check off on this domain",
@@ -75,7 +75,7 @@
   },
   "autoCheckOnDomainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
-    "message": "Auto-check text on these domains (one domain per line):"
+    "message": "Автоматично перевіряти текст для цих доменів (один домен на рядок):"
   },
   "be": {
     "description": "automatically added by injectTranslation.py",
@@ -185,11 +185,11 @@
   },
   "disableForThisDomainTitle": {
     "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)",
-    "message": "Turn off icon for this domain"
+    "message": "Вимкнути іконку для цього домену"
   },
   "domainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
-    "message": "Disable on these domains (one domain per line):"
+    "message": "Вимкнути для цих доменів (один рядок на домен):"
   },
   "el": {
     "description": "automatically added by injectTranslation.py",
@@ -237,7 +237,7 @@
   },
   "foundAErrorOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ error, view details",
+    "message": "Знайдено $totalErrorOnCheckText$ помилку, переглянути подробиці",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -247,7 +247,7 @@
   },
   "foundErrorsOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ errors, view details",
+    "message": "Знайдено $totalErrorOnCheckText$ помилок, переглянути подробиці",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -283,7 +283,7 @@
   },
   "havePremiumAccountDesc": {
     "description": "Options dialog: checkbox for premium access",
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>",
+    "message": "Використати мій обліковий запис на <a href='$url$'>languagetoolplus.com</a>",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -467,7 +467,7 @@
   },
   "privacyPolicy": {
     "description": "Options dialog: Link to privacy policy",
-    "message": "Privacy Policy"
+    "message": "Політика приватності"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",

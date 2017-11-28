@@ -35,7 +35,7 @@
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and offers many of the same features."
+    "message": "A diferència de Grammarly i Ginger, LanguageTool funciona per a moltes llengües i ofereix moltes de les mateixes característiques. "
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -63,7 +63,7 @@
   },
   "autoCheckForThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Auto check text for this domain"
+    "message": "Revisa el text automàticament en aquest domini"
   },
   "autoCheckOffDesc": {
     "description": "Options dialog: auto-check off on this domain",
@@ -75,7 +75,7 @@
   },
   "autoCheckOnDomainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
-    "message": "Auto-check text on these domains (one domain per line):"
+    "message": "Revisa el text automàticament en aquests dominis (un domini per línia):"
   },
   "be": {
     "description": "automatically added by injectTranslation.py",
@@ -103,7 +103,7 @@
   },
   "close": {
     "description": "Text of large button at the bottom of the popup",
-    "message": "Close"
+    "message": "Tanca"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure username and password are correct"
+    "message": "No s'ha pogut iniciar la sessió en languagetoolplus.com: mireu el diàleg d'opcions de l'extensió i assegureu-vos que el nom d'usuari i la contrasenya són correctes. "
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -185,7 +185,7 @@
   },
   "disableForThisDomainTitle": {
     "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)",
-    "message": "Turn off icon for this domain"
+    "message": "Apagueu la icona per a aquest domini. "
   },
   "domainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
@@ -265,7 +265,7 @@
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
-    "message": "A page reload may also be necessary when the extension has just been updated in the background."
+    "message": "Pot caldre recarregar la pàgina quan l'extensió s'ha actualitzat en segon pla. "
   },
   "gl": {
     "description": "automatically added by injectTranslation.py",
@@ -273,7 +273,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Sorry, Google Docs site is not supported by this extension. Please install <a target='_blank' href='$url$'>this extension</a> instead, which is optimized for Google Docs. After installation, use the 'Add-on' menu in Google Docs to access that extension.",
+    "message": "Google Docs no funciona amb aquesta extensió. Instal·leu <a target='_blank' href='$url$'>aquesta altra extensió</a>, optimitzada per a Google Docs. Després d'instal·lar-la, feu servir el menú 'Complements' en Google Docs per a accedir-hi. ",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -283,7 +283,7 @@
   },
   "havePremiumAccountDesc": {
     "description": "Options dialog: checkbox for premium access",
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>",
+    "message": "Utilitza el meu compte en <a href='$url$'>languagetoolplus.com</a>",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -361,7 +361,7 @@
   },
   "noErrorOnCheckText": {
     "description": "Show total error on hover on maker icon",
-    "message": "No error"
+    "message": "No s'ha trobat cap error"
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
@@ -391,11 +391,11 @@
   },
   "noTextFound": {
     "description": "Error message shown when no text was found",
-    "message": "No text found"
+    "message": "No s'ha trobat text. "
   },
   "noTextFoundDetails": {
     "description": "More detailed error message shown when no text was found",
-    "message": "You don't seem to be inside a text area. If you're using an online office software, this add-on might not work there. Please check if the online office supports add-ons which provide support for LanguageTool."
+    "message": "Sembla que no sou dins d'una àrea de text. Si feu servir programari d'oficina en línia, aquesta extensió pot no funcionar-hi. Comproveu si el programari admet extensions per a LanguageTool. "
   },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",
@@ -417,7 +417,7 @@
   },
   "password": {
     "description": "Options dialog: password for languagetoolplus.com",
-    "message": "Password:"
+    "message": "Contrasenya:"
   },
   "pl": {
     "description": "automatically added by injectTranslation.py",
@@ -467,7 +467,7 @@
   },
   "privacyPolicy": {
     "description": "Options dialog: Link to privacy policy",
-    "message": "Privacy Policy"
+    "message": "Política de privacitat"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",
@@ -517,7 +517,7 @@
   },
   "reminderIconTitle": {
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
-    "message": "Check Text"
+    "message": "Revisa el text"
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
@@ -627,7 +627,7 @@
   },
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
-    "message": "E-Mail:"
+    "message": "Adreça electrònica:"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",

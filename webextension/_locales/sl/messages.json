@@ -55,27 +55,27 @@
   },
   "autoCheckDesc": {
     "description": "Options dialog: auto-check on all domains by default",
-    "message": "Auto-check on all domains by default"
+    "message": "Privzeto samodejno preveri na vseh domenah"
   },
   "autoCheckForOffThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Turn off auto check text for this domain"
+    "message": "Izklopi samodejno preverjanje besedila za to domeno"
   },
   "autoCheckForThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Auto check text for this domain"
+    "message": "Samodejno preverjaj besedilo za to domeno"
   },
   "autoCheckOffDesc": {
     "description": "Options dialog: auto-check off on this domain",
-    "message": "Auto-check off on this domain"
+    "message": "Izključi samodejno preverjanje na tej domeni"
   },
   "autoCheckOnDesc": {
     "description": "Options dialog: auto-check on this domain",
-    "message": "Auto-check on this domain"
+    "message": "Samodejno preverjaj na tej domeni"
   },
   "autoCheckOnDomainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
-    "message": "Auto-check text on these domains (one domain per line):"
+    "message": "Samodejno preverjaj besedilo na teh domenah (ena domena na vrstico):"
   },
   "be": {
     "description": "automatically added by injectTranslation.py",
@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure username and password are correct"
+    "message": "Prijava na languagetoolplus.com ni uspela: oglejte si pogovorno okno možnosti za ta dodatek in preverite, da sta uporabniško ime in geslo pravilna."
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -189,7 +189,7 @@
   },
   "domainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
-    "message": "Disable on these domains (one domain per line):"
+    "message": "Onemogoči na teh domenah (ena domena na vrstico):"
   },
   "el": {
     "description": "automatically added by injectTranslation.py",
@@ -237,7 +237,7 @@
   },
   "foundAErrorOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ error, view details",
+    "message": "Najdena $totalErrorOnCheckText$ napaka, pokaži podrobnosti",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -247,7 +247,7 @@
   },
   "foundErrorsOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ errors, view details",
+    "message": "Najdenih $totalErrorOnCheckText$ napak, pokaži podrobnosti",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -265,7 +265,7 @@
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
-    "message": "A page reload may also be necessary when the extension has just been updated in the background."
+    "message": "Morda je potrebno tudi ponovno nalaganje strani, če je razširitev ravno posodobljena v ozadju."
   },
   "gl": {
     "description": "automatically added by injectTranslation.py",
@@ -283,7 +283,7 @@
   },
   "havePremiumAccountDesc": {
     "description": "Options dialog: checkbox for premium access",
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>",
+    "message": "Uporabi moj račun na <a href='$url$'>languagetoolplus.com</a>",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -293,7 +293,7 @@
   },
   "ignoreDomainsCheckDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text won't run automatically in background",
-    "message": "Don't auto-check on these domains (one domain per line):"
+    "message": "Ne preverjaj samodejno na teh domenah (ena domena na vrstico):"
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
@@ -369,7 +369,7 @@
   },
   "noErrorsFoundFirstTimes": {
     "description": "Text added after noErrorsFound on the first few checks",
-    "message": "Please note: LanguageTool is optimized to find errors that people actually make. So if you're just testing this add-on by entering some gibberish, it might not work well. Please use it for a few days on real text to see its value."
+    "message": "Upoštevajte: LanguageTool je optimiziran za iskanje napak, ki jih dejansko naredijo ljudje. Če torej zgolj preverjate dodatek z vnašanjem neumnosti, najbrž ne bo deloval dobro. Uporabljajte ga vsaj nekaj dni na resničnih besedilih, da lahko ocenite njegovo vrednost."
   },
   "noReplacementPossible": {
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
@@ -395,7 +395,7 @@
   },
   "noTextFoundDetails": {
     "description": "More detailed error message shown when no text was found",
-    "message": "You don't seem to be inside a text area. If you're using an online office software, this add-on might not work there. Please check if the online office supports add-ons which provide support for LanguageTool."
+    "message": "Ne nahajate se v besedilnem območju. Če uporabljate spletni pisarniški paket, ta dodatek tam morda ne deluje. Preverite, če spletni pisarniški paket podpira dodatke, ki ponujajo podporo za LanguageTool."
   },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",
