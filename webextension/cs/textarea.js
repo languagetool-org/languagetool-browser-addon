@@ -653,8 +653,9 @@ function allowToShowMarker(callback) {
   }
 }
 
-window.addEventListener("resize", positionMarkerOnChangeSize);
-window.addEventListener("scroll", positionMarkerOnChangeSize);
+//TODO: comment in again if not responsible for the slowdown
+//window.addEventListener("resize", positionMarkerOnChangeSize);
+//window.addEventListener("scroll", positionMarkerOnChangeSize);
 
 function injectLoadingStyle() {
   const style = document.createElement('style');
