@@ -15,7 +15,7 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Reviseu la gramàtica i l'estil dels vostres texts arreu d'Internet. "
+    "message": "Reviseu la gramàtica i l'estil dels vostres texts en qualsevol lloc d'Internet. "
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported - please use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm for Google Docs instead."
+    "message": "LanguageTool s'ha dissenyat amb l'objectiu de la simplicitat. Fent clic en un botó o en una drecera de teclat configurable, LanguageTool revisa l'ortografia i la gramàtica de qualsevol text seleccionat. LanguageTool és compatible amb gairebé tots els textos, independentment de la font, incloent-hi xarxar socials com Twitter o LinkedIn i serveis de correu electrònic en línia, com Gamil. Només alguns llocs web com docs.google.com i chrome.google.com no funcionen. Per a Google Docs feu servir https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -31,7 +31,7 @@
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Usage: Click in an editable field if you want to check its contents. Then click either on the icon in the lower right corner of the editable field, or on the LT icon which is displayed in your browser's toolbar in the upper right corner. Alternatively, use Ctrl+Shift+Space as a shortcut."
+    "message": "Ús: Feu clic en un camp editable si voleu revisar-ne el contingut. Llavors feu clic o bé en la icona de baix a la dreta del camp o bé en la icona de LT que es mostra en la barra d'eines del navegador dalt a la dreta. Altrament, feu servir Ctrl+Maj+espai com a drecera de teclat. "
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -39,7 +39,7 @@
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+    "message": "La vostra privacitat és important per a nosaltres. Per defecte, aquesta extensió revisa els textos enviant-lso a https://languagetool.org en una connexió xifrada segura. No cal tenir un compte per a utilitzar l'extensió. No desem la vostra adreça IP. Vegeu la nostra política de privacitat en https://languagetool.org/privacy/."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -55,11 +55,11 @@
   },
   "autoCheckDesc": {
     "description": "Options dialog: auto-check on all domains by default",
-    "message": "Auto-check on all domains by default"
+    "message": "Revisió automàtica en tots els dominis per defecte"
   },
   "autoCheckForOffThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Turn off auto check text for this domain"
+    "message": "Apaga la revisió automàtica per a aquest domini"
   },
   "autoCheckForThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
@@ -67,11 +67,11 @@
   },
   "autoCheckOffDesc": {
     "description": "Options dialog: auto-check off on this domain",
-    "message": "Auto-check off on this domain"
+    "message": "Revisió automàtica apagada per a aquest domini"
   },
   "autoCheckOnDesc": {
     "description": "Options dialog: auto-check on this domain",
-    "message": "Auto-check on this domain"
+    "message": "Revisió automàtica en aquest domini"
   },
   "autoCheckOnDomainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
@@ -189,7 +189,7 @@
   },
   "domainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
-    "message": "Disable on these domains (one domain per line):"
+    "message": "Desactiva en aquests dominis (un domini per línia):"
   },
   "el": {
     "description": "automatically added by injectTranslation.py",
@@ -237,7 +237,7 @@
   },
   "foundAErrorOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ error, view details",
+    "message": "S'ha trobat $totalErrorOnCheckText$ error, vegeu-ne els detalls",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -247,7 +247,7 @@
   },
   "foundErrorsOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ errors, view details",
+    "message": "S'han trobat $totalErrorOnCheckText$ errors, vegeu-ne els detalls",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -293,7 +293,7 @@
   },
   "ignoreDomainsCheckDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text won't run automatically in background",
-    "message": "Don't auto-check on these domains (one domain per line):"
+    "message": "No facis revisió automàtica en aquests dominis (un per línia):"
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
@@ -369,7 +369,7 @@
   },
   "noErrorsFoundFirstTimes": {
     "description": "Text added after noErrorsFound on the first few checks",
-    "message": "Please note: LanguageTool is optimized to find errors that people actually make. So if you're just testing this add-on by entering some gibberish, it might not work well. Please use it for a few days on real text to see its value."
+    "message": "Atenció: LanguageTool està optimitzat per a trobar errors que es cometen realment en la pràctica. Si proveu aquesta extensió introduint-hi frases inventades sense sentit, pot no funcionar bé. Feu-la servir uns quants dies amb textos reals per a avaluar-la com cal. "
   },
   "noReplacementPossible": {
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
@@ -513,7 +513,7 @@
   },
   "reactivateIcon": {
     "description": "Re-activate icon for disabled domain",
-    "message": "You've turned off the reminder icon for this domain, click here to re-activate it."
+    "message": "Heu apagat la icona de recordatori per a aquest domini. Feu clic aquí per a reactivar-la. "
   },
   "reminderIconTitle": {
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
