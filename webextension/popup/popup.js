@@ -548,8 +548,9 @@ function startCheckMaybeWithWarning(tabs) {
                             chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
                         } else {
                             const { hostname } = new URL(tabs[0].url || pageUrlParam);
+                            const version = chrome.app && chrome.app.getDetails ? chrome.app.getDetails().version : "unknown";
                             chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php?" +
-                                "usageCounter=" + newCounter + "&lastUsedOn=" + hostname);
+                                "usageCounter=" + newCounter + "&lastUsedOn=" + hostname + "&version=" + version);
                         }
                     }
                 }
