@@ -29,6 +29,7 @@ Tools.getStorage().get({
 
 function getCheckResult(markupList, metaData, callback, errorCallback) {
     Tools.getApiServerUrl(serverUrl => {
+      const startTime = new Date().getTime();
       let text = Markup.markupList2text(markupList);
       if (ignoreQuotedLines) {
           const textOrig = text;
@@ -57,6 +58,11 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
               return;
           }
           callback(response);
+          const runTime = new Date().getTime() - startTime;
+          if (runTime > 3000) {
+            const runTimeSecs = (runTime/1000).toFixed(0);
+            Tools.track("http://unknown.host", "SlowCheckSeconds", runTimeSecs);
+          }
       };
       req.onerror = function() {
           errorCallback(chrome.i18n.getMessage("networkError", serverUrl), "networkError");
@@ -72,7 +78,7 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
       } else {
           userAgent += "-unknown";
       }
-      let params = 'disabledRules=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25) 
+      let params = 'disabledRules=WHITESPACE_RULE' +   // needed because we might replace quoted text by spaces (see issue #25)
           '&useragent=' + userAgent;
       Tools.getStorage().get({
           havePremiumAccount: false,

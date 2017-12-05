@@ -1,11 +1,11 @@
 {
   "addToDictionary": {
     "description": "Link shown in the popup to accept a word to the internal dictionary",
-    "message": "add to dictionary"
+    "message": "Agregar al diccionario"
   },
   "addToDictionaryTitle": {
     "description": "Title hover shown in the popup to accept a word to the internal dictionary",
-    "message": "add \"$word$\" to personal dictionary",
+    "message": "Agregar \"$word$\" al diccionario personal",
     "placeholders": {
       "word": {
         "content": "$1",
@@ -15,35 +15,35 @@
   },
   "appDesc": {
     "description": "The description of the application, displayed in the web store.",
-    "message": "Check your texts for style and grammar problems everywhere on the web"
+    "message": "Revisa el estilo y la gramática de tus textos en cualquier lugar de la web"
   },
   "appStoreDesc10": {
     "description": "Description paragraph 1 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With this extension you can check text with the free style and grammar checker LanguageTool. LanguageTool finds many errors that a simple spell checker cannot detect, like mixing up there/their, a/an, or repeating a word, and it can detect some grammar problems. It supports more than 25 languages, including English, Spanish, French, German, Polish, and Russian."
+    "message": "Con esta extensión se puede revisar el estilo y la gramática de textos con LanguageTool. LanguageTool encuentra muchos errores que un simple corrector ortográfico no puede detectar, como la confusión o repetición de palabras, y también algunos problemas gramaticales. Tiene soporte para más de 25 idiomas, incluyendo inglés, español, francés, alemán, polaco y ruso."
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool is designed with simplicity in mind. With the press of a button or customisable keyboard shortcut, LanguageTool instantly checks the spelling and grammar of any text that is selected. LanguageTool is compatible with almost all text, regardless of source, including social networks such as Twitter or LinkedIn and online e-mail services, such as Gmail. Very few sites like docs.google.com and chrome.google.com currently aren't supported - please use https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm for Google Docs instead."
+    "message": "LanguageTool está diseñado pensando en la simplicidad. Con presionar un botón o con un método abreviado de teclado, LanguageTool instantáneamente revisa la ortografía y la gramática de cualquier texto que esté seleccionado. LanguageTool es compatible con casi cualquier texto, sin importar su origen, incluyendo redes sociales como Twitter o LinkedIn y servicios de e-mail en línea, tales como Gmail. Unos pocos sitios como docs.google.com y chrome.google.com actualmente no son compatibles - por favor use, en vez, https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm para Google Docs."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "With LanguageTool our aim is to give users a fully-featured grammar checker and proofreader that will enable them to have control and confidence over their content. While LanguageTool is a vital extension for non-native speakers, it’s also smart enough to recognize mistakes that native speakers commonly make and it will improve your writing overall. This grammar and spelling correction works across all variations of common language; distinguishing between U.S. and British English, for instance. LanguageTool also features a personal dictionary for exceptions or words that you might commonly use but that are not found in a conventional dictionary. LanguageTool will recognize these words in future grammar checking and proofreading."
+    "message": "Con LanguageTool nuestra meta es dar a los usuarios un revisor de gramática y corrector de estilo con funcionalidad completa, que les permita tener control y confianza en su contenido. Mientras que LanguageTool es una extensión vital para hablantes no nativos, también es lo suficientemente inteligente para reconocer errores que hablantes nativos usualmente cometen y, por tanto, mejorará su escritura en general. Esta correción ortográfica y gramatical funciona en todas las variantes del lenguaje común; distinguiendo, por ejemplo, entre inglés británico y americano. LanguageTool también tiene un diccionario personal para excepciones o palabras que usted podría usar comúnmente pero que no se encuentran en un diccionario convencional. LanguageTool reconocerá estas palabras en las futuras revisiones gramáticales y de estilo."
   },
   "appStoreDesc40": {
     "description": "Description paragraph 4 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Usage: Click in an editable field if you want to check its contents. Then click either on the icon in the lower right corner of the editable field, or on the LT icon which is displayed in your browser's toolbar in the upper right corner. Alternatively, use Ctrl+Shift+Space as a shortcut."
+    "message": "Uso: Si quiere revisar su contenido de un campo modificable, haga clic en él. Después haga clic sobre el ícono en la esquina inferior derecha del campo modificable, o en el ícono LT que se muestra en la barra de herramientas del navegador en la esquina superior derecha. Alternativamente, use el atajo de teclado Ctrl+Shift+Espacio."
   },
   "appStoreDesc60": {
     "description": "Description paragraph 5 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Unlike Grammarly and Ginger, LanguageTool works for many languages and offers many of the same features."
+    "message": "A diferencia de Grammarly o de Ginger, LanguageTool funciona en muchos idiomas y ofrece muchas de las mismas funcionalidades."
   },
   "appStoreDesc70": {
     "description": "Description paragraph 6 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Your privacy is important to us: By default, this extension will check your text by sending it to https://languagetool.org over a securely encrypted connection. No account is needed to use this extension. We don't store your IP address. See https://languagetool.org/privacy/ for our privacy policy."
+    "message": "Su privacidad es importante para nosotros: Por defecto, esta extensión revisará su texto enviándolo a https://languagetool.org a través de una conexión encriptada de forma segura. No se necesita una cuenta para usar esta extensión. No almacenamos su dirección de IP. Vea nuestra política de privacidad en https://languagetool.org/privacy/."
   },
   "appStoreDesc80": {
     "description": "Description paragraph 7 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "Please report bugs at https://github.com/languagetool-org/languagetool-browser-addon/issues"
+    "message": "Por favor reporte errores en https://github.com/languagetool-org/languagetool-browser-addon/issues"
   },
   "ast": {
     "description": "automatically added by injectTranslation.py",
@@ -55,27 +55,27 @@
   },
   "autoCheckDesc": {
     "description": "Options dialog: auto-check on all domains by default",
-    "message": "Auto-check on all domains by default"
+    "message": "Revisión automática en todos los dominios por defecto"
   },
   "autoCheckForOffThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Turn off auto check text for this domain"
+    "message": "Desactivar la revisión automática en este dominio"
   },
   "autoCheckForThisDomainTitle": {
     "description": "Hover title of the auto run button (appears when hovering over the blue reminder icon)",
-    "message": "Auto check text for this domain"
+    "message": "Revisar automáticamente el texto en este dominio"
   },
   "autoCheckOffDesc": {
     "description": "Options dialog: auto-check off on this domain",
-    "message": "Auto-check off on this domain"
+    "message": "Revisión automática apagada en este dominio"
   },
   "autoCheckOnDesc": {
     "description": "Options dialog: auto-check on this domain",
-    "message": "Auto-check on this domain"
+    "message": "Revisión automática en este dominio"
   },
   "autoCheckOnDomainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text will run automatically in background",
-    "message": "Auto-check text on these domains (one domain per line):"
+    "message": "Revisar automáticamente el texto en estos dominios (un dominio por línea):"
   },
   "be": {
     "description": "automatically added by injectTranslation.py",
@@ -103,15 +103,15 @@
   },
   "close": {
     "description": "Text of large button at the bottom of the popup",
-    "message": "Close"
+    "message": "Cerrar"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
-    "message": "Check text with LanguageTool"
+    "message": "Revisar texto con LanguageTool"
   },
   "contextMenuItemWithShortcut": {
     "description": "Text shown in the context menu, if available. The parenthesis show the shortcut.",
-    "message": "Check text with LanguageTool [$shortcut$]",
+    "message": "Revisar texto con LanguageTool [$shortcut$]",
     "placeholders": {
       "shortcut": {
         "content": "$1",
@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure username and password are correct"
+    "message": "No fue posible conectarse a languagetoolplus.com: por favor visite el diálogo de opciones de esta extensión y asegúrese de que el usuario y la contraseña sean correctos."
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -181,15 +181,15 @@
   },
   "dictionaryDesc": {
     "description": "Options dialog: text for the textarea with the user's words to be ignored for spell checking",
-    "message": "Personal dictionary words (one word per line):"
+    "message": "Palabras en el diccionario personal (una palabra por línea):"
   },
   "disableForThisDomainTitle": {
     "description": "Hover title of the power switch button (appears when hovering over the blue reminder icon)",
-    "message": "Turn off icon for this domain"
+    "message": "Desactivar el ícono en este dominio"
   },
   "domainsDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the reminder icon is disabled",
-    "message": "Disable on these domains (one domain per line):"
+    "message": "Desactivar en estos dominios (un dominio por línea):"
   },
   "el": {
     "description": "automatically added by injectTranslation.py",
@@ -237,7 +237,7 @@
   },
   "foundAErrorOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ error, view details",
+    "message": "Se encontró $totalErrorOnCheckText$ error, ver detalles",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -247,7 +247,7 @@
   },
   "foundErrorsOnCheckText": {
     "description": "Show total errors on hover on reminder icon",
-    "message": "Found $totalErrorOnCheckText$ errors, view details",
+    "message": "Se encontraron $totalErrorOnCheckText$ errores, ver detalles",
     "placeholders": {
       "totalErrorOnCheckText": {
         "content": "$1",
@@ -265,7 +265,7 @@
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
-    "message": "A page reload may also be necessary when the extension has just been updated in the background."
+    "message": "Puede ser necesario recargar la página cuando la extensión haya sido actualizada recientemente en segundo plano."
   },
   "gl": {
     "description": "automatically added by injectTranslation.py",
@@ -273,7 +273,7 @@
   },
   "googleDocsNotSupported": {
     "description": "Google Docs is too complex to be supported, so we show this error",
-    "message": "Sorry, Google Docs site is not supported by this extension. Please install <a target='_blank' href='$url$'>this extension</a> instead, which is optimized for Google Docs. After installation, use the 'Add-on' menu in Google Docs to access that extension.",
+    "message": "Lo sentimos, el sitio de Google Docs no es compatible con esta extensión. Por favor instale <a target='_blank' href='$url$'>esta extensión</a> en su lugar, la cual está optimizada para Google Docs. Después de la instalación, use el menú 'Complementos' en Google Docs para acceder a la extensión.",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -283,7 +283,7 @@
   },
   "havePremiumAccountDesc": {
     "description": "Options dialog: checkbox for premium access",
-    "message": "Use my account at <a href='$url$'>languagetoolplus.com</a>",
+    "message": "Usar mi cuenta en <a href='$url$'>languagetoolplus.com</a>",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -293,11 +293,11 @@
   },
   "ignoreDomainsCheckDesc": {
     "description": "Options dialog: text for the textarea with the domains's where the check text won't run automatically in background",
-    "message": "Don't auto-check on these domains (one domain per line):"
+    "message": "No revisar automáticamente en estos dominios (un dominio por línea):"
   },
   "ignoreQuotedLines": {
     "description": "Options dialog: checkbox to exclude quoted text from checking",
-    "message": "Ignore lines starting with $char$ (typically quoted text)",
+    "message": "Ignorar líneas que empiecen con $char$ (usualmente texto citado)",
     "placeholders": {
       "char": {
         "content": "<span id='quoteChar'>&gt;</span>",
@@ -307,7 +307,7 @@
   },
   "ignoredRules": {
     "description": "Text shown at the bottom of the popup to turn on turned off rules again",
-    "message": "These rules have been turned off, click a rule to turn it on again:"
+    "message": "Estas reglas han sido desactivadas, haga clic en una regla para activarla de nuevo:"
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -327,7 +327,7 @@
   },
   "language": {
     "description": "Text shown in the popup to indicate the automatically detected language of the text checked",
-    "message": "Language:"
+    "message": "Idioma:"
   },
   "lt": {
     "description": "automatically added by injectTranslation.py",
@@ -339,11 +339,11 @@
   },
   "motherTongueDesc": {
     "description": "Options dialog: text next to the 'mother tongue' selection",
-    "message": "Mother tongue:"
+    "message": "Idioma nativo:"
   },
   "motherTongueExpl": {
     "description": "Options dialog: more descriptive text explaining what selection of mother tongue does",
-    "message": "Set mother tongue if you want to be warned about false friends when checking texts not written in your mother tongue."
+    "message": "Configure su idioma nativo si desea recibir advertencias sobre falsos amigos cuando se revisen textos en un idioma del que no sea nativo."
   },
   "networkError": {
     "description": "Error message shown if API server could not be connected due to network issues",
@@ -361,7 +361,7 @@
   },
   "noErrorOnCheckText": {
     "description": "Show total error on hover on maker icon",
-    "message": "No error"
+    "message": "No hay errores"
   },
   "noErrorsFound": {
     "description": "Text shown in the popup when the server found no potential errors in the text to check",
@@ -369,7 +369,7 @@
   },
   "noErrorsFoundFirstTimes": {
     "description": "Text added after noErrorsFound on the first few checks",
-    "message": "Please note: LanguageTool is optimized to find errors that people actually make. So if you're just testing this add-on by entering some gibberish, it might not work well. Please use it for a few days on real text to see its value."
+    "message": "Por favor tenga en cuenta: LanguageTool fue optimizado para encontrar errores cometidos realmente por personas. Si usted está probando esta extensión insertando únicamente texto incomprensible, podría no funcionar bien. Por favor úsela por algunos días en texto real para conocer su valor."
   },
   "noReplacementPossible": {
     "description": "Error message shown when the extension could not apply the suggestion selected by the user. May happen under some circumstances when editing HTML.",
@@ -391,11 +391,11 @@
   },
   "noTextFound": {
     "description": "Error message shown when no text was found",
-    "message": "No text found"
+    "message": "No se encontró ningún texto"
   },
   "noTextFoundDetails": {
     "description": "More detailed error message shown when no text was found",
-    "message": "You don't seem to be inside a text area. If you're using an online office software, this add-on might not work there. Please check if the online office supports add-ons which provide support for LanguageTool."
+    "message": "No parece estar dentro de un área de texto. Si está usando un programa de oficina en línea, esta extensión podría no funcionar en él. Por favor verifique si el programa de oficina es compatible con las extensiones que tienen compatibilidad con LanguageTool."
   },
   "noValidResponseFromServer": {
     "description": "Error message shown we cannot parse API server response",
@@ -417,7 +417,7 @@
   },
   "password": {
     "description": "Options dialog: password for languagetoolplus.com",
-    "message": "Password:"
+    "message": "Contraseña:"
   },
   "pl": {
     "description": "automatically added by injectTranslation.py",
@@ -467,7 +467,7 @@
   },
   "privacyPolicy": {
     "description": "Options dialog: Link to privacy policy",
-    "message": "Privacy Policy"
+    "message": "Política de Privacidad"
   },
   "pt": {
     "description": "automatically added by injectTranslation.py",
@@ -503,7 +503,7 @@
   },
   "quotedLinesIgnored": {
     "description": "Text shown in the popup to let the user know when parts of the text have been ignored",
-    "message": "Quoted lines starting with $char$ have been ignored",
+    "message": "Las líneas que empiezan con $char$ han sido ignoradas",
     "placeholders": {
       "char": {
         "content": "<span class='quoteChar'>&gt;</span>",
@@ -513,15 +513,15 @@
   },
   "reactivateIcon": {
     "description": "Re-activate icon for disabled domain",
-    "message": "You've turned off the reminder icon for this domain, click here to re-activate it."
+    "message": "Ha desactivado el ícono de recordatorio en este dominio, haga clic aquí para reactivarlo."
   },
   "reminderIconTitle": {
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
-    "message": "Check Text"
+    "message": "Revisar Texto"
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
-    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "message": "Si esta extensión es de su gusto, ¿por qué no <a target='_blank' href='$url$'>escribir una reseña</a>?",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -547,7 +547,7 @@
   },
   "shortcutHint": {
     "description": "Text shown in the popup to let the user know about the shortcut key combination",
-    "message": "You can trigger the text check with this shortcut: $shortcut$",
+    "message": "Puede activar la verificación del texto con este atajo: $shortcut$",
     "placeholders": {
       "shortcut": {
         "content": "$1",
@@ -557,7 +557,7 @@
   },
   "shortcutHintDismiss": {
     "description": "Link to let the user hide the hint about the shortcut",
-    "message": "Okay, got it"
+    "message": "Ok, entendido"
   },
   "siteNotSupported": {
     "description": "Some sites are too complex, so we show this error",
@@ -615,11 +615,11 @@
   },
   "tooltip": {
     "description": "Tooltip shown when hovering over the extension icon.",
-    "message": "Check the current selection\nor editable field with LanguageTool"
+    "message": "Revisa el texto seleccionado\no el campo modificable con LanguageTool"
   },
   "turnOffRule": {
     "description": "Link shown in the popup to turn off, i.e. ignore, a rule (the rule - not just this match)",
-    "message": "Turn off rule"
+    "message": "Desactivar regla"
   },
   "uk": {
     "description": "automatically added by injectTranslation.py",
@@ -627,27 +627,27 @@
   },
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
-    "message": "E-Mail:"
+    "message": "E-mail:"
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Catalan:"
+    "message": "Asumir esta variante del catalán:"
   },
   "variantDeDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of German:"
+    "message": "Asumir esta variante del alemán:"
   },
   "variantEnDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of English:"
+    "message": "Asumir esta variante del inglés:"
   },
   "variantPtDesc": {
     "description": "Options dialog: set the language variant",
-    "message": "Assume this variety of Portuguese:"
+    "message": "Asumir esta variante del portugués:"
   },
   "webstoreSiteNotSupported": {
     "description": "Error shown when Chrome extension is used on https://chrome.google.com/webstore, which doesn't work for technical reasons",
-    "message": "Sorry, Google Chrome prevents extensions to access the Chrome Web Store. Strange, isn't it?"
+    "message": "Lo sentimos, Google Chrome impide que las extensiones accedan al Chrome Web Store. Extraño, ¿no?"
   },
   "zh": {
     "description": "automatically added by injectTranslation.py",
