@@ -30,6 +30,11 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*", "file:///*"],
+      "js": [ "share/listeners.js" ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["http://*/*", "https://*/*", "file:///*"],
       "js": [
         "vendors/jquery.min.js",
         "vendors/purify.js",

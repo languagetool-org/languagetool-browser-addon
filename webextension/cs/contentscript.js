@@ -281,7 +281,8 @@ function createSelection(field, start, end, searchText = '', correctionText = ''
                 sel.addRange(range);
                 const currentText = sel.toString();
                 console.warn('selected text', currentText)
-                $(field).sendkeys(currentText.replace(searchText, correctionText));
+                // $(field).sendkeys(currentText.replace(searchText, correctionText));
+                pasteText(field, currentText.replace(searchText, correctionText))
                 return false;
             }
         }
@@ -348,7 +349,8 @@ function createSelection(field, start, end, searchText = '', correctionText = ''
             sel.addRange(range);
             const currentText = sel.toString();
             console.warn('selected text', currentText)
-            $(field).sendkeys(currentText.replace(searchText, correctionText));
+            // $(field).sendkeys(currentText.replace(searchText, correctionText));
+            pasteText(field, currentText.replace(searchText, correctionText))
             return false;
         }
 
@@ -363,11 +365,26 @@ function applyByTypings({ element, errorOffset, errorText, replacement }) {
     try {
         let found = createSelection(element, errorOffset, errorOffset + errorText.length, errorText, replacement);
         if (found) {
-            $(element).sendkeys(replacement);
+            // $(element).sendkeys(replacement);
+            pasteText(element, replacement)
         }
     } catch (error) {
       console.warn('found error', error);
     }
+}
+
+function pasteText(element, text) {
+    const clearTextEvent = new CustomEvent("clear-text", {
+        bubbles: true,
+        cancelable: false
+    });
+    element.dispatchEvent(clearTextEvent);
+    const patesEvent = new CustomEvent("apply-text-by-paste", {
+        detail: text,
+        bubbles: true,
+        cancelable: false
+    });
+    element.dispatchEvent(patesEvent);
 }
 
 function applyCorrection(request) {
