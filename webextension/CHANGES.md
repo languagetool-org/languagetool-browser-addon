@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.34 (2017-xx-xx)
+  * translation updates
+
 ### 1.0.33 (2017-12-01)
   * commented out 2 listeners to see if this improves the slowdown
     some users are experiencing
