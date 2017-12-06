@@ -566,10 +566,12 @@ function startCheckMaybeWithWarning(tabs) {
                            '  <li><a class="privacyLink" id="confirmCheck" href="#">' + chrome.i18n.getMessage("continue") + '</a></li>' +
                            '  <li><a class="privacyLink" id="cancelCheck" href="#">' + chrome.i18n.getMessage("cancel") + '</a></li>' +
                            '</ul>';
-                message += '<input id="autoCheck" type="checkbox">&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
+                //commented out for now to limit requests we get:
+                //message += '<input id="autoCheck" type="checkbox">&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
                 renderStatus(message);
                 document.getElementById("confirmCheck").addEventListener("click", function() {
-                    const autoCheck = document.getElementById('autoCheck').checked;
+                    //const autoCheck = document.getElementById('autoCheck').checked;
+                    const autoCheck = false;  // TODO: re-activate
                     Tools.getStorage().set({
                         autoCheck: autoCheck,
                         allowRemoteCheck: true
