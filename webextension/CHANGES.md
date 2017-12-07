@@ -1,7 +1,9 @@
 # LanguageTool WebExtension Change Log
 
 ### 1.0.34 (2017-xx-xx)
+  * fixed a case where the add-on could slow down the browser
   * translation updates
+  * Portuguese and Spanish can now be selected as mother tongue
 
 ### 1.0.33 (2017-12-01)
   * commented out 2 listeners to see if this improves the slowdown
