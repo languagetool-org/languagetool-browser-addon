@@ -42,6 +42,7 @@ const DOMAIN_SETTINGS = {
 let wrapperId = 0;
 let disableOnDomain = false;
 let autoCheckOnDomain = false;
+let ignoreQuotedLines = true;
 let autoCheck = false;
 let ignoreCheckOnDomains = [];
 let totalErrorOnCheckText = -1; // -1 = not checking yet
@@ -547,7 +548,6 @@ function getMarkupListFromElement(element) {
 function elementMarkup(evt) {
   totalErrorOnCheckText = -1;
   lastCheckResult = Object.assign({}, lastCheckResult, { result: {}, markupList: [], total: -1, isProcess: false, isTyping: true });
-  positionMarkerOnChangeSize();
   return getMarkupListFromElement(evt.target);
 }
 
@@ -571,10 +571,11 @@ function observeEditorElement(element) {
   merge(results, emptyResults).observe(showMatchedResultOnMarker);
 }
 
-function bindClickEventOnElement(currentElement) {
-  if (isEditorElement(currentElement)) {
+function bindCheckErrorEventOnElement(currentElement) {
+  // console.trace('bindCheckErrorEventOnElement');
+  if (isAutoCheckEnable() && isEditorElement(currentElement)) {
     totalErrorOnCheckText = -1;
-    if (isAutoCheckEnable() && !lastCheckResult.isProcess) {
+    if (!lastCheckResult.isProcess) {
       const { markupList, metaData } = getMarkupListFromElement(currentElement);
       if (!isSameObject(markupList, lastCheckResult.markupList)) {
         checkTextFromMarkup({ markupList, metaData }).then(result => {
@@ -590,32 +591,21 @@ function bindClickEventOnElement(currentElement) {
       }
     }
 
-    if (!currentElement.getAttribute("lt-auto-check") && isAutoCheckEnable()) {
+    if (!currentElement.getAttribute("lt-auto-check")) {
         observeEditorElement(currentElement);
         currentElement.setAttribute("lt-auto-check", true);
     }
 
-    if (!currentElement.getAttribute("lt-bind-click")) {
-      currentElement.addEventListener(
-        "mouseup",
-        () => {
-          lastCheckResult = Object.assign({}, lastCheckResult, { isProcess: false });
-          showMarkerOnEditor(currentElement);
-        },
-        false
-      );
-      currentElement.setAttribute("lt-bind-click", true);
-      // edge case for mail.google.com
-      if (isGmail() && document.getElementById(":4")) {
-        // scroll element
-        const scrollContainerOnGmail = document.getElementById(":4");
-        if (!scrollContainerOnGmail.getAttribute("lt-bind-scroll")) {
-          scrollContainerOnGmail.addEventListener(
-            "scroll",
-            positionMarkerOnChangeSize
-          );
-          scrollContainerOnGmail.setAttribute("lt-bind-scroll", true);
-        }
+    // edge case for mail.google.com
+    if (isGmail() && document.getElementById(":4")) {
+      // scroll element
+      const scrollContainerOnGmail = document.getElementById(":4");
+      if (!scrollContainerOnGmail.getAttribute("lt-bind-scroll")) {
+        scrollContainerOnGmail.addEventListener(
+          "scroll",
+          positionMarkerOnChangeSize
+        );
+        scrollContainerOnGmail.setAttribute("lt-bind-scroll", true);
       }
     }
   }
@@ -653,9 +643,8 @@ function allowToShowMarker(callback) {
   }
 }
 
-//TODO: comment in again if not responsible for the slowdown
-//window.addEventListener("resize", positionMarkerOnChangeSize);
-//window.addEventListener("scroll", positionMarkerOnChangeSize);
+window.addEventListener("resize", positionMarkerOnChangeSize);
+window.addEventListener("scroll", positionMarkerOnChangeSize);
 
 function injectLoadingStyle() {
   const style = document.createElement('style');
@@ -726,19 +715,9 @@ if (
   (document.readyState !== "loading" && !document.documentElement.doScroll)
 ) {
   injectLoadingStyle();
-  allowToShowMarker(() => {
-    const currentElement = document.activeElement;
-    showMarkerOnEditor(currentElement);
-    bindClickEventOnElement(currentElement);
-  });
 } else {
   document.addEventListener("DOMContentLoaded", () => {
     injectLoadingStyle();
-    allowToShowMarker(() => {
-      const currentElement = document.activeElement;
-      showMarkerOnEditor(currentElement);
-      bindClickEventOnElement(currentElement);
-    });
   });
 }
 
@@ -756,7 +735,7 @@ document.addEventListener(
       // try to reposition for some site which is rendering from JS (e.g: Upwork)
       setTimeout(() => {
         showMarkerOnEditor(focusElement);
-        bindClickEventOnElement(focusElement);
+        bindCheckErrorEventOnElement(focusElement);
       },0);
       //setActiveElement(focusElement);  --> when commented in, I get: SecurityError: Blocked a frame with origin "http://localhost" from accessing a cross-origin frame.
 
