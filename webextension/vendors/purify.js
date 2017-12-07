@@ -827,7 +827,7 @@ function createDOMPurify() {
       }
 
       /* Shadow DOM detected, sanitize it */
-      if (currentNode.content instanceof DocumentFragment) {
+      if (currentNode && currentNode.content instanceof DocumentFragment) {
         _sanitizeShadowDOM(currentNode.content);
       }
 
