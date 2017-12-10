@@ -572,7 +572,6 @@ function observeEditorElement(element) {
 }
 
 function bindCheckErrorEventOnElement(currentElement) {
-  // console.trace('bindCheckErrorEventOnElement');
   if (isAutoCheckEnable() && isEditorElement(currentElement)) {
     totalErrorOnCheckText = -1;
     if (!lastCheckResult.isProcess) {
@@ -715,9 +714,19 @@ if (
   (document.readyState !== "loading" && !document.documentElement.doScroll)
 ) {
   injectLoadingStyle();
+  setTimeout(() => {
+    if (!disableOnDomain) {
+      showMarkerOnEditor(document.activeElement);
+    }
+  }, 0);
 } else {
   document.addEventListener("DOMContentLoaded", () => {
     injectLoadingStyle();
+    setTimeout(() => {
+      if (!disableOnDomain) {
+        showMarkerOnEditor(document.activeElement);
+      }
+    }, 0);
   });
 }
 
@@ -750,6 +759,11 @@ document.addEventListener(
           cleanUpTimeout = null;
         }, CLEAN_TIMEOUT_MILLIS);
       }
+
+      // show the marker on UI
+      setTimeout(() => {
+        positionMarkerOnChangeSize();
+      },200);
     }
   },
   false
