@@ -713,20 +713,26 @@ if (
   document.readyState === "complete" ||
   (document.readyState !== "loading" && !document.documentElement.doScroll)
 ) {
-  injectLoadingStyle();
-  setTimeout(() => {
-    if (!disableOnDomain) {
-      showMarkerOnEditor(document.activeElement);
-    }
-  }, 0);
-} else {
-  document.addEventListener("DOMContentLoaded", () => {
+  allowToShowMarker(() => {
     injectLoadingStyle();
     setTimeout(() => {
       if (!disableOnDomain) {
         showMarkerOnEditor(document.activeElement);
+        bindCheckErrorEventOnElement(document.activeElement);
       }
     }, 0);
+  });
+} else {
+  document.addEventListener("DOMContentLoaded", () => {
+    allowToShowMarker(() => {
+      injectLoadingStyle();
+      setTimeout(() => {
+        if (!disableOnDomain) {
+          showMarkerOnEditor(document.activeElement);
+          bindCheckErrorEventOnElement(document.activeElement);
+        }
+      }, 0);
+    });
   });
 }
 
