@@ -42,6 +42,7 @@ var serverUrl = defaultServerUrl;
 var motherTongue = "";
 var preferredVariants = [];
 var manuallySelectedLanguage = "";
+var currentActiveUrl = "";
 
 // to be called only with sanitized content (DOMPurify.sanitize()):
 function renderStatus(statusHtml) {
@@ -302,6 +303,7 @@ function getLanguageSelector(languageCode) {
         "fa", "pl-PL", "pt-PT", "pt-BR", "ro-RO", "ru-RU", "sk-SK",
         "sl-SI", "es", "sv", "tl-PH", "ta-IN", "uk-UA"
     ];
+
     let html = "<div id='top'>";
     html += chrome.i18n.getMessage("language");
     html += "<input type='hidden' id='prevLanguage' name='prevLanguage' value='" + Tools.escapeHtml(languageCode) + "'>";
@@ -368,11 +370,23 @@ function renderReplacements(contextSanitized, m, createLinks) {
     return html;
 }
 
+function setSelectedLanguage(languageVal) {
+    const storage = Tools.getStorage();
+    storage.get('savedLanguage', (result) => {
+        let savedLanguages = result.savedLanguage || {};
+        savedLanguages[currentActiveUrl] = languageVal;
+        storage.set({
+            savedLanguage: savedLanguages
+        });
+    });
+}
+
 function addLinkListeners(response, tabs, languageCode) {
     document.getElementById("language").addEventListener("change", function() {
         manuallySelectedLanguage = document.getElementById("language").value;
         const prevLanguage = document.getElementById("prevLanguage").value;
         const langSwitch = prevLanguage + " -> " + manuallySelectedLanguage;
+        setSelectedLanguage(document.getElementById("language").value);
         doCheck(tabs, "switch_language", langSwitch);
     });
     document.getElementById("closeLink").addEventListener("click", function() {
@@ -633,8 +647,16 @@ function sendMessageToTab(tabId, data, callback) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+    let storage = Tools.getStorage();
     if (chrome && chrome.tabs) {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            currentActiveUrl = tabs[0].url;
+            storage.get({savedLanguage:[]}, function(result){
+                let language = result.savedLanguage[currentActiveUrl];
+                if (language) {
+                    manuallySelectedLanguage = language;
+                }
+            });
             if (tabs[0].url === "http://localhost/languagetool-for-chrome-tests.html") {
                 testMode = true;
                 runTest1(tabs, "textarea1", 1);
@@ -651,21 +673,23 @@ document.addEventListener('DOMContentLoaded', function() {
         // below code is running like content script
         testMode = false;
         startCheckMaybeWithWarning([]);
-        chrome.runtime
-          .sendMessage({
+        chrome.runtime.sendMessage({
             action: "getActiveTab"
-          })
-          .then(
-            function(response) {
-              if (response && response.tabs) {
+        }).then(function(response) {
+            if (response && response.tabs) {
+                currentActiveUrl = tabs[0].url;
+                storage.get({savedLanguage:[]}, function(result){
+                    let language = result.savedLanguage[currentActiveUrl];
+                    if (language) {
+                        manuallySelectedLanguage = language;
+                    }
+                });
                 startCheckMaybeWithWarning(response.tabs);
-              }
-            },
-            function(error) {
-              if (error) {
-                Tools.track("internal", `error on getActiveTab: ${error.message}`)
-              }
             }
-          );
+        },function(error) {
+            if (error) {
+                Tools.track("internal", `error on getActiveTab: ${error.message}`)
+            }
+        });
     }
 });
