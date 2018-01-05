@@ -21,7 +21,8 @@
   "permissions": [
     "activeTab",
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "webNavigation"
   ],
   "background": {
     "scripts": ["bs/background.js", "share/tools.js", "bs/common.js", "share/markup.js"]

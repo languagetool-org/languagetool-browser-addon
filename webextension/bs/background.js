@@ -1,4 +1,3 @@
-
 chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
 
 // would require "management" permission:
@@ -102,4 +101,9 @@ chrome.runtime.onConnect.addListener(function(port) {
       })
     }
   });
+});
+
+chrome.webNavigation.onCompleted.addListener(function(){
+  let storage = Tools.getStorage();
+  storage.remove('savedLanguage');
 });
