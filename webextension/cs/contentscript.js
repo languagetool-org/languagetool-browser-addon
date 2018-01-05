@@ -25,6 +25,12 @@ let lastUseDate = new Date().getTime();  // TODO: should actually be saved in pr
 let lastReminderDate = new Date().getTime();  // TODO: should actually be saved in prefs
 let unusedMinutesShowReminder = 0.5;
 
+window.onload = function() {
+    let storage = Tools.getStorage();
+
+    storage.remove('savedLanguage');
+};
+
 function handleRequest(request, sender, callback) {
     if (request.action === "turnOffAutoCheck") {
         autoCheckOnDomain = false;

@@ -102,8 +102,3 @@ chrome.runtime.onConnect.addListener(function(port) {
     }
   });
 });
-
-chrome.webNavigation.onCompleted.addListener(function(){
-  let storage = Tools.getStorage();
-  storage.remove('savedLanguage');
-});
