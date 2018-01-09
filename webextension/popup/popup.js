@@ -29,7 +29,7 @@ const unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).
 
 // ask the user for a review in the store if they have used this add-on at least this many times:
 const minUsageForReviewRequest = 30;
-
+let storage = Tools.getStorage();
 let pageUrlParam = "";
 const pageUrlPosition = window.location.href.indexOf("?pageUrl=");
 if (pageUrlPosition !== -1) {
@@ -53,175 +53,190 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     const createLinks = response.isEditableText && !response.url.match(unsupportedReplacementSitesRegex);
     const data = JSON.parse(resultJson);
     const language = DOMPurify.sanitize(data.language.name);
-    const languageCode = DOMPurify.sanitize(data.language.code);
-    const shortLanguageCode = getShortCode(languageCode);
-    let translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
-    if (!translatedLanguage) {
-        translatedLanguage = chrome.i18n.getMessage(shortLanguageCode);  // needed for e.g. "ru-RU"
-    }
-    if (!translatedLanguage) {
-        translatedLanguage = language;
-    }
-    let html = pageUrlParam.length > 0 ? '<a style="display:none;" id="closeLink" href="#"></a>' : '<a id="closeLink" href="#"></a>';
-    html += DOMPurify.sanitize(getLanguageSelector(languageCode));
-    html += '<div id="outerShortcutHint"></div>';
-    html += "<hr>";
-    let matches = data.matches;
-    Tools.getUserSettingsForRender(items => {
-        let matchesCount = 0;
-        let disabledOnThisDomain = false;
-        let autoCheckOnDomain = false;
-        let autoCheck = items.autoCheck;
-        let hasIgnoreDomain = false;
-        if (response.url) {
-            const { hostname } = new URL(response.url);
-            disabledOnThisDomain = items.disabledDomains.includes(hostname);
-            autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
-            hasIgnoreDomain = items.ignoreCheckOnDomains.includes(hostname);
-            if (disabledOnThisDomain) {
-                html += `<div id="reactivateIcon"><a href="#"><img src='/images/reminder.png'>&nbsp;${chrome.i18n.getMessage("reactivateIcon")}</a></div>`;
-            }
-        }
-        // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
-        if (matches) {
-            const uniquePositionMatches = [];
-            let prevErrStart = -1;
-            let prevErrLen = -1;
-            for (let i = matches.length-1; i >= 0; i--) {
-                const m = matches[i];
-                const errStart = parseInt(m.offset);
-                const errLen = parseInt(m.length);
-                if (errStart !== prevErrStart || errLen !== prevErrLen) {
-                    uniquePositionMatches.push(m);
-                    prevErrStart = errStart;
-                    prevErrLen = errLen;
-                }
-            }
-            uniquePositionMatches.reverse();
-            matches = uniquePositionMatches;
-        }
-
-        const ignoredRuleCounts = {};
-        const ruleIdToDesc = {};
-        for (let match in matches) {
-            const m = matches[match];
-
-            // these values come from the server, make sure they are ints:
-            const errStart = parseInt(m.context.offset);
-            const errLen = parseInt(m.length);
-
-            // these string values come from the server and need to be sanitized
-            // as they will be inserted with innerHTML:
-            const contextSanitized = DOMPurify.sanitize(m.context.text);
-            const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
-            const messageSanitized = DOMPurify.sanitize(m.message);
-            const descriptionSanitized = DOMPurify.sanitize(m.rule.description);
-            ruleIdToDesc[ruleIdSanitized] = descriptionSanitized;
-
-            const wordSanitized = contextSanitized.substr(errStart, errLen);
-            let ignoreError = false;
-
-            if (isSpellingError(m)) {
-                // Also accept uppercase versions of lowercase words in personal dict:
-                const knowToDict = items.dictionary.indexOf(wordSanitized) !== -1;
-                if (knowToDict) {
-                    ignoreError = true;
-                } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
-                    ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) !== -1;
-                }
+    let languageCode = '';
+    let getLanguageCode = new Promise((resolve, reject) => {
+        storage.get({savedLanguage:[]}, function(result){
+            let language = result.savedLanguage[tabUrl];
+    
+            if (language) {
+                resolve(language);
             } else {
-                ignoreError = items.ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
+                resolve(DOMPurify.sanitize(data.language.code))
             }
-            if (ignoreError) {
-                if (ignoredRuleCounts[ruleIdSanitized]) {
-                    ignoredRuleCounts[ruleIdSanitized]++;
-                } else {
-                    ignoredRuleCounts[ruleIdSanitized] = 1;
+        });
+    });
+    let tabUrl = tabs[0].url ? tabs[0].url : pageUrlParam;
+
+    getLanguageCode.then(function(languageCode) {
+        const shortLanguageCode = getShortCode(languageCode);
+        let translatedLanguage = chrome.i18n.getMessage(languageCode.replace(/-/, "_"));
+        if (!translatedLanguage) {
+            translatedLanguage = chrome.i18n.getMessage(shortLanguageCode);  // needed for e.g. "ru-RU"
+        }
+        if (!translatedLanguage) {
+            translatedLanguage = language;
+        }
+        let html = pageUrlParam.length > 0 ? '<a style="display:none;" id="closeLink" href="#"></a>' : '<a id="closeLink" href="#"></a>';
+        html += DOMPurify.sanitize(getLanguageSelector(languageCode));
+        html += '<div id="outerShortcutHint"></div>';
+        html += "<hr>";
+        let matches = data.matches;
+        Tools.getUserSettingsForRender(items => {
+            let matchesCount = 0;
+            let disabledOnThisDomain = false;
+            let autoCheckOnDomain = false;
+            let autoCheck = items.autoCheck;
+            let hasIgnoreDomain = false;
+            if (response.url) {
+                const { hostname } = new URL(response.url);
+                disabledOnThisDomain = items.disabledDomains.includes(hostname);
+                autoCheckOnDomain = items.autoCheckOnDomains.includes(hostname);
+                hasIgnoreDomain = items.ignoreCheckOnDomains.includes(hostname);
+                if (disabledOnThisDomain) {
+                    html += `<div id="reactivateIcon"><a href="#"><img src='/images/reminder.png'>&nbsp;${chrome.i18n.getMessage("reactivateIcon")}</a></div>`;
                 }
-            } else {
-                html += "<div class=\"suggestionRow " + suggestionClass(m) + "\">\n";
-                if (isSpellingError(m)) {
-                    const escapedWord = Tools.escapeHtml(wordSanitized);
-                    html += "<div class='addToDict' data-addtodict='" + escapedWord + "'" +
-                            " title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'></div>";
-                } else {
-                    html += "<div class='turnOffRule' data-ruleIdOff='" + Tools.escapeHtml(ruleIdSanitized) + "'" +
-                            " data-ruleDescription='" + Tools.escapeHtml(descriptionSanitized) + "'" +
-                            " title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'></div>";
-                }
-                html += Tools.escapeHtml(messageSanitized);
-                html += renderContext(contextSanitized, errStart, errLen);
-                html += renderReplacements(contextSanitized, m, createLinks);
-                html += "</div>\n";
-                html += "<hr>";
-                matchesCount++;
             }
-        }
-        if (matchesCount === 0) {
-            html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
-            if (items.usageCounter < 5) {
-              html += "<p>" + chrome.i18n.getMessage("noErrorsFoundFirstTimes") + "</p>";
-            }
-            if ((autoCheckOnDomain || (autoCheck && !hasIgnoreDomain)) && closePopupAfterRecheck) {
-                sendMessageToTab(tabs[0].id, { action: "closePopup" }, function(response) {});
-            }
-        }
-        if (quotedLinesIgnored) {
-            html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
-        }
-        if (items.ignoredRules && items.ignoredRules.length > 0) {
-            const ruleItems = [];
-            const currentLang = getShortCode(languageCode);
-            for (let key in items.ignoredRules) {
-                const ignoredRule = items.ignoredRules[key];
-                if (currentLang === ignoredRule.language) {
-                    const ruleId = Tools.escapeHtml(ignoredRule.id);
-                    const matchCount = ignoredRuleCounts[ruleId];
-                    if (!matchCount) {
-                        continue;
+            // remove overlapping rules in reverse order so we match the results like they are shown on web-pages
+            if (matches) {
+                const uniquePositionMatches = [];
+                let prevErrStart = -1;
+                let prevErrLen = -1;
+                for (let i = matches.length-1; i >= 0; i--) {
+                    const m = matches[i];
+                    const errStart = parseInt(m.offset);
+                    const errLen = parseInt(m.length);
+                    if (errStart !== prevErrStart || errLen !== prevErrLen) {
+                        uniquePositionMatches.push(m);
+                        prevErrStart = errStart;
+                        prevErrLen = errLen;
                     }
-                    const ruleDescription = Tools.escapeHtml(ignoredRule.description ? ignoredRule.description : ruleIdToDesc[ruleId]);
-                    ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='"
-                        + ruleId + "' href='#'>" + ruleDescription + " (" + matchCount + ")</a></span>");
+                }
+                uniquePositionMatches.reverse();
+                matches = uniquePositionMatches;
+            }
+    
+            const ignoredRuleCounts = {};
+            const ruleIdToDesc = {};
+            for (let match in matches) {
+                const m = matches[match];
+    
+                // these values come from the server, make sure they are ints:
+                const errStart = parseInt(m.context.offset);
+                const errLen = parseInt(m.length);
+    
+                // these string values come from the server and need to be sanitized
+                // as they will be inserted with innerHTML:
+                const contextSanitized = DOMPurify.sanitize(m.context.text);
+                const ruleIdSanitized = DOMPurify.sanitize(m.rule.id);
+                const messageSanitized = DOMPurify.sanitize(m.message);
+                const descriptionSanitized = DOMPurify.sanitize(m.rule.description);
+                ruleIdToDesc[ruleIdSanitized] = descriptionSanitized;
+    
+                const wordSanitized = contextSanitized.substr(errStart, errLen);
+                let ignoreError = false;
+    
+                if (isSpellingError(m)) {
+                    // Also accept uppercase versions of lowercase words in personal dict:
+                    const knowToDict = items.dictionary.indexOf(wordSanitized) !== -1;
+                    if (knowToDict) {
+                        ignoreError = true;
+                    } else if (!knowToDict && Tools.startWithUppercase(wordSanitized)) {
+                        ignoreError = items.dictionary.indexOf(Tools.lowerCaseFirstChar(wordSanitized)) !== -1;
+                    }
+                } else {
+                    ignoreError = items.ignoredRules.find(k => k.id === ruleIdSanitized && k.language === shortLanguageCode);
+                }
+                if (ignoreError) {
+                    if (ignoredRuleCounts[ruleIdSanitized]) {
+                        ignoredRuleCounts[ruleIdSanitized]++;
+                    } else {
+                        ignoredRuleCounts[ruleIdSanitized] = 1;
+                    }
+                } else {
+                    html += "<div class=\"suggestionRow " + suggestionClass(m) + "\">\n";
+                    if (isSpellingError(m)) {
+                        const escapedWord = Tools.escapeHtml(wordSanitized);
+                        html += "<div class='addToDict' data-addtodict='" + escapedWord + "'" +
+                                " title='" + chrome.i18n.getMessage("addToDictionaryTitle", escapedWord).replace(/'/, "&apos;") + "'></div>";
+                    } else {
+                        html += "<div class='turnOffRule' data-ruleIdOff='" + Tools.escapeHtml(ruleIdSanitized) + "'" +
+                                " data-ruleDescription='" + Tools.escapeHtml(descriptionSanitized) + "'" +
+                                " title='" + chrome.i18n.getMessage("turnOffRule").replace(/'/, "&apos;") + "'></div>";
+                    }
+                    html += Tools.escapeHtml(messageSanitized);
+                    html += renderContext(contextSanitized, errStart, errLen);
+                    html += renderReplacements(contextSanitized, m, createLinks);
+                    html += "</div>\n";
+                    html += "<hr>";
+                    matchesCount++;
                 }
             }
-            html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
-            if (ruleItems.length > 0) {
-                html += "<span class='ignoredRulesIntro'>" + chrome.i18n.getMessage("ignoredRules") + "</span> ";
-                html += ruleItems.join(" &middot; ");
+            if (matchesCount === 0) {
+                html += "<p>" + chrome.i18n.getMessage("noErrorsFound") + "</p>";
+                if (items.usageCounter < 5) {
+                  html += "<p>" + chrome.i18n.getMessage("noErrorsFoundFirstTimes") + "</p>";
+                }
+                if ((autoCheckOnDomain || (autoCheck && !hasIgnoreDomain)) && closePopupAfterRecheck) {
+                    sendMessageToTab(tabs[0].id, { action: "closePopup" }, function(response) {});
+                }
             }
-        } else {
-            html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
-        }
-        html += "<p id='reviewRequest'></p>";
-        if (serverUrl === defaultServerUrl || serverUrl === oldDefaultServerUrl) {
-            html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
-        } else {
-            html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedBy", DOMPurify.sanitize(serverUrl)) + "</p>";
-        }
-        if (testMode) {
-            html += "*** running in test mode ***";
-        }
-        renderStatus(html);
-
-        document.getElementById('ltIcon').src = chrome.extension.getURL("images/logo34x34.png");
-        if (items.havePremiumAccount) {
-            document.getElementById('ltLink').href = "https://languagetoolplus.com";
-        } else {
-            document.getElementById('ltLink').href = "https://languagetool.org";
-        }
-        document.getElementById('ltLink').target = "_blank";
-        setHintListener();
-        if (disabledOnThisDomain) {
-            setReactivateIconListener(response.url || pageUrlParam, tabs);
-        }
-        if (matchesCount > 0) {
-            fillReviewRequest(matchesCount);
-        }
-        addLinkListeners(response, tabs, languageCode);
-        if (callback) {
-            callback(response.markupList);
-        }
+            if (quotedLinesIgnored) {
+                html += "<p class='quotedLinesIgnored'>" + chrome.i18n.getMessage("quotedLinesIgnored") + "</p>";
+            }
+            if (items.ignoredRules && items.ignoredRules.length > 0) {
+                const ruleItems = [];
+                const currentLang = getShortCode(languageCode);
+                for (let key in items.ignoredRules) {
+                    const ignoredRule = items.ignoredRules[key];
+                    if (currentLang === ignoredRule.language) {
+                        const ruleId = Tools.escapeHtml(ignoredRule.id);
+                        const matchCount = ignoredRuleCounts[ruleId];
+                        if (!matchCount) {
+                            continue;
+                        }
+                        const ruleDescription = Tools.escapeHtml(ignoredRule.description ? ignoredRule.description : ruleIdToDesc[ruleId]);
+                        ruleItems.push("<span class='ignoredRule'><a class='turnOnRuleLink' data-ruleIdOn='"
+                            + ruleId + "' href='#'>" + ruleDescription + " (" + matchCount + ")</a></span>");
+                    }
+                }
+                html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
+                if (ruleItems.length > 0) {
+                    html += "<span class='ignoredRulesIntro'>" + chrome.i18n.getMessage("ignoredRules") + "</span> ";
+                    html += ruleItems.join(" &middot; ");
+                }
+            } else {
+                html += "<div id='close'>" + chrome.i18n.getMessage("close") + "</div>";
+            }
+            html += "<p id='reviewRequest'></p>";
+            if (serverUrl === defaultServerUrl || serverUrl === oldDefaultServerUrl) {
+                html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedRemotely", "https://languagetool.org") + "</p>";
+            } else {
+                html += "<p class='poweredBy'>" + chrome.i18n.getMessage("textCheckedBy", DOMPurify.sanitize(serverUrl)) + "</p>";
+            }
+            if (testMode) {
+                html += "*** running in test mode ***";
+            }
+            renderStatus(html);
+    
+            document.getElementById('ltIcon').src = chrome.extension.getURL("images/logo34x34.png");
+            if (items.havePremiumAccount) {
+                document.getElementById('ltLink').href = "https://languagetoolplus.com";
+            } else {
+                document.getElementById('ltLink').href = "https://languagetool.org";
+            }
+            document.getElementById('ltLink').target = "_blank";
+            setHintListener();
+            if (disabledOnThisDomain) {
+                setReactivateIconListener(response.url || pageUrlParam, tabs);
+            }
+            if (matchesCount > 0) {
+                fillReviewRequest(matchesCount);
+            }
+            addLinkListeners(response, tabs, languageCode);
+            if (callback) {
+                callback(response.markupList);
+            }
+        });
     });
 }
 
@@ -373,6 +388,7 @@ function setSelectedLanguage(languageVal) {
     const storage = Tools.getStorage();
     storage.get('savedLanguage', (result) => {
         let savedLanguages = result.savedLanguage || {};
+
         savedLanguages[currentActiveUrl] = languageVal;
         storage.set({
             savedLanguage: savedLanguages
@@ -646,13 +662,13 @@ function sendMessageToTab(tabId, data, callback) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    let storage = Tools.getStorage();
     if (chrome && chrome.tabs) {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            currentActiveUrl = tabs[0].url;
+            currentActiveUrl = tabs[0].url ? tabs[0].url : pageUrlParam;
            
             storage.get({savedLanguage:[]}, function(result){
                 let language = result.savedLanguage[currentActiveUrl];
+
                 if (language) {
                     manuallySelectedLanguage = language;
                 }
@@ -680,9 +696,11 @@ document.addEventListener('DOMContentLoaded', function() {
           .then(
             function(response) {
               if (response && response.tabs) {
-                currentActiveUrl = tabs[0].url;
+                currentActiveUrl = tabs[0].url ? tabs[0].url : pageUrlParam;
+
                 storage.get({savedLanguage:[]}, function(result){
                     let language = result.savedLanguage[currentActiveUrl];
+
                     if (language) {
                         manuallySelectedLanguage = language;
                     }
