@@ -304,7 +304,7 @@ function showPremiumHint(usageCounter) {
         document.getElementById("outerHint").innerHTML =
           "<div id='hint'>" +
           chrome.i18n.getMessage("premiumHint", link) +
-          "&nbsp;<a id='closeHint' href='#'>" + chrome.i18n.getMessage("premiumHintDismiss") + "</a>" +
+          "&nbsp;<a id='closeHint' href='#'>❌</a>" +
           "</div>";
         document.getElementById("closeHint").addEventListener("click", function () {
           Tools.getStorage().set({
