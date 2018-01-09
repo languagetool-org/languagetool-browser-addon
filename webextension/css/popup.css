@@ -35,13 +35,13 @@ hr {
   margin: 5px;
 }
 
-#outerShortcutHint {
+#outerHint {
 }
 
 #turnOffAutoCheckIcon {
 }
 
-#shortcutHint,
+#hint,
 #reactivateIcon,
 #warning {
   padding: 8px;
@@ -50,13 +50,13 @@ hr {
   margin-bottom: 8px;
 }
 
-#shortcutHint a,
+#hint a,
 #reactivateIcon a,
 #turnOffAutoCheckIcon a {
   text-decoration: none;
 }
 
-#shortcutHint tt {
+#hint tt {
   background-color: #eeeeee;
   padding: 2px;
 }

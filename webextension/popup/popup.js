@@ -28,7 +28,8 @@ const googleDocsExtension = "https://chrome.google.com/webstore/detail/languaget
 const unsupportedReplacementSitesRegex = /^https?:\/\/(www\.)?(facebook|medium).com.*/;
 
 // ask the user for a review in the store if they have used this add-on at least this many times:
-const minUsageForReviewRequest = 30;
+const minUsageForReviewRequest = 40;
+const minUsageForPremiumHint = 30;
 
 let pageUrlParam = "";
 const pageUrlPosition = window.location.href.indexOf("?pageUrl=");
@@ -63,7 +64,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     }
     let html = pageUrlParam.length > 0 ? '<a style="display:none;" id="closeLink" href="#"></a>' : '<a id="closeLink" href="#"></a>';
     html += DOMPurify.sanitize(getLanguageSelector(languageCode));
-    html += '<div id="outerShortcutHint"></div>';
+    html += '<div id="outerHint"></div>';
     html += "<hr>";
     let matches = data.matches;
     Tools.getUserSettingsForRender(items => {
@@ -228,10 +229,14 @@ function setHintListener() {
     if (chrome.commands) {
         chrome.commands.getAll(function(commands) {
             Tools.getStorage().get({
-                showShortcutHint: true
+                showShortcutHint: true,
+                showPremiumHint: true,
+                usageCounter: 0
             }, function(items) {
                 if (items.showShortcutHint) {
                     showShortcutHint(commands);
+                } else if (items.showPremiumHint && defaultServerUrl === serverUrl) {  // don't show 2 hints at once
+                    showPremiumHint(items.usageCounter);
                 }
             });
         });
@@ -278,17 +283,35 @@ function fillReviewRequest() {
 function showShortcutHint(commands) {
     if (commands && commands.length && commands.length > 0 && commands[0].shortcut) {
         const shortcut = commands[0].shortcut;
-        document.getElementById("outerShortcutHint").innerHTML =
-            "<div id='shortcutHint'>" +
+        document.getElementById("outerHint").innerHTML =
+            "<div id='hint'>" +
             chrome.i18n.getMessage("shortcutHint", ["<tt>" + shortcut + "</tt>"]) +
-            "&nbsp;<a id='closeShortcutHint' href='#'>" + chrome.i18n.getMessage("shortcutHintDismiss", [shortcut]) + "</a>" +
+            "&nbsp;<a id='closeHint' href='#'>" + chrome.i18n.getMessage("shortcutHintDismiss") + "</a>" +
             "</div>";
-        document.getElementById("closeShortcutHint").addEventListener("click", function() {
+        document.getElementById("closeHint").addEventListener("click", function() {
             Tools.getStorage().set({
                 showShortcutHint: false
             }, function () {
-                document.getElementById("outerShortcutHint").style.display = "none";
+                document.getElementById("outerHint").style.display = "none";
             });
+        });
+    }
+}
+
+function showPremiumHint(usageCounter) {
+    if (usageCounter >= minUsageForPremiumHint) {
+        const link = "<a target='_blank' style='font-weight: bold' href='https://languagetoolplus.com'>languagetoolplus.com</a>";
+        document.getElementById("outerHint").innerHTML =
+          "<div id='hint'>" +
+          chrome.i18n.getMessage("premiumHint", link) +
+          "&nbsp;<a id='closeHint' href='#'>" + chrome.i18n.getMessage("premiumHintDismiss") + "</a>" +
+          "</div>";
+        document.getElementById("closeHint").addEventListener("click", function () {
+          Tools.getStorage().set({
+            showPremiumHint: false
+          }, function () {
+            document.getElementById("outerHint").style.display = "none";
+          });
         });
     }
 }
