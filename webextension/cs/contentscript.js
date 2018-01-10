@@ -24,12 +24,9 @@ let toolbarUI;
 let lastUseDate = new Date().getTime();  // TODO: should actually be saved in prefs
 let lastReminderDate = new Date().getTime();  // TODO: should actually be saved in prefs
 let unusedMinutesShowReminder = 0.5;
+let storage = Tools.getStorage();
 
-window.onload = function() {
-    let storage = Tools.getStorage();
-
-    storage.remove('savedLanguage');
-};
+storage.remove('savedLanguage');
 
 function handleRequest(request, sender, callback) {
     if (request.action === "turnOffAutoCheck") {

@@ -55,6 +55,8 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     const language = DOMPurify.sanitize(data.language.name);
     let languageCode = '';
     let getLanguageCode = new Promise((resolve, reject) => {
+        let tabUrl = tabs[0].url ? tabs[0].url : pageUrlParam;
+        
         storage.get({savedLanguage:[]}, function(result){
             let language = result.savedLanguage[tabUrl];
     
@@ -65,7 +67,6 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
             }
         });
     });
-    let tabUrl = tabs[0].url ? tabs[0].url : pageUrlParam;
 
     getLanguageCode.then(function(languageCode) {
         const shortLanguageCode = getShortCode(languageCode);
