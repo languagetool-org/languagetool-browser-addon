@@ -26,10 +26,15 @@ let lastReminderDate = new Date().getTime();  // TODO: should actually be saved 
 let unusedMinutesShowReminder = 0.5;
 let storage = Tools.getStorage();
 
-storage.get({savedLanguage:[]}, function(result){
-    delete result.savedLanguage[window.location.href];
-    storage.set(result);
+storage.get('savedLanguage', (result) => {
+    let savedLanguages = result.savedLanguage || {};
+
+    delete savedLanguages[window.location.href];
+    storage.set({
+        savedLanguage: savedLanguages
+    });
 });
+
 
 function handleRequest(request, sender, callback) {
     if (request.action === "turnOffAutoCheck") {
