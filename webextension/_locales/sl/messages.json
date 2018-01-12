@@ -441,6 +441,16 @@
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
     "message": "Postavite kazalko v polje za urejanje ali izberite besedilo (nobenega aktivnega elementa namreč ni mogoče najti)."
   },
+  "premiumHint": {
+    "description": "Text shown in the popup to let the user know about the premium version",
+    "message": "Get a more powerful version of LanguageTool at $link$ - it also works with this add-on",
+    "placeholders": {
+      "link": {
+        "content": "$1",
+        "example": "languagetoolplus.com"
+      }
+    }
+  },
   "privacyNoteForDefaultServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
     "message": "S to razširitvijo boste preverili besedilo, tako da bo poslano na strežnik <a href='$serverUrl$' target='_blank'>$serverUrl$</a> prek šifrirane povezave. Vaše besedilo ne bo shranjeno. Podrobnosti si preberite v <a href='$privacyUrl$' target='_blank'>naši politiki zasebnosti</a>.",
@@ -570,6 +580,26 @@
   "sl": {
     "description": "automatically added by injectTranslation.py",
     "message": "slovenski"
+  },
+  "sr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "srbski"
+  },
+  "sr_BA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "srbski (Bosna)"
+  },
+  "sr_HR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "srbski (Hrvaška)"
+  },
+  "sr_ME": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "srbski (Črna gora)"
+  },
+  "sr_RS": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "srbski (Srbija)"
   },
   "sv": {
     "description": "automatically added by injectTranslation.py",

@@ -441,6 +441,16 @@
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
     "message": "Ponga el cursor en un campo modificable o seleccione texto (no se encontró ningún elemento activo)."
   },
+  "premiumHint": {
+    "description": "Text shown in the popup to let the user know about the premium version",
+    "message": "Get a more powerful version of LanguageTool at $link$ - it also works with this add-on",
+    "placeholders": {
+      "link": {
+        "content": "$1",
+        "example": "languagetoolplus.com"
+      }
+    }
+  },
   "privacyNoteForDefaultServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
     "message": "Esta extensión revisa su texto enviando a <a href='$serverUrl$' target='_blank'>$serverUrl$</a> en una conexión cifrada. Su texto no será almacenado. Para obtener más información, consulte <a href='$privacyUrl$' target='_blank'> nuestra política de privacidad</a>.",
@@ -570,6 +580,26 @@
   "sl": {
     "description": "automatically added by injectTranslation.py",
     "message": "esloveno"
+  },
+  "sr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbio"
+  },
+  "sr_BA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbio (Bosnia)"
+  },
+  "sr_HR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbio (Croacia)"
+  },
+  "sr_ME": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbio (Montenegro)"
+  },
+  "sr_RS": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Serbio (Serbia)"
   },
   "sv": {
     "description": "automatically added by injectTranslation.py",

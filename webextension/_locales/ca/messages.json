@@ -441,6 +441,16 @@
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
     "message": "Poseu el cursor en un camp editable o seleccioneu un text (no s'ha trobat cap element actiu). "
   },
+  "premiumHint": {
+    "description": "Text shown in the popup to let the user know about the premium version",
+    "message": "Get a more powerful version of LanguageTool at $link$ - it also works with this add-on",
+    "placeholders": {
+      "link": {
+        "content": "$1",
+        "example": "languagetoolplus.com"
+      }
+    }
+  },
   "privacyNoteForDefaultServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
     "message": "Aquesta extensió revisarà el vostre text enviant-lo a <a href='$serverUrl$' target='_blank'>$serverUrl$</a> en una connexió encriptada. El text no es desarà. Per a més detalls, vegeu <a href='$privacyUrl$' target='_blank'>la nostra política de privacitat</a>.",
@@ -570,6 +580,26 @@
   "sl": {
     "description": "automatically added by injectTranslation.py",
     "message": "eslovè"
+  },
+  "sr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "serbi"
+  },
+  "sr_BA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "serbi (Bòsnia)"
+  },
+  "sr_HR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "serbi (Croàcia)"
+  },
+  "sr_ME": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "serbi (Montenegro)"
+  },
+  "sr_RS": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "serbi (Sèrbia)"
   },
   "sv": {
     "description": "automatically added by injectTranslation.py",

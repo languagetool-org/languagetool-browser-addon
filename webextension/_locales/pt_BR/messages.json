@@ -441,6 +441,16 @@
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
     "message": "Por favor coloque o cursor num campo editável ou selecione um texto (nenhum elemento ativo encontrado)."
   },
+  "premiumHint": {
+    "description": "Text shown in the popup to let the user know about the premium version",
+    "message": "Obtenha uma versão mais poderosa do LangugeTool em $link$ - ela também funciona com essa extensão",
+    "placeholders": {
+      "link": {
+        "content": "$1",
+        "example": "languagetoolplus.com"
+      }
+    }
+  },
   "privacyNoteForDefaultServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
     "message": "Essa extensão verificará seu texto enviando-o para <a href='$serverUrl$' target='_blank'>$serverUrl$</a> usando uma conexão criptografada. Seu texto não será armazenado. Para mais detalhes, veja <a href='$privacyUrl$' target='_blank'>nossa política de privacidade</a>.",

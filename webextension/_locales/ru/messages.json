@@ -441,6 +441,16 @@
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
     "message": "Пожалуйста, поместите курсор в редактируемое поле или выделите текст (текст для проверки не выбран)."
   },
+  "premiumHint": {
+    "description": "Text shown in the popup to let the user know about the premium version",
+    "message": "Get a more powerful version of LanguageTool at $link$ - it also works with this add-on",
+    "placeholders": {
+      "link": {
+        "content": "$1",
+        "example": "languagetoolplus.com"
+      }
+    }
+  },
   "privacyNoteForDefaultServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
     "message": "Это расширение будет проверять текст путём отправки его на <a href='$serverUrl$' target='_blank'>$serverUrl$</a> через зашифрованное соединение. Передаваемый текст не будет сохраняться. Для подробной информации смотрите <a href='$privacyUrl$' target='_blank'> нашу политику конфиденциальности</a>.",
@@ -570,6 +580,26 @@
   "sl": {
     "description": "automatically added by injectTranslation.py",
     "message": "Словенский"
+  },
+  "sr": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Сербский"
+  },
+  "sr_BA": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Сербский (Босния)"
+  },
+  "sr_HR": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Сербский (Хорватия)"
+  },
+  "sr_ME": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Сербский (Черногория)"
+  },
+  "sr_RS": {
+    "description": "automatically added by injectTranslation.py",
+    "message": "Сербский (Сербия)"
   },
   "sv": {
     "description": "automatically added by injectTranslation.py",

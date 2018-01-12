@@ -441,6 +441,16 @@
     "description": "Error message shown when the extension button is clicked but cursor is not an editable field and there's no selection either.",
     "message": "Τοποθετήστε τον κέρσορα σε ένα πεδίο κειμένου ή επιλέξτε κείμενο (δεν βρέθηκε ενεργό στοιχείο)."
   },
+  "premiumHint": {
+    "description": "Text shown in the popup to let the user know about the premium version",
+    "message": "Get a more powerful version of LanguageTool at $link$ - it also works with this add-on",
+    "placeholders": {
+      "link": {
+        "content": "$1",
+        "example": "languagetoolplus.com"
+      }
+    }
+  },
   "privacyNoteForDefaultServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
     "message": "Αυτή η επέκταση θα ελέγξει το κείμενο σας κάνοντας χρήση του διακομιστή <a href='$serverUrl$' target='_blank'>$serverUrl$</a> κάνοντας χρήση κρυπτογράφησης. Το κείμενο σας δεν θα αποθηκευτεί στον απομακρυσμένο διακομιστή. Για περισσότερες λεπτομέρειες μπορείτε να διαβάσετε την <a href='$privacyUrl$' target='_blank'>πολιτική προστασίας προσωπικών δεδομένων</a>.",
