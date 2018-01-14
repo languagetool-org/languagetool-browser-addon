@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.35 (2018-01-14)
+  * show link to premium version for regular users
+
 ### 1.0.34 (2017-12-12)
   * fixed a case where the add-on could slow down the browser
   * translation updates
