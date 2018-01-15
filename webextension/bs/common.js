@@ -104,7 +104,6 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
           }
           if (typeof manuallySelectedLanguage !== 'undefined' && manuallySelectedLanguage) {
               params += "&language=" + manuallySelectedLanguage;
-              manuallySelectedLanguage = "";
           } else {
               params += "&language=auto";
               let preferredVariants = [];

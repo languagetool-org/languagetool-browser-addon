@@ -49,6 +49,13 @@ function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
 }
 
+function restoreSelectedLanguage(tabs, callback) {
+    sendMessageToTab(tabs[0].id, {action: "getManuallySelectedLanguage"}, storedLanguage => {
+        manuallySelectedLanguage = storedLanguage;
+        callback();        
+    });    
+}
+
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
     const createLinks = response.isEditableText && !response.url.match(unsupportedReplacementSitesRegex);
     const data = JSON.parse(resultJson);
@@ -394,6 +401,7 @@ function renderReplacements(contextSanitized, m, createLinks) {
 function addLinkListeners(response, tabs, languageCode) {
     document.getElementById("language").addEventListener("change", function() {
         manuallySelectedLanguage = document.getElementById("language").value;
+        sendMessageToTab(tabs[0].id, { action: "saveManuallySelectedLanguage", data: { manuallySelectedLanguage }});
         const prevLanguage = document.getElementById("prevLanguage").value;
         const langSwitch = prevLanguage + " -> " + manuallySelectedLanguage;
         doCheck(tabs, "switch_language", langSwitch);
@@ -561,21 +569,23 @@ function startCheckMaybeWithWarning(tabs) {
             }
             if (items.allowRemoteCheck === true) {
                 if (tabs.length > 0) {
-                    doCheck(tabs, "manually_triggered");
-                    const newCounter = items.usageCounter + 1;
-                    Tools.getStorage().set({'usageCounter': newCounter}, function() {});
-                    if (chrome.runtime.setUninstallURL) {
-                        if (Tools.isFirefox()) {
-                            // no transfer of extra data for Firefox, as a reviewer once mentioned, this needs
-                            // to be explained in privacy policy and add-on description:
-                            chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
-                        } else {
-                            const { hostname } = new URL(tabs[0].url || pageUrlParam);
-                            const version = chrome.app && chrome.app.getDetails ? chrome.app.getDetails().version : "unknown";
-                            chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php?" +
-                                "usageCounter=" + newCounter + "&lastUsedOn=" + hostname + "&version=" + version);
+                    restoreSelectedLanguage(tabs, _ => {
+                        doCheck(tabs, "manually_triggered");
+                        const newCounter = items.usageCounter + 1;
+                        Tools.getStorage().set({'usageCounter': newCounter}, function() {});
+                        if (chrome.runtime.setUninstallURL) {
+                            if (Tools.isFirefox()) {
+                                // no transfer of extra data for Firefox, as a reviewer once mentioned, this needs
+                                // to be explained in privacy policy and add-on description:
+                                chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php");
+                            } else {
+                                const { hostname } = new URL(tabs[0].url || pageUrlParam);
+                                const version = chrome.app && chrome.app.getDetails ? chrome.app.getDetails().version : "unknown";
+                                chrome.runtime.setUninstallURL("https://languagetool.org/webextension/uninstall.php?" +
+                                    "usageCounter=" + newCounter + "&lastUsedOn=" + hostname + "&version=" + version);
+                            }
                         }
-                    }
+                    });                
                 }
             } else {
                 let message = "<p>";
