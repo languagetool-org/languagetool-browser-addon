@@ -43,7 +43,8 @@ hr {
 
 #hint,
 #reactivateIcon,
-#warning {
+#warning,
+#saveVariant {
   padding: 8px;
   background-color: #eeeeee;
   border-radius: 7px;
@@ -52,8 +53,13 @@ hr {
 
 #hint a,
 #reactivateIcon a,
-#turnOffAutoCheckIcon a {
+#turnOffAutoCheckIcon a,
+#saveVariant a {
   text-decoration: none;
+}
+
+#saveVariant a:visited {
+  color: rgb(0, 0, 238);  
 }
 
 #hint tt {
