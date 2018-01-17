@@ -53,8 +53,8 @@ function renderStatus(statusHtml) {
 function restoreSelectedLanguage(tabs, callback) {
     sendMessageToTab(tabs[0].id, {action: "getManuallySelectedLanguage"}, storedLanguage => {
         manuallySelectedLanguage = storedLanguage;
-        callback();        
-    });    
+        callback();
+    });
 }
 
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
@@ -379,12 +379,12 @@ function getSaveLanguageVariantButton() {
             return;
         }
 
-        const language = chrome.i18n.getMessage(manuallySelectedLanguage.replace(/-/g, "_"));        
+        const language = chrome.i18n.getMessage(manuallySelectedLanguage.replace(/-/g, "_"));
 
         return `
         <div id="saveVariant">
             <a id="saveVariantLink" href="#" data-languageGroup="${manuallySelectedLanguageGroup}" data-languageVariant="${manuallySelectedLanguage}">
-                ${chrome.i18n.getMessage("saveAsDefaultVariant")}</a>${chrome.i18n.getMessage("saveAsDefaultVariantMessage", language)}
+                ${chrome.i18n.getMessage("saveAsDefaultVariantMessage", language)}</a>
         </div>
         `;
     } else {
@@ -451,7 +451,7 @@ function addLinkListeners(response, tabs, languageCode) {
     if (saveVariantLink) {
         saveVariantLink.addEventListener("click", function(e) {
             const languageGroupKey = saveVariantLink.getAttribute("data-languageGroup") + "Variant";
-            const languageVariant = saveVariantLink.getAttribute("data-languageVariant");            
+            const languageVariant = saveVariantLink.getAttribute("data-languageVariant");
             const options = {};
             options[languageGroupKey] = languageVariant;
             Tools.getStorage().set(options);
@@ -635,7 +635,7 @@ function startCheckMaybeWithWarning(tabs) {
                                     "usageCounter=" + newCounter + "&lastUsedOn=" + hostname + "&version=" + version);
                             }
                         }
-                    });                
+                    });
                 }
             } else {
                 let message = "<p>";
