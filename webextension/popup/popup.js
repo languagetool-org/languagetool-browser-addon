@@ -43,6 +43,7 @@ var serverUrl = defaultServerUrl;
 var motherTongue = "";
 var preferredVariants = [];
 var manuallySelectedLanguage = "";
+let initLanguage = "";
 
 // to be called only with sanitized content (DOMPurify.sanitize()):
 function renderStatus(statusHtml) {
@@ -71,6 +72,7 @@ function renderMatchesToHtml(resultJson, response, tabs, callback) {
     }
     let html = pageUrlParam.length > 0 ? '<a style="display:none;" id="closeLink" href="#"></a>' : '<a id="closeLink" href="#"></a>';
     html += DOMPurify.sanitize(getLanguageSelector(languageCode));
+    html += DOMPurify.sanitize(getSaveLanguageVariantButton());
     html += '<div id="outerHint"></div>';
     html += "<hr>";
     let matches = data.matches;
@@ -356,6 +358,41 @@ function getLanguageSelector(languageCode) {
 }
 
 // call only with sanitized context
+function getSaveLanguageVariantButton() {
+    if (initLanguage && manuallySelectedLanguage) {
+        // not sure is this case possible
+        if (initLanguage === manuallySelectedLanguage) {
+            return "";
+        }
+
+        // get language group for each language
+        const initLanguageGroup = initLanguage.substr(0, initLanguage.indexOf("-"));
+        const manuallySelectedLanguageGroup = manuallySelectedLanguage.substr(0, manuallySelectedLanguage.indexOf("-"));
+
+        // if languages are from different groups
+        if (initLanguageGroup !== manuallySelectedLanguageGroup) {
+            return "";
+        }
+
+        // check that manually selected language is not default variant already
+        if (preferredVariants.indexOf(manuallySelectedLanguage) !== -1) {
+            return;
+        }
+
+        const language = chrome.i18n.getMessage(manuallySelectedLanguage.replace(/-/g, "_"));        
+
+        return `
+        <div id="saveVariant">
+            <a id="saveVariantLink" href="#" data-languageGroup="${manuallySelectedLanguageGroup}" data-languageVariant="${manuallySelectedLanguage}">
+                ${chrome.i18n.getMessage("saveAsDefaultVariant")}</a>${chrome.i18n.getMessage("saveAsDefaultVariantMessage", language)}
+        </div>
+        `;
+    } else {
+        return "";
+    }
+}
+
+// call only with sanitized context
 function renderContext(contextSanitized, errStart, errLen) {
     return "<div class='errorArea'>"
           + Tools.escapeHtml(contextSanitized.substr(0, errStart))
@@ -403,12 +440,25 @@ function addLinkListeners(response, tabs, languageCode) {
         manuallySelectedLanguage = document.getElementById("language").value;
         sendMessageToTab(tabs[0].id, { action: "saveManuallySelectedLanguage", data: { manuallySelectedLanguage }});
         const prevLanguage = document.getElementById("prevLanguage").value;
+        if (!initLanguage) initLanguage = prevLanguage;
         const langSwitch = prevLanguage + " -> " + manuallySelectedLanguage;
         doCheck(tabs, "switch_language", langSwitch);
     });
     document.getElementById("closeLink").addEventListener("click", function() {
         self.close();
     });
+    const saveVariantLink = document.getElementById("saveVariantLink");
+    if (saveVariantLink) {
+        saveVariantLink.addEventListener("click", function(e) {
+            const languageGroupKey = saveVariantLink.getAttribute("data-languageGroup") + "Variant";
+            const languageVariant = saveVariantLink.getAttribute("data-languageVariant");            
+            const options = {};
+            options[languageGroupKey] = languageVariant;
+            Tools.getStorage().set(options);
+            document.getElementById("saveVariant").remove();
+            e.preventDefault();
+        });
+    }
     const closeLink2 = document.getElementById("close");
     if (closeLink2) {
       closeLink2.addEventListener("click", function() {

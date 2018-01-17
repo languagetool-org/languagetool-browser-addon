@@ -461,5 +461,19 @@
   "close": {
     "message": "Close",
     "description": "Text of large button at the bottom of the popup"
+  },
+  "saveAsDefaultVariant": {
+    "message": "Click here",
+    "description": "Text of link at popup which save manually selected language as default variant"
+  },
+  "saveAsDefaultVariantMessage": {
+    "message": " to make $language$ your default variant.",
+    "description": "Message near the link at popup which save manually selected language as default variant",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English (British)"
+      }
+    }
   }
 }
