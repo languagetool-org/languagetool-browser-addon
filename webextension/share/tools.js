@@ -274,6 +274,8 @@ class Tools {
             case "sl-SI": return "Slovenian";
             case "es": return "Spanish";
             case "sv": return "Swedish";
+            case "sr": return "Serbian";
+            case "sr-RS": return "Serbian (Serbia)";
             case "tl-PH": return "Tagalog";
             case "ta-IN": return "Tamil";
             case "uk-UA": return "Ukrainian";

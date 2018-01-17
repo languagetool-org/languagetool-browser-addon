@@ -332,7 +332,7 @@ function getLanguageSelector(languageCode) {
         "en-US", "en-GB", "en-AU", "en-CA", "en-NZ", "en-ZA", "eo", "fr", "gl-ES",
         "de-DE", "de-AT", "de-CH", "el-GR", "is-IS", "it", "ja-JP", "km-KH", "lt-LT", "ml-IN",
         "fa", "pl-PL", "pt-PT", "pt-BR", "ro-RO", "ru-RU", "sk-SK",
-        "sl-SI", "es", "sv", "tl-PH", "ta-IN", "uk-UA"
+        "sl-SI", "es", "sv", "sr", "tl-PH", "ta-IN", "uk-UA"
     ];
     let html = "<div id='top'>";
     html += chrome.i18n.getMessage("language");

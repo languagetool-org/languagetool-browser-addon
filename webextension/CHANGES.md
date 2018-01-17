@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.36 (2018-..-..)
+  * added initial support for Serbian
+
 ### 1.0.35 (2018-01-14)
   * show link to premium version for regular users
 
