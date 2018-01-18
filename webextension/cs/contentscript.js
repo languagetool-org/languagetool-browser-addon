@@ -24,6 +24,7 @@ let toolbarUI;
 let lastUseDate = new Date().getTime();  // TODO: should actually be saved in prefs
 let lastReminderDate = new Date().getTime();  // TODO: should actually be saved in prefs
 let unusedMinutesShowReminder = 0.5;
+let initLanguage = "";
 let manuallySelectedLanguage = "";
 
 function handleRequest(request, sender, callback) {
@@ -42,10 +43,14 @@ function handleRequest(request, sender, callback) {
     } else if (request.action === 'applyCorrection') {
         applyCorrection(request);
         callback();
-    } else if (request.action === 'saveManuallySelectedLanguage') {
+    } else if (request.action === 'saveLanguagesSettings') {
+        initLanguage = request.data.initLanguage;
         manuallySelectedLanguage = request.data.manuallySelectedLanguage;
-    } else if (request.action === 'getManuallySelectedLanguage') {
-        callback(manuallySelectedLanguage);
+    } else if (request.action === 'getLanguagesSettings') {
+        callback({
+            initLanguage: initLanguage,
+            manuallySelectedLanguage: manuallySelectedLanguage
+        });
     } else if (request === 'toggle-in-page-toolbar') {
         if (toolbarUI) {
             toggleToolbar(toolbarUI);
