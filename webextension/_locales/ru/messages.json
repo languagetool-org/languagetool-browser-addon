@@ -683,12 +683,8 @@
     "description": "automatically added by injectTranslation.py",
     "message": "Китайский"
   },
-  "saveAsDefaultVariant": {
-    "message": "Кликните здесь",
-    "description": "Text of link at popup which save manually selected language as default variant"
-  },
   "saveAsDefaultVariantMessage": {
-    "message": ", что бы сделать $language$ вариантом языка по умолчанию.",
+    "message": "Кликните здесь, что бы сделать $language$ вариантом языка по умолчанию.",
     "description": "Message near the link at popup which save manually selected language as default variant",
     "placeholders": {
       "language": {
