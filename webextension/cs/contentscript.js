@@ -183,8 +183,15 @@ function applyCorrection(request) {
     let found = false;
     if (isSimpleInput(activeElem)) {
         found = replaceIn(activeElem, "value", newMarkupList);
+        if (found) {
+            triggerChangeEvents(activeElem);
+        }
     } else if (activeElem.hasAttribute("contenteditable")) {
-        found = replaceIn(activeElem, "innerHTML", newMarkupList);  // contentEditable=true
+        const replacementInfo = Markup.findElementReplacement(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
+        found = replaceInContentEditable(activeElem, replacementInfo);
+        if (found) {
+            triggerChangeEvents(activeElem);
+        }
     } else if (activeElem.tagName === "IFRAME") {
       const activeElem2 = activeElem.contentWindow.document.activeElement;
       if (activeElem2 && activeElem2.innerHTML) {
@@ -220,4 +227,43 @@ function replaceIn(elem, elemValue, markupList) {
         return true;
     }
     return false;
+}
+
+// replace text in contenteditable element
+function replaceInContentEditable(activeElement, replacementInfo) {
+    let targetNode;
+
+    if (replacementInfo.selector) {
+        const nodes = Array.prototype.slice.call(activeElement.querySelectorAll(replacementInfo.selector))
+            .filter(el => el.textContent.trim() === replacementInfo.oldText.trim());
+
+        if (nodes.length === 1) {
+            targetNode = nodes[0];
+        }
+    } else {
+        targetNode = activeElement;
+    }
+
+    if (targetNode) {
+        targetNode.textContent = replacementInfo.newText;
+        return true;
+    }
+
+    return false;
+}
+
+// trigger different events on element to simulate user input
+function triggerChangeEvents(inputElement) {
+    const inputEvent = new InputEvent("input", {
+        "bubbles": true,
+        "cancelable": false
+    });
+
+    var changeEvent = new Event("change", {
+        "bubbles": true,
+        "cancelable": false
+    });
+
+    inputElement.dispatchEvent(inputEvent);
+    inputElement.dispatchEvent(changeEvent);
 }
