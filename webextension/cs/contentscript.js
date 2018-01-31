@@ -41,8 +41,8 @@ function handleRequest(request, sender, callback) {
     } else if (request.action === 'getCurrentText') {
         callback(getCurrentText());
     } else if (request.action === 'applyCorrection') {
-        applyCorrection(request);
-        callback();
+        applyCorrection(request, callback);
+        return true;
     } else if (request.action === 'saveLanguagesSettings') {
         initLanguage = request.data.initLanguage;
         manuallySelectedLanguage = request.data.manuallySelectedLanguage;
@@ -167,8 +167,9 @@ function getMarkupListOfActiveElement(elem) {
     }
 }
 
-function applyCorrection(request) {
+function applyCorrection(request, callback) {
     let newMarkupList;
+    let isReplacementAsync = false;
     try {
         newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
     } catch (e) {
@@ -184,14 +185,12 @@ function applyCorrection(request) {
     if (isSimpleInput(activeElem)) {
         found = replaceIn(activeElem, "value", newMarkupList);
         if (found) {
-            triggerChangeEvents(activeElem);
+            simulateInput(activeElem);
         }
     } else if (activeElem.hasAttribute("contenteditable")) {
         const replacementInfo = Markup.findElementReplacement(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
-        found = replaceInContentEditable(activeElem, replacementInfo);
-        if (found) {
-            triggerChangeEvents(activeElem);
-        }
+        found = replaceInContentEditable(activeElem, replacementInfo, callback);
+        isReplacementAsync = true;
     } else if (activeElem.tagName === "IFRAME") {
       const activeElem2 = activeElem.contentWindow.document.activeElement;
       if (activeElem2 && activeElem2.innerHTML) {
@@ -205,6 +204,11 @@ function applyCorrection(request) {
     if (!found) {
         alert(chrome.i18n.getMessage("noReplacementPossible"));
         Tools.track(request.pageUrl, "Problem in applyCorrection: noReplacementPossible");
+    }
+
+    // in case if replacement is async(e.g. contenteditable element) we shouldn't invoke callback
+    if (!(isReplacementAsync && found)) {
+        callback();
     }
 }
 
@@ -230,7 +234,7 @@ function replaceIn(elem, elemValue, markupList) {
 }
 
 // replace text in contenteditable element
-function replaceInContentEditable(activeElement, replacementInfo) {
+function replaceInContentEditable(activeElement, replacementInfo, callback) {
     let targetNode;
 
     if (replacementInfo.selector) {
@@ -243,17 +247,59 @@ function replaceInContentEditable(activeElement, replacementInfo) {
     } else {
         targetNode = activeElement;
     }
+    
+    if (targetNode) {                        
+        setTimeout(_ => {
+            simulateSelection(targetNode);
+            setTimeout(_ => {
+                targetNode.textContent = replacementInfo.newText;
+                setTimeout(_ => {
+                    simulateInput(activeElement);
+                    callback();
+                });
+            }, 50);
+        }, 50);
 
-    if (targetNode) {
-        targetNode.textContent = replacementInfo.newText;
         return true;
     }
 
     return false;
 }
 
+// trigger different events on element to simulate user selection
+function simulateSelection(textContainer) {
+    let textNode = textContainer;
+    for (let i = 0; i < textContainer.childNodes.length; i++) {
+        let node = textContainer.childNodes[i];
+        if (node.type === document.TEXT_NODE) {
+        textNode = node;
+        break;
+        }
+    }
+
+    const selection = window.getSelection();
+    selection.empty();
+    const range = new Range();
+    range.setStart(textNode, 0);
+    range.collapse();
+    selection.addRange(range);
+
+    const mouseDownEvent = new MouseEvent("mousedown", {
+        "bubbles": true,
+        "cancelable": false
+    });
+    textContainer.dispatchEvent(mouseDownEvent);
+
+    var mouseUpEvent = new MouseEvent("mouseup", {
+        "bubbles": true,
+        "cancelable": false
+    });
+    textContainer.dispatchEvent(mouseUpEvent);
+}
+
+
 // trigger different events on element to simulate user input
-function triggerChangeEvents(inputElement) {
+function simulateInput(inputElement) {
     const inputEvent = new InputEvent("input", {
         "bubbles": true,
         "cancelable": false
