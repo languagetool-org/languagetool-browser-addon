@@ -149,6 +149,63 @@ class Markup {
         return result;
     }
 
+    // find html element which contain error and return selector to this element and old/new texts
+    static findElementReplacement(markupList, replacementOffset, errorTextLength, replacementText) {
+        const tagsUsedInSelector = ["div", "p", "span","section", "a", "h1", "h2", "h3", "h4", "h5", "h6", "td", "th", "b", "i"];
+        const tags = [];
+
+        let textPosition = 0;
+        for (let markupItem of markupList) {
+            if (markupItem.markup) {
+                const isClosingTag = /^<\s*\//.test(markupItem.markup.trim());
+                const tagNameMatches = markupItem.markup.trim().match(/<\s*\/?\s*([a-z]+)/i);
+                const tagName = tagNameMatches ? tagNameMatches[1].toLowerCase() : "";
+                if (tagsUsedInSelector.includes(tagName)) {
+                    if (isClosingTag) {
+                        tags.pop();
+                    } else {
+                        tags.push(markupItem.markup);
+                    }
+                }
+            }
+
+            if (markupItem.text) {
+                const isTextContainsError = textPosition <= replacementOffset && replacementOffset < textPosition + markupItem.text.length;
+                if (isTextContainsError) {
+                    const secureReplacementText = DOMPurify.sanitize(replacementText);
+                    const relativeOffset = replacementOffset - textPosition;
+                    const newText = markupItem.text.substr(0, relativeOffset) + secureReplacementText + markupItem.text.substr(relativeOffset + errorTextLength);
+                    return {
+                        selector: Markup._generateSelector(tags),
+                        oldText: markupItem.text,
+                        newText: newText
+                    };
+                } else {
+                    textPosition += markupItem.text.length;
+                }
+            }
+        }
+    }
+
+    static _generateSelector(tags) {
+        let selector = "";
+        for (let tag of tags) {
+            const tagNameMatches = tag.trim().match(/<\s*\/?\s*([a-z]+)/i);
+            const tagName = tagNameMatches ? tagNameMatches[1].toLowerCase() : "";
+            const classesMatches = tag.match(/class\s*=\s*["']([^"']+)/);
+            const classes = classesMatches ? classesMatches[1].split(" ").map(c => c.trim()) : [];
+
+            if (selector.length) {
+                selector += " ";
+            }
+            selector += tagName;
+
+            if (classes.length) {
+                selector += "." + classes.join(".");
+            }
+        }
+        return selector;
+    }
 }
 
 if (typeof module !== 'undefined') {
