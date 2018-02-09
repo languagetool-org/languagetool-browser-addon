@@ -42,17 +42,18 @@ var testMode = false;
 var serverUrl = defaultServerUrl;
 var motherTongue = "";
 var preferredVariants = [];
-var manuallySelectedLanguage = "";
 let initLanguage = "";
+var manuallySelectedLanguage = "";
 
 // to be called only with sanitized content (DOMPurify.sanitize()):
 function renderStatus(statusHtml) {
     document.getElementById('status').innerHTML = statusHtml;
 }
 
-function restoreSelectedLanguage(tabs, callback) {
-    sendMessageToTab(tabs[0].id, {action: "getManuallySelectedLanguage"}, storedLanguage => {
-        manuallySelectedLanguage = storedLanguage;
+function restoreLanguagesSettings(tabs, callback) {
+    sendMessageToTab(tabs[0].id, {action: "getLanguagesSettings"}, storedLanguages => {
+        initLanguage = storedLanguages.initLanguage;
+        manuallySelectedLanguage = storedLanguages.manuallySelectedLanguage;
         callback();
     });
 }
@@ -360,17 +361,17 @@ function getLanguageSelector(languageCode) {
 // call only with sanitized context
 function getSaveLanguageVariantButton() {
     if (initLanguage && manuallySelectedLanguage) {
-        // not sure is this case possible
-        if (initLanguage === manuallySelectedLanguage) {
-            return "";
-        }
-
         // get language group for each language
         const initLanguageGroup = initLanguage.substr(0, initLanguage.indexOf("-"));
         const manuallySelectedLanguageGroup = manuallySelectedLanguage.substr(0, manuallySelectedLanguage.indexOf("-"));
-
+        
         // if languages are from different groups
         if (initLanguageGroup !== manuallySelectedLanguageGroup) {
+            return "";
+        }
+
+        // if language group doesnt have variants
+        if (["en", "de", "pt", "ca"].indexOf(initLanguageGroup) === -1) {
             return "";
         }
 
@@ -437,10 +438,17 @@ function renderReplacements(contextSanitized, m, createLinks) {
 
 function addLinkListeners(response, tabs, languageCode) {
     document.getElementById("language").addEventListener("change", function() {
-        manuallySelectedLanguage = document.getElementById("language").value;
-        sendMessageToTab(tabs[0].id, { action: "saveManuallySelectedLanguage", data: { manuallySelectedLanguage }});
         const prevLanguage = document.getElementById("prevLanguage").value;
         if (!initLanguage) initLanguage = prevLanguage;
+        manuallySelectedLanguage = document.getElementById("language").value;        
+        sendMessageToTab(tabs[0].id, { 
+            action: "saveLanguagesSettings", 
+            data: {
+                initLanguage : initLanguage,
+                manuallySelectedLanguage: manuallySelectedLanguage
+            }
+        });
+        
         const langSwitch = prevLanguage + " -> " + manuallySelectedLanguage;
         doCheck(tabs, "switch_language", langSwitch);
     });
@@ -450,11 +458,29 @@ function addLinkListeners(response, tabs, languageCode) {
     const saveVariantLink = document.getElementById("saveVariantLink");
     if (saveVariantLink) {
         saveVariantLink.addEventListener("click", function(e) {
-            const languageGroupKey = saveVariantLink.getAttribute("data-languageGroup") + "Variant";
-            const languageVariant = saveVariantLink.getAttribute("data-languageVariant");
+            const languageGroup = saveVariantLink.getAttribute("data-languageGroup");
+            const languageVariant = saveVariantLink.getAttribute("data-languageVariant");            
+            
             const options = {};
-            options[languageGroupKey] = languageVariant;
+            options[languageGroup + "Variant"] = languageVariant;
             Tools.getStorage().set(options);
+
+            // update preferredVariants
+            let added = false;
+            for (let i = 0; i < preferredVariants.length; i++) {                
+                if (preferredVariants[i].indexOf(languageGroup) === 0) {
+                    preferredVariants[i] = languageVariant;
+                    added = true;
+                    break;
+                }
+            }
+
+            if (!added) {
+                preferredVariants.push(languageVariant);
+            }
+
+            initLanguage = languageVariant;
+
             document.getElementById("saveVariant").remove();
             e.preventDefault();
         });
@@ -619,7 +645,7 @@ function startCheckMaybeWithWarning(tabs) {
             }
             if (items.allowRemoteCheck === true) {
                 if (tabs.length > 0) {
-                    restoreSelectedLanguage(tabs, _ => {
+                    restoreLanguagesSettings(tabs, _ => {
                         doCheck(tabs, "manually_triggered");
                         const newCounter = items.usageCounter + 1;
                         Tools.getStorage().set({'usageCounter': newCounter}, function() {});

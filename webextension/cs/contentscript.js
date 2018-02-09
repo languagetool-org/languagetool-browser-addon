@@ -24,6 +24,7 @@ let toolbarUI;
 let lastUseDate = new Date().getTime();  // TODO: should actually be saved in prefs
 let lastReminderDate = new Date().getTime();  // TODO: should actually be saved in prefs
 let unusedMinutesShowReminder = 0.5;
+let initLanguage = "";
 let manuallySelectedLanguage = "";
 
 function handleRequest(request, sender, callback) {
@@ -40,12 +41,16 @@ function handleRequest(request, sender, callback) {
     } else if (request.action === 'getCurrentText') {
         callback(getCurrentText());
     } else if (request.action === 'applyCorrection') {
-        applyCorrection(request);
-        callback();
-    } else if (request.action === 'saveManuallySelectedLanguage') {
+        applyCorrection(request, callback);
+        return true;
+    } else if (request.action === 'saveLanguagesSettings') {
+        initLanguage = request.data.initLanguage;
         manuallySelectedLanguage = request.data.manuallySelectedLanguage;
-    } else if (request.action === 'getManuallySelectedLanguage') {
-        callback(manuallySelectedLanguage);
+    } else if (request.action === 'getLanguagesSettings') {
+        callback({
+            initLanguage: initLanguage,
+            manuallySelectedLanguage: manuallySelectedLanguage
+        });
     } else if (request === 'toggle-in-page-toolbar') {
         if (toolbarUI) {
             toggleToolbar(toolbarUI);
@@ -162,8 +167,9 @@ function getMarkupListOfActiveElement(elem) {
     }
 }
 
-function applyCorrection(request) {
+function applyCorrection(request, callback) {
     let newMarkupList;
+    let isReplacementAsync = false;
     try {
         newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
     } catch (e) {
@@ -178,8 +184,13 @@ function applyCorrection(request) {
     let found = false;
     if (isSimpleInput(activeElem)) {
         found = replaceIn(activeElem, "value", newMarkupList);
+        if (found) {
+            simulateInput(activeElem);
+        }
     } else if (activeElem.hasAttribute("contenteditable")) {
-        found = replaceIn(activeElem, "innerHTML", newMarkupList);  // contentEditable=true
+        const replacementInfo = Markup.findElementReplacement(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
+        found = replaceInContentEditable(activeElem, replacementInfo, callback);
+        isReplacementAsync = true;
     } else if (activeElem.tagName === "IFRAME") {
       const activeElem2 = activeElem.contentWindow.document.activeElement;
       if (activeElem2 && activeElem2.innerHTML) {
@@ -193,6 +204,11 @@ function applyCorrection(request) {
     if (!found) {
         alert(chrome.i18n.getMessage("noReplacementPossible"));
         Tools.track(request.pageUrl, "Problem in applyCorrection: noReplacementPossible");
+    }
+
+    // in case if replacement is async(e.g. contenteditable element) we shouldn't invoke callback
+    if (!(isReplacementAsync && found)) {
+        callback();
     }
 }
 
@@ -215,4 +231,85 @@ function replaceIn(elem, elemValue, markupList) {
         return true;
     }
     return false;
+}
+
+// replace text in contenteditable element
+function replaceInContentEditable(activeElement, replacementInfo, callback) {
+    let targetNode;
+
+    if (replacementInfo.selector) {
+        const nodes = Array.prototype.slice.call(activeElement.querySelectorAll(replacementInfo.selector))
+            .filter(el => el.textContent.trim() === replacementInfo.oldText.trim());
+
+        if (nodes.length === 1) {
+            targetNode = nodes[0];
+        }
+    } else {
+        targetNode = activeElement;
+    }
+    
+    if (targetNode) {                        
+        setTimeout(_ => {
+            simulateSelection(targetNode);
+            setTimeout(_ => {
+                targetNode.textContent = replacementInfo.newText;
+                setTimeout(_ => {
+                    simulateInput(activeElement);
+                    callback();
+                });
+            }, 50);
+        }, 50);
+
+        return true;
+    }
+
+    return false;
+}
+
+// trigger different events on element to simulate user selection
+function simulateSelection(textContainer) {
+    let textNode = textContainer;
+    for (let i = 0; i < textContainer.childNodes.length; i++) {
+        let node = textContainer.childNodes[i];
+        if (node.type === document.TEXT_NODE) {
+        textNode = node;
+        break;
+        }
+    }
+
+    const selection = window.getSelection();
+    selection.empty();
+    const range = new Range();
+    range.setStart(textNode, 0);
+    range.collapse();
+    selection.addRange(range);
+
+    const mouseDownEvent = new MouseEvent("mousedown", {
+        "bubbles": true,
+        "cancelable": false
+    });
+    textContainer.dispatchEvent(mouseDownEvent);
+
+    var mouseUpEvent = new MouseEvent("mouseup", {
+        "bubbles": true,
+        "cancelable": false
+    });
+    textContainer.dispatchEvent(mouseUpEvent);
+}
+
+
+// trigger different events on element to simulate user input
+function simulateInput(inputElement) {
+    const inputEvent = new InputEvent("input", {
+        "bubbles": true,
+        "cancelable": false
+    });
+
+    var changeEvent = new Event("change", {
+        "bubbles": true,
+        "cancelable": false
+    });
+
+    inputElement.dispatchEvent(inputEvent);
+    inputElement.dispatchEvent(changeEvent);
 }
