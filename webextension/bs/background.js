@@ -42,6 +42,7 @@ if (chrome && chrome.browserAction && chrome.browserAction.openPopup) {
 
 /* workaround handle for FF */
 chrome.runtime.onMessage.addListener(handleMessage);
+
 function handleMessage(request, sender, sendResponse) {
   switch (request.action) {
     case "openNewTab": {
@@ -74,7 +75,7 @@ function handleMessage(request, sender, sendResponse) {
       }
       // TODO: handle for unknown action
       sendResponse({
-        action: `unknow ${request.action}`
+        action: `unknown action ${request.action}`
       });
       return false;
     }
