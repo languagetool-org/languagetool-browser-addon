@@ -167,40 +167,47 @@ function getMarkupListOfActiveElement(elem) {
     }
 }
 
-function applyCorrection(request, callback) {
-    let newMarkupList;
+function applyCorrection(request, callback) {    
+    let found = false;
     let isReplacementAsync = false;
-    try {
-        newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
-    } catch (e) {
-        // e.g. when replacement fails because of complicated HTML
-        alert(e.toString());
-        Tools.track(request.pageUrl, "Exception in applyCorrection: " + e.message);
-        return;
-    }
+
     // TODO: active element might have changed in between?!
     const activeElem = activeElement();
-    // Note: this duplicates the logic from getTextOfActiveElement():
-    let found = false;
-    if (isSimpleInput(activeElem)) {
-        found = replaceIn(activeElem, "value", newMarkupList);
-        if (found) {
-            simulateInput(activeElem);
-        }
-    } else if (activeElem.hasAttribute("contenteditable")) {
-        const replacementInfo = Markup.findElementReplacement(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
-        found = replaceInContentEditable(activeElem, replacementInfo, callback);
+
+    if (activeElem.hasAttribute("contenteditable")) {        
+        const nodeReplacements = Markup.findNodeReplacements(request.markupList, request.errorOffset, request.errorText.length, request.replacement);        
+        found = replaceInContentEditable(activeElem, nodeReplacements, callback);
         isReplacementAsync = true;
-    } else if (activeElem.tagName === "IFRAME") {
-      const activeElem2 = activeElem.contentWindow.document.activeElement;
-      if (activeElem2 && activeElem2.innerHTML) {
-          found = replaceIn(activeElem2, "innerHTML", newMarkupList);  // e.g. on wordpress.com
-      } else if (isSimpleInput(activeElem2)) {
-          found = replaceIn(activeElem2, "value", newMarkupList);  // e.g. sending messages on upwork.com (https://www.upwork.com/e/.../contracts/v2/.../)
-      } else {
-          found = replaceIn(activeElem2, "textContent", newMarkupList);  // tinyMCE as used on languagetool.org
-      }
+    } else {
+        let newMarkupList;
+
+        try {
+            newMarkupList = Markup.replace(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
+        } catch (e) {
+            // e.g. when replacement fails because of complicated HTML
+            alert(e.toString());
+            Tools.track(request.pageUrl, "Exception in applyCorrection: " + e.message);
+            return;
+        }
+
+        // Note: this duplicates the logic from getTextOfActiveElement():    
+        if (isSimpleInput(activeElem)) {
+            found = replaceIn(activeElem, "value", newMarkupList);
+            if (found) {
+                simulateInput(activeElem);
+            }
+        } else if (activeElem.tagName === "IFRAME") {
+            const activeElem2 = activeElem.contentWindow.document.activeElement;
+            if (activeElem2 && activeElem2.innerHTML) {
+                found = replaceIn(activeElem2, "innerHTML", newMarkupList); // e.g. on wordpress.com
+            } else if (isSimpleInput(activeElem2)) {
+                found = replaceIn(activeElem2, "value", newMarkupList); // e.g. sending messages on upwork.com (https://www.upwork.com/e/.../contracts/v2/.../)
+            } else {
+                found = replaceIn(activeElem2, "textContent", newMarkupList); // tinyMCE as used on languagetool.org
+            }
+        }
     }
+
     if (!found) {
         alert(chrome.i18n.getMessage("noReplacementPossible"));
         Tools.track(request.pageUrl, "Problem in applyCorrection: noReplacementPossible");
@@ -234,49 +241,55 @@ function replaceIn(elem, elemValue, markupList) {
 }
 
 // replace text in contenteditable element
-function replaceInContentEditable(activeElement, replacementInfo, callback) {
-    let targetNode;
-
-    if (replacementInfo.selector) {
-        const nodes = Array.prototype.slice.call(activeElement.querySelectorAll(replacementInfo.selector))
-            .filter(el => el.textContent.trim() === replacementInfo.oldText.trim());
-
-        if (nodes.length === 1) {
-            targetNode = nodes[0];
+function replaceInContentEditable(activeElement, nodeReplacements, callback) {
+    // try to find associated text nodes
+    const replacementsInfo = [];
+    for (const nodeReplacement of nodeReplacements) {
+        let possibleParents = [activeElement];
+        if (nodeReplacement.selector) {
+            possibleParents = [].slice.call(activeElement.querySelectorAll(nodeReplacement.selector));
         }
-    } else {
-        targetNode = activeElement;
-    }
-    
-    if (targetNode) {                        
-        setTimeout(_ => {
-            simulateSelection(targetNode);
-            setTimeout(_ => {
-                targetNode.textContent = replacementInfo.newText;
-                setTimeout(_ => {
-                    simulateInput(activeElement);
-                    callback();
+
+        for (const possibleParent of possibleParents) {
+            possibleParent.normalize();
+            const node = possibleParent.childNodes[nodeReplacement.textNodeIndex];
+            if (node && node.nodeType === document.TEXT_NODE && node.textContent === nodeReplacement.oldText) {
+                replacementsInfo.push({
+                    textNode: node,
+                    newText: nodeReplacement.newText
                 });
-            }, 50);
-        }, 50);
-
-        return true;
+                break;
+            }
+        }
     }
 
-    return false;
+    // check that we find all text nodes
+    // if not then we don't make any changes
+    if (replacementsInfo.length !== nodeReplacements.length) {
+        return false;
+    }
+
+    // replace text in text nodes one by one (replacement is async process)
+    replacementsInfo
+        .reduce((promise, replacementInfo) => promise.then(_ => applyTextNodeReplacement(replacementInfo)), Promise.resolve())
+        .then(_ => simulateInput(activeElement))
+        .then(callback);
+
+    return true;
 }
 
-// trigger different events on element to simulate user selection
-function simulateSelection(textContainer) {
-    let textNode = textContainer;
-    for (let i = 0; i < textContainer.childNodes.length; i++) {
-        let node = textContainer.childNodes[i];
-        if (node.type === document.TEXT_NODE) {
-        textNode = node;
-        break;
-        }
-    }
+function applyTextNodeReplacement(replacementInfo) {
+    return new Promise((resolve, reject) => {
+        simulateSelection(replacementInfo.textNode);
+        setTimeout(_ => {
+            replacementInfo.textNode.textContent = replacementInfo.newText;
+            resolve();
+        }, 25);
+    });
+}
 
+// trigger different events on text node to simulate user selection
+function simulateSelection(textNode) {
     const selection = window.getSelection();
     selection.empty();
     const range = new Range();
@@ -288,15 +301,14 @@ function simulateSelection(textContainer) {
         "bubbles": true,
         "cancelable": false
     });
-    textContainer.dispatchEvent(mouseDownEvent);
+    textNode.dispatchEvent(mouseDownEvent);
 
     var mouseUpEvent = new MouseEvent("mouseup", {
         "bubbles": true,
         "cancelable": false
     });
-    textContainer.dispatchEvent(mouseUpEvent);
+    textNode.dispatchEvent(mouseUpEvent);
 }
-
 
 // trigger different events on element to simulate user input
 function simulateInput(inputElement) {

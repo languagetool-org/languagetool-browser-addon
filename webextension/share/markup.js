@@ -113,7 +113,10 @@ class Markup {
         for (let idx in markupList) {
             const elem = markupList[idx];
             if (elem.text && elem.markup) {
-                result.push({text: elem.text, markup: elem.markup});
+                result.push({
+                    text: elem.text,
+                    markup: elem.markup
+                });
                 plainTextPos += elem.text.length;
             } else if (elem.text) {
                 const fromPos = plainTextPos;
@@ -126,20 +129,28 @@ class Markup {
                         // -> but is position 3 after the "foo" or in front of "bar"? We assume it's in front of 'bar',
                         // that seems to be the better choice for our use case
                         const secureReplacement = DOMPurify.sanitize(errorReplacement);
-                        const newText = elem.text.substr(0, relErrorOffset) + secureReplacement + elem.text.substr(relErrorOffset+errorLen);
+                        const newText = elem.text.substr(0, relErrorOffset) + secureReplacement + elem.text.substr(relErrorOffset + errorLen);
                         if (newText !== elem.text) {
                             found = true;
                         }
-                        result.push({text: newText});
+                        result.push({
+                            text: newText
+                        });
                     } else {
-                        result.push({text: elem.text});
+                        result.push({
+                            text: elem.text
+                        });
                     }
                 } else {
-                    result.push({text: elem.text});
+                    result.push({
+                        text: elem.text
+                    });
                 }
                 plainTextPos += elem.text.length;
             } else if (elem.markup) {
-                result.push({markup: elem.markup});
+                result.push({
+                    markup: elem.markup
+                });
             }
         }
         if (!found) {
@@ -149,12 +160,23 @@ class Markup {
         return result;
     }
 
-    // find html element which contain error and return selector to this element and old/new texts
-    static findElementReplacement(markupList, replacementOffset, errorTextLength, replacementText) {
-        const tagsUsedInSelector = ["div", "p", "span","section", "a", "h1", "h2", "h3", "h4", "h5", "h6", "td", "th", "b", "i"];
-        const tags = [];
+    // find text nodes which contains error text and return selector to this text node and new text content
+    static findNodeReplacements(markupList, replacementOffset, errorTextLength, replacementText) {
+        const tagsUsedInSelector = ["abbr", "acrinym", "address", "article", "aside", "b", "blockquote", "caption", "center", "cite", "code", "dd", "del", "details",
+            "dfn", "div", "dl", "dt", "em", "figcaption", "figure", "footer", "h1", "h2", "h3", "h4", "h5", "h6", "header", "i", "ins",
+            "kbd", "label", "legend", "li", "main", "mark", "nav", "ol", "p", "pre", "q", "s", "samp", "section", "small", "span", "strike",
+            "strong", "sub", "summary", "sup", "table", "td", "tfoot", "th", "thead", "time", "tr", "u", "ul"
+        ];
 
+        const replacementEndOffset = replacementOffset + errorTextLength;
+        const nodeReplacements = [];
+        const tags = [];
+        let elementIndex = 0;
+        const storedElementIndexes = [];
+        let textNodeIndex = 0;
+        const storedTextNodeIndexes = [];
         let textPosition = 0;
+
         for (let markupItem of markupList) {
             if (markupItem.markup) {
                 const isClosingTag = /^<\s*\//.test(markupItem.markup.trim());
@@ -163,47 +185,63 @@ class Markup {
                 if (tagsUsedInSelector.includes(tagName)) {
                     if (isClosingTag) {
                         tags.pop();
+                        elementIndex = storedElementIndexes.pop();
+                        elementIndex++;
+                        textNodeIndex = storedTextNodeIndexes.pop();
+                        textNodeIndex++;
                     } else {
-                        tags.push(markupItem.markup);
+                        tags.push(tagName);
+                        storedElementIndexes.push(elementIndex);
+                        elementIndex = 0;
+                        storedTextNodeIndexes.push(textNodeIndex);
+                        textNodeIndex = 0;
                     }
+                } else {
+                    elementIndex++;
                 }
             }
 
             if (markupItem.text) {
-                const isTextContainsError = textPosition <= replacementOffset && replacementOffset < textPosition + markupItem.text.length;
-                if (isTextContainsError) {
+                const textEndPosition = textPosition + markupItem.text.length;
+                const isTextShouldBeReplaced = (textPosition < replacementEndOffset && textEndPosition > replacementOffset);
+
+                if (isTextShouldBeReplaced) {
                     const secureReplacementText = DOMPurify.sanitize(replacementText);
                     const relativeOffset = replacementOffset - textPosition;
                     const newText = markupItem.text.substr(0, relativeOffset) + secureReplacementText + markupItem.text.substr(relativeOffset + errorTextLength);
-                    return {
-                        selector: Markup._generateSelector(tags),
-                        oldText: markupItem.text,
-                        newText: newText
-                    };
-                } else {
-                    textPosition += markupItem.text.length;
+                    nodeReplacements.push({
+                        selector: Markup._generateSelector(tags, storedElementIndexes),
+                        textNodeIndex: textNodeIndex,
+                        newText: newText,
+                        oldText: markupItem.text
+                    });
+
+                    replacementText = "";
+                }
+
+                textPosition += markupItem.text.length;
+                if (!markupItem.markup) {
+                    textNodeIndex++;
                 }
             }
         }
+
+        return nodeReplacements;
     }
 
-    static _generateSelector(tags) {
+    static _generateSelector(tags, indexes) {
         let selector = "";
-        for (let tag of tags) {
-            const tagNameMatches = tag.trim().match(/<\s*\/?\s*([a-z]+)/i);
-            const tagName = tagNameMatches ? tagNameMatches[1].toLowerCase() : "";
-            const classesMatches = tag.match(/class\s*=\s*["']([^"']+)/);
-            const classes = classesMatches ? classesMatches[1].split(" ").map(c => c.trim()) : [];
+        for (let i = 0; i < tags.length; i++) {
+            const tag = tags[i];
+            const index = indexes[i];
 
-            if (selector.length) {
+            if (selector) {
                 selector += " ";
             }
-            selector += tagName;
 
-            if (classes.length) {
-                selector += "." + classes.join(".");
-            }
+            selector += `${tag}:nth-child(${index + 1})`;
         }
+
         return selector;
     }
 }
