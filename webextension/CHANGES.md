@@ -2,6 +2,8 @@
 
 ### 1.0.36 (2018-..-..)
   * added initial support for Serbian
+  * bug fixes for applying a suggested correction
+  * small usability improvements
 
 ### 1.0.35 (2018-01-14)
   * show link to premium version for regular users
