@@ -30,7 +30,7 @@ hr {
 
 #status {
   min-width: 400px;
-  min-height: 300px;
+  min-height: 100px;
   max-width: 600px;
   margin: 5px;
 }
@@ -59,7 +59,7 @@ hr {
 }
 
 #saveVariant a:visited {
-  color: rgb(0, 0, 238);  
+  color: rgb(0, 0, 238);
 }
 
 #hint tt {
