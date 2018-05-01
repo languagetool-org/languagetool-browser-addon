@@ -290,6 +290,10 @@
       }
     }
   },
+  "privacyNoteForDefaultServer2": {
+    "message": "You can change the server in the add-on configuration. For example, you can also use a local server, if you have set up LanguageTool locally.",
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org"
+  },
   "privacyNoteForOtherServer": {
     "message": "This extension will check your text by sending it to $serverUrl$. To switch back to the default server, please visit the extension's options page.",
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",

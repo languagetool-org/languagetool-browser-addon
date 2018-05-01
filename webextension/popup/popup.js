@@ -51,11 +51,13 @@ function renderStatus(statusHtml) {
 }
 
 function restoreLanguagesSettings(tabs, callback) {
-    sendMessageToTab(tabs[0].id, {action: "getLanguagesSettings"}, storedLanguages => {
-        initLanguage = storedLanguages.initLanguage;
-        manuallySelectedLanguage = storedLanguages.manuallySelectedLanguage;
-        callback();
-    });
+  sendMessageToTab(tabs[0].id, {action: "getLanguagesSettings"}, storedLanguages => {
+    if (storedLanguages) {
+      initLanguage = storedLanguages.initLanguage;
+      manuallySelectedLanguage = storedLanguages.manuallySelectedLanguage;
+    }
+    callback();
+  });
 }
 
 function renderMatchesToHtml(resultJson, response, tabs, callback) {
@@ -364,7 +366,7 @@ function getSaveLanguageVariantButton() {
         // get language group for each language
         const initLanguageGroup = initLanguage.substr(0, initLanguage.indexOf("-"));
         const manuallySelectedLanguageGroup = manuallySelectedLanguage.substr(0, manuallySelectedLanguage.indexOf("-"));
-        
+
         // if languages are from different groups
         if (initLanguageGroup !== manuallySelectedLanguageGroup) {
             return "";
@@ -440,15 +442,15 @@ function addLinkListeners(response, tabs, languageCode) {
     document.getElementById("language").addEventListener("change", function() {
         const prevLanguage = document.getElementById("prevLanguage").value;
         if (!initLanguage) initLanguage = prevLanguage;
-        manuallySelectedLanguage = document.getElementById("language").value;        
-        sendMessageToTab(tabs[0].id, { 
-            action: "saveLanguagesSettings", 
+        manuallySelectedLanguage = document.getElementById("language").value;
+        sendMessageToTab(tabs[0].id, {
+            action: "saveLanguagesSettings",
             data: {
                 initLanguage : initLanguage,
                 manuallySelectedLanguage: manuallySelectedLanguage
             }
         });
-        
+
         const langSwitch = prevLanguage + " -> " + manuallySelectedLanguage;
         doCheck(tabs, "switch_language", langSwitch);
     });
@@ -459,15 +461,15 @@ function addLinkListeners(response, tabs, languageCode) {
     if (saveVariantLink) {
         saveVariantLink.addEventListener("click", function(e) {
             const languageGroup = saveVariantLink.getAttribute("data-languageGroup");
-            const languageVariant = saveVariantLink.getAttribute("data-languageVariant");            
-            
+            const languageVariant = saveVariantLink.getAttribute("data-languageVariant");
+
             const options = {};
             options[languageGroup + "Variant"] = languageVariant;
             Tools.getStorage().set(options);
 
             // update preferredVariants
             let added = false;
-            for (let i = 0; i < preferredVariants.length; i++) {                
+            for (let i = 0; i < preferredVariants.length; i++) {
                 if (preferredVariants[i].indexOf(languageGroup) === 0) {
                     preferredVariants[i] = languageVariant;
                     added = true;
@@ -667,6 +669,8 @@ function startCheckMaybeWithWarning(tabs) {
                 let message = "<p>";
                 if (serverUrl === defaultServerUrl) {
                     message += chrome.i18n.getMessage("privacyNoteForDefaultServer", ["https://languagetool.org", "https://languagetool.org/privacy/"]);
+                    message += "<br><br>";
+                    message += chrome.i18n.getMessage("privacyNoteForDefaultServer2");
                 } else {
                     message += chrome.i18n.getMessage("privacyNoteForOtherServer", serverUrl);
                 }
