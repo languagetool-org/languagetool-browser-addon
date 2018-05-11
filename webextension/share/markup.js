@@ -1,6 +1,6 @@
-/* LanguageTool WebExtension 
+/* LanguageTool WebExtension
  * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -67,9 +67,9 @@ class Markup {
         elem.innerHTML = DOMPurify.sanitize(str);
         return elem.value;
     }
-    
+
     static _handleMarkupItem(buffer, result) {
-        if (buffer === '<div' || buffer === '<div/' || buffer.indexOf('<div ') === 0 || buffer === '<p' || buffer === '<p/' || buffer.indexOf('<p ') === 0) {
+        if (buffer === '<div' || buffer === '<div/' || buffer.indexOf('<div ') === 0 || buffer === '<p' || buffer === '<p/' || buffer.indexOf('<p ') === 0 || buffer.indexOf('<li') === 0 || buffer.indexOf('<li ') === 0) {
             // we need to interpret the HTML a bit so LanguageTool knows at least
             // where the paragraphs are...
             result.push({markup: buffer + '>', text: '\n\n'});

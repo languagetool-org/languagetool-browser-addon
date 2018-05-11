@@ -3,6 +3,7 @@
 ### 1.0.36 (2018-..-..)
   * added initial support for Serbian
   * bug fixes for applying a suggested correction
+  * improved handling of lists in WYSIWYG editors (e.g. summernote.org)
   * small usability improvements
 
 ### 1.0.35 (2018-01-14)
