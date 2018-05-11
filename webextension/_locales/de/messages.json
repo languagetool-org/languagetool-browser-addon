@@ -465,6 +465,10 @@
       }
     }
   },
+  "privacyNoteForDefaultServer2": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "message": "Die können den Server, der Ihre Texte prüft, nach der Installation in den Optionen ändern. Sie können auch einen auf Ihrem Rechner laufenden Server benutzen, wenn Sie LanguageTool installiert und entsprechend konfiguriert haben."
+  },
   "privacyNoteForOtherServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
     "message": "Diese Erweiterung wird Ihre Texte prüfen, indem sie sie an $serverUrl$ überträgt. Um den Standard-Server zu benutzen, stellen Sie ihn bitte in der Konfiguration dieser Erweiterung ein.",
@@ -550,6 +554,16 @@
   "save": {
     "description": "Options dialog: save button",
     "message": "Speichern"
+  },
+  "saveAsDefaultVariantMessage": {
+    "description": "Message near the link at popup which save manually selected language as default variant",
+    "message": "Klicken Sie hier, um $language$ zur Standard-Variante zu machen",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English (British)"
+      }
+    }
   },
   "serverText": {
     "description": "Options dialog: description of the text field for the API server URL",

@@ -23,7 +23,7 @@
   },
   "appStoreDesc20": {
     "description": "Description paragraph 2 in Google Chrome Web Store (does not appear in the extension itself)",
-    "message": "LanguageTool beoogt eenvoudig te zijn. Met een druk op een knop of een instelbare toetsaanslag controleert LanguageTool instantly spelling en grammatica van de geselecteerde tekst. LanguageTool werkt met bijna alle soorten tekst, ongeacht de bron, zoals sociale netwerken als Twitter of LinkedIn en online e-maildiensten zoals Gmail. Slechts een beperkt aantal sites zoals docs.google.com en chrome.google.com worden momenteel niet ondersteund - gebruik s.v.p. dan https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm voor Google Docs."
+    "message": "LanguageTool beoogt eenvoudig te zijn. Met een druk op een knop of een instelbare toetsaanslag controleert LanguageTool instantly spelling en grammatica van de geselecteerde tekst. LanguageTool werkt met bijna alle soorten tekst, ongeacht de bron, zoals sociale netwerken als Twitter of LinkedIn en online e-maildiensten zoals Gmail. Slechts een beperkt aantal sites zoals docs.google.com en chrome.google.com worden momenteel niet ondersteund – gebruik s.v.p. dan https://chrome.google.com/webstore/detail/languagetool/kjcoklfhicmkbfifghaecedbohbmofkm voor Google Docs."
   },
   "appStoreDesc30": {
     "description": "Description paragraph 3 in Google Chrome Web Store (does not appear in the extension itself)",
@@ -443,7 +443,7 @@
   },
   "premiumHint": {
     "description": "Text shown in the popup to let the user know about the premium version",
-    "message": "Get a more powerful version of LanguageTool at $link$ - it also works with this add-on",
+    "message": "Gebruik een krachtigere versie van LanguageTool op $link$ – het werkt ook met deze add-on",
     "placeholders": {
       "link": {
         "content": "$1",
@@ -464,6 +464,10 @@
         "example": "https://languagetool.org"
       }
     }
+  },
+  "privacyNoteForDefaultServer2": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "message": "You can change the server in the add-on configuration. For example, you can also use a local server, if you have set up LanguageTool locally."
   },
   "privacyNoteForOtherServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
@@ -550,6 +554,16 @@
   "save": {
     "description": "Options dialog: save button",
     "message": "Bewaar"
+  },
+  "saveAsDefaultVariantMessage": {
+    "description": "Message near the link at popup which save manually selected language as default variant",
+    "message": "Klik hier om $language$ je standaardvariant te maken",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English (British)"
+      }
+    }
   },
   "serverText": {
     "description": "Options dialog: description of the text field for the API server URL",

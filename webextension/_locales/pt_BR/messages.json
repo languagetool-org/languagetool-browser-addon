@@ -465,6 +465,10 @@
       }
     }
   },
+  "privacyNoteForDefaultServer2": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "message": "Você pode alterar o servidor nas configurações da extensão. Por exemplo, você pode inclusive usar um servidor local, caso tenha configurado o LanguageTool localmente."
+  },
   "privacyNoteForOtherServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
     "message": "Essa extensão verificará seu texto enviando-o para $serverUrl$. Para retornar ao servidor padrão, por favor visite a página de opções da extensão.",
@@ -550,6 +554,16 @@
   "save": {
     "description": "Options dialog: save button",
     "message": "Salvar"
+  },
+  "saveAsDefaultVariantMessage": {
+    "description": "Message near the link at popup which save manually selected language as default variant",
+    "message": "Clique aqui para fazer do $language$ seu idioma padrão.",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English (British)"
+      }
+    }
   },
   "serverText": {
     "description": "Options dialog: description of the text field for the API server URL",

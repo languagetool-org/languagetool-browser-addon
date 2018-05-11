@@ -465,6 +465,10 @@
       }
     }
   },
+  "privacyNoteForDefaultServer2": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "message": "You can change the server in the add-on configuration. For example, you can also use a local server, if you have set up LanguageTool locally."
+  },
   "privacyNoteForOtherServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
     "message": "S to razširitvijo boste preverili besedilo, tako da bo poslano na strežnik $serverUrl$. Če želite preklopiti nazaj na privzeti strežnik, obiščite stran nastavitev razširitve.",
@@ -550,6 +554,16 @@
   "save": {
     "description": "Options dialog: save button",
     "message": "Shrani"
+  },
+  "saveAsDefaultVariantMessage": {
+    "description": "Message near the link at popup which save manually selected language as default variant",
+    "message": "Click here to make $language$ your default variant",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English (British)"
+      }
+    }
   },
   "serverText": {
     "description": "Options dialog: description of the text field for the API server URL",

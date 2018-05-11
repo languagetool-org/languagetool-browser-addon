@@ -443,7 +443,7 @@
   },
   "premiumHint": {
     "description": "Text shown in the popup to let the user know about the premium version",
-    "message": "Get a more powerful version of LanguageTool at $link$ - it also works with this add-on",
+    "message": "Obtenez une version plus puissante de LanguageTool à $link$ - cela fonctionne aussi avec cette extension",
     "placeholders": {
       "link": {
         "content": "$1",
@@ -464,6 +464,10 @@
         "example": "https://languagetool.org"
       }
     }
+  },
+  "privacyNoteForDefaultServer2": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "message": "Vous pouvez changer le serveur dans la configuration de l'extension. Vous pouvez, par exemple, également utiliser un serveur local si vous avez configuré LanguageTool localement."
   },
   "privacyNoteForOtherServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
@@ -550,6 +554,16 @@
   "save": {
     "description": "Options dialog: save button",
     "message": "Sauvegarder"
+  },
+  "saveAsDefaultVariantMessage": {
+    "description": "Message near the link at popup which save manually selected language as default variant",
+    "message": "Cliquez ici pour faire de $language$ votre variante par défaut",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English (British)"
+      }
+    }
   },
   "serverText": {
     "description": "Options dialog: description of the text field for the API server URL",

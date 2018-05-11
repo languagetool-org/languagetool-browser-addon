@@ -443,7 +443,7 @@
   },
   "premiumHint": {
     "description": "Text shown in the popup to let the user know about the premium version",
-    "message": "Get a more powerful version of LanguageTool at $link$ - it also works with this add-on",
+    "message": "Получите расширенную версию LanguageTool на $link$, которая также работает с этим дополнением",
     "placeholders": {
       "link": {
         "content": "$1",
@@ -464,6 +464,10 @@
         "example": "https://languagetool.org"
       }
     }
+  },
+  "privacyNoteForDefaultServer2": {
+    "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
+    "message": "Можно изменить сервер в настройках расширения. Например, указать локальный сервер, если есть необходимость настроить LanguageTool локально."
   },
   "privacyNoteForOtherServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
@@ -550,6 +554,16 @@
   "save": {
     "description": "Options dialog: save button",
     "message": "Сохранить"
+  },
+  "saveAsDefaultVariantMessage": {
+    "description": "Message near the link at popup which save manually selected language as default variant",
+    "message": "Нажмите здесь, чтобы сделать $language$ вариантом языка по умолчанию",
+    "placeholders": {
+      "language": {
+        "content": "$1",
+        "example": "English (British)"
+      }
+    }
   },
   "serverText": {
     "description": "Options dialog: description of the text field for the API server URL",
@@ -682,15 +696,5 @@
   "zh": {
     "description": "automatically added by injectTranslation.py",
     "message": "Китайский"
-  },
-  "saveAsDefaultVariantMessage": {
-    "message": "Кликните здесь, что бы сделать $language$ вариантом языка по умолчанию.",
-    "description": "Message near the link at popup which save manually selected language as default variant",
-    "placeholders": {
-      "language": {
-        "content": "$1",
-        "example": "English (British)"
-      }
-    }
   }
 }
