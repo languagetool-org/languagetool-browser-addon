@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.37 (2018-yy-xx)
+  * Make applying suggestions work for WordPress (tested on wordpress.com) (issue #213)
+
 ### 1.0.36 (2018-05-11)
   * added initial support for Serbian
   * bug fixes for applying a suggested correction
