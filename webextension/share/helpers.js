@@ -97,21 +97,21 @@ function isAllowSpellcheck(element) {
 
 /**
  * True if that is textarea or html5 contentEditable element
- * @param {DOMElement} focusElement
+ * @param {DOMElement} el
  * @return {bool}
  */
-function isEditorElement(focusElement) {
+function isEditorElement(el) {
   return (
-    focusElement &&
-    isAllowSpellcheck(focusElement) &&
-    (focusElement.tagName === "TEXTAREA" ||
-      focusElement.contentEditable !== "inherit" ||
-      (focusElement.tagName === "IFRAME" &&
-        (focusElement.className.indexOf("cke_wysiwyg_frame") !== -1 ||
-         focusElement.name.indexOf("editor") !== -1 ||
-         focusElement.id.indexOf("editor") !== -1 ||
-         focusElement.id.indexOf("tinymce") !== -1 ||
-         (focusElement.title && focusElement.title.indexOf("Rich Text Area") !== -1))))
+    el &&
+    isAllowSpellcheck(el) &&
+    (el.tagName === "TEXTAREA" ||
+      el.contentEditable !== "inherit" ||
+      (el.tagName === "IFRAME" &&
+        (el.className.indexOf("cke_wysiwyg_frame") !== -1 ||
+         el.name.indexOf("editor") !== -1 ||
+         el.id.indexOf("editor") !== -1 ||
+         el.id.indexOf("tinymce") !== -1 ||
+         (el.title && el.title.indexOf("Rich Text Area") !== -1))))
   );
 }
 
