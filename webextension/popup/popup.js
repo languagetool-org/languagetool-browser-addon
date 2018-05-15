@@ -669,8 +669,6 @@ function startCheckMaybeWithWarning(tabs) {
                 let message = "<p>";
                 if (serverUrl === defaultServerUrl) {
                     message += chrome.i18n.getMessage("privacyNoteForDefaultServer", ["https://languagetool.org", "https://languagetool.org/privacy/"]);
-                    message += "<br><br>";
-                    message += chrome.i18n.getMessage("privacyNoteForDefaultServer2");
                 } else {
                     message += chrome.i18n.getMessage("privacyNoteForOtherServer", serverUrl);
                 }
@@ -679,6 +677,9 @@ function startCheckMaybeWithWarning(tabs) {
                            '  <li><a class="privacyLink" id="confirmCheck" href="#">' + chrome.i18n.getMessage("continue") + '</a></li>' +
                            '  <li><a class="privacyLink" id="cancelCheck" href="#">' + chrome.i18n.getMessage("cancel") + '</a></li>' +
                            '</ul>';
+                if (serverUrl === defaultServerUrl) {
+                    message += "<p class='privacyNoteDetails'>" + chrome.i18n.getMessage("privacyNoteForDefaultServer2") + "</p>";
+                }
                 //commented out for now to limit requests we get:
                 //message += '<input id="autoCheck" type="checkbox">&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
                 renderStatus(message);

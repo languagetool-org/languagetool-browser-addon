@@ -7,6 +7,10 @@ body {
   max-width: 450px;
 }
 
+a {
+  text-decoration: none;
+}
+
 li {
   margin-bottom: 6px;
 }
@@ -266,5 +270,9 @@ hr {
 }
 
 .errorMessageDetail {
+  color: #666666;
+}
+
+.privacyNoteDetails {
   color: #666666;
 }
