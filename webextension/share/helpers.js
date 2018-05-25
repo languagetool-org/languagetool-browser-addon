@@ -111,6 +111,7 @@ function isEditorElement(el) {
          el.name.indexOf("editor") !== -1 ||
          el.id.indexOf("editor") !== -1 ||
          el.id.indexOf("tinymce") !== -1 ||
+         el.id.indexOf("content_ifr") !== -1 ||
          (el.title && el.title.indexOf("Rich Text Area") !== -1))))
   );
 }

@@ -1,7 +1,8 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.38 (2018-xx-xx)
-  * ...
+### 1.0.38 (2018-05-25)
+  * Another fix to make applying suggestions work for WordPress 
+    (now tested on own WordPress installation and with language other than English) (issue #213)
 
 ### 1.0.37 (2018-05-15)
   * Make applying suggestions work for WordPress (tested on wordpress.com) (issue #213)
