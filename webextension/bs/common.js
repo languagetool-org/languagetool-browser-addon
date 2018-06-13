@@ -35,6 +35,9 @@ function getCheckResult(markupList, metaData, callback, errorCallback) {
           const textOrig = text;
           // A hack so the following replacements don't happen on messed up character positions.
           // See https://github.com/languagetool-org/languagetool-browser-addon/issues/25:
+          // A problem with this is that it doesn't shorten the text, so users might run
+          // into the "text too long" error even when the non-quoted text is short.
+          // Solution: consider the quoted text to be markup?
           text = text.replace(/^>.*?\n/gm, function(match) {
               return " ".repeat(match.length - 1) + "\n";
           });
