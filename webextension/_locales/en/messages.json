@@ -269,7 +269,7 @@
     }
   },
   "couldNotLoginAtLTPlus": {
-    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure username and password are correct",
+    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure email and password are correct",
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com"
   },
   "checkingProgress": {
