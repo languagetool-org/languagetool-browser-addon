@@ -49,10 +49,10 @@ function saveOptions() {
     const status = document.getElementById('status');
     const loginStatus = document.getElementById('loginStatus');
     if (!httpUrlRegExp.test(url)) {
-        status.textContent = 'This URL is not valid.';
+        status.textContent = chrome.i18n.getMessage("invalidUrl");
     } else if (document.getElementById('havePremiumAccount').checked &&
               (document.getElementById('username').value.trim() === "" || document.getElementById('password').value.trim() === "")) {
-        loginStatus.textContent = 'Please specify both email and password if you have a premium account.';
+        loginStatus.textContent = chrome.i18n.getMessage("usernameAndPasswordNotSet");
     } else {
         status.textContent = '';
         Tools.getStorage().set({
