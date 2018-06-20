@@ -47,8 +47,12 @@ function domainName(url) {
 function saveOptions() {
     const url = document.getElementById('apiServerUrl').value;
     const status = document.getElementById('status');
+    const loginStatus = document.getElementById('loginStatus');
     if (!httpUrlRegExp.test(url)) {
         status.textContent = 'This URL is not valid.';
+    } else if (document.getElementById('havePremiumAccount').checked &&
+              (document.getElementById('username').value.trim() === "" || document.getElementById('password').value.trim() === "")) {
+        loginStatus.textContent = 'Please specify both email and password if you have a premium account.';
     } else {
         status.textContent = '';
         Tools.getStorage().set({
@@ -168,6 +172,7 @@ function setPremium(enabled) {
     } else {
         document.getElementById('ltPlusAccess').style.display = "none";
         document.getElementById('ltServer').style.display = "block";
+        document.getElementById('loginStatus').textContent = "";
     }
 }
 

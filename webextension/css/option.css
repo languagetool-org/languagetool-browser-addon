@@ -23,5 +23,5 @@ textarea {
 }
 .error {
     font-weight: bold;
-    color: darkred;
+    background-color: yellow;
 }
