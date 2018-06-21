@@ -312,7 +312,7 @@ function showShortcutHint(commands) {
 
 function showPremiumHint(usageCounter) {
     if (usageCounter >= minUsageForPremiumHint) {
-        const link = "<a target='_blank' style='font-weight: bold' href='https://languagetoolplus.com/#premium'>languagetoolplus.com</a>";
+        const link = "<a target='_blank' style='font-weight: bold' href='https://languagetoolplus.com/?pk_campaign=addon&pk_kwd=browser#premium'>languagetoolplus.com</a>";
         document.getElementById("outerHint").innerHTML =
           "<div id='hint'>" +
           chrome.i18n.getMessage("premiumHint", link) +
