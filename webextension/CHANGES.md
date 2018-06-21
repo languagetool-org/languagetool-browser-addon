@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.39 (to be released)
+  * Don't accept empty username or password when using languagetoolplus.com
+
 ### 1.0.38 (2018-05-25)
   * Another fix to make applying suggestions work for WordPress 
     (now tested on own WordPress installation and with language other than English) (issue #213)
