@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Помилка входу до languagetoolplus.com: відкрийте вікно параметрів для цього додатку й перевірте ім'я та пароль"
+    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure email and password are correct"
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -308,6 +308,10 @@
   "ignoredRules": {
     "description": "Text shown at the bottom of the popup to turn on turned off rules again",
     "message": "Ці правило вимкнені, клацніть на правилі, щоб його увімкнути:"
+  },
+  "invalidUrl": {
+    "description": "Options dialog: shown if URL of LT server is not in valid format",
+    "message": "This URL is not valid."
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -672,6 +676,10 @@
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
     "message": "Е-пошта"
+  },
+  "usernameAndPasswordNotSet": {
+    "description": "Options dialog: shown if email or password are not set (premium only)",
+    "message": "Please specify both email and password if you have a premium account."
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",

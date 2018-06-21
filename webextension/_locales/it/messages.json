@@ -103,7 +103,7 @@
   },
   "close": {
     "description": "Text of large button at the bottom of the popup",
-    "message": "Close"
+    "message": "Chiudi"
   },
   "contextMenuItem": {
     "description": "Text shown in the context menu, if available.",
@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure username and password are correct"
+    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure email and password are correct"
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -308,6 +308,10 @@
   "ignoredRules": {
     "description": "Text shown at the bottom of the popup to turn on turned off rules again",
     "message": "Queste regole sono state disattivate, fai click su una regola per riattivarla:"
+  },
+  "invalidUrl": {
+    "description": "Options dialog: shown if URL of LT server is not in valid format",
+    "message": "This URL is not valid."
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -535,7 +539,7 @@
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
-    "message": "If you like this extension, why not <a target='_blank' href='$url$'>write a review</a>?",
+    "message": "Se ti piace quest'estensione, perché non <a target='_blank' href='$url$'>scriverne una recensione</a>?",
     "placeholders": {
       "url": {
         "content": "$1",
@@ -671,7 +675,11 @@
   },
   "username": {
     "description": "Options dialog: user name for languagetoolplus.com",
-    "message": "E-Mail:"
+    "message": "E-mail:"
+  },
+  "usernameAndPasswordNotSet": {
+    "description": "Options dialog: shown if email or password are not set (premium only)",
+    "message": "Please specify both email and password if you have a premium account."
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
