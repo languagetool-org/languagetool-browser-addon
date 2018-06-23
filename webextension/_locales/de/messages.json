@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure email and password are correct"
+    "message": "Einloggen auf languagetool.com nicht möglich: bitte rufen Sie die Einstellungen dieses Add-ons auf und stellen Sie sicher, dass E-Mail und Passwort korrekt sind."
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -311,7 +311,7 @@
   },
   "invalidUrl": {
     "description": "Options dialog: shown if URL of LT server is not in valid format",
-    "message": "This URL is not valid."
+    "message": "Diese URL ist ungültig."
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -679,7 +679,7 @@
   },
   "usernameAndPasswordNotSet": {
     "description": "Options dialog: shown if email or password are not set (premium only)",
-    "message": "Please specify both email and password if you have a premium account."
+    "message": "Bitte geben Sie E-Mail und Passwort ein, wenn Sie einen Premium-Account haben."
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",
