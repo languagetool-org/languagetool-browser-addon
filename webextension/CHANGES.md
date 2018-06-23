@@ -1,6 +1,6 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.39 (to be released)
+### 1.0.39 (2018-06-23)
   * Don't accept empty username or password when using languagetoolplus.com
 
 ### 1.0.38 (2018-05-25)
