@@ -251,7 +251,7 @@
     "description": "Text shown at the bottom of the popup to turn on turned off rules again"
   },
   "freshInstallReload": {
-    "message": "If you have just installed or (re-)activated this extension, please reload the tab first in which you want to check a text.",
+    "message": "If you have just installed or reactivated this extension, please first reload the page in which you want to check a text, then try again.",
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet"
   },
   "freshInstallReload2": {
