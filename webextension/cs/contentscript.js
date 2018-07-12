@@ -89,7 +89,8 @@ function checkText(callback, request) {
     const selection = window.getSelection();
     if (selection && selection.toString() !== "") {
         // TODO: because of this, a selection in a textarea will not offer clickable suggestions:
-        callback({markupList: [{text: selection.toString()}], metaData: metaData, isEditableText: false, url: request.pageUrl});
+        let text = selection.toString().replace(/\n/g, "\n\n");   // useful for lists
+        callback({markupList: [{text: text}], metaData: metaData, isEditableText: false, url: request.pageUrl});
     } else {
         try {
             if (activeElement()) {
@@ -167,15 +168,15 @@ function getMarkupListOfActiveElement(elem) {
     }
 }
 
-function applyCorrection(request, callback) {    
+function applyCorrection(request, callback) {
     let found = false;
     let isReplacementAsync = false;
 
     // TODO: active element might have changed in between?!
     const activeElem = activeElement();
 
-    if (activeElem.hasAttribute("contenteditable")) {        
-        const nodeReplacements = Markup.findNodeReplacements(request.markupList, request.errorOffset, request.errorText.length, request.replacement);        
+    if (activeElem.hasAttribute("contenteditable")) {
+        const nodeReplacements = Markup.findNodeReplacements(request.markupList, request.errorOffset, request.errorText.length, request.replacement);
         found = replaceInContentEditable(activeElem, nodeReplacements, callback);
         isReplacementAsync = true;
     } else {
@@ -190,7 +191,7 @@ function applyCorrection(request, callback) {
             return;
         }
 
-        // Note: this duplicates the logic from getTextOfActiveElement():    
+        // Note: this duplicates the logic from getTextOfActiveElement():
         if (isSimpleInput(activeElem)) {
             found = replaceIn(activeElem, "value", newMarkupList);
             if (found) {
