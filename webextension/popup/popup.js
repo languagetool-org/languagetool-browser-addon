@@ -680,12 +680,10 @@ function startCheckMaybeWithWarning(tabs) {
                 if (serverUrl === defaultServerUrl) {
                     message += "<p class='privacyNoteDetails'>" + chrome.i18n.getMessage("privacyNoteForDefaultServer2") + "</p>";
                 }
-                //commented out for now to limit requests we get:
-                //message += '<input id="autoCheck" type="checkbox">&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
+                message += '<input id="autoCheck" type="checkbox">&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
                 renderStatus(message);
                 document.getElementById("confirmCheck").addEventListener("click", function() {
-                    //const autoCheck = document.getElementById('autoCheck').checked;
-                    const autoCheck = false;  // TODO: re-activate
+                    const autoCheck = document.getElementById('autoCheck').checked;
                     Tools.getStorage().set({
                         autoCheck: autoCheck,
                         allowRemoteCheck: true
