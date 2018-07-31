@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure email and password are correct"
+    "message": "Не удалось войти на languagetoolplus.com: откройте диалоговое окно параметров этого расширения и убедитесь, что адрес электронной почты и пароль верны"
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -261,7 +261,7 @@
   },
   "freshInstallReload": {
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
-    "message": "Если расширение было только что установлено или активировано, то необходимо перезагрузить вкладку, в которой требуется проверить текст."
+    "message": "If you have just installed or reactivated this extension, please first reload the page in which you want to check a text, then try again."
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
@@ -311,7 +311,7 @@
   },
   "invalidUrl": {
     "description": "Options dialog: shown if URL of LT server is not in valid format",
-    "message": "This URL is not valid."
+    "message": "Этот адрес URL не корректен."
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -679,7 +679,7 @@
   },
   "usernameAndPasswordNotSet": {
     "description": "Options dialog: shown if email or password are not set (premium only)",
-    "message": "Please specify both email and password if you have a premium account."
+    "message": "Пожалуйста, укажите адрес электронной почты и пароль, если у вас есть премиум-аккаунт."
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",

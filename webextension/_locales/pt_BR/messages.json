@@ -261,7 +261,7 @@
   },
   "freshInstallReload": {
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
-    "message": "Se você acabou de instalar ou (re-)ativar essa extensão, por favor recarregue primeiro a aba onde você quer verificar o texto."
+    "message": "Caso tenha acabado de instalar ou reativar essa extensão, por favor recarregue antes a página onde deseja verificar o texto e tente novamente."
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",

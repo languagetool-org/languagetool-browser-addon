@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure email and password are correct"
+    "message": "Prijava na languagetoolplus.com ni uspela: oglejte si pogovorno okno možnosti za ta dodatek in preverite, da sta e-naslov in geslo pravilna."
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -261,7 +261,7 @@
   },
   "freshInstallReload": {
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
-    "message": "Če ste le namestili ali (ponovno) aktivirali to razširitev, najprej ponovno naložite zavihek, v katerem želite preverjati besedilo."
+    "message": "Če ste le namestili ali ponovno aktivirali to razširitev, najprej ponovno naložite stran, na kateri želite preverjati besedilo, in poskusite znova."
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
@@ -311,7 +311,7 @@
   },
   "invalidUrl": {
     "description": "Options dialog: shown if URL of LT server is not in valid format",
-    "message": "This URL is not valid."
+    "message": "Ta URL ni veljaven."
   },
   "is": {
     "description": "automatically added by injectTranslation.py",
@@ -447,7 +447,7 @@
   },
   "premiumHint": {
     "description": "Text shown in the popup to let the user know about the premium version",
-    "message": "Get a more powerful version of LanguageTool at $link$ - it also works with this add-on",
+    "message": "Na $link$ najdete zmogljivejšo različico LanguageTool – deluje tudi s tem dodatkom.",
     "placeholders": {
       "link": {
         "content": "$1",
@@ -471,7 +471,7 @@
   },
   "privacyNoteForDefaultServer2": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using the default server on languagetool.org",
-    "message": "You can change the server in the add-on configuration. For example, you can also use a local server, if you have set up LanguageTool locally."
+    "message": "Strežnik lahko spremenite v prilagoditvi dodatka. Primer: uporabite lahko tudi krajevni strežnik, če ste  LanguageTool namestili lokalno."
   },
   "privacyNoteForOtherServer": {
     "description": "Shown on first start of extension to make user aware of privacy issues when using some other than the default server",
@@ -561,7 +561,7 @@
   },
   "saveAsDefaultVariantMessage": {
     "description": "Message near the link at popup which save manually selected language as default variant",
-    "message": "Click here to make $language$ your default variant",
+    "message": "Kliknite tukaj, da naredite $language$ svojo privzeto različico",
     "placeholders": {
       "language": {
         "content": "$1",
@@ -679,7 +679,7 @@
   },
   "usernameAndPasswordNotSet": {
     "description": "Options dialog: shown if email or password are not set (premium only)",
-    "message": "Please specify both email and password if you have a premium account."
+    "message": "Če imate premijski račun, navedite svoj e-naslov in geslo."
   },
   "variantCaDesc": {
     "description": "Options dialog: set the language variant",

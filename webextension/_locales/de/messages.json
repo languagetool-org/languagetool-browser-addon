@@ -261,7 +261,7 @@
   },
   "freshInstallReload": {
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
-    "message": "Wenn Sie diese Erweiterung gerade installiert oder (re-)aktiviert haben, laden Sie bitte das Tab mit dem zu prüfenden Text neu."
+    "message": "Wenn Sie diese Erweiterung gerade installiert oder reaktiviert haben, laden Sie bitte die Seite mit dem zu prüfenden Text neu, und starten dann eine neue Textprüfung."
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
