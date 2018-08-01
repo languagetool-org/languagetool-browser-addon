@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.41 (2018-xx-yy)
+  * ...
+
 ### 1.0.40 (2018-07-31)
   * Improve handling of non-editable lists (i.e. code in web pages that contains `<li>...</li>`)
   * On first start, user can select to auto-check by default
