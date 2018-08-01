@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Einloggen auf languagetool.com nicht möglich: bitte rufen Sie die Einstellungen dieses Add-ons auf und stellen Sie sicher, dass E-Mail und Passwort korrekt sind."
+    "message": "Einloggen auf languagetoolplus.com nicht möglich: bitte rufen Sie die Einstellungen dieses Add-ons auf und stellen Sie sicher, dass E-Mail und Passwort korrekt sind."
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
