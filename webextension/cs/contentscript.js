@@ -224,7 +224,7 @@ function isSimpleInput(elem) {
     //console.log("elem.tagName: " + elem.tagName + ", elem.type: " + elem.type);
     if (elem.tagName === "TEXTAREA") {
         return true;
-    } else if (elem.tagName === "INPUT" && (elem.type === "text" || elem.type == "search")) {
+    } else if (elem.tagName === "INPUT" && (elem.type === "text" || elem.type === "search")) {
         return true;
     }
     return false;
