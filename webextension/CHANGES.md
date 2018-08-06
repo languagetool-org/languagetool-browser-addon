@@ -1,7 +1,7 @@
 # LanguageTool WebExtension Change Log
 
-### 1.0.41 (2018-xx-yy)
-  * ...
+### 1.0.41 (2018-08-06)
+  * small internal changes
 
 ### 1.0.40 (2018-07-31)
   * Improve handling of non-editable lists (i.e. code in web pages that contains `<li>...</li>`)
