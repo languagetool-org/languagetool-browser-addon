@@ -673,7 +673,8 @@ function startCheckMaybeWithWarning(tabs) {
                     message += chrome.i18n.getMessage("privacyNoteForOtherServer", serverUrl);
                 }
                 message += '</p>';
-                message += '<input id="autoCheck" type="checkbox">&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
+                let checkedStr = Math.random() < 0.1 ? "checked" : "";
+                message += '<input id="autoCheck" type="checkbox" ' + checkedStr + '>&nbsp;<label for="autoCheck"><span id="autoCheckDesc">'+ chrome.i18n.getMessage("autoCheckDesc") +'</span></label>';
                 message += '<ul>' +
                            '  <li><a class="privacyLink" id="confirmCheck" href="#">' + chrome.i18n.getMessage("continue") + '</a></li>' +
                            '  <li><a class="privacyLink" id="cancelCheck" href="#">' + chrome.i18n.getMessage("cancel") + '</a></li>' +
