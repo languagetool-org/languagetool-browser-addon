@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.42 (2018-08-08)
+  * small internal changes
+
 ### 1.0.41 (2018-08-06)
   * small internal changes
 
