@@ -603,6 +603,9 @@ function handleCheckResult(response, tabs, callback) {
         if (errorMessage.indexOf("code: 403") !== -1) {
             renderStatus("<p class='programError'>" + chrome.i18n.getMessage("couldNotLoginAtLTPlus") + "</p>" +
                          "<p class='errorMessageDetail'>" + Tools.escapeHtml(DOMPurify.sanitize(errorMessage)) + "</p>");
+            document.getElementById("optionsLink").addEventListener("click", function() {
+              chrome.runtime.openOptionsPage();
+            });
             Tools.track(tabs[0].url || pageUrlParam, "couldNotLoginAtLTPlus", errorMessageCode);
         } else {
             if (errorMessage.indexOf("Request size limit of") !== -1) {
@@ -610,6 +613,9 @@ function handleCheckResult(response, tabs, callback) {
                     "<p class='programError'>" + chrome.i18n.getMessage("requestSizeLimitReached2") + "</p>" +
                     "<p class='errorMessageDetail'>" +
                     chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))) + "</p>");
+                document.getElementById("optionsLink").addEventListener("click", function() {
+                  chrome.runtime.openOptionsPage();
+                });
             } else {
                 renderStatus("<p class='programError'>" + chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))) + "</p>");
             }
