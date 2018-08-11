@@ -605,7 +605,14 @@ function handleCheckResult(response, tabs, callback) {
                          "<p class='errorMessageDetail'>" + Tools.escapeHtml(DOMPurify.sanitize(errorMessage)) + "</p>");
             Tools.track(tabs[0].url || pageUrlParam, "couldNotLoginAtLTPlus", errorMessageCode);
         } else {
-            renderStatus("<p class='programError'>" + chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))) + "</p>");
+            if (errorMessage.indexOf("Request size limit of") !== -1) {
+                renderStatus("<p class='programError'>" + chrome.i18n.getMessage("requestSizeLimitReached") + "</p>" +
+                    "<p class='programError'>" + chrome.i18n.getMessage("requestSizeLimitReached2") + "</p>" +
+                    "<p class='errorMessageDetail'>" +
+                    chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))) + "</p>");
+            } else {
+                renderStatus("<p class='programError'>" + chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))) + "</p>");
+            }
             Tools.track(tabs[0].url || pageUrlParam, "couldNotCheckText", errorMessageCode);
         }
         if (callback) {

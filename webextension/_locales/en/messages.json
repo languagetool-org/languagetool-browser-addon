@@ -268,6 +268,14 @@
       }
     }
   },
+  "requestSizeLimitReached": {
+    "message": "Could not check text: per-minute character limit exceeded. Please wait some time and try again or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check 5 times as many characters per minute.",
+    "description": "Error shown in the popup to indicate an error"
+  },
+  "requestSizeLimitReached2": {
+    "message": "If you already have a premium account, please visit the add-on options and make sure you have configured your username and password there.",
+    "description": "Error shown in the popup to indicate an error"
+  },
   "couldNotLoginAtLTPlus": {
     "message": "Could not log in at languagetoolplus.com: please visit the options dialog of this add-on and make sure email and password are correct",
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com"
