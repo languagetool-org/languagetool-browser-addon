@@ -537,6 +537,14 @@
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
     "message": "Text Prüfen"
   },
+  "requestSizeLimitReached": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "Text konnte nicht geprüft werden: Maximale Anzahl Zeichen pro Minute überschritten. Bitte warten Sie etwas und versuchen es erneut oder <a target='_blank' href='https://languagetoolplus.com/#premium'>melden Sie sich für einen Premium-Account an</a>. Damit können Sie 5 mal mehr Zeichen pro Minute prüfen."
+  },
+  "requestSizeLimitReached2": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "Wenn Sie bereits einen Premium-Account haben, gehen Sie bitte in die Optionen dieses Add-ons und stellen dort E-Mail und Passwort ein."
+  },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
     "message": "Gefällt Ihnen diese Erweiterung? Dann würden wir uns über <a target='_blank' href='$url$'>eine Bewertung</a> freuen.",

@@ -537,6 +537,14 @@
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
     "message": "Preveri besedilo"
   },
+  "requestSizeLimitReached": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "Could not check text: per-minute character limit exceeded. Please wait some time and try again or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check 5 times as many characters per minute."
+  },
+  "requestSizeLimitReached2": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "If you already have a premium account, please visit the add-on options and make sure you have configured your username and password there."
+  },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
     "message": "Če vam je razširitev všeč, zakaj ne <a target='_blank' href='$url$'>napišete ocene</a>?",

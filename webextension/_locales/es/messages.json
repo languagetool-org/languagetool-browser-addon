@@ -261,7 +261,7 @@
   },
   "freshInstallReload": {
     "description": "Error shown when user has installed extension and called it on an already open tab but not reloaded that tab yet",
-    "message": "Si acaba de instalar o (re)activar esta extensión, por favor, recargue antes la pestaña en la que desee revisar texto."
+    "message": "If you have just installed or reactivated this extension, please first reload the page in which you want to check a text, then try again."
   },
   "freshInstallReload2": {
     "description": "Next paragraph after 'freshInstallReload'",
@@ -536,6 +536,14 @@
   "reminderIconTitle": {
     "description": "Hover title of the blue reminder icon in the lower right corner of text areas",
     "message": "Revisar Texto"
+  },
+  "requestSizeLimitReached": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "Could not check text: per-minute character limit exceeded. Please wait some time and try again or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check 5 times as many characters per minute."
+  },
+  "requestSizeLimitReached2": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "If you already have a premium account, please visit the add-on options and make sure you have configured your username and password there."
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
