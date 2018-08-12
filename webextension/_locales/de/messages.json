@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Einloggen auf languagetoolplus.com nicht möglich: bitte rufen Sie die Einstellungen dieses Add-ons auf und stellen Sie sicher, dass E-Mail und Passwort korrekt sind."
+    "message": "Einloggen auf languagetoolplus.com nicht möglich: bitte rufen Sie <a id='optionsLink' href='#'>die Einstellungen dieses Add-ons auf</a> und stellen Sie sicher, dass E-Mail und Passwort korrekt sind."
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -542,8 +542,8 @@
     "message": "Text konnte nicht geprüft werden: Maximale Anzahl Zeichen pro Minute überschritten. Bitte warten Sie etwas und versuchen es erneut oder <a target='_blank' href='https://languagetoolplus.com/#premium'>melden Sie sich für einen Premium-Account an</a>. Damit können Sie 5 mal mehr Zeichen pro Minute prüfen."
   },
   "requestSizeLimitReached2": {
-    "description": "Error shown in the popup to indicate an error",
-    "message": "Wenn Sie bereits einen Premium-Account haben, gehen Sie bitte in die Optionen dieses Add-ons und stellen dort E-Mail und Passwort ein."
+    "description": "Error shown in the popup just after requestSizeLimitReached",
+    "message": "Wenn Sie bereits einen Premium-Account haben, gehen Sie bitte <a id='optionsLink' href='#'>in die Optionen dieses Add-ons</a> und stellen dort E-Mail und Passwort ein."
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",

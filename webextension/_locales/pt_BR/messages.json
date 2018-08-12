@@ -135,7 +135,7 @@
   },
   "couldNotLoginAtLTPlus": {
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com",
-    "message": "Não foi possível logar em languagetoolplus.com: por favor abra o diálogo de opções dessa extensão e certifique-se que seu e-mail e senha estejam corretos"
+    "message": "Could not log in at languagetoolplus.com: please visit <a id='optionsLink' href='#'>the options dialog</a> of this add-on and make sure email and password are correct"
   },
   "cs": {
     "description": "automatically added by injectTranslation.py",
@@ -542,8 +542,8 @@
     "message": "Could not check text: per-minute character limit exceeded. Please wait some time and try again or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check 5 times as many characters per minute."
   },
   "requestSizeLimitReached2": {
-    "description": "Error shown in the popup to indicate an error",
-    "message": "If you already have a premium account, please visit the add-on options and make sure you have configured your username and password there."
+    "description": "Error shown in the popup just after requestSizeLimitReached",
+    "message": "If you already have a premium account, please visit <a id='optionsLink' href='#'>the add-on options</a> and make sure you have configured your email and password there."
   },
   "reviewRequest": {
     "description": "Shown at the bottom of the popup dialog (for some users only)",
