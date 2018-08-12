@@ -269,8 +269,14 @@
     }
   },
   "requestSizeLimitReached": {
-    "message": "Could not check text: per-minute character limit exceeded. Please wait some time and try again or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check 5 times as many characters per minute.",
-    "description": "Error shown in the popup to indicate an error"
+    "message": "Could not check text: per-minute character limit exceeded. Please wait some time and try again or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check $factor$ times as many characters per minute.",
+    "description": "Error shown in the popup to indicate an error",
+    "placeholders": {
+      "factor": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
   },
   "requestSizeLimitReached2": {
     "message": "If you already have a premium account, please visit <a id='optionsLink' href='#'>the add-on options</a> and make sure you have configured your email and password there.",
