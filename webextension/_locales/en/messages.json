@@ -278,6 +278,16 @@
       }
     }
   },
+  "singleRequestSizeLimitReached": {
+    "message": "Could not check text: character limit exceeded. Please check a shorter text or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check up to $size$ characters at once.",
+    "description": "Error shown in the popup to indicate an error",
+    "placeholders": {
+      "size": {
+        "content": "$1",
+        "example": "40000"
+      }
+    }
+  },
   "requestSizeLimitReached2": {
     "message": "If you already have a premium account, please visit <a id='optionsLink' href='#'>the add-on options</a> and make sure you have configured your email and password there.",
     "description": "Error shown in the popup just after requestSizeLimitReached"

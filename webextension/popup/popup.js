@@ -608,7 +608,16 @@ function handleCheckResult(response, tabs, callback) {
             });
             Tools.track(tabs[0].url || pageUrlParam, "couldNotLoginAtLTPlus", errorMessageCode);
         } else {
-            if (errorMessage.indexOf("Request size limit of") !== -1) {
+            if (errorMessage.indexOf("text exceeds the limit of") !== -1) {
+                renderStatus("<p class='programError'>" + chrome.i18n.getMessage("singleRequestSizeLimitReached", "40000").
+                    replace(/<a /, "<b><a ").replace(/<\/a>/, "</a></b>") + "</p>" +
+                    "<p class='programError'>" + chrome.i18n.getMessage("requestSizeLimitReached2") + "</p>" +
+                    "<p class='errorMessageDetail'>" +
+                    chrome.i18n.getMessage("couldNotCheckText", Tools.escapeHtml(DOMPurify.sanitize(errorMessage))) + "</p>");
+                document.getElementById("optionsLink").addEventListener("click", function() {
+                  chrome.runtime.openOptionsPage();
+                });
+            } else if (errorMessage.indexOf("Request size limit of") !== -1) {
                 renderStatus("<p class='programError'>" + chrome.i18n.getMessage("requestSizeLimitReached", "5").
                     replace(/<a /, "<b><a ").replace(/<\/a>/, "</a></b>") + "</p>" +
                     "<p class='programError'>" + chrome.i18n.getMessage("requestSizeLimitReached2") + "</p>" +
