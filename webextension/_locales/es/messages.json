@@ -539,7 +539,13 @@
   },
   "requestSizeLimitReached": {
     "description": "Error shown in the popup to indicate an error",
-    "message": "Could not check text: per-minute character limit exceeded. Please wait some time and try again or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check 5 times as many characters per minute."
+    "message": "Could not check text: per-minute character limit exceeded. Please wait some time and try again or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check $factor$ times as many characters per minute.",
+    "placeholders": {
+      "factor": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
   },
   "requestSizeLimitReached2": {
     "description": "Error shown in the popup just after requestSizeLimitReached",
@@ -594,6 +600,16 @@
   "shortcutHintDismiss": {
     "description": "Link to let the user hide the hint about the shortcut",
     "message": "Ok, entendido"
+  },
+  "singleRequestSizeLimitReached": {
+    "description": "Error shown in the popup to indicate an error",
+    "message": "Could not check text: character limit exceeded. Please check a shorter text or <a target='_blank' href='https://languagetoolplus.com/#premium'>get a premium account</a>, which will allow you to check up to $size$ characters at once.",
+    "placeholders": {
+      "size": {
+        "content": "$1",
+        "example": "40000"
+      }
+    }
   },
   "siteNotSupported": {
     "description": "Some sites are too complex, so we show this error",
