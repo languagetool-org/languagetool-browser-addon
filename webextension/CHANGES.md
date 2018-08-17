@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.46 (2018-08-17)
+  * fixed headline detection on wordpress.com that caused false alarms
+
 ### 1.0.45 (2018-08-13)
   * improved another error message
 

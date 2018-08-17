@@ -69,7 +69,9 @@ class Markup {
     }
 
     static _handleMarkupItem(buffer, result) {
-        if (buffer === '<div' || buffer === '<div/' || buffer.indexOf('<div ') === 0 || buffer === '<p' || buffer === '<p/' || buffer.indexOf('<p ') === 0 || buffer.indexOf('<li') === 0 || buffer.indexOf('<li ') === 0) {
+        if (buffer === '<div' || buffer === '<div/' || buffer.indexOf('<div ') === 0 || buffer === '<p' || buffer === '<p/'||
+            buffer.indexOf('<p ') === 0 || buffer.indexOf('<li') === 0 || buffer.indexOf('<li ') === 0 ||
+            buffer.indexOf('<h1') === 0 || buffer.indexOf('<h2') === 0 || buffer.indexOf('<h3') === 0 || buffer.indexOf('<h4') === 0 || buffer.indexOf('<h5') === 0 || buffer.indexOf('<h6') === 0) {
             // we need to interpret the HTML a bit so LanguageTool knows at least
             // where the paragraphs are...
             result.push({markup: buffer + '>', text: '\n\n'});
