@@ -108,7 +108,7 @@
   },
   "noValidResponseFromServer": {
     "message": "No valid response from $serverUrl$: $response$, code $status$",
-    "description": "Error message shown we cannot parse API server response",
+    "description": "Error message shown upon unparsable API server response",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -136,7 +136,7 @@
   },
   "timeoutError": {
     "message": "Timeout from server - please try again later ($serverUrl$)",
-    "description": "Error message shown if API server doesn't respond timely",
+    "description": "Error message shown if API server doesn't respond in time",
     "placeholders": {
       "serverUrl": {
         "content": "$1",
@@ -234,7 +234,7 @@
   },
   "addToDictionaryTitle": {
     "message": "add \"$word$\" to personal dictionary",
-    "description": "Title hover shown in the popup to accept a word to the internal dictionary",
+    "description": "Title hover shown in the popup to append a word into the internal dictionary",
     "placeholders": {
       "word": {
         "content": "$1",
@@ -297,7 +297,7 @@
     "description": "Error shown in the popup to indicate an error when user is using languagetoolplus.com"
   },
   "checkingProgress": {
-    "message": "Checking...",
+    "message": "Checking…",
     "description": "Text shown in popup next to a spinning icon, indicating that the check is in progress"
   },
   "privacyNoteForDefaultServer": {
