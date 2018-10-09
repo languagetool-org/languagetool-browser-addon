@@ -1,5 +1,9 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.47 (2018-10-09)
+  * renamed to "LanguageTool (old version)" - the new version will be a complete
+    rewrite, this version will probably not get any updates anymore
+
 ### 1.0.46 (2018-08-17)
   * fixed headline detection on wordpress.com that caused false alarms
 
