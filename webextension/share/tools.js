@@ -19,7 +19,7 @@
 "use strict";
 
 const trackingBaseUrl = "https://openthesaurus.stats.mysnip-hosting.de/piwik.php";
-const trackingSiteId = "12";
+const trackingSiteId = "14";
 const THROTTLE_REQUESTS = 5;
 const MAX_TIME = 1 * 60 * 1000; // 1 minute
 // chrome.google.com: see http://stackoverflow.com/questions/11613371/

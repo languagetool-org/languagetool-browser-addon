@@ -1,5 +1,8 @@
 # LanguageTool WebExtension Change Log
 
+### 1.0.48 (2018-12-08)
+  * internal changes to tracking so old and new extension don't get mixed up
+
 ### 1.0.47 (2018-10-09)
   * renamed to "LanguageTool (old version)" - the new version will be a complete
     rewrite, this version will probably not get any updates anymore
