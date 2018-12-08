@@ -1,3 +1,7 @@
+## NOTE
+
+This is our old add-on. We recommend using the new one instead: https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji (to be released for Firefox soon)
+
 ## LanguageTool for Firefox and Chrome
 
 A [LanguageTool](https://languagetool.org) extension [for Firefox](https://addons.mozilla.org/firefox/addon/languagetool/)
