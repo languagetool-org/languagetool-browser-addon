@@ -298,7 +298,7 @@ function simulateSelection(textNode) {
     range.collapse();
     selection.addRange(range);
 
-    const mouseDownEvent = new MouseEvent("mousedown", {
+    const mouseOverEvent = new MouseEvent("mousedown", {
         "bubbles": true,
         "cancelable": false
     });
