@@ -1,6 +1,8 @@
 ## NOTE
 
-This is our old add-on. We recommend using the new one instead: https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji (to be released for Firefox soon)
+This is our old add-on. We recommend using the new one instead:
+* Chrome: https://chrome.google.com/webstore/detail/languagetool/oldceeleldhonbafppcapldpdifcinji
+* Firefox: https://addons.mozilla.org/firefox/addon/languagetool/
 
 ## LanguageTool for Firefox and Chrome
 
